@@ -25,60 +25,60 @@ When you think you are done with the SRS, ask yourself, "Could someone who was n
 
 <br><br>
 
-[Put team logo here]<br><br>
+[Put team logo here]<br><br>
 [Put product name here]
 
-<p align="center"><b><h2>System Requirements Specification</h2><b><p>
+<p align="center"><h2>System Requirements Specification</h2><p>
 
-<p align="center"><b><h3>Table of Contents</h3><b><p>
+<p align="center"><h3>Table of Contents</h3><p>
 
-<b>1.  Introduction</b>
+**1.  Introduction**
 
-><b>1. Purpose of This Document</b><br>
-><b>2. References</b><br>
-><b>3. Purpose of the Product</b><br>
-><b>4. Product Scope</b>
+1. Purpose of This Document<br>
+2. References<br>
+3. Purpose of the Product<br>
+4. Product Scope
 
-<b>2.  Functional Requirements</b>
+**2.  Functional Requirements**
 
-<b>3.  Non-Functional Requirements</b>
+**3.  Non-Functional Requirements**
 
-<b>4.  User Interface</b>
+**4.  User Interface**
 
-<b>5.  Deliverables</b>
+**5.  Deliverables**
 
-<b>6.  Open Issues</b>
+**6.  Open Issues**
 
-<b>Appendix A -- Agreement Between Customer and Contractor</b>
+**Appendix A -- Agreement Between Customer and Contractor**
 
-<b>Appendix B -- Team Review Sign-off</b>
+**Appendix B -- Team Review Sign-off**
 
-<b>Appendix C -- Document Contributions</b>
+**Appendix C -- Document Contributions**
 
 <br>
 
-<b>1.  Introduction</b>
+**1.  Introduction**
 
-   1.1  Purpose of This Document
+1.1  Purpose of This Document
 
->>State the purpose of this document and specify the intended readership.
+State the purpose of this document and specify the intended readership.
 
->1.2  References
+1.2  References
 
->>Provide a list of all applicable and referenced documents and other media (e.g., the Somerville text, UML references, documents provided by the customer, websites).  For each reference, provide the title, author, publisher (if applicable), date, and URL (for websites).
+Provide a list of all applicable and referenced documents and other media (e.g., the Somerville text, UML references, documents provided by the customer, websites).  For each reference, provide the title, author, publisher (if applicable), date, and URL (for websites).
 
->1.3  Purpose of the Product
+1.3  Purpose of the Product
 
 >>This section provides a short description of the user’s work and the situation that triggered the need for the product.  It describes the task(s) that the user wants to accomplish with the delivered product.  It is the product justification.
 
->1.4  Product Scope
+1.4  Product Scope
 
->>This section identifies the boundary between the system under development and the outside world.  That is, it identifies what is included in the system and what is not. Typically, a context diagram best describes the boundary.  However, because the systems in this class are small, we will use a combination top-level use case and context diagram.   In addition to referring the reader to the diagram, give a brief summary of how it illustrates the system’s scope.  Make sure to number the use cases in the diagram.
+This section identifies the boundary between the system under development and the outside world.  That is, it identifies what is included in the system and what is not. Typically, a context diagram best describes the boundary.  However, because the systems in this class are small, we will use a combination top-level use case and context diagram.   In addition to referring the reader to the diagram, give a brief summary of how it illustrates the system’s scope.  Make sure to number the use cases in the diagram.
 
 Use The Unified Modeling Language(UML):  A reference is UML Distilled, by Martin Fowler.
 
 <br>
-<b>2.  Functional Requirements</b>
+**2.  Functional Requirements**
 
 It is recommended that each functional requirement should be represented using a use case.  
 
@@ -88,22 +88,22 @@ In addition to the diagrams, every use case should be documented using the follo
 
 | | |
 | ----------- | ----------- |
-| <b>Number<b> | < use case number > |
-| <b>Name<b> | < use case name - a short active verb phrase > |
-| <b>Summary<b> | < a brief summary of the use case > |
-| <b>Priority<b> | < how critical this use case is to the customer (1 to 5, 5 being most critical > |
-| <b>Preconditions<b> | < conditions that must be true before the use case trigger > |
-| <b>Postconditions<b> | < conditions that will be true after the use case completes > |
-| <b>Primary Actor<b> | < a role name for the primary actor > |
-| <b>Secondary Actors<b> | < other systems that are relied upon to accomplish the use case > |
-| <b>Trigger<b> | < the action that starts the use case > |
-| <b>Main Scenario<b> | <b>Step</b> / <b>Action</b> |
+| **Number** | < use case number > |
+| **Name** | < use case name - a short active verb phrase > |
+| **Summary** | < a brief summary of the use case > |
+| **Priority** | < how critical this use case is to the customer (1 to 5, 5 being most critical > |
+| **Preconditions** | < conditions that must be true before the use case trigger > |
+| **Postconditions** | < conditions that will be true after the use case completes > |
+| **Primary Actor** | < a role name for the primary actor > |
+| **Secondary Actors** | < other systems that are relied upon to accomplish the use case > |
+| **Trigger** | < the action that starts the use case > |
+| **Main Scenario** | **Step** / **Action** |
 | | 1.  < steps of the use case from trigger to goal delivery > |
 | | 2.  < … > |
 | | 3.  < … > |
-| <b>Extensions<b> | <b>Step</b> / <b>Branching Action</b> |
+| **Extensions** | **Step** / **Branching Action** |
 | | 1a.  < condition causing branching > : < action or name of sub use case > |
-| <b>Open Issues<b> | < list of issues awaiting decisions that affect the use case > |
+| **Open Issues** | < list of issues awaiting decisions that affect the use case > |
 
 <br>
 (This template was adapted from Alistair Cockburn.) 
@@ -111,12 +111,12 @@ In addition to the diagrams, every use case should be documented using the follo
 Lastly, write the tests that will be used during system and acceptance testing to verify that each requirement has been met.  Note that a single requirement may require multiple tests, so be thorough.  It is also possible that a single test verifies more than one requirement.  The goal is to come up with the minimum number of test cases that thoroughly test the system.  Make sure that the test numbers correspond to the use case numbers.
 
 <br>
-<b>3.  Non-Functional Requirements</b>
+**3.  Non-Functional Requirements**
 
 Decide on a standard format for the non-functional requirements (NFRs).  Included in the format should be a unique number for each NFR, a priority (1 = lowest, 5 = highest), a clear, concise description, and the test(s) that will be used during system and acceptance testing to verify that the requirement has been met.  Make sure that the test numbers correspond to the NFR numbers. Note that you must include a minimum of 10 NFRs specific to product requirements, organizational requirements, and external requirements. 
 
 <br>
-<b>4.  User Interface</b>
+**4.  User Interface**
 
 Simply put a statement such as 
 
@@ -125,7 +125,7 @@ See “User Interface Design Document for your product name.”
 here.  
 
 <br>
-<b>5.  Deliverables</b>
+**5.  Deliverables**
 
 Provide a list of all deliverable items (that is, all artifacts that you will deliver to the customer).  This list will include items such as the product itself (What format? Source code? Executable code? Object code?), documentation, and training resources (if any).  Specify when (date) and in what format (e.g., hard copy, zip file (how delivered, Git?)) each will be delivered.  A tabular format works well for this section.  We will assume that the deliverable items are as follows:
 
@@ -150,7 +150,7 @@ An electronic file containing the following:
 •	Any other software required for installation and execution of the delivered program.
 
 <br>
-<b>6.  Open Issues</b>
+**6.  Open Issues**
 
 Issues that have been raised and do not yet have a conclusion.  These issues will be addressed later in the development process.
 
