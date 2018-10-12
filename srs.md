@@ -24,8 +24,6 @@ Remember that you are required to do a peer review of this document.
 When you think you are done with the SRS, ask yourself, "Could someone who was not part of the development of this SRS write the corresponding System Design Document?" 
 
 
-
-
 [Put team logo here]
 
 
@@ -59,9 +57,7 @@ When you think you are done with the SRS, ask yourself, "Could someone who was n
 
 **Appendix C -- Document Contributions**
 
-
-
-
+<br><br>
 **1.  Introduction**
 
 1.1  Purpose of This Document
@@ -81,8 +77,6 @@ This section provides a short description of the user’s work and the situation
 This section identifies the boundary between the system under development and the outside world.  That is, it identifies what is included in the system and what is not. Typically, a context diagram best describes the boundary.  However, because the systems in this class are small, we will use a combination top-level use case and context diagram.   In addition to referring the reader to the diagram, give a brief summary of how it illustrates the system’s scope.  Make sure to number the use cases in the diagram.
 
 Use The Unified Modeling Language(UML):  A reference is UML Distilled, by Martin Fowler.
-
-
 
 
 **2.  Functional Requirements**
@@ -118,13 +112,9 @@ In addition to the diagrams, every use case should be documented using the follo
 Lastly, write the tests that will be used during system and acceptance testing to verify that each requirement has been met.  Note that a single requirement may require multiple tests, so be thorough.  It is also possible that a single test verifies more than one requirement.  The goal is to come up with the minimum number of test cases that thoroughly test the system.  Make sure that the test numbers correspond to the use case numbers.
 
 
-
-
 **3.  Non-Functional Requirements**
 
 Decide on a standard format for the non-functional requirements (NFRs).  Included in the format should be a unique number for each NFR, a priority (1 = lowest, 5 = highest), a clear, concise description, and the test(s) that will be used during system and acceptance testing to verify that the requirement has been met.  Make sure that the test numbers correspond to the NFR numbers. Note that you must include a minimum of 10 NFRs specific to product requirements, organizational requirements, and external requirements. 
-
-
 
 
 **4.  User Interface**
@@ -134,8 +124,6 @@ Simply put a statement such as
 See “User Interface Design Document for your product name.”
 
 here.  
-
-
 
 
 **5.  Deliverables**
@@ -163,13 +151,9 @@ An electronic file containing the following:
 •	Any other software required for installation and execution of the delivered program.
 
 
-
-
 **6.  Open Issues**
 
 Issues that have been raised and do not yet have a conclusion.  These issues will be addressed later in the development process.
-
-
 
 
 **Appendix A – Agreement Between Customer and Contractor**
@@ -177,13 +161,9 @@ Issues that have been raised and do not yet have a conclusion.  These issues wil
 Place on a separate page. Describe what the customer and your team are agreeing to when all sign off on this document. [One paragraph] Include a statement that explains the procedure to be used in case there are future changes to the document. [One paragraph] Provide lines for typed names, signatures, and dates for each team member and the customer.  Provide space for customer comments.
 
 
-
-
 **Appendix B – Team Review Sign-off**
 
 Place on a separate page. Provide a brief paragraph stating that all members of the team have reviewed the document and agree on its content and format.  Provide lines for typed names, signatures, dates, and comments for each team member. The comment areas are to be used to state any minor points regarding the document that members may not agree with.  Note that there cannot be any major points of contention.
-
-
 
 
 **Appendix C – Document Contributions**
