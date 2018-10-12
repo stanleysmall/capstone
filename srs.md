@@ -57,7 +57,7 @@ When you think you are done with the SRS, ask yourself, "Could someone who was n
 
 **Appendix C -- Document Contributions**
 
-<br>
+<br><br>
 **1.  Introduction**
 
 1.1  Purpose of This Document
@@ -78,7 +78,7 @@ This section identifies the boundary between the system under development and th
 
 Use The Unified Modeling Language(UML):  A reference is UML Distilled, by Martin Fowler.
 
-<br>
+<br><br>
 **2.  Functional Requirements**
 
 It is recommended that each functional requirement should be represented using a use case.  
@@ -106,17 +106,17 @@ In addition to the diagrams, every use case should be documented using the follo
 | | 1a.  < condition causing branching > : < action or name of sub use case > |
 | **Open Issues** | < list of issues awaiting decisions that affect the use case > |
 
-<br>
+
 (This template was adapted from Alistair Cockburn.) 
 
 Lastly, write the tests that will be used during system and acceptance testing to verify that each requirement has been met.  Note that a single requirement may require multiple tests, so be thorough.  It is also possible that a single test verifies more than one requirement.  The goal is to come up with the minimum number of test cases that thoroughly test the system.  Make sure that the test numbers correspond to the use case numbers.
 
-<br>
+<br><br>
 **3.  Non-Functional Requirements**
 
 Decide on a standard format for the non-functional requirements (NFRs).  Included in the format should be a unique number for each NFR, a priority (1 = lowest, 5 = highest), a clear, concise description, and the test(s) that will be used during system and acceptance testing to verify that the requirement has been met.  Make sure that the test numbers correspond to the NFR numbers. Note that you must include a minimum of 10 NFRs specific to product requirements, organizational requirements, and external requirements. 
 
-<br>
+<br><br>
 **4.  User Interface**
 
 Simply put a statement such as 
@@ -125,7 +125,7 @@ See “User Interface Design Document for your product name.”
 
 here.  
 
-<br>
+<br><br>
 **5.  Deliverables**
 
 Provide a list of all deliverable items (that is, all artifacts that you will deliver to the customer).  This list will include items such as the product itself (What format? Source code? Executable code? Object code?), documentation, and training resources (if any).  Specify when (date) and in what format (e.g., hard copy, zip file (how delivered, Git?)) each will be delivered.  A tabular format works well for this section.  We will assume that the deliverable items are as follows:
@@ -150,22 +150,22 @@ An electronic file containing the following:
 •	The executable program<br>
 •	Any other software required for installation and execution of the delivered program.
 
-<br>
+<br><br>
 **6.  Open Issues**
 
 Issues that have been raised and do not yet have a conclusion.  These issues will be addressed later in the development process.
 
-<br>
+<br><br>
 **Appendix A – Agreement Between Customer and Contractor**
 
 Place on a separate page. Describe what the customer and your team are agreeing to when all sign off on this document. [One paragraph] Include a statement that explains the procedure to be used in case there are future changes to the document. [One paragraph] Provide lines for typed names, signatures, and dates for each team member and the customer.  Provide space for customer comments.
 
-<br>
+<br><br>
 **Appendix B – Team Review Sign-off**
 
 Place on a separate page. Provide a brief paragraph stating that all members of the team have reviewed the document and agree on its content and format.  Provide lines for typed names, signatures, dates, and comments for each team member. The comment areas are to be used to state any minor points regarding the document that members may not agree with.  Note that there cannot be any major points of contention.
 
-<br>
+<br><br>
 **Appendix C – Document Contributions**
 
 Identify how each member contributed to the creation of this document. Include what sections each member worked on and an estimate of the percentage of work they contributed.  Remember that each team member must contribute to the writing (includes diagrams) for each document produced.
