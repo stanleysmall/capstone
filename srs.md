@@ -59,7 +59,7 @@ When you think you are done with the SRS, ask yourself, "Could someone who was n
 
 <b>1.  Introduction</b>
 
-    1.1  Purpose of This Document
+   1.1  Purpose of This Document
 
 >>State the purpose of this document and specify the intended readership.
 
