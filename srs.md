@@ -69,7 +69,7 @@ Provide a list of all applicable and referenced documents and other media (e.g.,
 
 1.3  Purpose of the Product
 
->>This section provides a short description of the user’s work and the situation that triggered the need for the product.  It describes the task(s) that the user wants to accomplish with the delivered product.  It is the product justification.
+This section provides a short description of the user’s work and the situation that triggered the need for the product.  It describes the task(s) that the user wants to accomplish with the delivered product.  It is the product justification.
 
 1.4  Product Scope
 
