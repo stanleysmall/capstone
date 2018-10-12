@@ -23,6 +23,7 @@ Remember that you are required to do a peer review of this document.
 
 When you think you are done with the SRS, ask yourself, "Could someone who was not part of the development of this SRS write the corresponding System Design Document?" 
 
+<br><br>
 
 [Put team logo here]
 
