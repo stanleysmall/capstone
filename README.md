@@ -3,7 +3,7 @@
 To Run:
 
 1. Clone the Repository
-2. Clone limesurvey into the `limesurvey` directory
+2. Clone limesurvey into a new `limesurvey` directory
 2. Install Docker
 3. run `docker-compose up`
 4. In installation:
