@@ -2,8 +2,8 @@
 
 To Run:
 
-1. Clone the Repository
-2. Clone (`git clone https://github.com/LimeSurvey/LimeSurvey.git`) limesurvey
+1. Go to the Repository (`cd capstone`)
+2. Clone LimeSurvey (`git clone https://github.com/LimeSurvey/LimeSurvey.git`)
 3. Make a new `data` directory (`mkdir data` the database will be stored here)
 5. Install Docker
 5. run `docker-compose up`
