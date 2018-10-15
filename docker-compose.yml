@@ -6,7 +6,7 @@ services:
         ports:
             - 80:80
         volumes:
-            - ./limesurvey:/var/www/html/
+            - ./LimeSurvey:/var/www/html/
         depends_on:
             - db
         networks:
