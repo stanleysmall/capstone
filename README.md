@@ -19,5 +19,7 @@ To Run:
   Database name: `limesurvey` 
 
 8. When done, run `docker system prune`
+
+To access the database locally, the host is `127.0.0.1` on port `4306` using the same username and password.
   
 
