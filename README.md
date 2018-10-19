@@ -12,13 +12,13 @@ To Run:
 6. Go to `localhost` in a browser
 7. In installation:
 
-  Database location: `10.5.0.6:3306`
+   * Database location: `10.5.0.6:3306`
   
-  Database user: `root`
+  * Database user: `root`
   
-  Database password: `root`
+  * Database password: `root`
   
-  Database name: `limesurvey` 
+  * Database name: `limesurvey` 
 
 8. When done, run `docker system prune`
   
