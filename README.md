@@ -1,5 +1,5 @@
 # Capstone
-[![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.com/stansmall/capstone.svg?branch=master)](https://travis-ci.com/stansmall/capstone)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-lightgrey.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![Build Status](https://travis-ci.com/stansmall/capstone.svg?branch=master)](https://travis-ci.com/stansmall/capstone)
 
 
 To Run:
