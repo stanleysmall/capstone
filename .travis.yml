@@ -4,4 +4,3 @@ services: docker
 
 script:
   - docker pull dxjoke/tectonic-docker
-  - docker run --mount src=$TRAVIS_BUILD_DIR/documents,target=/usr/src/tex,type=bind dxjoke/tectonic-docker /bin/sh -c "tectonicsrs.tex"
