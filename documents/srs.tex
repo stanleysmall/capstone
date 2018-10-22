@@ -115,7 +115,7 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 2 & Select questions preset if applicable\\
 \hline
-3 & Enter the questions\\
+3 & Enter or edit the questions\\
 \hline
 4 & Questions stored in database and as text file\\
 \end{tabular}\\ 
@@ -261,16 +261,16 @@ The functional requirements specify what actions the program will perform. Each 
 \end{tabular}
 \end{center}
 
-\subsection{Tests}
+\subsection{Test Number(s)}
 
 These are the tests that will verify the functional requirements:
 
 \begin{enumerate}
-  \item (Use Case 1) ...
-  \item (Use Case 2) ...
-  \item (Use Case 3) ...
-  \item (Use Case 4) ...
-  \item (Use Case 5) ...
+  \item (Use Case 1) The tester selects the option to add a course, then submits the course's information and student roll. The test is successful only if the course information and student roll are reflected in the database.
+  \item (Use Case 2) The tester selects the option to create a survey. Next, he or she chooses a questions preset for the survey. The tester then adds one question and edits an existing question from the preset. After submitting, the database should include the new survey, containing the preset list, added question, and edited question. There must also be a new text file with the same information.
+  \item (Use Case 3) The tester selects the option to create a questions preset. He or she then enters five questions into the preset and submits the preset. The test is successful only if the preset with those five questions is stored in the database.
+  \item (Use Case 4) The tester messages a group of ten people about a mock survey. In a successful test, all ten people receive an e-mail containing a link to the survey. Most respondents promptly complete the survey, but one does not. The database must contain the survey responses of the nine people who finished, and the program must send another e-mail to the unfinished person about the survey.
+  \item (Use Case 5) The tester selects the option to view the survey results. There are survey results for a mock instructor, mock department, and mock university. If the test is successful, the correct average scores for every question in the course evaluation survey are shown in the application. Also, the software must show the average for the mock instructor, department, and university.
 \end{enumerate}
 
 \section{Non-Functional Requirements}
@@ -285,9 +285,9 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Priority} & 3\\ 
 \hline
-\textbf{Description} & The software should be supported by Windows, Mac, Linux, iOS, and Android. \\ 
+\textbf{Description} & The software should be supported by the latest versions of Windows, Mac, Linux, iOS, and Android. \\ 
 \hline
-\textbf{Tests }& 1 \\ 
+\textbf{Test Number(s) }& 1 \\ 
 \hline
 \end{tabular}
 
@@ -299,9 +299,9 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Priority} & 4\\ 
 \hline
-\textbf{Description} & The software should be accessible through Safari, Chrome, Firefox, and Edge. \\ 
+\textbf{Description} & The software should be accessible by the latest versions of Safari, Chrome, Firefox, and Edge. \\ 
 \hline
-\textbf{Tests }& 2 \\ 
+\textbf{Test Number(s) }& 2 \\ 
 \hline
 \end{tabular}
 
@@ -316,7 +316,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & All questions entered by the teacher or administrator shall appear on the output survey. \\ 
 \hline
-\textbf{Tests }& 3 \\ 
+\textbf{Test Number(s) }& 3 \\ 
 \hline
 \end{tabular}
 
@@ -331,7 +331,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & All data stored in the program's database shall be valid. \\ 
 \hline
-\textbf{Tests }& 4 \\ 
+\textbf{Test Number(s) }& 4 \\ 
 \hline
 \end{tabular}
 
@@ -346,7 +346,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & All collected survey data shall not be alterable.\\ 
 \hline
-\textbf{Tests }& 4 \\ 
+\textbf{Test Number(s) }& 5 \\ 
 \hline
 \end{tabular}
 
@@ -361,7 +361,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & Teachers shall not be able to access data of courses other than their own. \\ 
 \hline
-\textbf{Tests }& 5 \\ 
+\textbf{Test Number(s) }& 6 \\ 
 \hline
 \end{tabular}
 
@@ -376,7 +376,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & The mean time between failures should be at least 60 minutes. \\ 
 \hline
-\textbf{Tests }& 6 \\ 
+\textbf{Test Number(s) }& 7 \\ 
 \hline
 \end{tabular}
 
@@ -391,7 +391,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & Students shall have no access to any data stored by the program. \\ 
 \hline
-\textbf{Tests }& 7 \\ 
+\textbf{Test Number(s) }& 8 \\ 
 \hline
 \end{tabular}
 
@@ -406,7 +406,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & All survey responses shall be anonymous. \\ 
 \hline
-\textbf{Tests }& 5 \\ 
+\textbf{Test Number(s) }& 9 \\ 
 \hline
 \end{tabular}
 
@@ -421,7 +421,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & The software should scale to at least three universites, 1000 courses per semester, 1000 teachers per university, and 500 students per course. \\ 
 \hline
-\textbf{Tests }& 8 \\ 
+\textbf{Test Number(s) }& 10 \\ 
 \hline
 \end{tabular}
 
@@ -436,7 +436,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & The software should not exceed 500 MB in size. \\ 
 \hline
-\textbf{Tests }& 9 \\ 
+\textbf{Test Number(s) }& 11 \\ 
 \hline
 \end{tabular}
 
@@ -451,7 +451,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & The software's source code shall be open-source. \\ 
 \hline
-\textbf{Tests }& 10 \\ 
+\textbf{Test Number(s) }& 12\\ 
 \hline
 \end{tabular}
 
@@ -466,7 +466,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & The licensing requirements of any non-original code shall be met.\\ 
 \hline
-\textbf{Tests }& 11 \\ 
+\textbf{Test Number(s) }& 13 \\ 
 \hline
 \end{tabular}
 
@@ -481,28 +481,30 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & The software shall meet UMaine AFUM requirements.\\ 
 \hline
-\textbf{Tests }& 11 \\ 
+\textbf{Test Number(s) }& 13 \\ 
 \hline
 \end{tabular}
 
 \end{center}
 
-\subsection{Tests}
+\subsection{Test Number(s)}
 
 These are the tests that will verify the non-functional requirements:
 
 \begin{enumerate}
-  \item ...
-  \item ...
-  \item ...
-  \item ...
-  \item ...
-  \item ...
-  \item ...
-  \item ...
-  \item ...
-  \item ...
-  \item ...
+  \item The tester attempts to run the program on the last versions of Windows, Mac, Linux, iOS, and Android. The test is successful only if all five use cases execute properly on each operating system.
+  \item The tester attempts to run the program on the last versions of Safari, Chrome, Firefox, and Edge. The test is successful only if all five use cases execute properly on each browser.
+  \item The tester inputs five diverse questions into a mock survey and sends the survey to a mock student. The test is successful only if the mock student can follow the link to a survey showing those five questions.
+  \item The tester inputs a course, questions preset, and survey. The test is successful only if all data for the course, preset, and survey are present in the database, and if that data correctly follows the database schema.
+  \item The tester inputs the same course, preset, and survey as in test 4. The test is successful only if any function in the software does not change the survey responses stored in the database.
+  \item The tester creates three users for the evaluation program. Each user inputs a different course, questions preset, and survey. The test is successful if the users cannot view nor modify each other's data.
+  \item The tester runs an automatic script that simulates several hours of using the software. The test is successful only if the average time between two errors in the software is at least 60 simulated minutes.
+  \item The tester inputs a course, present, and survey as a teacher, then poses as someone unauthorized to use the software. In a successful test, the tester cannot view nor modify any data present in the database.
+  \item Five testers complete a survey sent by the software, and a sixth tester uses the software afterwards. The test is successful only if the sixth tester cannot find the identities of anyone who finished the survey in the database.
+  \item The tester runs an automatic script that sets up the software with three colleges, 1000 courses per college, 1000 teachers per university, and 500 students per course. The test is successful if all five use cases execute properly for all courses.
+  \item The tester sees the info for the folder containing the code. The folder size is at most 500 megabytes if the test passes.
+  \item Ten computer users attempt to access the source code on GitHub. The test is successful if all users can do so.
+  \item The tester reads the GNU General Public License and University of Maine AFUM requirements. The test is successful if the software meets all terms in both the license and AFUM requirements.
 \end{enumerate}
 
 \section{User Interface}
@@ -511,7 +513,7 @@ See ``User Interface Design Document for the College Course Evaluation System.''
 
 \section{Deliverables}
 
-The following lists the date and format that each submission will be delivered:
+The following lists the estimated date and format that each submission will be delivered:
 
 \begin{center}
 \captionof{table}{}
@@ -521,27 +523,27 @@ The following lists the date and format that each submission will be delivered:
 \hline
 System Requirements Specification & 10/26/2018 & Hard Copy\\ 
 \hline
-System Design Document & ?/??/2018 & Hard Copy\\ 
+System Design Document & 11/16/2018 & Hard Copy\\ 
 \hline
-User Interface Design Document & ?/??/2018 & Hard Copy\\ 
+User Interface Design Document & 11/30/2018 & Hard Copy\\ 
 \hline
-User Manual & ?/??/2019 & Hard Copy\\ 
+Administrator Manual & April 2019 & Hard Copy\\ 
 \hline
-Administration Manual & ?/??/2019 & Hard Copy\\ 
+User Manual & May 2019 & Hard Copy\\ 
 \hline
-System Requirements Specification & ?/??/2019 & Electronic\\ 
+System Requirements Specification & May 2019 & Electronic\\ 
 \hline
-System Design Document & ?/??/2019 & Electronic\\ 
+System Design Document & May 2019 & Electronic\\ 
 \hline
-User Interface Design Document & ?/??/2019 & Electronic\\ 
+User Interface Design Document & May 2019 & Electronic\\ 
 \hline
-User Manual & ?/??/2019 & Electronic\\ 
+Administrator Manual & May 2019 & Electronic\\ 
 \hline
-Administration Manual & ?/??/2019 & Electronic\\ 
+User Manual & May 2019 & Electronic\\ 
 \hline
-Source Code & ?/??/2019 & Electronic\\ 
+Source Code & May 2019 & Electronic\\ 
 \hline
-Web Link to Program & ?/??/2019 & Electronic\\ 
+Web Link to Program & May 2019 & Electronic\\ 
 \hline
 \end{tabular}
 \end{center}
@@ -556,6 +558,9 @@ There are several more minor issues that need to be resolved. We have not decide
 
 \newpage
 \section{Agreement Between Customer and Contractor}
+This page shows that all members of Team EVAL and the client, Harlan Onsrud, have agreed on all the information in the system requirements specification. By signing this document, Team EVAL and Dr. Onsrud agree on the goals and scope of the project, each use case and requirement, the tests for each requirement, and how the deliverables will be sent.
+
+The team will follow a process in the case that the requirements specification is changed after we sign it. ENTER THIS PROCESS HERE.
 
 \vspace{.7in}
 \noindent
@@ -573,7 +578,7 @@ Customer Comments: & \multicolumn{2}{ l }{ $\rule{10.5cm}{.1mm}$ }\\[.5cm]
 \newpage
 \section{Team Review Sign-off}
 
-This page shows that all members of Team EVAL have agreed on the content of the system requirements specification. Each team member agrees on the goals of the project, each use case and requirement, and how the deliverables will be sent. There is nothing in the document that is a source of contention.
+This page shows that all members of Team EVAL have reviewed the system requirements specification and agreed on its content. By signing this document, the team members agree on the goals and scope of the project, each use case and requirement, the tests for each requirement, and how the deliverables will be sent. There is nothing in the document that is a source of contention.
 
 \vspace{.7in}
 \noindent
@@ -596,5 +601,14 @@ Comments: & \multicolumn{2}{ l }{ $\rule{10.5cm}{.1mm}$ }\\[.5cm]
 
 \newpage
 \section{Document Contributions}
-\end{document}
 
+Stanley Small created the document, added the system requirements specification template to the document, and formatted the text such that it is compatible with LaTeX. He also ENTER WORK HERE. Stan contributed about ?? percent to the document.
+
+Jovon Craig wrote a draft of the functional and non-functional requirements, as well as a draft of the tests. He also wrote the purpose of the document, purpose of the product, deliverables section, and the text and blank lines in the appendices. Jovon contributed about ?? percent to the document.
+
+Sam Elliot ENTER WORK HERE. He contributed about ?? percent to the document.
+
+Robert Judkins ENTER WORK HERE. He contributed about ?? percent to the document.
+
+
+\end{document}
