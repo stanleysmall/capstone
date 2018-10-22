@@ -1,7 +1,14 @@
 sudo: required
 language: generic
 services: docker
-
 script:
-  - docker pull dxjoke/tectonic-docker
-  - docker run --mount src=$TRAVIS_BUILD_DIR/src,target=/usr/src/tex,type=bind dxjoke/tectonic-docker /bin/sh -c "tectonic --keep-intermediates --reruns 0 srs.tex"
+- docker pull dxjoke/tectonic-docker
+- docker run --mount src=$TRAVIS_BUILD_DIR/src,target=/usr/src/tex,type=bind dxjoke/tectonic-docker
+  /bin/sh -c "tectonic --keep-intermediates --reruns 0 srs.tex"
+deploy:
+  provider: releases
+  api_key:
+    secure: OLSngcsGUOxRHaMXDjR/Wq1Tfz9AEb7cEdFTuj8MuQgLc5Z9McTm7Yc5p0WyhiPLaIvbP+RCwo78RMQkisBWtfpjKLwpfg67rTdTHDzfnpsXvd7Zh6mK/IpJrcfu6Z3Fw+BLUe3mkumAJat6/PiogtK/d/fe/nnWf4oNgjvGfKdDXr5oYoqpk8GPrZ5jE7eBx6II3jhohSMc/15vPBRMDCS/LHCw1MwC3bhPIcxQRDhvLFIZi7f6tESw5QXMKYrCD8T47XrHl6tUJxy0sklBygKbbkRY6weRbI5W+nGTSYHo6fgi8/QCu/i0oVmtxryRuQPdWQ1+D9R6XA6gR0NA/U7jU6SZNDzM6CuqvnQ32FA0oRrRA0GFUBsZtedvP1IfaNDir7w0C4efleM45RYvgk8NgyXT/utDhJ/mSGYTaVsbjnxU2WQHsVF8HbjNyLwpKbulCZc3yPxENqf2/D5pyfdaHIifeJiCzrmf6jv+5u8Biv/EhZOTNR/+UiJBIj7AUZPwyYTDIKhH5Lv1ww6Me2QJzK+5LL4bh3PSYtFHq7C4EDG7XOIz858v6AH+08uOh1yUWLUPeRBouRBk99RlEMm/klDx8zAtLZv5+lAEMIZeLvXnCYjFtt6VSwjOWfb8ixrXzh535Ngk3fUY3kAg6hrHMtHAmdK5NnRNxDI/E80=
+  file: "./documents/srs.pdf"
+  on:
+    repo: stansmall/capstone
