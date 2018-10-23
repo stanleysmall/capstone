@@ -269,17 +269,11 @@ The functional requirements specify what actions the program will perform. Each 
 These are the tests that will verify the functional requirements:
 
 \begin{enumerate}
-  \item We will create several courses to ensure that each is loaded up with the default list of questions, and will test adding students' emails to the list of enrolled students.
-  \item We will run the program several times, each time selecting different questions to be included in the survey. We will ensure some questions are mandatory and must be included no matter what.
-  \item We will create a list of questions for a given course and save it. Then we will exit the program and re-login to ensure that the questions were saved.
-  \item We will run several surveys with different questions and test that the averages for each question show up properly and are viewable by the administrator or teacher.
-  \item After a survey is created we will enter emails and check whether the emails actually send out or not. We will also set the reminder time very low for testing purposes to see if reminder emails will actually send.
-
-  \item (Use Case 1) The tester selects the option to add a course, then submits the course's information and student roll. The test is successful only if the course information and student roll are reflected in the database.
-  \item (Use Case 2) The tester selects the option to create a survey. Next, he or she chooses a questions preset for the survey. The tester then adds one question and edits an existing question from the preset. After submitting, the database should include the new survey, containing the preset list, added question, and edited question. There must also be a new text file with the same information.
-  \item (Use Case 3) The tester selects the option to create a questions preset. He or she then enters five questions into the preset and submits the preset. The test is successful only if the preset with those five questions is stored in the database.
-  \item (Use Case 4) The tester messages a group of ten people about a mock survey. In a successful test, all ten people receive an e-mail containing a link to the survey. Most respondents promptly complete the survey, but one does not. The database must contain the survey responses of the nine people who finished, and the program must send another e-mail to the unfinished person about the survey.
-  \item (Use Case 5) The tester selects the option to view the survey results. There are survey results for a mock instructor, mock department, and mock university. If the test is successful, the correct average scores for every question in the course evaluation survey are shown in the application. Also, the software must show the average for the mock instructor, department, and university.
+  \item (Use Case 1) The tester selects the option to add a course, then submits the course's information and student roll. The test is successful only if the course information and student roll are reflected in the database. The team will create several courses to ensure that each is loaded up with the default list of questions, and we will test adding students' emails to the list of enrolled students.
+  \item (Use Case 2) The tester selects the option to create a survey. Next, he or she chooses a questions preset for the survey. The tester then adds one question and edits an existing question from the preset. After submitting, the database should include the new survey, containing the preset list, added question, and edited question. There must also be a new text file with the same information. The team will run the program several times, each time selecting different questions to be included in the survey. We will ensure some questions are mandatory and must be included no matter what.
+  \item (Use Case 3) The tester selects the option to create a questions preset. He or she then enters five questions into the preset and submits the preset. The test is successful only if the preset with those five questions is stored in the database. The tester will exit the program and log in again to ensure that the questions were saved.
+  \item (Use Case 4) The tester messages a group of ten people about a mock survey. In a successful test, all ten people receive an e-mail containing a link to the survey. Most respondents promptly complete the survey, but one does not. The database must contain the survey responses of the nine people who finished, and the program must send another reminder e-mail to the unfinished person about the survey. The team will set the time period before the reminder to be very short to test whether the e-mail will actually send.
+  \item (Use Case 5) The tester selects the option to view the survey results. There are survey results for a mock instructor, mock department, and mock university. The team will add several surveys, each with different questions. If the test is successful, the correct average scores for every question in the course evaluation survey are shown in the application. Also, the software must show the average for the mock instructor, department, and university.
 \end{enumerate}
 
 \section{Non-Functional Requirements}
@@ -376,6 +370,7 @@ The non-functional requirements state the qualities of the program that are unre
 
 
 \bigskip
+\vspace{1in}
 \captionof{table}{}
 \begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
 \hline
