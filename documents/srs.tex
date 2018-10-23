@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{caption}
 \usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
 \title{System Requirements Specification}
 \author{Team EVAL}
 \date{October 26, 2018}
@@ -13,9 +14,9 @@
 \newpage
 
 \begin{center}
-[Put team logo here]\\ \bigskip
+{\includegraphics[scale=.3]{team_logo.png}}\\ \bigskip
 {\LARGE College Course Evaluation System }\\ \medskip
-{\large System Requirements Specification }\\
+{\large System Requirements Specification }\\ \medskip
 \end{center}
 
 \tableofcontents
@@ -263,11 +264,17 @@ The functional requirements specify what actions the program will perform. Each 
 \end{tabular}
 \end{center}
 
-\subsection{Test Number(s)}
+\subsection{Tests}
 
 These are the tests that will verify the functional requirements:
 
 \begin{enumerate}
+  \item We will create several courses to ensure that each is loaded up with the default list of questions, and will test adding students' emails to the list of enrolled students.
+  \item We will run the program several times, each time selecting different questions to be included in the survey. We will ensure some questions are mandatory and must be included no matter what.
+  \item We will create a list of questions for a given course and save it. Then we will exit the program and re-login to ensure that the questions were saved.
+  \item We will run several surveys with different questions and test that the averages for each question show up properly and are viewable by the administrator or teacher.
+  \item After a survey is created we will enter emails and check whether the emails actually send out or not. We will also set the reminder time very low for testing purposes to see if reminder emails will actually send.
+
   \item (Use Case 1) The tester selects the option to add a course, then submits the course's information and student roll. The test is successful only if the course information and student roll are reflected in the database.
   \item (Use Case 2) The tester selects the option to create a survey. Next, he or she chooses a questions preset for the survey. The tester then adds one question and edits an existing question from the preset. After submitting, the database should include the new survey, containing the preset list, added question, and edited question. There must also be a new text file with the same information.
   \item (Use Case 3) The tester selects the option to create a questions preset. He or she then enters five questions into the preset and submits the preset. The test is successful only if the preset with those five questions is stored in the database.
@@ -488,7 +495,7 @@ The non-functional requirements state the qualities of the program that are unre
 
 \end{center}
 
-\subsection{Test Number(s)}
+\subsection{Tests}
 
 These are the tests that will verify the non-functional requirements:
 
@@ -611,7 +618,6 @@ Jovon Craig wrote a draft of the functional and non-functional requirements, as 
 
 Sam Elliott wrote the section explaining the product scope and created all use case diagrams describing the system. He contributed about ?? percent to the document.
 
-Robert Judkins made revisions to several parts of the system requirements specification. He contributed about ?? percent to the document.
-
+Robert Judkins made revisions to several parts of the system requirements specification, particularly the tests. He contributed about ?? percent to the document.
 
 \end{document}
