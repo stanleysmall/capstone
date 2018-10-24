@@ -2,9 +2,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage{caption}
 \usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
 \title{System Requirements Specification}
 \author{Team EVAL}
-\date{October ??, 2018}
+\date{October 26, 2018}
 
 \begin{document}
 
@@ -13,9 +14,9 @@
 \newpage
 
 \begin{center}
-[Put team logo here]\\ \bigskip
+{\includegraphics[scale=.3]{team_logo.png}}\\ \bigskip
 {\LARGE College Course Evaluation System }\\ \medskip
-{\large System Requirements Specification }\\
+{\large System Requirements Specification }\\ \medskip
 \end{center}
 
 \tableofcontents
@@ -25,7 +26,9 @@
 \section{Introduction}
 \subsection{Purpose of This Document}
 
-This system requirements specification details what our course evaluation system does and what tests we will make to ensure the system is complete. It includes why we are creating the system, the scope of the product, diagrams that illustrate the system, what we will deliver to the customer, and currently pending issues. This document is intended for the product client, Harlan Onsrud, and potential users of the system.
+This system requirements specification details what our course evaluation system does and what tests we will make to ensure the system is complete. It includes why we are creating the system, the scope of the product, diagrams that illustrate the system, what we will deliver to the customer, and currently pending issues about the software.
+
+This document is intended for the development team, the product client, Dr. Harlan Onsrud, and potential users of the system. Team EVAL needs this document to ensure that the product works as intended. Dr. Onsrud needs it to know that he will receive the program that he desires. The document also helps the software's users in that they can learn more about the functions of the evaluation system.
 
 \subsection{References}
 \subsection{Purpose of the Product}
@@ -47,41 +50,41 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 \textbf{Number} & 1  \\
 \hline
-\textbf{Name} & Set up courses  \\ 
+\textbf{Name} & Set up course  \\ 
 \hline
-\textbf{Summary} & An administrator or teacher adds the surveyed courses along with the student rolls \\ 
+\textbf{Summary} & An administrator or teacher adds a course to be surveyed along with its student roll \\ 
 \hline
-\textbf{Priority} & how critical this use case is to the customer (1 to 5, 5 being most critical for delivery)\\ 
+\textbf{Priority} & 5\\ 
 \hline
-\textbf{Preconditions }& conditions that must be true before the use case trigger \\ 
+\textbf{Preconditions }& The course's evaluation survey is unwritten \\ 
 \hline
-\textbf{Postconditions} & conditions that will be true after the use case completes \\ 
+\textbf{Postconditions} & The course's evaluation survey is written, A student roll is linked to the course \\ 
 \hline
-\textbf{Primary Actor }& Administrator, Teacher \\ 
+\textbf{Primary Actors }& Administrator, Teacher \\ 
 \hline
-\textbf{Secondary Actors} & other systems that are relied upon to accomplish the use case \\ 
+\textbf{Secondary Actors} & Database \\ 
 \hline
-\textbf{Trigger }& the action that starts the use case \\ 
+\textbf{Trigger }& A new course needs to be evaluated \\ 
 \hline
 \textbf{Main Scenario }& 
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Action}\\
 \hline
-1 & steps of the use case from trigger to goal delivery \\
+1 & Select option to add a course \\
 \hline
-2 & \\
+2 & Enter the course name and \newline corresponding student roster\\
 \hline
-3 & \\
+3 & Database updated with course name and roster\\
 \end{tabular}\\ 
 \hline
 \textbf{Extensions }&
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Branching Action}\\
 \hline
-1a & condition causing branching  : action or name of sub use case  \\
+2a & No students are entered for a course : Notify user of the problem  \\
 \end{tabular}\\
 \hline
-\textbf{Open Issues} & list of issues awaiting decisions that affect the use case \\ 
+\textbf{Open Issues} & What information about the course shall be stored \\ 
 \hline
 \end{tabular}
 
@@ -93,83 +96,86 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 \textbf{Name} & Edit survey questions  \\ 
 \hline
-\textbf{Summary} & An administrator or teacher edits the survey questions for the courses \\ 
+\textbf{Summary} & An administrator or teacher edits the survey questions for a course \\ 
 \hline
-\textbf{Priority} & how critical this use case is to the customer (1 to 5, 5 being most critical for delivery)\\ 
+\textbf{Priority} & 5\\ 
 \hline
-\textbf{Preconditions }& conditions that must be true before the use case trigger \\ 
+\textbf{Preconditions }& A course for the survey questions exists in the database \\ 
 \hline
-\textbf{Postconditions} & conditions that will be true after the use case completes \\ 
+\textbf{Postconditions} & A course includes its survey questions \\ 
 \hline
-\textbf{Primary Actor }& Administrator, Teacher \\ 
+\textbf{Primary Actors }& Administrator, Teacher \\ 
 \hline
-\textbf{Secondary Actors} & other systems that are relied upon to accomplish the use case \\ 
+\textbf{Secondary Actors} & Database \\ 
 \hline
-\textbf{Trigger }& the action that starts the use case \\ 
+\textbf{Trigger }& A college course has zero or wrong evalution survey questions \\ 
 \hline
 \textbf{Main Scenario }& 
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Action}\\
 \hline
-1 & steps of the use case from trigger to goal delivery \\
+1 & Choose the course whose questions are to be edited \\
 \hline
-2 & \\
+2 & Select questions preset if applicable\\
 \hline
-3 & \\
+3 & Enter or edit the questions\\
+\hline
+4 & Questions stored in database and as text file\\
 \end{tabular}\\ 
 \hline
 \textbf{Extensions }&
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Branching Action}\\
 \hline
-1a & condition causing branching  : action or name of sub use case  \\
+3a & Invalid questions submitted : Notify user of invalid questions  \\
 \end{tabular}\\
 \hline
-\textbf{Open Issues} & list of issues awaiting decisions that affect the use case \\ 
+\textbf{Open Issues} & In what format shall the questions be stored in the text file \\ 
 \hline
 \end{tabular}
 
 \bigskip
+\vspace{2.6in}
 \captionof{table}{}
 \begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
 \hline
 \textbf{Number} & 3  \\
 \hline
-\textbf{Name} & Store questions list preset  \\ 
+\textbf{Name} & Create questions list preset  \\ 
 \hline
-\textbf{Summary} & An administrator or teacher stores a list of questions as a preset \\ 
+\textbf{Summary} & An administrator or teacher makes a preset list of questions for a survey\\
 \hline
-\textbf{Priority} & how critical this use case is to the customer (1 to 5, 5 being most critical for delivery)\\ 
+\textbf{Priority} & 4\\ 
 \hline
-\textbf{Preconditions }& conditions that must be true before the use case trigger \\ 
+\textbf{Preconditions }& A course for the survey questions exists in the database \\ 
 \hline
-\textbf{Postconditions} & conditions that will be true after the use case completes \\ 
+\textbf{Postconditions} & A preset list is available while creating a survey \\ 
 \hline
-\textbf{Primary Actor }& Administrator, Teacher \\ 
+\textbf{Primary Actors }& Administrator, Teacher \\ 
 \hline
-\textbf{Secondary Actors} & other systems that are relied upon to accomplish the use case \\ 
+\textbf{Secondary Actors} & Database \\ 
 \hline
-\textbf{Trigger }& the action that starts the use case \\ 
+\textbf{Trigger }& A user wants the same questions to be in multiple surveys \\ 
 \hline
 \textbf{Main Scenario }& 
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Action}\\
 \hline
-1 & steps of the use case from trigger to goal delivery \\
+1 & Select option to add a preset questions list \\
 \hline
-2 & \\
+2 & Add the questions to the preset\\
 \hline
-3 & \\
+3 & Database updated with preset\\
 \end{tabular}\\ 
 \hline
 \textbf{Extensions }&
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Branching Action}\\
 \hline
-1a & condition causing branching  : action or name of sub use case  \\
+2a & Questions in preset are invalid : Notify user of invalid questions  \\
 \end{tabular}\\
 \hline
-\textbf{Open Issues} & list of issues awaiting decisions that affect the use case \\ 
+\textbf{Open Issues} & Which presets are visible to each teacher \\ 
 \hline
 \end{tabular}
 
@@ -179,41 +185,43 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 \textbf{Number} & 4  \\
 \hline
-\textbf{Name} & View survey results  \\ 
+\textbf{Name} & Notify students  \\ 
 \hline
-\textbf{Summary} & An administrator or teacher views averages of the survey results \\ 
+\textbf{Summary} & A teacher e-mails students about the survey, giving automatic reminders to complete it \\ 
 \hline
-\textbf{Priority} & how critical this use case is to the customer (1 to 5, 5 being most critical for delivery)\\ 
+\textbf{Priority} & 5\\ 
 \hline
-\textbf{Preconditions }& conditions that must be true before the use case trigger \\ 
+\textbf{Preconditions }& A course evaluation survey is completed \\ 
 \hline
-\textbf{Postconditions} & conditions that will be true after the use case completes \\ 
+\textbf{Postconditions} & All students are finished with their survey \\ 
 \hline
-\textbf{Primary Actor }& Administrator, Teacher \\ 
+\textbf{Primary Actors }& Teacher \\ 
 \hline
-\textbf{Secondary Actors} & other systems that are relied upon to accomplish the use case \\ 
+\textbf{Secondary Actors} & Student, LimeSurvey \\ 
 \hline
-\textbf{Trigger }& the action that starts the use case \\ 
+\textbf{Trigger }& The teacher releases the survey to students \\ 
 \hline
 \textbf{Main Scenario }& 
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Action}\\
 \hline
-1 & steps of the use case from trigger to goal delivery \\
+1 & Send initial reminder to students \newline about survey \\
 \hline
-2 & \\
+2 & Students complete survey\\
 \hline
-3 & \\
+3 & Copy LimeSurvey results to database\\
+\hline
+4 & Database deletes data that is 60 days old\\
 \end{tabular}\\ 
 \hline
 \textbf{Extensions }&
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Branching Action}\\
 \hline
-1a & condition causing branching  : action or name of sub use case  \\
+2a & A student does not complete survey  : Send another reminder to student  \\
 \end{tabular}\\
 \hline
-\textbf{Open Issues} & list of issues awaiting decisions that affect the use case \\ 
+\textbf{Open Issues} & How often to remind students, handling signed comments \\ 
 \hline
 \end{tabular}
 
@@ -224,55 +232,89 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 \textbf{Number} & 5 \\
 \hline
-\textbf{Name} & Notify students  \\ 
+\textbf{Name} & View survey results  \\ 
 \hline
-\textbf{Summary} & A teacher e-mails students about the survey, giving automatic reminders to complete it \\ 
+\textbf{Summary} & An administrator or teacher views averages of the survey results \\ 
 \hline
-\textbf{Priority} & how critical this use case is to the customer (1 to 5, 5 being most critical for delivery)\\ 
+\textbf{Priority} & 4\\ 
 \hline
-\textbf{Preconditions }& conditions that must be true before the use case trigger \\ 
+\textbf{Preconditions }& Survey responses are entered in database \\ 
 \hline
-\textbf{Postconditions} & conditions that will be true after the use case completes \\ 
+\textbf{Postconditions} & All appropriate averages are computed and displayed \\ 
 \hline
-\textbf{Primary Actor }& Teacher \\ 
+\textbf{Primary Actors }& Administrator, Teacher \\ 
 \hline
-\textbf{Secondary Actors} & other systems that are relied upon to accomplish the use case \\ 
+\textbf{Secondary Actors} & Database \\ 
 \hline
-\textbf{Trigger }& the action that starts the use case \\ 
+\textbf{Trigger }& A user seeks information about the responses to a group of surveys \\ 
 \hline
 \textbf{Main Scenario }& 
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Action}\\
 \hline
-1 & steps of the use case from trigger to goal delivery \\
+1 & Select option to view results \\
 \hline
-2 & \\
+2 & Compute average score for each question \\
 \hline
-3 & \\
+3 & Group averages by instructor, department, and university \\
+\hline
+4 & Display averages to user\\
 \end{tabular}\\ 
 \hline
-\textbf{Extensions }&
+\textbf{Open Issues} & Which survey questions are averaged for display \\ 
+\hline
+\end{tabular}
+\captionof{table}{}
+\begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
+\hline
+\textbf{Number} & 6 \\
+\hline
+\textbf{Name} & Logon and Authentication  \\ 
+\hline
+\textbf{Summary} & Students, Teachers, and Administrators login with a username and password \\ 
+\hline
+\textbf{Priority} & 5\\ 
+\hline
+\textbf{Preconditions }& Users have an account (or can sign in with Google) \\ 
+\hline
+\textbf{Postconditions} & A session is started and an authentication token is sent to the program \\ 
+\hline
+\textbf{Primary Actors }& User\\ 
+\hline
+\textbf{Secondary Actors} & Database \\ 
+\hline
+\textbf{Trigger }& A user attempts to log in \\ 
+\hline
+\textbf{Main Scenario }& 
 \begin{tabular}{l|p{5.8cm}} 
-\textbf{Step }& \textbf{Branching Action}\\
+\textbf{Step }& \textbf{Action}\\
 \hline
-1a & condition causing branching  : action or name of sub use case  \\
-\end{tabular}\\
+1 & Go to login page \\
 \hline
-\textbf{Open Issues} & list of issues awaiting decisions that affect the use case \\ 
+2 & Enter Google Login information \\
+\hline
+3 & User is authenticated \\
+\hline
+4 & User gains access to the system\\
+\end{tabular}\\ 
+\hline
+\textbf{Open Issues} & Should Google be used to authenticate students if not every user will have a Google account? \\     
 \hline
 \end{tabular}
 \end{center}
+
+\newpage
 
 \subsection{Tests}
 
 These are the tests that will verify the functional requirements:
 
 \begin{enumerate}
-  \item Test
-  \item Test
-  \item Test
-  \item Test
-  \item Test
+  \item (Use Case 1) The tester selects the option to add a course, then submits the course's information and student roll. The test is successful only if the course information and student roll are reflected in the database. The team will create several courses to ensure that each is loaded up with the default list of questions, and we will test adding students' emails to the list of enrolled students.
+  \item (Use Case 2) The tester selects the option to create a survey. Next, he or she chooses a questions preset for the survey. The tester then adds one question and edits an existing question from the preset. After submitting, the database should include the new survey, containing the preset list, added question, and edited question. There must also be a new text file with the same information. The team will run the program several times, each time selecting different questions to be included in the survey. We will ensure some questions are mandatory and must be included no matter what.
+  \item (Use Case 3) The tester selects the option to create a questions preset. He or she then enters five questions into the preset and submits the preset. The test is successful only if the preset with those five questions is stored in the database. The tester will exit the program and log in again to ensure that the questions were saved.
+  \item (Use Case 4) The tester messages a group of ten people about a mock survey. In a successful test, all ten people receive an e-mail containing a link to the survey. Most respondents promptly complete the survey, but one does not. The database must contain the survey responses of the nine people who finished, and the program must send another reminder e-mail to the unfinished person about the survey. Finally, the database must delete old survey data. The team will set the time periods before the reminder e-mail and data deletion to be very short to test whether the two functions work.
+  \item (Use Case 5) The tester selects the option to view the survey results. There are survey results for a mock instructor, mock department, and mock university. The team will add several surveys, each with different questions. If the test is successful, the correct average scores for every question in the course evaluation survey are shown in the application. Also, the software must show the average for the mock instructor, department, and university.
 \end{enumerate}
 
 \section{Non-Functional Requirements}
@@ -287,9 +329,9 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Priority} & 3\\ 
 \hline
-\textbf{Description} & The software should be supported by Windows, Mac, Linux, iOS, and Android. \\ 
+\textbf{Description} & The software should be supported by the latest versions of Windows, Mac, Linux, iOS, and Android. \\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 1 \\ 
 \hline
 \end{tabular}
 
@@ -301,9 +343,9 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Priority} & 4\\ 
 \hline
-\textbf{Description} & The software should be accessible through Safari, Chrome, Firefox, and Edge. \\ 
+\textbf{Description} & The software should be accessible by the latest versions of Safari, Chrome, Firefox, and Edge. \\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 2 \\ 
 \hline
 \end{tabular}
 
@@ -318,7 +360,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & All questions entered by the teacher or administrator shall appear on the output survey. \\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 3 \\ 
 \hline
 \end{tabular}
 
@@ -333,7 +375,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & All data stored in the program's database shall be valid. \\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 4 \\ 
 \hline
 \end{tabular}
 
@@ -348,7 +390,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & All collected survey data shall not be alterable.\\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 5 \\ 
 \hline
 \end{tabular}
 
@@ -363,12 +405,13 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & Teachers shall not be able to access data of courses other than their own. \\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 6 \\ 
 \hline
 \end{tabular}
 
 
 \bigskip
+\vspace{1in}
 \captionof{table}{}
 \begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
 \hline
@@ -378,7 +421,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & The mean time between failures should be at least 60 minutes. \\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 7 \\ 
 \hline
 \end{tabular}
 
@@ -393,7 +436,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & Students shall have no access to any data stored by the program. \\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 8 \\ 
 \hline
 \end{tabular}
 
@@ -408,7 +451,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & All survey responses shall be anonymous. \\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 9 \\ 
 \hline
 \end{tabular}
 
@@ -423,7 +466,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & The software should scale to at least three universites, 1000 courses per semester, 1000 teachers per university, and 500 students per course. \\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 10 \\ 
 \hline
 \end{tabular}
 
@@ -438,7 +481,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & The software should not exceed 500 MB in size. \\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 11 \\ 
 \hline
 \end{tabular}
 
@@ -453,7 +496,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & The software's source code shall be open-source. \\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 12\\ 
 \hline
 \end{tabular}
 
@@ -468,12 +511,11 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & The licensing requirements of any non-original code shall be met.\\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 13 \\ 
 \hline
 \end{tabular}
 
 \bigskip
-\vspace{.5in}
 \captionof{table}{}
 \begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
 \hline
@@ -483,7 +525,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Description} & The software shall meet UMaine AFUM requirements.\\ 
 \hline
-\textbf{Tests }& the test number(s) corresponding to the requirement \\ 
+\textbf{Test Number(s) }& 13 \\ 
 \hline
 \end{tabular}
 
@@ -494,11 +536,19 @@ The non-functional requirements state the qualities of the program that are unre
 These are the tests that will verify the non-functional requirements:
 
 \begin{enumerate}
-  \item Test
-  \item Test
-  \item Test
-  \item Test
-  \item Test
+  \item The tester attempts to run the program on the last versions of Windows, Mac, Linux, iOS, and Android. The test is successful only if all five use cases execute properly on each operating system.
+  \item The tester attempts to run the program on the last versions of Safari, Chrome, Firefox, and Edge. The test is successful only if all five use cases execute properly on each browser.
+  \item The tester inputs five diverse questions into a mock survey and sends the survey to a mock student. The test is successful only if the mock student can follow the link to a survey showing those five questions.
+  \item The tester inputs a course, questions preset, and survey. The test is successful only if all data for the course, preset, and survey are present in the database, and if that data correctly follows the database schema.
+  \item The tester inputs the same course, preset, and survey as in test 4. The test is successful only if any function in the software does not change the survey responses stored in the database.
+  \item The tester creates three users for the evaluation program. Each user inputs a different course, questions preset, and survey. The test is successful if the users cannot view nor modify each other's data.
+  \item The tester runs an automatic script that simulates several hours of using the software. The test is successful only if the average time between two errors in the software is at least 60 simulated minutes.
+  \item The tester inputs a course, present, and survey as a teacher, then poses as someone unauthorized to use the software. In a successful test, the tester cannot view nor modify any data present in the database.
+  \item Five testers complete a survey sent by the software, and a sixth tester uses the software afterwards. The test is successful only if the sixth tester cannot find the identities of anyone who finished the survey in the database.
+  \item The tester runs an automatic script that sets up the software with three colleges, 1000 courses per college, 1000 teachers per university, and 500 students per course. The test is successful if all five use cases execute properly for all courses.
+  \item The tester sees the info for the folder containing the code. The folder size is at most 500 megabytes if the test passes.
+  \item Ten computer users attempt to access the source code on GitHub. The test is successful if all users can do so.
+  \item The tester reads the GNU General Public License and University of Maine AFUM requirements. The test is successful if the software meets all terms in both the license and AFUM requirements.
 \end{enumerate}
 
 \section{User Interface}
@@ -507,7 +557,7 @@ See ``User Interface Design Document for the College Course Evaluation System.''
 
 \section{Deliverables}
 
-The following lists the date and format that each submission will be delivered:
+The following lists the estimated date and format that each submission will be delivered:
 
 \begin{center}
 \captionof{table}{}
@@ -515,29 +565,29 @@ The following lists the date and format that each submission will be delivered:
 \hline
 \textbf{Submission} & \textbf{Date of Delivery} & \textbf{Format} \\
 \hline
-System Requirements Specification & ?/??/201? & Hard Copy\\ 
+System Requirements Specification & 10/26/2018 & Hard Copy\\ 
 \hline
-System Design Document & ?/??/201? & Hard Copy\\ 
+System Design Document & 11/16/2018 & Hard Copy\\ 
 \hline
-User Interface Design Document & ?/??/201? & Hard Copy\\ 
+User Interface Design Document & 11/30/2018 & Hard Copy\\ 
 \hline
-User Manual & ?/??/201? & Hard Copy\\ 
+Administrator Manual & April 2019 & Hard Copy\\ 
 \hline
-Administration Manual & ?/??/201? & Hard Copy\\ 
+User Manual & May 2019 & Hard Copy\\ 
 \hline
-System Requirements Specification & ?/??/201? & Electronic\\ 
+System Requirements Specification & May 2019 & Electronic\\ 
 \hline
-System Design Document & ?/??/201? & Electronic\\ 
+System Design Document & May 2019 & Electronic\\ 
 \hline
-User Interface Design Document & ?/??/201? & Electronic\\ 
+User Interface Design Document & May 2019 & Electronic\\ 
 \hline
-User Manual & ?/??/201? & Electronic\\ 
+Administrator Manual & May 2019 & Electronic\\ 
 \hline
-Administration Manual & ?/??/201? & Electronic\\ 
+User Manual & May 2019 & Electronic\\ 
 \hline
-Source Code & ?/??/201? & Electronic\\ 
+Source Code & May 2019 & Electronic\\ 
 \hline
-Web Link to Program & ?/??/201? & Electronic\\ 
+Web Link to Program & May 2019 & Electronic\\ 
 \hline
 \end{tabular}
 \end{center}
@@ -546,13 +596,64 @@ Web Link to Program & ?/??/201? & Electronic\\
 
 The most significant issue our team has relates to the non-anonymous student responses. In a course evaluation survey, a student has the option to add a signed comment to be stored in an instructor's file. However, the LimeSurvey software does not store the identities of survey respondents. We need to find a way to collect the signed comment along with the survey, while ensuring that the signature is authentic.
 
+There are several more minor issues that need to be resolved. We have not decided what information about each course should be stored in the database. We do not know what format to use for the questions file and how to import it into LimeSurvey. We should also know which question presets and which surveys' results are visible to each user. Finally, we should decide how often to notify students about their survey.
+
+The team projects that all of the above issues will be resolved by the end of November.
+
 \appendix
 
 \newpage
 \section{Agreement Between Customer and Contractor}
+This page shows that all members of Team EVAL and the client, Harlan Onsrud, have agreed on all the information in the system requirements specification. By signing this document, Team EVAL and Dr. Onsrud agree on the goals and scope of the project, each use case and requirement, the tests for each requirement, and how the deliverables will be sent.
+
+The team will follow a process in the case that the requirements specification is changed after we sign it. First, the team writes a rough draft of the changes to be made to the document. Second, all team members and Harlan Onsrud will sign the document agreeing to the changes. Finally, the changes are made to the final copy of the specification.
+
+\vspace{.7in}
+\noindent
+\begin{tabular}{ p{5cm} p{5cm} p{5cm} } 
+\textbf{\textit{Name}} & \textbf{\textit{Signature}} & \textbf{\textit{Date}} \\[.5cm]
+\textbf{Jovon Craig} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Sam Elliott} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Robert Judkins} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Stanley Small} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Harlan Onsrud} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Customer Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\end{tabular}
+
 \newpage
 \section{Team Review Sign-off}
+
+This page shows that all members of Team EVAL have reviewed the system requirements specification and agreed on its content. By signing this document, the team members agree on the goals and scope of the project, each use case and requirement, the tests for each requirement, and how the deliverables will be sent. There is nothing in the document that is a source of contention.
+
+\vspace{.7in}
+\noindent
+\begin{tabular}{ p{5cm} p{5cm} p{5cm} } 
+\textbf{\textit{Name}} & \textbf{\textit{Signature}} & \textbf{\textit{Date}} \\[.5cm]
+\textbf{Jovon Craig} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\textbf{Sam Elliott} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\textbf{Robert Judkins} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\textbf{Stanley Small} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\end{tabular}
+
+
 \newpage
 \section{Document Contributions}
-\end{document}
 
+Stanley Small created the document, added the system requirements specification template to the document, and formatted the text to be compatible with LaTeX. He also added the log-in use case to the requirements and the team logo to the table of contents. Stan contributed about 10 percent of the document.
+
+Jovon Craig wrote five of the use cases in the functional requirements, all non-functional requirements, and a draft of the requirement tests. He also wrote the purpose of the document, the purpose of the product, the deliverables section, and the three appendices. Jovon contributed about 75 percent of the document.
+
+Sam Elliott wrote the section explaining the product scope and created the use case diagram that describes the system. He contributed about 10 percent of the document.
+
+Robert Judkins made revisions to the tests for the functional requirements. He contributed about 5 percent of the document.
+
+\end{document}
