@@ -31,13 +31,25 @@ This system requirements specification details what our course evaluation system
 This document is intended for the development team, the product client, Dr. Harlan Onsrud, and potential users of the system. Team EVAL needs this document to ensure that the product works as intended. Dr. Onsrud needs it to know that he will receive the program that he desires. The document also helps the software's users in that they can learn more about the functions of the evaluation system.
 
 \subsection{References}
+
+https://www.limesurvey.org/
+
 \subsection{Purpose of the Product}
 
 The University of Maine gives out course evaluation surveys to students at the end of each course. The survey is filled on a bubble sheet and is then scanned. Harlan Onsrud finds it inconvenient for the school administrators to manually scan and compile the survey results. He desires an online, automated evaluation system to improve productivity.\par
 
-With this new product, course teachers and administrators can customize their lists of questions for course evaluations and send the lists out to students. Students will receive an e-mail telling them to complete the survey, and they will be periodically notified if the survey is incomplete. After survey submissions, the teachers and administrators can view the average of the results for each question over a certain course, instructor, department, and university.
-
 \subsection{Product Scope}
+
+Team EVAL will create a product which interfaces with the already existing survey software LimeSurvey to provide both individual teachers and administrators the ability to create and administer evaluations.  This product will be usable by even those without technical backgrounds and have an intuitive interface for setting up and administering teacher evaluations.  It will allow users to create one or more classes with pre-defined rosters of emails.   After creating a class, users will be able to choose from provided questions or enter their own custom questions.  The question sets that they come up with will be able to be saved to their account and applied to future evaluations they create.  Upon request of the user the product will create a LimeSurvey with the supplied information and send it out to the students on the classes roster via e-mail.  When the survey has been completed the product will allow users to view and download a statistical analysis and clear visualization of the data collected for one or more of their courses.  The product will be completed in time to be used to administer teacher evaluations for the spring of 2019 at the University of Maine.\par
+
+\begin{center}
+\begin{figure}
+    \centering
+    \includegraphics{Scope.png}
+    \caption{Use Case diagram of the system scope.}
+    \label{fig:my_label}
+\end{figure}
+\end{center}
 
 \section{Functional Requirements}
 
@@ -315,8 +327,10 @@ These are the tests that will verify the functional requirements:
   \item (Use Case 3) The tester selects the option to create a questions preset. He or she then enters five questions into the preset and submits the preset. The test is successful only if the preset with those five questions is stored in the database. The tester will exit the program and log in again to ensure that the questions were saved.
   \item (Use Case 4) The tester messages a group of ten people about a mock survey. In a successful test, all ten people receive an e-mail containing a link to the survey. Most respondents promptly complete the survey, but one does not. The database must contain the survey responses of the nine people who finished, and the program must send another reminder e-mail to the unfinished person about the survey. Finally, the database must delete old survey data. The team will set the time periods before the reminder e-mail and data deletion to be very short to test whether the two functions work.
   \item (Use Case 5) The tester selects the option to view the survey results. There are survey results for a mock instructor, mock department, and mock university. The team will add several surveys, each with different questions. If the test is successful, the correct average scores for every question in the course evaluation survey are shown in the application. Also, the software must show the average for the mock instructor, department, and university.
+  \item (Use Case 6) The tester attempts to log on to the system using a valid email address and password of an existing account with courses already created, with a valid email address and password of a non existing account, an email address with an invalid password for an existing account and an invalid email address and password.
 \end{enumerate}
 
+\newpage
 \section{Non-Functional Requirements}
 
 The non-functional requirements state the qualities of the program that are unrelated to its function.
@@ -551,6 +565,7 @@ These are the tests that will verify the non-functional requirements:
   \item The tester reads the GNU General Public License and University of Maine AFUM requirements. The test is successful if the software meets all terms in both the license and AFUM requirements.
 \end{enumerate}
 
+\newpage
 \section{User Interface}
 
 See ``User Interface Design Document for the College Course Evaluation System.''
@@ -648,11 +663,11 @@ Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
 \newpage
 \section{Document Contributions}
 
-Stanley Small created the document, added the system requirements specification template to the document, and formatted the text to be compatible with LaTeX. He added the log-in use case to the requirements and the team logo to the table of contents. He was also an active participant in discussing and writing down requirements during meetings with the client. Stan contributed approximately 20 percent of the document.
+Stanley Small created the document, added the system requirements specification template to the document, and formatted the text to be compatible with LaTeX. He also added the log-in use case to the requirements and the team logo to the table of contents. Stan contributed about 10 percent of the document.
 
 Jovon Craig wrote five of the use cases in the functional requirements, all non-functional requirements, and a draft of the requirement tests. He also wrote the purpose of the document, the purpose of the product, the deliverables section, and the three appendices. Jovon contributed about 75 percent of the document.
 
-Sam Elliott wrote the section explaining the product scope and created the use case diagram that describes the system. He contributed about 10 percent of the document.
+Sam Elliott worded the non-functional requirements, wrote the section explaining the product scope, and created the use case diagram that describes the system.   He contributed about 10 percent of the document.
 
 Robert Judkins made revisions to the tests for the functional requirements. He contributed about 5 percent of the document.
 
