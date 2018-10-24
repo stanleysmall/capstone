@@ -56,7 +56,7 @@ The product will be completed in time to administer teacher evaluations for the 
 \begin{center}
 \begin{figure}
     \centering
-    \includegraphics{Scope.png}
+    \includegraphics[scale=.75]{Scope.png}
     \caption{Use Case diagram of the system scope.}
     \label{fig:my_label}
 \end{figure}
@@ -64,14 +64,54 @@ The product will be completed in time to administer teacher evaluations for the 
 
 \section{Functional Requirements}
 
-The functional requirements specify what actions the program will perform. Each requirement is represented as a use case. A UML diagram showing the use cases is on the next page.
+The functional requirements specify what actions the program will perform. Each requirement is represented as a use case. The UML diagram showing the use cases is on the next page.
 
 \begin{center}
 \vspace{4in}
+
 \captionof{table}{}
 \begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
 \hline
-\textbf{Number} & 1  \\
+\textbf{Number} & 1 \\
+\hline
+\textbf{Name} & Log on to system  \\ 
+\hline
+\textbf{Summary} & A user (student, teacher, or administrator) logs in with a username and password \\ 
+\hline
+\textbf{Priority} & 5\\ 
+\hline
+\textbf{Preconditions }& The user has an Google account (or can otherwise sign in with Google) \\ 
+\hline
+\textbf{Postconditions} & A session is started and an authentication token is sent to the program \\ 
+\hline
+\textbf{Primary Actors }& Student, Teacher, Administrator\\ 
+\hline
+\textbf{Secondary Actors} & Database \\ 
+\hline
+\textbf{Trigger }& A user attempts to log in \\ 
+\hline
+\textbf{Main Scenario }& 
+\begin{tabular}{l|p{5.8cm}} 
+\textbf{Step }& \textbf{Action}\\
+\hline
+1 & Open the log-in page \\
+\hline
+2 & Enter Google log-in information \\
+\hline
+3 & User is authenticated \\
+\hline
+4 & User gains access to the system\\
+\end{tabular}\\ 
+\hline
+\textbf{Open Issues} & Whether to use Google for authenticating students if not every user has a Google account \\     
+\hline
+\end{tabular}
+
+\bigskip
+\captionof{table}{}
+\begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
+\hline
+\textbf{Number} & 2  \\
 \hline
 \textbf{Name} & Set up course  \\ 
 \hline
@@ -112,10 +152,11 @@ The functional requirements specify what actions the program will perform. Each 
 \end{tabular}
 
 \bigskip
+\vspace{1in}
 \captionof{table}{}
 \begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
 \hline
-\textbf{Number} & 2  \\
+\textbf{Number} & 3  \\
 \hline
 \textbf{Name} & Edit survey questions  \\ 
 \hline
@@ -158,11 +199,10 @@ The functional requirements specify what actions the program will perform. Each 
 \end{tabular}
 
 \bigskip
-\vspace{2.6in}
 \captionof{table}{}
 \begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
 \hline
-\textbf{Number} & 3  \\
+\textbf{Number} & 4  \\
 \hline
 \textbf{Name} & Create questions list preset  \\ 
 \hline
@@ -202,11 +242,50 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 \end{tabular}
 
+\vspace{4in}
+\captionof{table}{}
+\begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
+\hline
+\textbf{Number} & 5  \\
+\hline
+\textbf{Name} & Publish survey  \\ 
+\hline
+\textbf{Summary} & An administrator or teacher sends out a survey to students \\ 
+\hline
+\textbf{Priority} & 5\\ 
+\hline
+\textbf{Preconditions }& The chosen class has questions entered \\ 
+\hline
+\textbf{Postconditions} & A survey is created using limesurvey and sent to the students on the classes roster \\ 
+\hline
+\textbf{Primary Actors }& Administrator, Teacher \\ 
+\hline
+\textbf{Secondary Actors} & Database, LimeSurvey\\ 
+\hline
+\textbf{Trigger }& A teacher or administrator wants to send out an evaluation \\ 
+\hline
+\textbf{Main Scenario }& 
+\begin{tabular}{l|p{5.8cm}} 
+\textbf{Step }& \textbf{Action}\\
+\hline
+1 & Select option to publish survey \\
+\hline
+2 & Select course(s)\\
+\hline
+3 & A survey is created using limesurvey\\
+\hline
+4 & The survey is sent to all students on the classes roster\\
+\end{tabular}\\ 
+\hline
+\textbf{Open Issues} &\\ 
+\hline
+\end{tabular}
+
 \bigskip
 \captionof{table}{}
 \begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
 \hline
-\textbf{Number} & 4  \\
+\textbf{Number} & 6  \\
 \hline
 \textbf{Name} & Notify students  \\ 
 \hline
@@ -253,7 +332,7 @@ The functional requirements specify what actions the program will perform. Each 
 \captionof{table}{}
 \begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
 \hline
-\textbf{Number} & 5 \\
+\textbf{Number} & 7 \\
 \hline
 \textbf{Name} & View survey results  \\ 
 \hline
@@ -287,44 +366,8 @@ The functional requirements specify what actions the program will perform. Each 
 \textbf{Open Issues} & Which survey questions are averaged for display \\ 
 \hline
 \end{tabular}
-\captionof{table}{}
-\begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
-\hline
-\textbf{Number} & 6 \\
-\hline
-\textbf{Name} & Log on to system  \\ 
-\hline
-\textbf{Summary} & A user (student, teacher, or administrator) logs in with a username and password \\ 
-\hline
-\textbf{Priority} & 5\\ 
-\hline
-\textbf{Preconditions }& The user has an Google account (or can otherwise sign in with Google) \\ 
-\hline
-\textbf{Postconditions} & A session is started and an authentication token is sent to the program \\ 
-\hline
-\textbf{Primary Actors }& Student, Teacher, Administrator\\ 
-\hline
-\textbf{Secondary Actors} & Database \\ 
-\hline
-\textbf{Trigger }& A user attempts to log in \\ 
-\hline
-\textbf{Main Scenario }& 
-\begin{tabular}{l|p{5.8cm}} 
-\textbf{Step }& \textbf{Action}\\
-\hline
-1 & Open the log-in page \\
-\hline
-2 & Enter Google log-in information \\
-\hline
-3 & User is authenticated \\
-\hline
-4 & User gains access to the system\\
-\end{tabular}\\ 
-\hline
-\textbf{Open Issues} & Whether to use Google for authenticating students if not every user has a Google account \\     
-\hline
-\end{tabular}
 \end{center}
+
 
 \newpage
 
@@ -333,12 +376,13 @@ The functional requirements specify what actions the program will perform. Each 
 These are the tests that will verify the functional requirements:
 
 \begin{enumerate}
-  \item (Use Case 1) The tester selects the option to add a course, then submits the course's information and student roll. The test is successful only if the course information and student roll are reflected in the database. The team will create several courses to ensure that each is loaded up with the default list of questions, and we will test adding students' emails to the list of enrolled students.
-  \item (Use Case 2) The tester selects the option to create a survey. Next, he or she chooses a questions preset for the survey. The tester then adds one question and edits an existing question from the preset. After submitting, the database should include the new survey, containing the preset list, added question, and edited question. There must also be a new text file with the same information. The team will run the program several times, each time selecting different questions to be included in the survey. We will ensure some questions are mandatory and must be included no matter what.
-  \item (Use Case 3) The tester selects the option to create a questions preset. He or she then enters five questions into the preset and submits the preset. The test is successful only if the preset with those five questions is stored in the database. The tester will exit the program and log in again to ensure that the questions were saved.
-  \item (Use Case 4) The tester messages a group of ten people about a mock survey. In a successful test, all ten people receive an e-mail containing a link to the survey. Most respondents promptly complete the survey, but one does not. The database must contain the survey responses of the nine people who finished, and the program must send another reminder e-mail to the unfinished person about the survey. Finally, the database must delete old survey data. The team will set the time periods before the reminder e-mail and data deletion to be very short to test whether the two functions work.
-  \item (Use Case 5) The tester selects the option to view the survey results. There are survey results for a mock instructor, mock department, and mock university. The team will add several surveys, each with different questions. If the test is successful, the correct average scores for every question in the course evaluation survey are shown in the application. Also, the software must show the average for the mock instructor, department, and university.
-  \item (Use Case 6) The tester attempts to log on to the system using four different sets of credentials: a valid e-mail address and password of an existing account (with courses already created), a valid address and password of a nonexistent account, an address with an invalid password for an existing account, and an invalid e-mail address and password. The test is successful if the first set passes and the last three sets fail.
+  \item (Use Case 1) The tester attempts to log on to the system using four different sets of credentials: a valid e-mail address and password of an existing account (with courses already created), a valid address and password of a nonexistent account, an address with an invalid password for an existing account, and an invalid e-mail address and password. The test is successful if the first set passes and the last three sets fail.
+  \item (Use Case 2) The tester selects the option to add a course, then submits the course's information and student roll. The test is successful only if the course information and student roll are reflected in the database. The team will create several courses to ensure that each is loaded up with the default list of questions, and we will test adding students' emails to the list of enrolled students.
+  \item (Use Case 3) The tester selects the option to create a survey. Next, he or she chooses a questions preset for the survey. The tester then adds one question and edits an existing question from the preset. After submitting, the database should include the new survey, containing the preset list, added question, and edited question. There must also be a new text file with the same information. The team will run the program several times, each time selecting different questions to be included in the survey. We will ensure some questions are mandatory and must be included no matter what.
+  \item (Use Case 4) The tester selects the option to create a questions preset. He or she then enters five questions into the preset and submits the preset. The test is successful only if the preset with those five questions is stored in the database. The tester will exit the program and log in again to ensure that the questions were saved.
+  \item (Use Case 5) The tester creates a course survey, does not enter any questions, and attempts to send the survey.  The tester then enters some questions and sends the survey again.  The team verifies that the survey was created with all questions entered and that the e-mail addresses on the course roster received a prompt to complete it. 
+  \item (Use Case 6) The tester messages a group of ten people about a mock survey. In a successful test, all ten people receive an e-mail containing a link to the survey. Most respondents promptly complete the survey, but one does not. The database must contain the survey responses of the nine people who finished, and the program must send another reminder e-mail to the unfinished person about the survey. Finally, the database must delete old survey data. The team will set the time periods before the reminder e-mail and data deletion to be very short to test whether the two functions work.
+  \item (Use Case 7) The tester selects the option to view the survey results. There are survey results for a mock instructor, mock department, and mock university. The team will add several surveys, each with different questions. If the test is successful, the correct average scores for every question in the course evaluation survey are shown in the application. Also, the software must show the average for the mock instructor, department, and university.
 \end{enumerate}
 
 \newpage
@@ -676,9 +720,9 @@ Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
 
 Stanley Small created the document, added the system requirements specification template to the document, and formatted the text to be compatible with LaTeX. He added the log-in use case to the requirements and the team logo to the table of contents. He was also an active participant in discussing and writing down requirements during meetings with the client. Stan contributed approximately 20 percent of the document.
 
-Jovon Craig wrote five of the use cases in the functional requirements, all non-functional requirements, and a draft of the requirement tests. He also wrote the purpose of the document, the purpose of the product, the deliverables section, and the three appendices. Jovon contributed about 65 percent of the document.
+Jovon Craig wrote five of the use cases in the functional requirements, all non-functional requirements, and a draft of the requirement tests. He also wrote the purpose of the document, the purpose of the product, the deliverables section, and the three appendices. Jovon contributed about 55 percent of the document.
 
-Sam Elliott worded the non-functional requirements, wrote the section explaining the product scope, and created the use case diagram that describes the system.   He contributed about 10 percent of the document.
+Sam Elliott worded the non-functional requirements, wrote the section explaining the product scope, and created the use case diagram that describes the system.  He also added the ``publish survey'' use case and two tests for the functional requirements.   Sam contributed about 20 percent of the document.
 
 Robert Judkins made revisions to the tests for the functional requirements. He contributed about 5 percent of the document.
 
