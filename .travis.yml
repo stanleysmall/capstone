@@ -1,10 +1,12 @@
 sudo: required
 language: generic
 services: docker
+
 script:
 - docker pull dxjoke/tectonic-docker
 - docker run --mount src=$TRAVIS_BUILD_DIR/documents,target=/usr/src/tex,type=bind
   dxjoke/tectonic-docker /bin/sh -c "tectonic --keep-intermediates --reruns 0 srs.tex"
+  
 deploy:
   provider: releases
   api_key:
