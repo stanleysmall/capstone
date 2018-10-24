@@ -1,8 +1,8 @@
 # Capstone
-[![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg)](https://opensource.org/licenses/MIT)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-lightgrey.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![Build Status](https://travis-ci.com/stansmall/capstone.svg?branch=master)](https://travis-ci.com/stansmall/capstone)
 
 
-To Run:
+# Running LimeSurvey
 
 1. Go to the Repository (`cd capstone`)
 2. Clone LimeSurvey (`git clone https://github.com/LimeSurvey/LimeSurvey.git`)
@@ -12,13 +12,13 @@ To Run:
 6. Go to `localhost` in a browser
 7. In installation:
 
-  Database location: `10.5.0.6:3306`
+  * Database location: `10.5.0.6:3306`
   
-  Database user: `root`
+   * Database user: `root`
   
-  Database password: `root`
+   * Database password: `root`
   
-  Database name: `limesurvey` 
+   * Database name: `limesurvey` 
 
 8. When done, run `docker system prune`
   
