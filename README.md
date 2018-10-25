@@ -21,5 +21,3 @@
    * Database name: `limesurvey` 
 
 8. When done, run `docker system prune`
-  
-
