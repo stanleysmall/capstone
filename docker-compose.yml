@@ -16,7 +16,7 @@ services:
         image: mysql:5.5.61
         container_name: db
         ports:
-            - 3306
+            - 4306:3306
         networks:
             net: 
                 ipv4_address: 10.5.0.6
