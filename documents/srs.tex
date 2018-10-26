@@ -213,9 +213,9 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 \textbf{Number} & 4  \\
 \hline
-\textbf{Name} & Edit survey data  \\ 
+\textbf{Name} & Edit survey preset  \\ 
 \hline
-\textbf{Summary} & An administrator or teacher edits the survey data for a course \\ 
+\textbf{Summary} & An administrator or teacher edits the survey questions for a course \\ 
 \hline
 \textbf{Priority} & 5\\ 
 \hline
@@ -233,7 +233,7 @@ The functional requirements specify what actions the program will perform. Each 
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Action}\\
 \hline
-1 & Choose the course whose data is to be edited \\
+1 & Choose the course whose questions are to be edited \\
 \hline
 2 & Select questions preset if applicable\\
 \hline
@@ -387,7 +387,7 @@ The functional requirements specify what actions the program will perform. Each 
 These are the tests that will verify the functional requirements:
 
 \begin{enumerate}
-  \item (Use Case 1) The tester attempts to log on to the system using four different sets of credentials: a valid e-mail address and password of an existing account (with courses already created), a valid address and password of a nonexistent account, an address with an invalid password for an existing account, and an invalid e-mail address and password. The test is successful if the first set passes and the last three sets fail.
+  \item (Use Case 1) The tester attempts to log on to the system using four different sets of credentials: a valid e-mail address and password of an existing account (with courses already created), a valid address and password of a nonexistent account, an address with an invalid password for an existing account, and an invalid e-mail address and password. The test is successful if the first set passes and the last three sets fail. In the second case, a user will be prompted to register for the system. 
   \item (Use Case 2) The tester selects the option to add a course preset, then submits generic survey data, preferences, and a course roll. The test is successful only if all the data entered is reflected in the database.  The data should still be there after logging out of the system. The team will create several presets to ensure that each is loaded up with the default list of questions, and we will test adding students' e-mails to the list of enrolled students.
   \item (Use Case 3) The tester creates a survey preset with generic data. He or she then tries to select that same preset to be used again. The new preset should still be present on LimeSurvey. The test is successful only if the preset data is loaded correctly to LimeSurvey from the database. The tester will exit the evaluation system and log in again to ensure that the data is saved.
   \item (Use Case 4) The tester selects the option to create a survey. Next, he or she chooses a questions preset for the survey. The tester then adds one question and edits an existing question from the preset. After submitting, the database should include the new survey, containing the preset list, added question, and edited question. The team will run the program several times, each time selecting different questions to be included in the survey. We will ensure that some questions are mandatory and must be included no matter what.
@@ -574,7 +574,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Priority} & 4\\ 
 \hline
-\textbf{Description} & The software's source code shall be open-source. \\ 
+\textbf{Description} & The software's source code shall be open-source and shall use a GPLv2 license. \\ 
 \hline
 \textbf{Test Number(s) }& 12\\ 
 \hline
