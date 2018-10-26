@@ -49,7 +49,7 @@ The University of Maine gives out course evaluation surveys to students at the e
 
 Team EVAL will create a product which interfaces with an already existing survey software, LimeSurvey, to provide both individual teachers and administrators the ability to create and administer evaluations.  This product will be usable even by those without technical backgrounds, and it will have an intuitive interface for setting up and administering teacher evaluations.
 
-It will allow users to create one or more classes with predefined rosters of e-mail addresses.   After creating a class, users will be able to choose from provided questions or enter their own custom questions.  The question sets that they make can be saved to their account and applied to future evaluations they create.  Upon request of the user, the product will create a LimeSurvey with the supplied information and send it out to the students on the class' roster via e-mail.  When the survey is completed, the product will allow users to view and download a statistical analysis and clear visualization of the data collected for one or more of their courses.
+It will allow users to create one or more courses with predefined survey data and rosters of e-mail addresses.   After creating a class, users will be able to choose from provided questions or enter their own custom questions.  The question sets that they make can be saved to their account and applied to future evaluations they create.  Upon request of the user, the product will create a LimeSurvey with the supplied information and send it out to the students on the class' roster via e-mail.  When the survey is completed, the product will allow users to view and download a statistical analysis and clear visualization of the data collected for one or more of their courses.
 
 The product will be completed in time to administer teacher evaluations for the spring of 2019 at the University of Maine. A UML diagram (Figure 1) shows the scope as a dotted rectangle.\par
 
@@ -76,7 +76,7 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 \textbf{Name} & Log on to system  \\ 
 \hline
-\textbf{Summary} & A user (student, teacher, or administrator) logs in with a username and password \\ 
+\textbf{Summary} & A teacher or administrator logs in with a username and password \\ 
 \hline
 \textbf{Priority} & 5\\ 
 \hline
@@ -84,9 +84,9 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 \textbf{Postconditions} & A session is started and an authentication token is sent to the program \\ 
 \hline
-\textbf{Primary Actors }& Student, Teacher, Administrator\\ 
+\textbf{Primary Actors }& Administrator, Teacher\\ 
 \hline
-\textbf{Secondary Actors} & Database \\ 
+\textbf{Secondary Actors} & Google Authentication \\ 
 \hline
 \textbf{Trigger }& A user attempts to log in \\ 
 \hline
@@ -103,7 +103,7 @@ The functional requirements specify what actions the program will perform. Each 
 4 & User gains access to the system\\
 \end{tabular}\\ 
 \hline
-\textbf{Open Issues} & Whether to use Google for authenticating students if not every user has a Google account \\     
+\textbf{Open Issues} & Whether to use authentication for students' non-anonymous comments \\     
 \hline
 \end{tabular}
 
@@ -113,19 +113,19 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 \textbf{Number} & 2  \\
 \hline
-\textbf{Name} & Set up course  \\ 
+\textbf{Name} & Create survey preset  \\ 
 \hline
-\textbf{Summary} & An administrator or teacher adds a course to be surveyed along with its student roll \\ 
+\textbf{Summary} & An administrator or teacher adds a preset list of questions to the database \\ 
 \hline
 \textbf{Priority} & 5\\ 
 \hline
-\textbf{Preconditions }& The course's evaluation survey is unwritten \\ 
+\textbf{Preconditions }& A course's evaluation survey questions are unchosen or unwritten \\ 
 \hline
-\textbf{Postconditions} & The course's evaluation survey is written, A student roll is linked to the course \\ 
+\textbf{Postconditions} & The course's evaluation survey is written \\ 
 \hline
 \textbf{Primary Actors }& Administrator, Teacher \\ 
 \hline
-\textbf{Secondary Actors} & Database \\ 
+\textbf{Secondary Actors} & Database, LimeSurvey \\ 
 \hline
 \textbf{Trigger }& A new course needs to be evaluated \\ 
 \hline
@@ -133,68 +133,66 @@ The functional requirements specify what actions the program will perform. Each 
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Action}\\
 \hline
-1 & Select option to add a course \\
+1 & Select option to add a preset \\
 \hline
-2 & Enter the course name and \newline corresponding student roster\\
+2 & Enter the survey data on LimeSurvey\\
 \hline
-3 & Database updated with course name and roster\\
+3 & Database updated with survey info\\
 \end{tabular}\\ 
 \hline
 \textbf{Extensions }&
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Branching Action}\\
 \hline
-2a & No students are entered for a course : Notify user of the problem  \\
+2a & Invalid data is entered : Notify user of incorrect data  \\
 \end{tabular}\\
 \hline
-\textbf{Open Issues} & What information about the course shall be stored \\ 
+\textbf{Open Issues} & What information about the survey shall be stored, what format should the data be in\\ 
 \hline
 \end{tabular}
 
 \bigskip
-\vspace{1in}
+\vspace{1.5in}
 \captionof{table}{}
 \begin{tabular}{|p{3.5cm}|p{7.5cm}|} 
 \hline
 \textbf{Number} & 3  \\
 \hline
-\textbf{Name} & Edit survey questions  \\ 
+\textbf{Name} & Use survey preset  \\ 
 \hline
-\textbf{Summary} & An administrator or teacher edits the survey questions for a course \\ 
+\textbf{Summary} & An administrator or teacher retrieves a preset list of questions for a survey\\
 \hline
-\textbf{Priority} & 5\\ 
+\textbf{Priority} & 4\\ 
 \hline
-\textbf{Preconditions }& A course for the survey questions exists in the database \\ 
+\textbf{Preconditions }& The survey preset exists in the database \\ 
 \hline
-\textbf{Postconditions} & A course includes its survey questions \\ 
+\textbf{Postconditions} & A preset list is available to create a survey \\ 
 \hline
 \textbf{Primary Actors }& Administrator, Teacher \\ 
 \hline
-\textbf{Secondary Actors} & Database \\ 
+\textbf{Secondary Actors} & Database, LimeSurvey \\ 
 \hline
-\textbf{Trigger }& A college course has zero or wrong evalution survey questions \\ 
+\textbf{Trigger }& A user wants the same questions as on a previous survey \\ 
 \hline
 \textbf{Main Scenario }& 
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Action}\\
 \hline
-1 & Choose the course whose questions are to be edited \\
+1 & Select option to use a preset list of questions \\
 \hline
-2 & Select questions preset if applicable\\
+2 & Choose which preset to use\\
 \hline
-3 & Enter or edit the questions\\
-\hline
-4 & Questions stored in database and as text file\\
+3 & LimeSurvey updated with preset\\
 \end{tabular}\\ 
 \hline
 \textbf{Extensions }&
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Branching Action}\\
 \hline
-3a & Invalid questions submitted : Notify user of invalid questions  \\
+2a & Data in preset is invalid : Notify user of invalid data  \\
 \end{tabular}\\
 \hline
-\textbf{Open Issues} & In what format shall the questions be stored in the text file \\ 
+\textbf{Open Issues} & Which presets are visible to each teacher \\ 
 \hline
 \end{tabular}
 
@@ -204,41 +202,43 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 \textbf{Number} & 4  \\
 \hline
-\textbf{Name} & Create questions list preset  \\ 
+\textbf{Name} & Edit survey data  \\ 
 \hline
-\textbf{Summary} & An administrator or teacher makes a preset list of questions for a survey\\
+\textbf{Summary} & An administrator or teacher edits the survey data for a course \\ 
 \hline
-\textbf{Priority} & 4\\ 
+\textbf{Priority} & 5\\ 
 \hline
 \textbf{Preconditions }& A course for the survey questions exists in the database \\ 
 \hline
-\textbf{Postconditions} & A preset list is available while creating a survey \\ 
+\textbf{Postconditions} & A course includes appropriate survey data \\ 
 \hline
 \textbf{Primary Actors }& Administrator, Teacher \\ 
 \hline
-\textbf{Secondary Actors} & Database \\ 
+\textbf{Secondary Actors} & Database, LimeSurvey \\ 
 \hline
-\textbf{Trigger }& A user wants the same questions to be in multiple surveys \\ 
+\textbf{Trigger }& A college course survey has incorrect data or preferences \\ 
 \hline
 \textbf{Main Scenario }& 
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Action}\\
 \hline
-1 & Select option to add a preset questions list \\
+1 & Choose the course whose data is to be edited \\
 \hline
-2 & Add the questions to the preset\\
+2 & Select questions preset if applicable\\
 \hline
-3 & Database updated with preset\\
+3 & Modify the data to be appropriate for the course\\
+\hline
+4 & Database updated with new edits\\
 \end{tabular}\\ 
 \hline
 \textbf{Extensions }&
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Branching Action}\\
 \hline
-2a & Questions in preset are invalid : Notify user of invalid questions  \\
+3a & Invalid data is entered : Notify user of incorrect data  \\
 \end{tabular}\\
 \hline
-\textbf{Open Issues} & Which presets are visible to each teacher \\ 
+\textbf{Open Issues} & None \\ 
 \hline
 \end{tabular}
 
@@ -256,7 +256,7 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 \textbf{Preconditions }& The chosen class has questions entered \\ 
 \hline
-\textbf{Postconditions} & A survey is created using limesurvey and sent to the students on the classes roster \\ 
+\textbf{Postconditions} & A survey is created using LimeSurvey and sent to the students on the class roster \\ 
 \hline
 \textbf{Primary Actors }& Administrator, Teacher \\ 
 \hline
@@ -272,12 +272,12 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 2 & Select course(s)\\
 \hline
-3 & A survey is created using limesurvey\\
+3 & A survey is created using LimeSurvey\\
 \hline
-4 & The survey is sent to all students on the classes roster\\
+4 & The survey is sent to all students on the class roster\\
 \end{tabular}\\ 
 \hline
-\textbf{Open Issues} &\\ 
+\textbf{Open Issues} & None\\ 
 \hline
 \end{tabular}
 
@@ -295,7 +295,7 @@ The functional requirements specify what actions the program will perform. Each 
 \hline
 \textbf{Preconditions }& A course evaluation survey is completed \\ 
 \hline
-\textbf{Postconditions} & All students are finished with their survey \\ 
+\textbf{Postconditions} & All students are finished with their survey, or a deadline is reached\\ 
 \hline
 \textbf{Primary Actors }& Teacher \\ 
 \hline
@@ -307,7 +307,7 @@ The functional requirements specify what actions the program will perform. Each 
 \begin{tabular}{l|p{5.8cm}} 
 \textbf{Step }& \textbf{Action}\\
 \hline
-1 & Send initial reminder to students \newline about survey \\
+1 & Send initial reminder to students \newline about survey using course roster\\
 \hline
 2 & Students complete survey\\
 \hline
@@ -323,7 +323,7 @@ The functional requirements specify what actions the program will perform. Each 
 2a & A student does not complete survey  : Send another reminder to student  \\
 \end{tabular}\\
 \hline
-\textbf{Open Issues} & How often to remind students, handling signed comments \\ 
+\textbf{Open Issues} & How often to remind students, how to handle signed comments \\ 
 \hline
 \end{tabular}
 
@@ -377,11 +377,11 @@ These are the tests that will verify the functional requirements:
 
 \begin{enumerate}
   \item (Use Case 1) The tester attempts to log on to the system using four different sets of credentials: a valid e-mail address and password of an existing account (with courses already created), a valid address and password of a nonexistent account, an address with an invalid password for an existing account, and an invalid e-mail address and password. The test is successful if the first set passes and the last three sets fail.
-  \item (Use Case 2) The tester selects the option to add a course, then submits the course's information and student roll. The test is successful only if the course information and student roll are reflected in the database. The team will create several courses to ensure that each is loaded up with the default list of questions, and we will test adding students' emails to the list of enrolled students.
-  \item (Use Case 3) The tester selects the option to create a survey. Next, he or she chooses a questions preset for the survey. The tester then adds one question and edits an existing question from the preset. After submitting, the database should include the new survey, containing the preset list, added question, and edited question. There must also be a new text file with the same information. The team will run the program several times, each time selecting different questions to be included in the survey. We will ensure some questions are mandatory and must be included no matter what.
-  \item (Use Case 4) The tester selects the option to create a questions preset. He or she then enters five questions into the preset and submits the preset. The test is successful only if the preset with those five questions is stored in the database. The tester will exit the program and log in again to ensure that the questions were saved.
-  \item (Use Case 5) The tester creates a course survey, does not enter any questions, and attempts to send the survey.  The tester then enters some questions and sends the survey again.  The team verifies that the survey was created with all questions entered and that the e-mail addresses on the course roster received a prompt to complete it. 
-  \item (Use Case 6) The tester messages a group of ten people about a mock survey. In a successful test, all ten people receive an e-mail containing a link to the survey. Most respondents promptly complete the survey, but one does not. The database must contain the survey responses of the nine people who finished, and the program must send another reminder e-mail to the unfinished person about the survey. Finally, the database must delete old survey data. The team will set the time periods before the reminder e-mail and data deletion to be very short to test whether the two functions work.
+  \item (Use Case 2) The tester selects the option to add a course preset, then submits generic survey data, preferences, and a course roll. The test is successful only if all the data entered is reflected in the database.  The data should still be there after logging out of the system. The team will create several presets to ensure that each is loaded up with the default list of questions, and we will test adding students' e-mails to the list of enrolled students.
+  \item (Use Case 3) The tester creates a survey preset with generic data. He or she then tries to select that same preset to be used again. The new preset should still be present on LimeSurvey. The test is successful only if the preset data is loaded correctly to LimeSurvey from the database. The tester will exit the evaluation system and log in again to ensure that the data is saved.
+  \item (Use Case 4) The tester selects the option to create a survey. Next, he or she chooses a questions preset for the survey. The tester then adds one question and edits an existing question from the preset. After submitting, the database should include the new survey, containing the preset list, added question, and edited question. The team will run the program several times, each time selecting different questions to be included in the survey. We will ensure that some questions are mandatory and must be included no matter what.
+  \item (Use Case 5) The tester creates a course survey, does not enter any questions, and attempts to send the survey.  The tester then enters some questions and sends the survey again.  The team verifies that the survey is created with all questions entered and that the e-mail addresses on the course roster receive a prompt to complete it. 
+  \item (Use Case 6) The tester messages a group of ten unique people about a mock survey. In a successful test, all ten people receive an e-mail with each containing a link to the survey. Most respondents promptly complete the survey, but one does not. The database must contain the survey responses of the nine people who finished, and the program must send another reminder e-mail to the unfinished person about the survey. Finally, the database must delete old survey data. The team will set the time periods before the reminder e-mail and data deletion to be very short to test whether the two functions work.
   \item (Use Case 7) The tester selects the option to view the survey results. There are survey results for a mock instructor, mock department, and mock university. The team will add several surveys, each with different questions. If the test is successful, the correct average scores for every question in the course evaluation survey are shown in the application. Also, the software must show the average for the mock instructor, department, and university.
 \end{enumerate}
 
@@ -518,7 +518,7 @@ The non-functional requirements state the qualities of the program that are unre
 \hline
 \textbf{Priority} & 5 \\ 
 \hline
-\textbf{Description} & All survey responses shall be anonymous. \\ 
+\textbf{Description} & All survey responses (except non-anonymous \newline comments) shall be anonymous. \\ 
 \hline
 \textbf{Test Number(s) }& 9 \\ 
 \hline
@@ -613,7 +613,7 @@ These are the tests that will verify the non-functional requirements:
   \item The tester creates three users for the evaluation program. Each user inputs a different course, questions preset, and survey. The test is successful if the users cannot view nor modify each other's data.
   \item The tester runs an automatic script that simulates several hours of using the software. The test is successful only if the average time between two errors in the software is at least 60 simulated minutes.
   \item The tester inputs a course, present, and survey as a teacher, then poses as someone unauthorized to use the software. In a successful test, the tester cannot view nor modify any data present in the database.
-  \item Five testers complete a survey sent by the software, and a sixth tester uses the software afterwards. The test is successful only if the sixth tester cannot find the identities of anyone who finished the survey in the database.
+  \item Five testers complete a survey sent by the software, and a sixth tester uses the software afterwards. The test is successful only if the sixth tester cannot find the identities of anyone who gave a response meant to be anonymous.
   \item The tester runs an automatic script that sets up the software with three colleges, 1000 courses per college, 1000 teachers per university, and 500 students per course. The test is successful if all five use cases execute properly for all courses.
   \item The tester sees the info for the folder containing the code. The folder size is at most 500 megabytes if the test passes.
   \item Ten computer users attempt to access the source code on GitHub. The test is successful if all users can do so.
@@ -666,7 +666,7 @@ Web Link to Program & May 2019 & Electronic\\
 
 The most significant issue our team has relates to the non-anonymous student responses. In a course evaluation survey, a student has the option to add a signed comment to be stored in an instructor's file. However, the LimeSurvey software does not store the identities of survey respondents. We need to find a way to collect the signed comment along with the survey, while ensuring that the signature is authentic.
 
-There are several more minor issues that need to be resolved. We have not decided what information about each course should be stored in the database. We do not know what format to use for the questions file and how to import it into LimeSurvey. We should also know which question presets and which surveys' results are visible to each user. Another issue is how often to notify students about their survey. Finally, we need to know whether to require a Google account for any user to log in to the system.
+There are several more minor issues that need to be resolved. We have not decided what information about each course should be stored in the database. We do not know what format to use for storing the survey data. We should also know which question presets and which surveys' results are visible to each user. Another issue is how often to notify students about their survey. Finally, we need to know whether to require a Google account for a student who wants to submit a non-anonymous response.
 
 The team projects that all of the above issues will be resolved by the end of November.
 
