@@ -25,9 +25,7 @@ services:
         volumes:
             - ./data:/var/lib/mysql
     react:
-        build:
-            context: react-app
-            dockerfile: Dockerfile
+        build: ./react-app
         container_name: react
         environment:
             - NODE_ENV=production
@@ -38,7 +36,18 @@ services:
             - ./react-app:/app
         networks:
             net: 
-                ipv4_address: 10.5.0.7
+                ipv4_address: 10.5.0.7      
+    flask:
+        build:
+            context: ./flask
+        container_name: flask
+        ports:
+            - 5000:5000
+        volumes:
+            - .:/app
+        networks:
+            net: 
+                ipv4_address: 10.5.0.8
 networks:
     net:
         driver: bridge
