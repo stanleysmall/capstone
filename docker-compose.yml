@@ -10,7 +10,7 @@ services:
         depends_on:
             - limesurvey_db
         networks:
-            net: 
+            limesurvey_network: 
                 ipv4_address: 10.5.0.5
     limesurvey_db:
         image: mysql:5.5.61
@@ -18,14 +18,14 @@ services:
         ports:
             - 4306:3306
         networks:
-            net: 
+            limesurvey_network: 
                 ipv4_address: 10.5.0.6
         environment:
             MYSQL_ROOT_PASSWORD: root
         volumes:
             - ./data:/var/lib/mysql
 networks:
-    net:
+    limesurvey_network:
         driver: bridge
         ipam:
           config:
