@@ -10,7 +10,7 @@ services:
         depends_on:
             - limesurvey_db
         networks:
-            limesurvey_network: 
+            net: 
                 ipv4_address: 10.5.0.5
     limesurvey_db:
         image: mysql:5.5.61
@@ -18,14 +18,29 @@ services:
         ports:
             - 4306:3306
         networks:
-            limesurvey_network: 
+            net: 
                 ipv4_address: 10.5.0.6
         environment:
             MYSQL_ROOT_PASSWORD: root
         volumes:
             - ./data:/var/lib/mysql
+    react:
+        build:
+            context: react-app
+            dockerfile: Dockerfile
+        container_name: react
+        environment:
+            - NODE_ENV=production
+        command: npm start
+        ports:
+            - 3000:3000
+        volumes:
+            - ./react-app:/app
+        networks:
+            net: 
+                ipv4_address: 10.5.0.7
 networks:
-    limesurvey_network:
+    net:
         driver: bridge
         ipam:
           config:
