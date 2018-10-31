@@ -1,20 +1,20 @@
 version: "2.1"
 services:
-    app:
+    limesurvey:
         build: .
-        container_name: app
+        container_name: limesurvey
         ports:
             - 80:80
         volumes:
             - ./LimeSurvey:/var/www/html/
         depends_on:
-            - db
+            - limesurvey_db
         networks:
             net: 
                 ipv4_address: 10.5.0.5
-    db:
+    limesurvey_db:
         image: mysql:5.5.61
-        container_name: db
+        container_name: limesurvey_db
         ports:
             - 4306:3306
         networks:
