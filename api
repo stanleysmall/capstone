@@ -8,13 +8,13 @@ info:
     email: contact@teachingevaluations.org
 
   license:
-    name: GPL 2.0
+    name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 
 # tags are used for organizing operations
 tags:
 - name: admins
-  description: Operations available to admins
+  description: Operations available to administrators
 - name: teachers
   description: Operations available to teachers
 - name: students
