@@ -19,7 +19,7 @@ setup(
     name=NAME,
     version=VERSION,
     description="Project Eval API",
-    author_email="you@your-company.com",
+    author_email="contact@your-company.com",
     url="",
     keywords=["Swagger", "Project Eval API"],
     install_requires=REQUIRES,
