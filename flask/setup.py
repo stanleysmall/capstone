@@ -29,7 +29,7 @@ setup(
     entry_points={
         'console_scripts': ['swagger_server=swagger_server.__main__:main']},
     long_description="""\
-    This is a simple API
+    This is an API used for connecting the front end to the backend of our software.
     """
 )
 

@@ -1,7 +1,8 @@
 ---
 swagger: "2.0"
 info:
-  description: "This is a simple API"
+  description: "This is an API used for connecting the front end to the backend of\
+    \ our software."
   version: "1.0.0"
   title: "Project Eval API"
   contact:
