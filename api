@@ -19,12 +19,12 @@ tags:
   description: Operations available to teachers
 
 paths:
-  /inventory:
+  /courses:
     get:
       tags:
       - teachers
       - admins
-      summary: searches inventory
+      summary: retreives a list of all courses
       operationId: searchInventory
       description: |
         By passing in the appropriate options, you can search for
@@ -33,30 +33,17 @@ paths:
       - application/json
       parameters:
       - in: query
-        name: searchString
-        description: pass an optional search string for looking up inventory
-        required: false
-        type: string
-      - in: query
-        name: skip
-        description: number of records to skip for pagination
-        type: integer
-        format: int32
-        minimum: 0
-      - in: query
-        name: limit
-        description: maximum number of records to return
-        type: integer
-        format: int32
-        minimum: 0
-        maximum: 50
+        name: teacher_id
+        description: the ID for a teacher
+        required: true
+        type: int32
       responses:
         200:
           description: search results matching criteria
           schema:
             type: array
             items:
-              $ref: '#/definitions/InventoryItem'
+              $ref: '#/definitions/Course'
         400:
           description: bad input parameter
     post:
