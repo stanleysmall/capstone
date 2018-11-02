@@ -25,8 +25,7 @@ paths:
       - "teachers"
       - "admins"
       summary: "retreives a list of all courses"
-      description: "By passing in the appropriate options, you can search for\navailable\
-        \ inventory in the system\n"
+      description: "Exactly what the summary says\n"
       operationId: "search_inventory"
       produces:
       - "application/json"
