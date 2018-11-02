@@ -8,13 +8,13 @@ info:
     email: contact@teachingevaluations.org
 
   license:
-    name: GPL 2.0
-    url: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
 
 # tags are used for organizing operations
 tags:
 - name: admins
-  description: Operations available to admins
+  description: Operations available to administrators
 - name: teachers
   description: Operations available to teachers
 - name: students
@@ -85,6 +85,19 @@ paths:
         409:
           description: an existing item already exists
 definitions:
+  Course:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: 1
+      name:
+        type: string
+        example: COS 397
   InventoryItem:
     type: object
     required:
