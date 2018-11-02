@@ -4,9 +4,9 @@ services: docker
 
 script:
 - docker pull dxjoke/tectonic-docker
-- docker run --mount src=$TRAVIS_BUILD_DIR/documents,target=/usr/src/tex,type=bind
-  dxjoke/tectonic-docker /bin/sh -c "tectonic --keep-intermediates --reruns 1 srs.tex"
-- docker-compose up -d
+# - docker run --mount src=$TRAVIS_BUILD_DIR/documents,target=/usr/src/tex,type=bind
+#  dxjoke/tectonic-docker /bin/sh -c "tectonic --keep-intermediates --reruns 1 srs.tex"
+- docker-compose up -d --build
   
 deploy:
   provider: releases
