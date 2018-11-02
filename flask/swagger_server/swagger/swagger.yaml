@@ -1,5 +1,5 @@
 ---
-swagger: "3.0"
+swagger: "2.0"
 info:
   description: "This is a simple API"
   version: "1.0.0"
@@ -73,6 +73,26 @@ paths:
       - "admins"
       summary: "updates the info for a specified course"
       operationId: "course_put"
+      parameters:
+      - name: "course_id"
+        in: "query"
+        description: "the ID for a course"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "success message"
+          schema:
+            type: "string"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+    delete:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "deletes a specified course"
+      operationId: "course_delete"
       produces:
       - "application/json"
       parameters:
@@ -98,7 +118,12 @@ paths:
       operationId: "new_course_post"
       produces:
       - "application/json"
-      parameters: []
+      parameters:
+      - in: "body"
+        name: "course"
+        required: false
+        schema:
+          $ref: "#/definitions/course"
       responses:
         200:
           description: "success message"
@@ -134,3 +159,12 @@ definitions:
       - "jovon.craig@maine.edu"
       name: "COS 397"
       id: "1"
+  course:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "COS 397"
+      copy:
+        type: "boolean"
+        description: "copy info from a course of the same name"

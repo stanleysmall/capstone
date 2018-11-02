@@ -12,6 +12,19 @@ from swagger_server.test import BaseTestCase
 class TestAdminsController(BaseTestCase):
     """AdminsController integration test stubs"""
 
+    def test_course_delete(self):
+        """Test case for course_delete
+
+        deletes a specified course
+        """
+        query_string = [('course_id', 56)]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/course',
+            method='DELETE',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
     def test_course_get(self):
         """Test case for course_get
 
@@ -56,9 +69,12 @@ class TestAdminsController(BaseTestCase):
 
         creates a new course
         """
+        course = Course()
         response = self.client.open(
             '/teameval/Eval/1.0.0/new_course',
-            method='POST')
+            method='POST',
+            data=json.dumps(course),
+            content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
