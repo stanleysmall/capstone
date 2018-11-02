@@ -108,7 +108,7 @@ definitions:
         example: 1
       questions:
         type: array
-        example: { question 1, question 2 }
+        example: { "question 1": null, "question 2" }
   InventoryItem:
     type: object
     required:
