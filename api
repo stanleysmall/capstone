@@ -14,7 +14,7 @@ info:
 # tags are used for organizing operations
 tags:
 - name: admins
-  description: Secured Admin-only calls
+  description: Operations available to teachers
 - name: teachers
   description: Operations available to teachers
 - name: students
@@ -24,7 +24,8 @@ paths:
   /inventory:
     get:
       tags:
-      - developers
+      - teachers
+      - admin
       summary: searches inventory
       operationId: searchInventory
       description: |
