@@ -6,3 +6,4 @@ from __future__ import absolute_import
 from swagger_server.models.course import Course
 from swagger_server.models.inventory_item import InventoryItem
 from swagger_server.models.manufacturer import Manufacturer
+from swagger_server.models.template import Template
