@@ -14,8 +14,10 @@ basePath: "/teameval/Eval/1.0.0"
 tags:
 - name: "admins"
   description: "Secured Admin-only calls"
-- name: "developers"
-  description: "Operations available to regular developers"
+- name: "teachers"
+  description: "Operations available to teachers"
+- name: "students"
+  description: "Operations available to teachers"
 schemes:
 - "https"
 paths:
