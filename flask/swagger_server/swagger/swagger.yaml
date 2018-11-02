@@ -19,6 +19,48 @@ tags:
 schemes:
 - "https"
 paths:
+  /login:
+    get:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "retrieves a token for a certain authentication key"
+      operationId: "login_get"
+      parameters:
+      - name: "key"
+        in: "query"
+        description: "an authentication key"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "the authentication token"
+          schema:
+            type: "string"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+  /create_user:
+    post:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "adds a user to the database"
+      operationId: "create_user_post"
+      parameters:
+      - name: "key"
+        in: "query"
+        description: "an authentication key"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "success message"
+          schema:
+            type: "string"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
   /courses:
     get:
       tags:
@@ -33,7 +75,7 @@ paths:
         in: "query"
         description: "the ID for a teacher/administrator"
         required: true
-        type: "integer"
+        type: "string"
       responses:
         200:
           description: "search results matching criteria"
@@ -58,7 +100,7 @@ paths:
         in: "query"
         description: "the name for a course"
         required: true
-        type: "integer"
+        type: "string"
       responses:
         200:
           description: "course info matching criteria"
@@ -78,7 +120,7 @@ paths:
         in: "query"
         description: "the name for a course"
         required: true
-        type: "integer"
+        type: "string"
       responses:
         200:
           description: "success message"
@@ -100,7 +142,7 @@ paths:
         in: "query"
         description: "the name for a course"
         required: true
-        type: "integer"
+        type: "string"
       responses:
         200:
           description: "success message"
@@ -121,14 +163,39 @@ paths:
       parameters:
       - in: "body"
         name: "course"
-        required: false
+        required: true
         schema:
-          $ref: "#/definitions/course"
+          $ref: "#/definitions/Course"
       responses:
         200:
           description: "success message"
           schema:
             type: "string"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+  /results:
+    get:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "retreives a list of survey results"
+      operationId: "results_get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "class_name"
+        in: "query"
+        description: "the name of the class with the results"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "survey results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Result"
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
@@ -159,12 +226,5 @@ definitions:
       - "jovon.craig@maine.edu"
       name: "COS 397"
       id: "1"
-  course:
+  Result:
     type: "object"
-    properties:
-      name:
-        type: "string"
-        example: "COS 397"
-      copy:
-        type: "boolean"
-        description: "copy info from a course of the same name"

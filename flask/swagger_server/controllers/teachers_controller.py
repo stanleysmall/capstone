@@ -2,6 +2,7 @@ import connexion
 import six
 
 from swagger_server.models.course import Course  # noqa: E501
+from swagger_server.models.result import Result  # noqa: E501
 from swagger_server import util
 
 
@@ -11,7 +12,7 @@ def course_delete(name):  # noqa: E501
      # noqa: E501
 
     :param name: the name for a course
-    :type name: int
+    :type name: str
 
     :rtype: str
     """
@@ -24,7 +25,7 @@ def course_get(name):  # noqa: E501
      # noqa: E501
 
     :param name: the name for a course
-    :type name: int
+    :type name: str
 
     :rtype: Course
     """
@@ -37,7 +38,7 @@ def course_put(name):  # noqa: E501
      # noqa: E501
 
     :param name: the name for a course
-    :type name: int
+    :type name: str
 
     :rtype: str
     """
@@ -50,14 +51,40 @@ def courses_get(id):  # noqa: E501
      # noqa: E501
 
     :param id: the ID for a teacher/administrator
-    :type id: int
+    :type id: str
 
     :rtype: List[Course]
     """
     return 'do some magic!'
 
 
-def new_course_post(course=None):  # noqa: E501
+def create_user_post(key):  # noqa: E501
+    """adds a user to the database
+
+     # noqa: E501
+
+    :param key: an authentication key
+    :type key: str
+
+    :rtype: str
+    """
+    return 'do some magic!'
+
+
+def login_get(key):  # noqa: E501
+    """retrieves a token for a certain authentication key
+
+     # noqa: E501
+
+    :param key: an authentication key
+    :type key: str
+
+    :rtype: str
+    """
+    return 'do some magic!'
+
+
+def new_course_post(course):  # noqa: E501
     """creates a new course
 
      # noqa: E501
@@ -69,4 +96,17 @@ def new_course_post(course=None):  # noqa: E501
     """
     if connexion.request.is_json:
         course = Course.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
+
+
+def results_get(class_name):  # noqa: E501
+    """retreives a list of survey results
+
+     # noqa: E501
+
+    :param class_name: the name of the class with the results
+    :type class_name: str
+
+    :rtype: List[Result]
+    """
     return 'do some magic!'

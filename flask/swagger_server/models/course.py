@@ -15,26 +15,31 @@ class Course(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name: str=None, copy: bool=None):  # noqa: E501
+    def __init__(self, id: str=None, name: str=None, addresses: List[str]=None):  # noqa: E501
         """Course - a model defined in Swagger
 
+        :param id: The id of this Course.  # noqa: E501
+        :type id: str
         :param name: The name of this Course.  # noqa: E501
         :type name: str
-        :param copy: The copy of this Course.  # noqa: E501
-        :type copy: bool
+        :param addresses: The addresses of this Course.  # noqa: E501
+        :type addresses: List[str]
         """
         self.swagger_types = {
+            'id': str,
             'name': str,
-            'copy': bool
+            'addresses': List[str]
         }
 
         self.attribute_map = {
+            'id': 'id',
             'name': 'name',
-            'copy': 'copy'
+            'addresses': 'addresses'
         }
 
+        self._id = id
         self._name = name
-        self._copy = copy
+        self._addresses = addresses
 
     @classmethod
     def from_dict(cls, dikt) -> 'Course':
@@ -42,10 +47,33 @@ class Course(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The course of this Course.  # noqa: E501
+        :return: The Course of this Course.  # noqa: E501
         :rtype: Course
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def id(self) -> str:
+        """Gets the id of this Course.
+
+
+        :return: The id of this Course.
+        :rtype: str
+        """
+        return self._id
+
+    @id.setter
+    def id(self, id: str):
+        """Sets the id of this Course.
+
+
+        :param id: The id of this Course.
+        :type id: str
+        """
+        if id is None:
+            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
+
+        self._id = id
 
     @property
     def name(self) -> str:
@@ -65,28 +93,28 @@ class Course(Model):
         :param name: The name of this Course.
         :type name: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
     @property
-    def copy(self) -> bool:
-        """Gets the copy of this Course.
+    def addresses(self) -> List[str]:
+        """Gets the addresses of this Course.
 
-        copy info from a course of the same name  # noqa: E501
 
-        :return: The copy of this Course.
-        :rtype: bool
+        :return: The addresses of this Course.
+        :rtype: List[str]
         """
-        return self._copy
+        return self._addresses
 
-    @copy.setter
-    def copy(self, copy: bool):
-        """Sets the copy of this Course.
+    @addresses.setter
+    def addresses(self, addresses: List[str]):
+        """Sets the addresses of this Course.
 
-        copy info from a course of the same name  # noqa: E501
 
-        :param copy: The copy of this Course.
-        :type copy: bool
+        :param addresses: The addresses of this Course.
+        :type addresses: List[str]
         """
 
-        self._copy = copy
+        self._addresses = addresses
