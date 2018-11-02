@@ -15,17 +15,17 @@ class Template(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: str=None, questions: List[ERRORUNKNOWN]=None):  # noqa: E501
+    def __init__(self, id: str=None, questions: List[object]=None):  # noqa: E501
         """Template - a model defined in Swagger
 
         :param id: The id of this Template.  # noqa: E501
         :type id: str
         :param questions: The questions of this Template.  # noqa: E501
-        :type questions: List[ERRORUNKNOWN]
+        :type questions: List[object]
         """
         self.swagger_types = {
             'id': str,
-            'questions': List[ERRORUNKNOWN]
+            'questions': List[object]
         }
 
         self.attribute_map = {
@@ -71,22 +71,22 @@ class Template(Model):
         self._id = id
 
     @property
-    def questions(self) -> List[ERRORUNKNOWN]:
+    def questions(self) -> List[object]:
         """Gets the questions of this Template.
 
 
         :return: The questions of this Template.
-        :rtype: List[ERRORUNKNOWN]
+        :rtype: List[object]
         """
         return self._questions
 
     @questions.setter
-    def questions(self, questions: List[ERRORUNKNOWN]):
+    def questions(self, questions: List[object]):
         """Sets the questions of this Template.
 
 
         :param questions: The questions of this Template.
-        :type questions: List[ERRORUNKNOWN]
+        :type questions: List[object]
         """
         if questions is None:
             raise ValueError("Invalid value for `questions`, must not be `None`")  # noqa: E501

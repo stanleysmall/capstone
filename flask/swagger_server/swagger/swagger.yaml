@@ -100,4 +100,7 @@ definitions:
         example: "1"
       questions:
         type: "array"
-        example: ""
+        example: {}
+        items:
+          type: "object"
+          properties: {}
