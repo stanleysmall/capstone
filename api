@@ -95,6 +95,8 @@ definitions:
         example: 1
       questions:
         type: array
+        items:
+          type: object
         example: { "question 1": null, "question 2": null }
 # Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com
