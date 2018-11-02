@@ -23,7 +23,7 @@ paths:
     get:
       tags:
       - teachers
-      - admin
+      - admins
       summary: searches inventory
       operationId: searchInventory
       description: |
