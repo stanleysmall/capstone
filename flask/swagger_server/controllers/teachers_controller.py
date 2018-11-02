@@ -11,7 +11,7 @@ def search_inventory(teacher_id):  # noqa: E501
     By passing in the appropriate options, you can search for available inventory in the system  # noqa: E501
 
     :param teacher_id: the ID for a teacher
-    :type teacher_id: str
+    :type teacher_id: int
 
     :rtype: List[Course]
     """

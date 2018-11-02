@@ -17,7 +17,7 @@ class TestTeachersController(BaseTestCase):
 
         retreives a list of all courses
         """
-        query_string = [('teacher_id', 'teacher_id_example')]
+        query_string = [('teacher_id', 56)]
         response = self.client.open(
             '/teameval/Eval/1.0.0/courses',
             method='GET',

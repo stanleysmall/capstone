@@ -6,33 +6,18 @@ from flask import json
 from six import BytesIO
 
 from swagger_server.models.course import Course  # noqa: E501
-from swagger_server.models.inventory_item import InventoryItem  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
 class TestAdminsController(BaseTestCase):
     """AdminsController integration test stubs"""
 
-    def test_add_inventory(self):
-        """Test case for add_inventory
-
-        adds an inventory item
-        """
-        inventoryItem = InventoryItem()
-        response = self.client.open(
-            '/teameval/Eval/1.0.0/courses',
-            method='POST',
-            data=json.dumps(inventoryItem),
-            content_type='application/json')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
     def test_search_inventory(self):
         """Test case for search_inventory
 
         retreives a list of all courses
         """
-        query_string = [('teacher_id', 'teacher_id_example')]
+        query_string = [('teacher_id', 56)]
         response = self.client.open(
             '/teameval/Eval/1.0.0/courses',
             method='GET',

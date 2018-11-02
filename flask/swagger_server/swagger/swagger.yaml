@@ -35,7 +35,7 @@ paths:
         in: "query"
         description: "the ID for a teacher"
         required: true
-        type: "int32"
+        type: "integer"
       responses:
         200:
           description: "search results matching criteria"
@@ -46,31 +46,6 @@ paths:
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
-    post:
-      tags:
-      - "admins"
-      summary: "adds an inventory item"
-      description: "Adds an item to the system"
-      operationId: "add_inventory"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "inventoryItem"
-        description: "Inventory item to add"
-        required: false
-        schema:
-          $ref: "#/definitions/InventoryItem"
-      responses:
-        201:
-          description: "item created"
-        400:
-          description: "invalid input, object invalid"
-        409:
-          description: "an existing item already exists"
-      x-swagger-router-controller: "swagger_server.controllers.admins_controller"
 definitions:
   Course:
     type: "object"
@@ -102,5 +77,9 @@ definitions:
         type: "array"
         example: {}
         items:
-          type: "object"
-          properties: {}
+          $ref: "#/definitions/Template_questions"
+  Template_questions:
+    properties:
+      id:
+        type: "integer"
+        example: 1
