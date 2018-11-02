@@ -13,18 +13,19 @@ host: "virtserver.swaggerhub.com"
 basePath: "/teameval/Eval/1.0.0"
 tags:
 - name: "admins"
-  description: "Secured Admin-only calls"
+  description: "Operations available to teachers"
 - name: "teachers"
   description: "Operations available to teachers"
 - name: "students"
-  description: "Operations available to teachers"
+  description: "Operations available to students"
 schemes:
 - "https"
 paths:
   /inventory:
     get:
       tags:
-      - "developers"
+      - "teachers"
+      - "admin"
       summary: "searches inventory"
       description: "By passing in the appropriate options, you can search for\navailable\
         \ inventory in the system\n"
@@ -61,7 +62,7 @@ paths:
               $ref: "#/definitions/InventoryItem"
         400:
           description: "bad input parameter"
-      x-swagger-router-controller: "swagger_server.controllers.developers_controller"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
     post:
       tags:
       - "admins"
