@@ -5,7 +5,7 @@ info:
   title: Project Eval API
   # put the contact info for your development or API team
   contact:
-    email: you@your-company.com
+    email: contact@your-company.com
 
   license:
     name: Apache 2.0
