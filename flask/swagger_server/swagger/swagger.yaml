@@ -23,7 +23,7 @@ paths:
     get:
       tags:
       - "teachers"
-      - "admin"
+      - "admins"
       summary: "searches inventory"
       description: "By passing in the appropriate options, you can search for\navailable\
         \ inventory in the system\n"

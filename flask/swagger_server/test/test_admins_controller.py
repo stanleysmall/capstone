@@ -26,6 +26,21 @@ class TestAdminsController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    def test_search_inventory(self):
+        """Test case for search_inventory
+
+        searches inventory
+        """
+        query_string = [('searchString', 'searchString_example'),
+                        ('skip', 1),
+                        ('limit', 50)]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/inventory',
+            method='GET',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
 
 if __name__ == '__main__':
     import unittest
