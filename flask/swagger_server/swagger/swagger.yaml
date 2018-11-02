@@ -16,8 +16,6 @@ tags:
   description: "Operations available to administrators"
 - name: "teachers"
   description: "Operations available to teachers"
-- name: "students"
-  description: "Operations available to students"
 schemes:
 - "https"
 paths:
