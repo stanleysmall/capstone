@@ -17,7 +17,7 @@ class TestTeachersController(BaseTestCase):
 
         deletes a specified course
         """
-        query_string = [('course_id', 56)]
+        query_string = [('name', 56)]
         response = self.client.open(
             '/teameval/Eval/1.0.0/course',
             method='DELETE',
@@ -30,7 +30,7 @@ class TestTeachersController(BaseTestCase):
 
         retreives the info for a specific course
         """
-        query_string = [('course_id', 56)]
+        query_string = [('name', 56)]
         response = self.client.open(
             '/teameval/Eval/1.0.0/course',
             method='GET',
@@ -43,7 +43,7 @@ class TestTeachersController(BaseTestCase):
 
         updates the info for a specified course
         """
-        query_string = [('course_id', 56)]
+        query_string = [('name', 56)]
         response = self.client.open(
             '/teameval/Eval/1.0.0/course',
             method='PUT',
@@ -56,7 +56,7 @@ class TestTeachersController(BaseTestCase):
 
         retreives a list of all courses
         """
-        query_string = [('teacher_id', 56)]
+        query_string = [('id', 56)]
         response = self.client.open(
             '/teameval/Eval/1.0.0/courses',
             method='GET',

@@ -29,9 +29,9 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "teacher_id"
+      - name: "id"
         in: "query"
-        description: "the ID for a teacher"
+        description: "the ID for a teacher/administrator"
         required: true
         type: "integer"
       responses:
@@ -54,9 +54,9 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "course_id"
+      - name: "name"
         in: "query"
-        description: "the ID for a course"
+        description: "the name for a course"
         required: true
         type: "integer"
       responses:
@@ -74,9 +74,9 @@ paths:
       summary: "updates the info for a specified course"
       operationId: "course_put"
       parameters:
-      - name: "course_id"
+      - name: "name"
         in: "query"
-        description: "the ID for a course"
+        description: "the name for a course"
         required: true
         type: "integer"
       responses:
@@ -96,9 +96,9 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "course_id"
+      - name: "name"
         in: "query"
-        description: "the ID for a course"
+        description: "the name for a course"
         required: true
         type: "integer"
       responses:
