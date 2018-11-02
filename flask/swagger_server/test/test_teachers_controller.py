@@ -12,6 +12,17 @@ from swagger_server.test import BaseTestCase
 class TestTeachersController(BaseTestCase):
     """TeachersController integration test stubs"""
 
+    def test_login_post(self):
+        """Test case for login_post
+
+        
+        """
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/login',
+            method='POST')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
     def test_search_inventory(self):
         """Test case for search_inventory
 

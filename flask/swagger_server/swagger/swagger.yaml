@@ -19,6 +19,14 @@ tags:
 schemes:
 - "https"
 paths:
+  /login:
+    post:
+      tags:
+      - "teachers"
+      - "admins"
+      operationId: "login_post"
+      parameters: []
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
   /courses:
     get:
       tags:
