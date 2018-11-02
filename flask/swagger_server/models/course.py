@@ -15,26 +15,31 @@ class Course(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: str=None, name: str=None):  # noqa: E501
+    def __init__(self, id: str=None, name: str=None, addresses: List[str]=None):  # noqa: E501
         """Course - a model defined in Swagger
 
         :param id: The id of this Course.  # noqa: E501
         :type id: str
         :param name: The name of this Course.  # noqa: E501
         :type name: str
+        :param addresses: The addresses of this Course.  # noqa: E501
+        :type addresses: List[str]
         """
         self.swagger_types = {
             'id': str,
-            'name': str
+            'name': str,
+            'addresses': List[str]
         }
 
         self.attribute_map = {
             'id': 'id',
-            'name': 'name'
+            'name': 'name',
+            'addresses': 'addresses'
         }
 
         self._id = id
         self._name = name
+        self._addresses = addresses
 
     @classmethod
     def from_dict(cls, dikt) -> 'Course':
@@ -92,3 +97,24 @@ class Course(Model):
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
+
+    @property
+    def addresses(self) -> List[str]:
+        """Gets the addresses of this Course.
+
+
+        :return: The addresses of this Course.
+        :rtype: List[str]
+        """
+        return self._addresses
+
+    @addresses.setter
+    def addresses(self, addresses: List[str]):
+        """Sets the addresses of this Course.
+
+
+        :param addresses: The addresses of this Course.
+        :type addresses: List[str]
+        """
+
+        self._addresses = addresses
