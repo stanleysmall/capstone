@@ -1,22 +1,22 @@
 version: "2.1"
 services:
-    app:
+    limesurvey:
         build: .
-        container_name: app
+        container_name: limesurvey
         ports:
             - 80:80
         volumes:
             - ./LimeSurvey:/var/www/html/
         depends_on:
-            - db
+            - limesurvey_db
         networks:
             net: 
                 ipv4_address: 10.5.0.5
-    db:
+    limesurvey_db:
         image: mysql:5.5.61
-        container_name: db
+        container_name: limesurvey_db
         ports:
-            - 3306
+            - 4306:3306
         networks:
             net: 
                 ipv4_address: 10.5.0.6
@@ -24,6 +24,19 @@ services:
             MYSQL_ROOT_PASSWORD: root
         volumes:
             - ./data:/var/lib/mysql
+    react:
+        build: ./react-app
+        container_name: react
+        environment:
+            - NODE_ENV=production
+        command: npm start
+        ports:
+            - 3000:3000
+        volumes:
+            - ./react-app:/app
+        networks:
+            net: 
+                ipv4_address: 10.5.0.7      
 networks:
     net:
         driver: bridge
