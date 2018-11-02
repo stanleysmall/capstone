@@ -7,7 +7,7 @@ info:
   contact:
     email: "contact@teachingevaluations.org"
   license:
-    name: "Apache 2.0"
+    name: "GPL 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 host: "virtserver.swaggerhub.com"
 basePath: "/teameval/Eval/1.0.0"
