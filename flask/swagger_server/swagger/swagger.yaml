@@ -19,45 +19,30 @@ tags:
 schemes:
 - "https"
 paths:
-  /inventory:
+  /courses:
     get:
       tags:
       - "teachers"
       - "admins"
-      summary: "searches inventory"
+      summary: "retreives a list of all courses"
       description: "By passing in the appropriate options, you can search for\navailable\
         \ inventory in the system\n"
       operationId: "search_inventory"
       produces:
       - "application/json"
       parameters:
-      - name: "searchString"
+      - name: "teacher_id"
         in: "query"
-        description: "pass an optional search string for looking up inventory"
-        required: false
-        type: "string"
-      - name: "skip"
-        in: "query"
-        description: "number of records to skip for pagination"
-        required: false
-        type: "integer"
-        minimum: 0
-        format: "int32"
-      - name: "limit"
-        in: "query"
-        description: "maximum number of records to return"
-        required: false
-        type: "integer"
-        maximum: 50
-        minimum: 0
-        format: "int32"
+        description: "the ID for a teacher"
+        required: true
+        type: "int32"
       responses:
         200:
           description: "search results matching criteria"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/InventoryItem"
+              $ref: "#/definitions/Course"
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
@@ -100,6 +85,9 @@ definitions:
       name:
         type: "string"
         example: "COS 397"
+    example:
+      name: "COS 397"
+      id: "1"
   Template:
     type: "object"
     required:

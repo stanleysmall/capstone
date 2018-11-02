@@ -5,7 +5,7 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
-from swagger_server.models.inventory_item import InventoryItem  # noqa: E501
+from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.test import BaseTestCase
 
 
@@ -15,13 +15,11 @@ class TestTeachersController(BaseTestCase):
     def test_search_inventory(self):
         """Test case for search_inventory
 
-        searches inventory
+        retreives a list of all courses
         """
-        query_string = [('searchString', 'searchString_example'),
-                        ('skip', 1),
-                        ('limit', 50)]
+        query_string = [('teacher_id', 'teacher_id_example')]
         response = self.client.open(
-            '/teameval/Eval/1.0.0/inventory',
+            '/teameval/Eval/1.0.0/courses',
             method='GET',
             query_string=query_string)
         self.assert200(response,
