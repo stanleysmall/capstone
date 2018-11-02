@@ -96,6 +96,19 @@ definitions:
       name:
         type: string
         example: COS 397
+  Template:
+    type: object
+    required:
+    - id
+    - questions
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: 1
+      questions:
+        type: array
+        example: { question 1, question 2, ... }
   InventoryItem:
     type: object
     required:
