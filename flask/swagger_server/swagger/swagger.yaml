@@ -75,11 +75,9 @@ definitions:
         example: "1"
       questions:
         type: "array"
-        example: {}
+        example:
+          question 1: {}
+          question 2: {}
         items:
-          $ref: "#/definitions/Template_questions"
-  Template_questions:
-    properties:
-      id:
-        type: "integer"
-        example: 1
+          type: "object"
+          properties: {}

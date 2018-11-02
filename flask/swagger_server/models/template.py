@@ -6,7 +6,6 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
-from swagger_server.models.template_questions import TemplateQuestions  # noqa: F401,E501
 from swagger_server import util
 
 
@@ -16,17 +15,17 @@ class Template(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: str=None, questions: List[TemplateQuestions]=None):  # noqa: E501
+    def __init__(self, id: str=None, questions: List[object]=None):  # noqa: E501
         """Template - a model defined in Swagger
 
         :param id: The id of this Template.  # noqa: E501
         :type id: str
         :param questions: The questions of this Template.  # noqa: E501
-        :type questions: List[TemplateQuestions]
+        :type questions: List[object]
         """
         self.swagger_types = {
             'id': str,
-            'questions': List[TemplateQuestions]
+            'questions': List[object]
         }
 
         self.attribute_map = {
@@ -72,22 +71,22 @@ class Template(Model):
         self._id = id
 
     @property
-    def questions(self) -> List[TemplateQuestions]:
+    def questions(self) -> List[object]:
         """Gets the questions of this Template.
 
 
         :return: The questions of this Template.
-        :rtype: List[TemplateQuestions]
+        :rtype: List[object]
         """
         return self._questions
 
     @questions.setter
-    def questions(self, questions: List[TemplateQuestions]):
+    def questions(self, questions: List[object]):
         """Sets the questions of this Template.
 
 
         :param questions: The questions of this Template.
-        :type questions: List[TemplateQuestions]
+        :type questions: List[object]
         """
         if questions is None:
             raise ValueError("Invalid value for `questions`, must not be `None`")  # noqa: E501
