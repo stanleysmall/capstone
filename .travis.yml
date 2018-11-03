@@ -13,7 +13,7 @@ deploy:
   api_key:
     secure: UrEPAi/IFYd986OC6KsQwDC9+oCq93r0MhbI0ki6sfCzBF6vdHK/Opg3t/bCXWCh9r5bsyyw+8zngYQleH9C8+G33PLpd78g3OKt+kRhYV2rK6ztTgiTeofSRKGUR/PPpl+7ERrdboIH6pCmBM/Z6bv60xRNBRWhBR7t/oU8DU0EMmgLKOgoQTrJVxe5Z3JpHPZPVsfcdrWXrsTlgOVFqNbOEe5rLADDsoblfqUJTcCI2ig+XPAV9JbRmDyQ7q6mDYVuSEKEqf+TzVRtO5Au2b59IQlLjWmkpHefJjpjGNxYxHoJzG3HRnBU++Noo3IKaKYzgiO3sKYRbo7HRTGD72MCmOfIuUc5/9AdkW2If9YFT9qnohl5rvoMMlx8NptVnnEHqX50bsN4E+6KLfY4sanU/z7ukkSmNkXsR48Kj6Q+t4QfpmuLe82Bp3r09mHjyAmN5PzCL4Eh50n+qL9kHV0BRcmrSA7yBXLgHYflT2vD6EHdVq7sIqB41CLOKFbzyS86zUjZ8alXO9FZKfrre2YxX4zAcqM7FCKGYA3jaBz3HPEwFKmaqrgJ5kV8ZZ0roSky7GmTSngCHGrmgLg2scs5E3W/Ln/MHcJclreywi3SSDK9Rmu2xBT5XqidcMowIPugS7Hq2jJwttIfC6XJhveUO2ZN/O1sIU9t0Ajzsew=
   file: 
-  - ./documents/srs.pdf
+  - ./documents/*.pdf
   skip_cleanup: true
   on:
     tags: true
