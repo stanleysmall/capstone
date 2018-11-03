@@ -3,9 +3,11 @@ language: generic
 services: docker
 
 script:
-- docker pull dxjoke/tectonic-docker
-- docker run --mount src=$TRAVIS_BUILD_DIR/documents,target=/usr/src/tex,type=bind 
-  dxjoke/tectonic-docker /bin/sh -c "tectonic --keep-intermediates --reruns 1 *.tex"
+- sudo apt-get install texlive-latex-extra
+- cd documents
+- pdflatex *.tex
+- pdflatex *.tex
+- cd ..
 - docker-compose up -d --build
   
 deploy:
