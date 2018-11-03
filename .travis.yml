@@ -3,11 +3,9 @@ language: generic
 services: docker
 
 script:
-- sudo apt-get install texlive-latex-extra
-- cd documents
-- pdflatex *.tex
-- pdflatex *.tex
-- cd ..
+#check if the .tex files compile
+- sudo apt-get install texlive-latex-extra && cd documents && pdflatex *.tex && pdflatex *.tex && cd ..
+#check if the docker files build
 - docker-compose up -d --build
   
 deploy:
