@@ -24,6 +24,19 @@ services:
             MYSQL_ROOT_PASSWORD: root
         volumes:
             - ./data:/var/lib/mysql
+    react:
+        build: ./react-app
+        container_name: react
+        environment:
+            - NODE_ENV=production
+        command: npm start
+        ports:
+            - 3000:3000
+        volumes:
+            - ./react-app:/app
+        networks:
+            net: 
+                ipv4_address: 10.5.0.7      
 networks:
     net:
         driver: bridge

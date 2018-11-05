@@ -31,4 +31,4 @@ The product will be completed in time to administer teacher evaluations for the 
 University of Maine, whether evaluation forms are created by instructors or administrators. A UML diagram
 below shows the scope as a dotted rectangle.
 
-![alt text](https://raw.githubusercontent.com/stansmall/capstone/master/documents/Scope.png)
+![alt text](https://raw.githubusercontent.com/stansmall/capstone/master/documents/images/scope.png)
