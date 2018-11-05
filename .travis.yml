@@ -2,6 +2,9 @@ sudo: required
 language: generic
 services: docker
 
+notifications:
+    slack: teamevalcapstone:igwjFNvSz4gkq2cb73GDwFYw
+
 script:
 #check if the .tex files compile
 - sudo apt-get install texlive-latex-extra && pdflatex documents/*.tex && pdflatex documents/*.tex
