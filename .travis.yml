@@ -7,7 +7,7 @@ notifications:
 
 script:
 #check if the .tex files compile
-- sudo apt-get install texlive-latex-extra && pdflatex documents/*.tex && pdflatex documents/*.tex
+- sudo apt-get install texlive-latex-extra && cd documents && pdflatex *.tex && pdflatex *.tex && cd ..
 #check if the docker files build
 - docker-compose up -d --build
   
