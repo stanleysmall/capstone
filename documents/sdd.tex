@@ -21,6 +21,7 @@
 \vspace{1cm}
 {\Large November 16, 2018\par}
 \vspace{.5cm}
+
 \end{titlepage}
 
 \newpage
@@ -38,12 +39,16 @@
 \section{Introduction}
 \subsection{Purpose of This Document}
 
-This system design document ??.
+This system design document gives an overview of the structure of our college course evaluation system. The first section describes the system architecture, how the components function, and how the components relate to each other. The second section covers the design of the data, detailing the database schema and the properties of the files that interact with the system. The document's third section has a table that lists the requirements fulfilled for each system component.
 
 This document is intended for the development team, the product client, Dr. Harlan Onsrud, and potential users of the system. Team EVAL needs this document to ensure that the product works as intended. Dr. Onsrud needs it to know that the program that he desires will be fully realized. The document also helps the software's users in that they can learn more about the functions and architecture of the evaluation system.
 
 \subsection{References}
 
+Craig, J., Elliott, S., Judkins, R., \& Small, S. (n.d.). System Requirements Specification (Rep.).
+\vspace{3mm}\newline
+Craig, J., Elliott, S., Judkins, R., \& Small, S. (n.d.). User Interface Design Document (Rep.).
+\vspace{3mm}\newline
 Fowler, M. (2004). UML Distilled: A Brief Guide to the Standard Object Modeling Language. Boston:
 
 Addison-Wesley.
@@ -51,12 +56,38 @@ Addison-Wesley.
 \section{System Architecture}
 \subsection{Architectural Design}
 
+The first diagram is an abstraction of the proposed system architecture. With this figure, we aim to communicate what components are in the system and the services/APIs that link the components together.
+
+COMPONENT DIAGRAM
+
+DESCRIBE TECHNOLOGY.
+
+DESCRIBE ARCHITECTURE.
+
 \subsection{Decomposition Description}
+
+The next diagram abstracts the functions and files that are expected to be in the system. This decomposition diagram communicates a more detailed view of each object and its relationships.
+
+DECOMPOSITION DIAGRAM
+
+DESCRIBE EACH COMPONENT.
 
 \section{Persistent Data Design}
 \subsection{Database Descriptions}
 
+Our database will include multiple tables that store information about a school, its classes, and its survey questions. A diagram of the database schema is shown below:
+
+SCHEMA DIAGRAM
+
+DESCRIBE SCHEMA.
+
 \subsection{File Descriptions}
+
+The system requires several files, most of which are scripts and survey data, to run as intended. A file structure diagram is given below:
+
+FILE STRUCTURE DIAGRAM
+
+DESCRIBE FILES.
 
 \section{Requirements Matrix}
 
@@ -89,7 +120,7 @@ The following table lists the components in our system that meet each functional
 
 \newpage
 \section{Agreement Between Customer and Contractor}
-This page shows that all members of Team EVAL and the client, Harlan Onsrud, have agreed on all the information in the system design document. By signing this document, Team EVAL and Dr. Onsrud agree on ??.
+This page shows that all members of Team EVAL and the client, Harlan Onsrud, have agreed on all the information in the system design document. By signing this document, Team EVAL and Dr. Onsrud agree on the system's architecture, components, relations between the components, database schema, required files, and file descriptions.
 
 The team will follow a process in the case that the deesign document is changed after we sign it. First, the team writes a rough draft of the changes to be made to the document. Second, all team members and Harlan Onsrud will sign the document agreeing to the changes. Finally, the changes are made to the final copy of the document.
 
@@ -109,7 +140,7 @@ Customer Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
 \newpage
 \section{Team Review Sign-off}
 
-This page shows that all members of Team EVAL have reviewed the system design document and agreed on its content. By signing this document, the team members agree on ??. There is nothing in the document that is a source of contention.
+This page shows that all members of Team EVAL have reviewed the system design document and agreed on its content. By signing this document, the team members agree on that all information about the system's architecture and design are accurate. There is nothing in the document that is a source of contention.
 
 \vspace{.7in}
 \noindent
