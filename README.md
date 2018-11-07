@@ -2,8 +2,8 @@
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-lightgrey.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![Build Status](https://travis-ci.com/stansmall/capstone.svg?branch=master)](https://travis-ci.com/stansmall/capstone)
 
 # Outside Docs
-Database app.sqldbm.com/SQLServer/Edit/p44622
-API      app.swaggerhub.com/apis/teameval/Eval/1.0.0
+Database https://app.sqldbm.com/SQLServer/Edit/p44622
+API      https://app.swaggerhub.com/apis/teameval/Eval/1.0.0
 
 # Purpose of the Product
 The University of Maine gives out course evaluation surveys to students at the end of each course. The
