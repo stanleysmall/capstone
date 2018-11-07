@@ -6,15 +6,30 @@ class App extends Component {
   render() {
     return (
         <div>
+            <Welcome/>
+            <CourseForm/>
+            <InstructorForm/>
+        </div>
+    );
+  }
+}
+
+class Welcome extends Component {
+    render() {
+    return (
+        <div>
             Welcome to EVAL! <br/>
             <button type="button">Start a Survey</button> <br/>
             <button type="button">Log In</button> <br/>
-        <br/>
-        <b> Next Page </b>
-        <br/>
-        <br/>
-        {/*Questions to select course attributes*/}
-      <form>
+        </div>
+    );
+  }
+}
+
+class CourseForm extends Component {
+    render() {
+    return (
+        <form>
     Course Designator (e.g. MUS)
     <input type="text" name="coursedesignator" /> <br />
     Course Number (e.g. 200)
@@ -27,11 +42,14 @@ class App extends Component {
     <input type="time" /> <br />
   <input type="submit" value="Submit" />
 </form>
-<br/>
-<b> Next Page </b>
-<br/>
-<br/>
-<form>
+    );
+  }
+}
+
+class InstructorForm extends Component {
+    render() {
+    return (
+        <form>
     How prepared was the instructor for class?
     <input type="checkbox" value="include" /> Include
     <input type="checkbox" value="mandatory" /> Mandatory <br />
@@ -42,12 +60,6 @@ class App extends Component {
     </form>
         <input type="submit" value="Submit" />
 </form>
-
-<br/>
-<b> Next Page </b>
-<br/>
-<br/>
-        </div>
     );
   }
 }
