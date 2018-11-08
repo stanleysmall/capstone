@@ -200,6 +200,28 @@ paths:
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+    post:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "edits a list of survey results"
+      operationId: "results_post"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "class_name"
+        in: "query"
+        description: "the name of the class whose results are changed"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "success message"
+          schema:
+            type: "string"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
 definitions:
   Course:
     type: "object"

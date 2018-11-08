@@ -110,3 +110,16 @@ def results_get(class_name):  # noqa: E501
     :rtype: List[Result]
     """
     return 'do some magic!'
+
+
+def results_post(class_name):  # noqa: E501
+    """edits a list of survey results
+
+     # noqa: E501
+
+    :param class_name: the name of the class whose results are changed
+    :type class_name: str
+
+    :rtype: str
+    """
+    return 'do some magic!'

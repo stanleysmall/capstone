@@ -118,6 +118,19 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    def test_results_post(self):
+        """Test case for results_post
+
+        edits a list of survey results
+        """
+        query_string = [('class_name', 'class_name_example')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/results',
+            method='POST',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
 
 if __name__ == '__main__':
     import unittest
