@@ -11,6 +11,10 @@ input[type=text], select, textarea {
     resize: vertical;
 }
 
+input[type=text]:focus {
+    border: 1px solid #555;
+}
+
 input[type=submit]:hover {
     background-color: #45a049;
 }
