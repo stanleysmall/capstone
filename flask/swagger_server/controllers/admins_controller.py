@@ -20,7 +20,7 @@ def course_delete(name):  # noqa: E501
 
 
 def course_get(name):  # noqa: E501
-    """retreives the info for a specific course
+    """retreives the info for a specified course
 
      # noqa: E501
 

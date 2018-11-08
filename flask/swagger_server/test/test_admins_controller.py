@@ -29,7 +29,7 @@ class TestAdminsController(BaseTestCase):
     def test_course_get(self):
         """Test case for course_get
 
-        retreives the info for a specific course
+        retreives the info for a specified course
         """
         query_string = [('name', 'name_example')]
         response = self.client.open(

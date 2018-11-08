@@ -92,7 +92,7 @@ paths:
       tags:
       - "teachers"
       - "admins"
-      summary: "retreives the info for a specific course"
+      summary: "retreives the info for a specified course"
       operationId: "course_get"
       produces:
       - "application/json"
@@ -251,3 +251,17 @@ definitions:
       id: "1"
   Result:
     type: "object"
+    required:
+    - "course"
+    - "question id"
+    properties:
+      course:
+        type: "string"
+        example: "COS 397"
+      question id:
+        type: "string"
+        format: "uuid"
+        example: "12"
+    example:
+      course: "COS 397"
+      question id: "12"
