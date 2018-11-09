@@ -100,7 +100,7 @@ def new_course_post(course):  # noqa: E501
 
 
 def results_get(class_name):  # noqa: E501
-    """retreives a list of survey results
+    """retreives a list of survey results for a specified course
 
      # noqa: E501
 
@@ -113,7 +113,7 @@ def results_get(class_name):  # noqa: E501
 
 
 def results_post(class_name):  # noqa: E501
-    """edits a list of survey results
+    """edits a list of survey results for a specified course
 
      # noqa: E501
 

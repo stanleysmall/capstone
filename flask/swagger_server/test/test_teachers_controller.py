@@ -108,7 +108,7 @@ class TestTeachersController(BaseTestCase):
     def test_results_get(self):
         """Test case for results_get
 
-        retreives a list of survey results
+        retreives a list of survey results for a specified course
         """
         query_string = [('class_name', 'class_name_example')]
         response = self.client.open(
@@ -121,7 +121,7 @@ class TestTeachersController(BaseTestCase):
     def test_results_post(self):
         """Test case for results_post
 
-        edits a list of survey results
+        edits a list of survey results for a specified course
         """
         query_string = [('class_name', 'class_name_example')]
         response = self.client.open(
