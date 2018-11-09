@@ -63,10 +63,11 @@ The first diagram is an abstraction of the proposed system architecture. With th
 {\includegraphics[scale=.7]{images/component_diagram.png}} 
 \end{center}
 
+LimeSurvey (version 3.15.3+181108) is running on an Apache webserver running PHP 5.6. LimeSurvey maintains a database running MySQL 5.5.61. 
 
-DESCRIBE TECHNOLOGY. - STAN 
+The system will have a front-end written in React Javascript and a back-end API written in Python using the Flask framework. The back-end will communicate with a my-sql database to store the data of our application. 
 
-DESCRIBE ARCHITECTURE. - STAN
+A single API will connect the front-end to the back-end and the back-end to LimeSurvey. A user will have no contact will LimeSurvey and will only communicate with the front-end. LimeSurvey maintains a database not touched by our code. For this reason, the database maintained by LimeSurvey is not included in Figure~\ref{fig:sequencediagram}. 
 
 \subsection{Decomposition Description}
 
