@@ -16,8 +16,41 @@ class App extends Component {
         <br />
 
         <div class="container">
-          <InstructorForm />
+          <InstructorQuestionForm />
         </div>
+		<br />
+
+        <div class="container">
+          <CourseQuestionForm />
+        </div>
+		<br />
+		
+		<div class="container">
+          <AssessmentQuestionForm />
+        </div>
+		<br />
+		
+		<div class="container">
+        <LabQuestionForm />
+        </div>
+		<br />
+		
+		
+		<div class="container">
+          <TAQuestionForm />
+        </div>
+		<br />
+		
+		<div class="container">
+          <OnlineQuestionForm />
+        </div>
+		<br />
+		
+		<div class="container">
+          <OpenEndedQuestionForm />
+        </div>
+		<br />
+		
       </form>
     );
   }
@@ -26,12 +59,14 @@ class App extends Component {
 class Welcome extends Component {
   render() {
     return (
+	<form>
       <div>
         <h1>Welcome to EVAL! </h1>
         <button type="button">Start a Survey</button> <br />
         <br />
         <button type="button">Log In</button> <br />
       </div>
+	  </form>
     );
   }
 }
@@ -40,6 +75,8 @@ class CourseForm extends Component {
   render() {
     return (
       <form>
+	  <form>
+	  <h1>Course Information </h1>
         <div class="fieldLabel">Course Designator (e.g. MUS)</div>
         <div class="fieldEntry">
           <input type="text" name="coursedesignator" placeholder="" /> <br />
@@ -72,30 +109,63 @@ class CourseForm extends Component {
 
         <div class="fieldLabel">Name of College ( e.g. Liberal Arts)</div>
         <div class="fieldEntry">
-          <input type="text" name="facultyUnit" /> <br />
+          <input type="text" name="nameOfCollece" /> <br />
         </div>
 
         <div class="fieldLabel">Name of University ( e.g. Liberal Arts)</div>
         <div class="fieldEntry">
-          <input type="text" name="facultyUnit" /> <br />
+          <input type="text" name="nameOfUniversity" /> <br />
         </div>
-
-        <div class="fieldLabel">Closing Date</div>
+		
+		<div class="fieldLabel">First and Last Name of Instructor ( e.g. Beth Smith)</div>
         <div class="fieldEntry">
-          <input type="date" /> <br />
+          <input type="text" name="instructorName" /> <br />
         </div>
 
-        <div class="fieldLabel">Time of Day</div>
+		<div class="fieldLabel">Instructor Email</div>
+        <div class="fieldEntry">
+          <input type="text" name="instructorEmail" /> <br />
+        </div>
+		<div class="fieldLabel">Instructor Phone</div>
+        <div class="fieldEntry">
+          <input type="text" name="instructorPhone" /> <br />
+        </div>
+		
+		<div class="fieldLabel">Full Name of Course Evaluation Administrator</div>
+        <div class="fieldEntry">
+          <input type="text" name="adminName" /> <br />
+        </div>
+		
+		<div class="fieldLabel">Email of Course Evaluation Administrator</div>
+        <div class="fieldEntry">
+          <input type="text" name="adminEmail" /> <br />
+        </div>
+
+		<div class="fieldLabel">Beginning Date of Assesment</div>
+        <div class="fieldEntry">
+          <input type="beginDate" /> <br />
+        </div>
+		
+        <div class="fieldLabel">Time of Day to send reminder emails</div>
         <div class="fieldEntry">
           <input type="time" /> <br />
         </div>
-
+		
+		<div class="fieldLabel">Closing Date of Assesment</div>
+        <div class="fieldEntry">
+          <input type="closingDate" /> <br />
+        </div>
+		<br /><br /><br />
+		</form>
+		<form>
+          <input type="submit" value="Submit" />
+        </form>
       </form>
     );
   }
 }
 
-class InstructorForm extends Component {
+class InstructorQuestionForm extends Component {
   render() {
     return (
       <form>
@@ -244,6 +314,20 @@ class InstructorForm extends Component {
 		*/}
         <button type="button">Add question</button> <br />
         <br />
+
+		
+		
+		
+
+      </form>
+    );
+  }
+}
+
+class CourseQuestionForm extends Component {
+	render(){
+	return(
+		<form>
 		<div>
 			<h2>The Course</h2>
 		</div>
@@ -312,6 +396,21 @@ class InstructorForm extends Component {
 		*/}
         <button type="button">Add question</button> <br />
         <br />
+		
+		<form>
+          <input type="submit" value="Submit" />
+        </form>
+		
+		</form>
+	);
+	}
+}
+
+class AssessmentQuestionForm extends Component {
+	render(){
+	return(
+		<form>
+
 		<div>
 			<h2>Assessment</h2>
 		</div>
@@ -381,216 +480,22 @@ class InstructorForm extends Component {
 		*/}
         <button type="button">Add question</button> <br />
         <br />
-		<div>
-			<h2>The Laboratory Experience</h2>
-		</div>
-		{/*
-		//
-		////
-		//Question 18
-		////
-		//
-		*/}
+		
 		<form>
-			<div class="fieldLabel">Did this course have one or more regularly scheduuled laboratory sessions?</div>
-			<input type="checkbox" value="yes" /> Yes <br />
-			<br />
-			<br />
-			<questionCheckBoxes />
+          <input type="submit" value="Submit" />
+        </form>
+		
 		</form>
-		{/*
-		//
-		////
-		//QUESTION 19
-		////
-		//
-		*/}
+	);
+	}
+}
+
+class OnlineQuestionForm extends Component {
+	render(){
+	return(
 		<form>
-          <div class="fieldLabel">How much did the laboratory experience contribute to your learning in this course></div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
-        </form>
-		{/*
-		//
-		////
-		//QUESTION 20
-		////
-		//
-		*/}
-		<form>
-          <div class="fieldLabel">What was done particularly well in the laboratory experience?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
-        </form>
-		{/*
-		//
-		////
-		//QUESTION 21
-		////
-		//
-		*/}
-		<form>
-          <div class="fieldLabel">How could the laboratory be improved?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
-        </form>
-		{/*
-			//Add question for laboratory section
-		*/}
-        <button type="button">Add question</button> <br />
-        <br />
-		<div>
-			<h2>The Teaching Assistant</h2>
-		</div>
-		{/*
-		//
-		////
-		//QUESTION 22
-		////
-		//
-		*/}
-		<form>
-          <div class="fieldLabel">Was there a teaching assistant supporting this course?</div>
-          <input type="checkbox" value="yes" /> Yes <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
-        </form>
-		{/*
-		//
-		////
-		//QUESTION 23
-		////
-		//
-		*/}
-		<form>
-          <div class="fieldLabel">If there was more than one teaching assistant for the course, please name the TA you are evaluating.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
-        </form>
-		{/*
-		//
-		////
-		//QUESTION 24
-		////
-		//
-		*/}
-		<form>
-          <div class="fieldLabel">How much did the teaching assistant contribute to your learning in this course?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
-        </form>
-		{/*
-		//
-		////
-		//QUESTION 25
-		////
-		//
-		*/}
-		<form>
-          <div class="fieldLabel">How concerned was the teaching assistant for the quality of student learning?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
-        </form>
-		{/*
-		//
-		////
-		//QUESTION 26
-		////
-		//
-		*/}
-		<form>
-          <div class="fieldLabel">Did the teaching asssistant show respect for the questions and opinions of students?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
-        </form>
-		{/*
-		//
-		////
-		//QUESTION 27
-		////
-		//
-		*/}
-		<form>
-          <div class="fieldLabel">Would you want to have this teaching assistant in the future in another course?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
-        </form>
-		{/*
-		//
-		////
-		//QUESTION 28
-		////
-		//
-		*/}
-		<form>
-          <div class="fieldLabel">Would you recommend this teaching assistant to assist in this course in the future?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
-        </form>
-		{/*
-		//
-		////
-		//QUESTION 29
-		////
-		//
-		*/}
-		<form>
-          <div class="fieldLabel">Name something the teaching assistant did particularly well.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
-        </form>
-		{/*
-		//
-		////
-		//QUESTION 30
-		////
-		//
-		*/}
-		<form>
-          <div class="fieldLabel">Name something the teaching assistant could do better in the future.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
-        </form>
-		{/*
-			//Add question for teaching assistant section
-		*/}
-        <button type="button">Add question</button> <br />
-        <br />
-		<div>
+
+				<div>
 			<h2>Online Component Assessment</h2>
 		</div>
 		{/*
@@ -795,6 +700,21 @@ class InstructorForm extends Component {
 		*/}
         <button type="button">Add question</button> <br />
         <br />
+		
+		<form>
+          <input type="submit" value="Submit" />
+        </form>
+		
+		</form>
+	);
+	}
+}
+
+class OpenEndedQuestionForm extends Component {
+	render(){
+	return(
+		<form>
+
 		<div>
 			<h2>Open Ended Questions</h2>
 		</div>
@@ -845,18 +765,264 @@ class InstructorForm extends Component {
 		  <br />
           <questionCheckBoxes />
         </form>
+
 		{/*
 			//Add question for open ended section
 		*/}
         <button type="button">Add question</button> <br />
         <br />
+		
 		<form>
           <input type="submit" value="Submit" />
         </form>
-      </form>
-    );
-  }
+		
+		</form>
+	);
+	}
 }
+
+
+class TAQuestionForm extends Component {
+	render(){
+	return(
+		<form>
+
+		<div>
+			<h2>The Teaching Assistant</h2>
+		</div>
+		{/*
+		//
+		////
+		//QUESTION 22
+		////
+		//
+		*/}
+		<form>
+          <div class="fieldLabel">Was there a teaching assistant supporting this course?</div>
+          <input type="checkbox" value="yes" /> Yes <br />
+          <br />
+          <br />
+          <questionCheckBoxes />
+        </form>
+		{/*
+		//
+		////
+		//QUESTION 23
+		////
+		//
+		*/}
+		<form>
+          <div class="fieldLabel">If there was more than one teaching assistant for the course, please name the TA you are evaluating.</div>
+          <input type="checkbox" value="include" /> Include
+          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <br />
+          <br />
+          <questionCheckBoxes />
+        </form>
+		{/*
+		//
+		////
+		//QUESTION 24
+		////
+		//
+		*/}
+		<form>
+          <div class="fieldLabel">How much did the teaching assistant contribute to your learning in this course?</div>
+          <input type="checkbox" value="include" /> Include
+          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <br />
+          <br />
+          <questionCheckBoxes />
+        </form>
+		{/*
+		//
+		////
+		//QUESTION 25
+		////
+		//
+		*/}
+		<form>
+          <div class="fieldLabel">How concerned was the teaching assistant for the quality of student learning?</div>
+          <input type="checkbox" value="include" /> Include
+          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <br />
+          <br />
+          <questionCheckBoxes />
+        </form>
+		{/*
+		//
+		////
+		//QUESTION 26
+		////
+		//
+		*/}
+		<form>
+          <div class="fieldLabel">Did the teaching asssistant show respect for the questions and opinions of students?</div>
+          <input type="checkbox" value="include" /> Include
+          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <br />
+          <br />
+          <questionCheckBoxes />
+        </form>
+		{/*
+		//
+		////
+		//QUESTION 27
+		////
+		//
+		*/}
+		<form>
+          <div class="fieldLabel">Would you want to have this teaching assistant in the future in another course?</div>
+          <input type="checkbox" value="include" /> Include
+          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <br />
+          <br />
+          <questionCheckBoxes />
+        </form>
+		{/*
+		//
+		////
+		//QUESTION 28
+		////
+		//
+		*/}
+		<form>
+          <div class="fieldLabel">Would you recommend this teaching assistant to assist in this course in the future?</div>
+          <input type="checkbox" value="include" /> Include
+          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <br />
+          <br />
+          <questionCheckBoxes />
+        </form>
+		{/*
+		//
+		////
+		//QUESTION 29
+		////
+		//
+		*/}
+		<form>
+          <div class="fieldLabel">Name something the teaching assistant did particularly well.</div>
+          <input type="checkbox" value="include" /> Include
+          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <br />
+          <br />
+          <questionCheckBoxes />
+        </form>
+		{/*
+		//
+		////
+		//QUESTION 30
+		////
+		//
+		*/}
+		<form>
+          <div class="fieldLabel">Name something the teaching assistant could do better in the future.</div>
+          <input type="checkbox" value="include" /> Include
+          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <br />
+          <br />
+          <questionCheckBoxes />
+        </form>
+		{/*
+			//Add question for teaching assistant section
+		*/}
+		<form>
+        <button type="button">Add question</button> <br />
+        <br />
+
+          <input type="submit" value="Submit" />
+		  </form>
+		
+		</form>
+	);
+	}
+}
+
+
+class LabQuestionForm extends Component {
+	render(){
+	return(
+		<form>
+<div>
+			<h2>The Laboratory Experience</h2>
+		</div>
+		{/*
+		//
+		////
+		//Question 18
+		////
+		//
+		*/}
+		<form>
+			<div class="fieldLabel">Did this course have one or more regularly scheduuled laboratory sessions?</div>
+			<input type="checkbox" value="yes" /> Yes <br />
+			<br />
+			<br />
+			<questionCheckBoxes />
+		</form>
+		{/*
+		//
+		////
+		//QUESTION 19
+		////
+		//
+		*/}
+		<form>
+          <div class="fieldLabel">How much did the laboratory experience contribute to your learning in this course></div>
+          <input type="checkbox" value="include" /> Include
+          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <br />
+          <br />
+          <questionCheckBoxes />
+        </form>
+		{/*
+		//
+		////
+		//QUESTION 20
+		////
+		//
+		*/}
+		<form>
+          <div class="fieldLabel">What was done particularly well in the laboratory experience?</div>
+          <input type="checkbox" value="include" /> Include
+          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <br />
+          <br />
+          <questionCheckBoxes />
+        </form>
+		{/*
+		//
+		////
+		//QUESTION 21
+		////
+		//
+		*/}
+		<form>
+          <div class="fieldLabel">How could the laboratory be improved?</div>
+          <input type="checkbox" value="include" /> Include
+          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <br />
+          <br />
+          <questionCheckBoxes />
+        </form>
+		{/*
+			//Add question for laboratory section
+		*/}
+		<form>
+        <button type="button">Add question</button> <br />
+        <br />
+
+          <input type="submit" value="Submit" />
+		  </form>
+		
+		</form>
+	);
+	}
+}	
+
+
+
 
 class questionCheckBoxes extends Component {
   render() {
