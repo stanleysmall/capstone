@@ -143,7 +143,7 @@ class CourseForm extends Component {
 
 		<div class="fieldLabel">Beginning Date of Assesment</div>
         <div class="fieldEntry">
-          <input type="beginDate" /> <br />
+          <input type="date" name ="beginDate" /> <br />
         </div>
 		
         <div class="fieldLabel">Time of Day to send reminder emails</div>
@@ -153,7 +153,7 @@ class CourseForm extends Component {
 		
 		<div class="fieldLabel">Closing Date of Assesment</div>
         <div class="fieldEntry">
-          <input type="closingDate" /> <br />
+          <input type="date" name = "closingDate" /> <br />
         </div>
 		<br /><br /><br />
 		</form>
