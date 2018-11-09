@@ -11,7 +11,7 @@
 \vspace*{2cm}
 {\Huge System Design Document\par}
 \vspace{1cm}
-{\LARGE College Course Evaluation System\par}
+{\LARGE Course Evaluation System\par}
 \vspace{1cm}
 {\Large Client: Dr. Harlan Onsrud\par}
 \vspace{1cm}
@@ -27,7 +27,7 @@
 \newpage
 
 \begin{center}
-{\includegraphics[scale=.3]{images/team_logo.png}} \\ 	\bigskip
+{\includegraphics[scale=.2]{images/team_logo.png}} \\ 	\bigskip
 {\LARGE College Course Evaluation System } \\ \medskip
 {\large System Design Document } \\ \medskip
 \end{center}
@@ -39,7 +39,7 @@
 \section{Introduction}
 \subsection{Purpose of This Document}
 
-This system design document gives an overview of the structure of our college course evaluation system. The first section describes the system architecture, how the components function, and how the components relate to each other. The second section covers the design of the data, detailing the database schema and the properties of the files that interact with the system. The document's third section has a table that lists the requirements fulfilled for each system component.
+This system design document gives an overview of the structure of our course evaluation system. The first section describes the system architecture, how the components function, and how the components relate to each other. The second section covers the design of the data, detailing the database schema and the properties of the files that are used by the system. The document's third section has a table that lists the components that fulfill each functional requirement.
 
 This document is intended for the development team, the product client, Dr. Harlan Onsrud, and potential users of the system. Team EVAL needs this document to ensure that the product works as intended. Dr. Onsrud needs it to know that the program that he desires will be fully realized. The document also helps the software's users in that they can learn more about the functions and architecture of the evaluation system.
 
@@ -56,8 +56,10 @@ Addison-Wesley.
 \section{System Architecture}
 \subsection{Architectural Design}
 
-The first diagram is an abstraction of the proposed system architecture. With this figure, we aim to communicate what components are in the system and the services/APIs that link the components together.
+The first diagram is an abstraction of the proposed system architecture. With this figure, we aim to communicate what components are in the system and the API that links the components together.
+
 \begin{center}
+\captionof{figure}{}
 {\includegraphics[scale=.7]{images/component_diagram.png}} 
 \end{center}
 
@@ -68,40 +70,44 @@ DESCRIBE ARCHITECTURE. - STAN
 
 \subsection{Decomposition Description}
 
-The next diagram abstracts the functions and files that are expected to be in the system. This decomposition diagram communicates a more detailed view of each object and its relationships.
+The next diagram abstracts the major functions that are expected to be in the system. This sequence diagram illustrates a typical session and is meant to communicate a more detailed view of the components and their relationships. The ``Database'' refers to the back-end database.
 
-DECOMPOSITION DIAGRAM
 \begin{center}
-{\includegraphics[scale=.5]{images/sequence_diagram.png}} 
+\captionof{figure}{}
+{\includegraphics[scale=.7]{images/sequence_diagram.png}} 
 \end{center}
 
+To begin using the course evaluation system, the instructor must first log in with a username and password (``log in''). The API retrieves the user's token from the database to confirm that the password is correct (``get token'', ``authenticate''). Next, the instructor creates an evaluation form to send to students (``create form''). The API adds an empty course to the database (``add form'', ``post new course''). The instructor then edits the survey with the appropriate info and saves the form (``edit form'', ``save form''). Upon saving, the API updates the database with the entered information (``update form'', ``put course'').
 
-DESCRIBE EACH COMPONENT.
+With an evaluation form completed, the instructor can then publish it online (``publish survey''). The API retrieves the course information from the database to translate the survey form into a tab-separated .txt file (``get course'', ``translate to txt''). It then sends the .txt file to LimeSurvey and tells the survey software to message the students through e-mail (``export form'', ``message students''). The API retrieves the students' responses, translates them from another tab-separated .txt file, and stores them into the database (``translate from txt'', ``post results''). Finally, the instructor can view the survey results, with the help of the API getting the results from the database and finding their averages (``retrieve results'', ``get results'', ``compute averages'').
 
 \newpage
 
 \section{Persistent Data Design}
 \subsection{Database Descriptions}
 
-Our database will include multiple tables that store information about a school, its classes, and its survey questions. A diagram of the database schema is shown below:
+Our database will include tables that store information about courses, survey questions, and survey responses. A diagram of the database schema is shown below:
 
 \begin{center}
 \captionof{figure}{}
 {\includegraphics[scale=.5]{images/schema_diagram.png}} 
 \end{center}
-The database contains 4 main tables and two relationship tables. The \textbf{Surveys} table contains the survey id along with the survey url (the same as in LimeSurvey) and an associated instructor id. The \textbf{Instructors} table contains the name of the instructor along with an authentication token generated by Google OAuth. The \textbf{Tags} table contains tags asssociated with one or more survey. These tags are used to categorize and search surveys. Finally, the \textbf{Questions} table contains all questions to be entered into the surveys, along with help-text and the type of question. 
+
+The database contains six object tables and two relationship tables. The \textbf{Survey} table contains survey IDs, the surveys' URLs (generated by LimeSurvey) and associated instructor IDs. The e-mail addresses to send the surveys to are stored in the \textbf{E-mail} table. The \textbf{Instructor} table contains the names of the instructors along with authentication tokens generated by Google OAuth. The \textbf{Tag} table contains additional information (e.g. course names) about the surveys. These tags are used to categorize and search surveys. The \textbf{Question} table contains all questions to be entered into the surveys, along with help text and the type of question. The \textbf{Response} table includes students' responses to certain questions. The relationship tables, \textbf{Survey-to-Question} and \textbf{Survey-to-Tag}, link the surveys to their appropriate questions and tags.
 
 \subsection{File Descriptions}
 
-The system requires several files, most of which are scripts and survey data, to run as intended. A file structure diagram is given below:
+The system requires several pieces of data, including database files, front-end markup, and LimeSurvey files, to run as intended. A file structure diagram is given below:
 
 FILE STRUCTURE DIAGRAM - STAN
 
-DESCRIBE FILES. - STAN
+Files are stored in the back-end database to keep track of all course information, survey forms, and survey responses that users have input. The schema above shows how the files' data is to be organized. To reduce the risk of a breach, any data present in the database for 60 days gets removed by the system. There are also mark-up files, which specify the look and feel of the front end. These are static and permanent, and thus do not require maintenance.
+
+Lastly, the system briefly stores LimeSurvey files in the form of tab-separated text documents. They either contain survey form data or student responses. The form data files are deleted immediately after they are sent to students, and the response data files are deleted immediately after they are stored in the database.
 
 \section{Requirements Matrix}
 
-The following table lists the components in our system that meet each functional requirement given in the system requirements specification:
+The following table lists the functions in our system, as shown in the sequence diagram, that meet each functional requirement given in the system requirements specification:
 
 \begin{center}
 \captionof{table}{}
@@ -109,19 +115,19 @@ The following table lists the components in our system that meet each functional
 \hline
 \textbf{Use Case Number} & \textbf{Use Case Name} & \textbf{System Component(s)} \\
 \hline
-1 & Log on to system & \\ 
+1 & Log on to system & log in, get token\\ 
 \hline
-2 & Create course & \\ 
+2 & Create course & create form, add form, post new course\\ 
 \hline
-3 & Select course & \\ 
+3 & Edit course info & edit form\\ 
 \hline
-4 & Edit course info & \\ 
+4 & Save course info & save form, update form, put course\\ 
 \hline
-5 & Publish survey & \\ 
+5 & Publish survey & publish survey, get course, translate to txt\\ 
 \hline
-6 & Notify students & \\ 
+6 & Notify students & export form, message students\\ 
 \hline
-7 & View survey results & \\ 
+7 & View survey results & view results, retrieve results, get results, compute averages\\ 
 \hline
 \end{tabular}
 \end{center}
