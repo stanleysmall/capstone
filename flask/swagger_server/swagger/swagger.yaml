@@ -1,0 +1,267 @@
+---
+swagger: "2.0"
+info:
+  description: "This is an API used for connecting the front end to the backend of\
+    \ our software."
+  version: "1.0.0"
+  title: "Project Eval API"
+  contact:
+    email: "contact@teachingevaluations.org"
+  license:
+    name: "GPL 2.0"
+    url: "https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html"
+host: "virtserver.swaggerhub.com"
+basePath: "/teameval/Eval/1.0.0"
+tags:
+- name: "admins"
+  description: "Operations available to administrators"
+- name: "teachers"
+  description: "Operations available to teachers"
+schemes:
+- "https"
+paths:
+  /login:
+    get:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "retrieves a token for a certain authentication key"
+      operationId: "login_get"
+      parameters:
+      - name: "key"
+        in: "query"
+        description: "an authentication key"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "the authentication token"
+          schema:
+            type: "string"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+  /create_user:
+    post:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "adds a user to the database"
+      operationId: "create_user_post"
+      parameters:
+      - name: "key"
+        in: "query"
+        description: "an authentication key"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "success message"
+          schema:
+            type: "string"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+  /courses:
+    get:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "retreives a list of all courses"
+      operationId: "courses_get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "query"
+        description: "the ID for a teacher/administrator"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "search results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Course"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+  /course:
+    get:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "retreives the info for a specified course"
+      operationId: "course_get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "query"
+        description: "the name for a course"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "course info matching criteria"
+          schema:
+            $ref: "#/definitions/Course"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+    put:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "updates the info for a specified course"
+      operationId: "course_put"
+      parameters:
+      - name: "name"
+        in: "query"
+        description: "the name for a course"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "success message"
+          schema:
+            type: "string"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+    delete:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "deletes a specified course"
+      operationId: "course_delete"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "query"
+        description: "the name for a course"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "success message"
+          schema:
+            type: "string"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+  /new_course:
+    post:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "creates a new course"
+      operationId: "new_course_post"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "course"
+        required: true
+        schema:
+          $ref: "#/definitions/Course"
+      responses:
+        200:
+          description: "success message"
+          schema:
+            type: "string"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+  /results:
+    get:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "retreives a list of survey results for a specified course"
+      operationId: "results_get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "class_name"
+        in: "query"
+        description: "the name of the class with the results"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "survey results matching criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Result"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+    post:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "edits a list of survey results for a specified course"
+      operationId: "results_post"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "class_name"
+        in: "query"
+        description: "the name of the class whose results are changed"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "success message"
+          schema:
+            type: "string"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+definitions:
+  Course:
+    type: "object"
+    required:
+    - "id"
+    - "name"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        example: "1"
+      name:
+        type: "string"
+        example: "COS 397"
+      addresses:
+        type: "array"
+        example:
+        - "stanley.small@maine.edu"
+        - "jovon.craig@maine.edu"
+        items:
+          type: "string"
+    example:
+      addresses:
+      - "stanley.small@maine.edu"
+      - "jovon.craig@maine.edu"
+      name: "COS 397"
+      id: "1"
+  Result:
+    type: "object"
+    required:
+    - "course"
+    - "question id"
+    properties:
+      course:
+        type: "string"
+        example: "COS 397"
+      question id:
+        type: "string"
+        format: "uuid"
+        example: "12"
+    example:
+      course: "COS 397"
+      question id: "12"
