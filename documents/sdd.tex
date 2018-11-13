@@ -64,11 +64,13 @@ The first diagram is an abstraction of the proposed system architecture. With th
 {\includegraphics[scale=.7]{images/component_diagram.png}} 
 \end{center}
 
-LimeSurvey (version 3.15.3+181108) is running on an Apache webserver running PHP 5.6. LimeSurvey maintains a database running MySQL 5.5.61. 
+\vspace{3mm}
 
-The system will have a front-end written in React Javascript and a back-end API written in Python using the Flask framework. The back-end will communicate with a my-sql database to store the data of our application. 
+LimeSurvey (version 3.15.3+181108) is running on an Apache web server that uses PHP 5.6. LimeSurvey maintains a database that runs MySQL 5.5.61. The team will use Amazon Web Services to host the evaluation system on the Web.
 
-A single API will connect the front-end to the back-end and the back-end to LimeSurvey. A user will have no contact will LimeSurvey and will only communicate with the front-end. LimeSurvey maintains a database not touched by our code. For this reason, the database maintained by LimeSurvey is not included in Figure~\ref{fig:sequencediagram}. 
+The system consists of three main components, all connected with an API. The first component is the front end, which handles the user interface, and displays the visuals and back-end data. It will be written in Javascript and use the React library. The back end communicates with a MySQL database, which collects survey templates and responses. It will be written in Python, and its endpoints will use the Flask library.
+
+A single API will connect the front end to the back end and the back end to LimeSurvey. A REST interface connects the front end to the back end using endpoints. Separate functions will utilize the LimeSurvey API so that the back end can access the LimeSurvey database, which our system's code will not touch. A user will have no contact will LimeSurvey and will only communicate with the front end. Because it will not be modified, the database maintained by LimeSurvey is not included in Figure~\ref{fig:sequencediagram}. 
 
 \subsection{Decomposition Description}
 
@@ -77,7 +79,7 @@ The next diagram abstracts the major functions that are expected to be in the sy
 \begin{center}
 \captionof{figure}{}
 \label{fig:sequencediagram}
-{\includegraphics[scale=.6]{images/sequence_diagram.png}} 
+{\includegraphics[scale=.62]{images/sequence_diagram.png}} 
 \end{center}
 
 To begin using the course evaluation system, the instructor must first log in with a username and password (``log in''). The API retrieves the user's token from the database to confirm that the password is correct (``get token'', ``authenticate''). Next, the instructor creates an evaluation form to send to students (``create form''). The API adds an empty course to the database (``add form'', ``post new course''). The instructor then edits the survey with the appropriate info and saves the form (``edit form'', ``save form''). Upon saving, the API updates the database with the entered information (``update form'', ``put course'').
@@ -182,11 +184,11 @@ Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
 \newpage
 \section{Document Contributions}
 
-Stanley Small ??. Stan contributed approximately ?? percent of the document.
+Stanley Small converted the system design document template to LaTeX for our own document and included a template of the appendices. He wrote a draft of the title page, architectural design section, and database description. He also added the component diagram and helped with the database schema. Stan contributed approximately ?? percent of the document.
 
-Jovon Craig ??. Jovon contributed about ?? percent of the document.
+Jovon Craig wrote the purpose of the document, references, decomposition description, file descriptions, and requirements matrix. He made revisions to the title page, architectural design section, and database description. He also added the sequence diagram and made a draft of the database schema. Jovon contributed about 40 percent of the document.
 
-Sam Elliott ??. Sam contributed about ?? percent of the document.
+Sam Elliott helped revise the database schema. He also ??. Sam contributed about ?? percent of the document.
 
 Robert Judkins ??. Robert contributed about ?? percent of the document.
 
