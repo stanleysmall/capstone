@@ -77,14 +77,12 @@ The next diagram abstracts the major functions that are expected to be in the sy
 \begin{center}
 \captionof{figure}{}
 \label{fig:sequencediagram}
-{\includegraphics[scale=.7]{images/sequence_diagram.png}} 
+{\includegraphics[scale=.6]{images/sequence_diagram.png}} 
 \end{center}
 
 To begin using the course evaluation system, the instructor must first log in with a username and password (``log in''). The API retrieves the user's token from the database to confirm that the password is correct (``get token'', ``authenticate''). Next, the instructor creates an evaluation form to send to students (``create form''). The API adds an empty course to the database (``add form'', ``post new course''). The instructor then edits the survey with the appropriate info and saves the form (``edit form'', ``save form''). Upon saving, the API updates the database with the entered information (``update form'', ``put course'').
 
 With an evaluation form completed, the instructor can then publish it online (``publish survey''). The API retrieves the course information from the database to translate the survey form into a tab-separated .txt file (``get course'', ``translate to txt''). It then sends the .txt file to LimeSurvey and tells the survey software to message the students through e-mail (``export form'', ``message students''). The API retrieves the students' responses, translates them from another tab-separated .txt file, and stores them into the database (``translate from txt'', ``post results''). Finally, the instructor can view the survey results, with the help of the API getting the results from the database and finding their averages (``retrieve results'', ``get results'', ``compute averages'').
-
-\newpage
 
 \section{Persistent Data Design}
 \subsection{Database Descriptions}
