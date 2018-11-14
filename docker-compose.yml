@@ -10,7 +10,7 @@ services:
         depends_on:
             - limesurvey_db
         networks:
-            net:
+            net: 
                 ipv4_address: 10.5.0.5
     limesurvey_db:
         image: mysql:5.5.61
@@ -18,7 +18,7 @@ services:
         ports:
             - 4306:3306
         networks:
-            net:
+            net: 
                 ipv4_address: 10.5.0.6
         environment:
             MYSQL_ROOT_PASSWORD: root
@@ -35,7 +35,7 @@ services:
         volumes:
             - ./react-app:/app
         networks:
-            net:
+            net: 
                 ipv4_address: 10.5.0.7
     flask:
         build:
@@ -43,23 +43,9 @@ services:
         container_name: flask
         ports:
             - 8080:8080
-        depends_on:
-            - database
         networks:
-            net:
+            net: 
                 ipv4_address: 10.5.0.8
-    database:
-        image: mysql:latest
-        container_name: database
-        ports:
-            - 3306:3306
-        networks:
-            net:
-                ipv4_address: 10.5.0.9
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-        volumes:
-            - ./appData:/var/lib/mysql
 networks:
     net:
         driver: bridge
