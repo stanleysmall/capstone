@@ -51,6 +51,16 @@ class App extends Component {
         </div>
 		<br />
 		
+		<div class="container">
+			<EnrollForm />
+		</div>
+		<br />
+		
+		<div class="container">
+			<InviteEmailForm />
+		</div>
+		<br />
+		
       </form>
     );
   }
@@ -141,7 +151,7 @@ class CourseForm extends Component {
           <input type="text" name="adminEmail" /> <br />
         </div>
 
-		<div class="fieldLabel">Beginning Date of Assesment</div>
+		<div class="fieldLabel">Beginning Date of Assessments</div>
         <div class="fieldEntry">
           <input type="date" name ="beginDate" /> <br />
         </div>
@@ -151,7 +161,7 @@ class CourseForm extends Component {
           <input type="time" /> <br />
         </div>
 		
-		<div class="fieldLabel">Closing Date of Assesment</div>
+		<div class="fieldLabel">Closing Date of Assessments</div>
         <div class="fieldEntry">
           <input type="date" name = "closingDate" /> <br />
         </div>
@@ -741,7 +751,7 @@ class OpenEndedQuestionForm extends Component {
 		//
 		*/}
 		<form>
-          <div class="fieldLabel">Please mention at least one additional topic or component that youu would like to see included in this course.</div>
+          <div class="fieldLabel">Please mention at least one additional topic or component that you would like to see included in this course.</div>
           <input type="checkbox" value="include" /> Include
           <input type="checkbox" value="mandatory" /> Mandatory <br />
           <br />
@@ -1036,6 +1046,66 @@ class questionCheckBoxes extends Component {
       </form>
     );
   }
+}
+
+class EnrollForm extends Component {
+	render(){
+		return(
+			<form>
+				<div>
+				<h2>Class Roll</h2>
+				</div>
+				<div>Please insert in the field below the first name, last name, and email of each student in the class. <br />
+										The information for each student should appear in a separate row and be separated by commas. (e.g Mary, Smith, marysmith@qmail.com) <br />
+										You may cut and paste into the window at your option.</div>
+				<br />
+				<div class="fieldEntry">
+					<input type="text" name="question" />
+					</div>
+					<br />
+			</form>
+		);
+	}
+}
+
+class InviteEmailForm extends Component {
+	render(){
+		return(
+			<form>
+				<div>
+				<h2>Emails to be sent to students</h2>
+				<h3>Initial Email invitation to Participate</h3>
+				</div>
+				<div>Although we recommend that you do not change the following email text, you may edit the Invitation to Participate as <br />
+					appropriate for your purposes if needed. Do NOT change any item listed as (VARIABLE) because this will cause an <br />
+					error in your submission that you will be forced to correct prior to successful submission. <br />
+					This email will be sent to each student on the begin date you specified above.
+				</div>
+				<br />
+				<div class="fieldEntry">
+					<input type="text" name="question"/>
+					Subject: Invitation to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE) <br /> <br />
+
+					Dear (FIRSTNAME), <br /><br />
+
+					Please complete the teaching and course evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE). <br />
+
+					This student evaluation of teaching is completely anonymous unless you purposefully identify yourself in response to one of the questions. <br />The software system will send you automatic reminders every few days until you complete the evaluation. <br />
+					<br />
+					To respond, simply click the link at the end of this message. <br /><br />
+
+					Sincerely, <br />
+					(ADMINNAME) <br />
+					----------------------------------------------<br />
+					Click here to complete the teaching and course evaluation: <br />
+					(SURVEYURL) <br /> <br />
+
+					(ADMINNAME) ((ADMINEMAIL) <br />  
+				</div>
+				<br /> <br />
+				</form>
+		);
+}
 }
 
 export default App;
