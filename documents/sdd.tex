@@ -112,7 +112,7 @@ Our database will include tables that store information about courses, survey qu
 \begin{center}
 \captionof{figure}{Schema diagram of the back-end database}
 \label{fig:schemadiagram}
-{\includegraphics[scale=.6]{images/file_structure_diagram.png}} 
+{\includegraphics[scale=.6]{images/schema_diagram.png}} 
 \end{center}
 
 \vspace{5mm}
@@ -126,8 +126,10 @@ The system requires several pieces of data, including database files, front-end 
 \begin{center}
 \captionof{figure}{Diagram of the files used by the system}
 \label{fig:filediagram}
-{\includegraphics[scale=.6]{images/schema_diagram.png}} 
+{\includegraphics[scale=.6]{images/file_structure_diagram.png}} 
 \end{center}
+
+\vspace{3mm}
 
 The back-end database has a file to keep track of all course information, survey forms, and survey responses that users have input. The schema in the previous section shows the fields and types in that file. To reduce the risk of a breach, any survey results in the database get removed by the system after 60 days. There are also mark-up files, which specify the look and feel of the front end. These are static and permanent, and thus do not require maintenance.
 
