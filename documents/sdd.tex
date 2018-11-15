@@ -65,11 +65,19 @@ Figure 1 is an abstraction of the proposed system architecture. With this figure
 
 \begin{center}
 \captionof{figure}{Component diagram of the system}
+\vspace{1mm}
 \label{fig:componentdiagram}
 {\includegraphics[scale=.7]{images/component_diagram.png}} 
 \end{center}
 
 \vspace{3mm}
+
+Figure 2 is a technology architecture diagram that shows the languages and frameworks that the team will use to make the system.
+
+\begin{center}
+\captionof{figure}{Technology diagram of the system}
+\label{fig:technologydiagram}
+\end{center}
 
 LimeSurvey (version 3.15.3+181108) is running on an Apache web server that uses PHP 5.6. This survey software maintains a database that runs MySQL 5.5.61. The team will use Amazon Web Services to host the evaluation system on the Web.
 
@@ -79,13 +87,17 @@ A single API will connect the front end to the back end and the back end to Lime
 
 \subsection{Decomposition Description}
 
-Figure 2 abstracts the major functions that are expected to be in the system. This sequence diagram illustrates a typical session and is meant to communicate a more detailed view of the components and their relationships. The ``Database'' refers to the back-end database.
+Figure 3 abstracts the major functions that are expected to be in the system. This sequence diagram illustrates a typical session and is meant to communicate a more detailed view of the components and their relationships. The ``Database'' refers to the back-end database.
+
+\newpage
 
 \begin{center}
 \captionof{figure}{Sequence diagram of an example session}
 \label{fig:sequencediagram}
-{\includegraphics[scale=.61]{images/sequence_diagram.png}} 
+{\includegraphics[scale=.77]{images/sequence_diagram.png}}
 \end{center}
+
+\newpage
 
 To begin using the course evaluation system, the instructor must first log in with a username and password (``log in''). The API retrieves the user's token from the database to confirm that the password is correct (``get token'', ``authenticate''). Next, the instructor creates an evaluation form to send to students (``create form''). The API adds an empty course to the database (``add form'', ``post new course''). The instructor then edits the survey with the appropriate info and saves the form (``edit form'', ``save form''). Upon saving, the API updates the database with the entered information (``update form'', ``put course'').
 
@@ -110,7 +122,10 @@ The database contains six object tables and two relationship tables. The \textbf
 
 The system requires several pieces of data, including database files, front-end markup, and LimeSurvey files, to run as intended. A file structure diagram is given below:
 
-FILE STRUCTURE DIAGRAM - STAN
+\begin{center}
+\captionof{figure}{Diagram of the files used by the system}
+\label{fig:filediagram}
+\end{center}
 
 The back-end database has a file to keep track of all course information, survey forms, and survey responses that users have input. The schema in the previous section shows the fields and types in that file. To reduce the risk of a breach, any survey results in the database get removed by the system after 60 days. There are also mark-up files, which specify the look and feel of the front end. These are static and permanent, and thus do not require maintenance.
 
