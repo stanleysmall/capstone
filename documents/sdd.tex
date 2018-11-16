@@ -55,25 +55,31 @@ This document is intended for the development team, the product client, Dr. Harl
 \subsection{References}
 
 Craig, J., Elliott, S., Judkins, R., \& Small, S. 29 October 2018. \textit{System Requirements Specification.}
-\vspace{3mm}\newline
+\vspace{2mm}\newline
 Craig, J., Elliott, S., Judkins, R., \& Small, S. 30 November 2018. \textit{User Interface Design Document.}
-\vspace{3mm}\newline
+\vspace{2mm}\newline
 Fowler, M. (2004). \textit{UML Distilled: A Brief Guide to the Standard Object Modeling Language.} Boston:
 
 Addison-Wesley.
-\vspace{3mm}\newline
+\vspace{2mm}\newline
+Using OAuth 2.0 to Access Google APIs  |  Google Identity Platform  |  Google Developers. Google, Google,
+
+12 Nov. 2018,  \underline{developers.google.com/identity/protocols/OAuth2}.
+\vspace{2mm}\newline
 Onsrud, H. ``Example Question Selection Form.'' See Appendix D.
 
 \section{System Architecture}
 \subsection{Architectural Design}
 
-Figure 1 is a high-level abstraction of the proposed system architecture. With this figure, we aim to communicate what components are in the system and the API that links the components together.
+Figure 1 is a high-level abstraction of the proposed system architecture. With this figure, we aim to communicate what components are in the system and the API allowing the components to communicate.
 
 \begin{center}
-\captionof{figure}{Component diagram of the system}
+\captionof{figure}{Component diagram of the system (left); sequence diagram of  Google OAuth 2.0 (right)}
 \vspace{2mm}
 \label{fig:componentdiagram}
-{\includegraphics[scale=.6]{images/component_diagram.png}} 
+{\includegraphics[scale=.55]{images/component_diagram.png}} 
+\hspace{2mm}
+{\includegraphics[scale=.5]{images/tokenflow.png}} 
 \end{center}
 
 \vspace{3mm}
@@ -86,11 +92,13 @@ Figure 2 is a technology architecture diagram that shows the languages and frame
 {\includegraphics[scale=.6]{images/technology_architecture_diagram.png}} 
 \end{center}
 
-LimeSurvey (version 3.15.3+181108) is running on an Apache web server that uses PHP version 5.6. This survey software maintains a database running on MySQL 5.5.61. The team will use Amazon Web Services to host the evaluation system on the Web, providing a scalable solution to fluctuating demand and peak use after the semester.
+LimeSurvey (version 3.15.3+181108) is running on an Apache web server that uses PHP version 5.6. This survey software maintains a database running on MySQL 5.5.61. The team will use Amazon Web Services to host the evaluation system on the Web at \underline{teachingevaluations.org}, providing a scalable solution to fluctuating demand and peak use after the semester.
 
-The system consists of three major components, which communicated via an API. The front end, which handles the user interface, and displays the visuals and data sent from the API. It will be written in JavaScript, HTML, and CSS and uses the React library. The back end communicates with the databased, which are hosted by the same DBMS. It will be written in Python, and its endpoints will use the Flask library.  The database stores survey templates and responses using MySQL.
+The system consists of three major components, which communicate via an API. The front end, which handles the user interface, and displays the visuals and data sent from the API. It will be written in JavaScript using the React framework, along with HTML and CSS. The back end communicates with the databases, which are hosted by the same database management system. It will be written in Python, and its endpoints will use the Flask library.  The database stores survey templates and responses using MySQL.
 
 A single API will connect the front end to the back end and the back end to LimeSurvey and our database. A REST interface connects the front end to the back end using endpoints. Separate functions will utilize the LimeSurvey API so that the back end can access the LimeSurvey database.  LimeSurvey is outside the scope of the project and our system will not alter LimeSurvey in any way.  A user will have no contact with LimeSurvey and will only communicate with the front end. 
+
+Google OAuth 2.0 will be used to authenticate users with their Google accounts. Each student at the University of Maine is issued a Google Apps account e-mail which can be used to log in to the teaching evaluation system. As shown in the right side of Figure 1, the application will request a token from Google. The application will then store this token in a cookie. When a page is refreshed, the token is validated on Google's servers. Google OAuth 2.0 can also provide information such as the user's name and e-mail. 
 
 \subsection{Decomposition Description}
 
