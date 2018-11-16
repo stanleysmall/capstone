@@ -101,7 +101,7 @@ Figure 3 abstracts the major functions that are expected to be in the system. Th
 \begin{center}
 \captionof{figure}{Sequence diagram of an example session}
 \label{fig:sequencediagram}
-{\includegraphics[scale=.77]{images/sequence_diagram.png}}
+{\includegraphics[scale=.6]{images/sequence_diagram.png}}
 \end{center}
 
 \newpage
@@ -149,7 +149,6 @@ POST & /results & updates a list of survey results for a given course\\
 Our database will include tables that store information about courses, survey questions, and survey responses. A diagram of the database schema is shown on the next page:
 
 \vspace{3in}
-
 \begin{center}
 \captionof{figure}{Schema diagram of the back-end database}
 \label{fig:schemadiagram}
@@ -164,8 +163,9 @@ The database contains six object tables and two relationship tables. The \textbf
 
 \subsection{File Descriptions}
 
-The system requires several pieces of data, including database files, front-end markup, and LimeSurvey files, to run as intended. A file structure diagram is given below:
+The system requires several pieces of data, including database files, front-end markup, and LimeSurvey files, to run as intended. A file structure diagram is given on the next page:
 
+\newpage
 \begin{center}
 \captionof{figure}{Diagram of the files used by the system}
 \label{fig:filediagram}
@@ -176,7 +176,7 @@ The system requires several pieces of data, including database files, front-end 
 
 The back-end database has a file to keep track of all course information, survey forms, and survey responses that users have input. The schema in the previous section shows the fields and types in that file. To reduce the risk of a breach, any survey results in the database get removed by the system 60 days after viewed by the instructor. 
 
-The front end will be implemented in javascript, therefore our file structure will include .js files which will operate the front end.  There are also mark-up files, which specify the look and feel of the front end. The backend will be implemented in python and our file structure will include .py files which will operate the back end. These are static and permanent, and thus do not require maintenance.
+The front end will be implemented in javascript, therefore our file structure will include .js files which will operate the front end.  There are also mark-up files, which specify the look and feel of the front end. The back-end will be implemented in python and our file structure will include .py files which will operate the back end. These are static and permanent, and thus do not require maintenance.
 
 Lastly, the system briefly stores LimeSurvey files in the form of tab-separated text documents. They either contain survey form data or student responses. The form data files are deleted immediately after they are sent to LimeSurvey, and the response data files are deleted immediately after they are stored in the database.
 
