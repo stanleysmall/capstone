@@ -3,6 +3,8 @@
 \usepackage{caption}
 \usepackage[margin=1in]{geometry}
 \usepackage{graphicx}
+\usepackage{pdfpages}
+\pdfminorversion=7
 
 \begin{document}
 \begin{titlepage}
@@ -52,13 +54,15 @@ This document is intended for the development team, the product client, Dr. Harl
 
 \subsection{References}
 
-Craig, J., Elliott, S., Judkins, R., \& Small, S. 29 October 2018. System Requirements Specification (Rep.).
+Craig, J., Elliott, S., Judkins, R., \& Small, S. 29 October 2018. \textit{System Requirements Specification.}
 \vspace{3mm}\newline
-Craig, J., Elliott, S., Judkins, R., \& Small, S. 30 November 2018. User Interface Design Document (Rep.).
+Craig, J., Elliott, S., Judkins, R., \& Small, S. 30 November 2018. \textit{User Interface Design Document.}
 \vspace{3mm}\newline
-Fowler, M. (2004). UML Distilled: A Brief Guide to the Standard Object Modeling Language. Boston:
+Fowler, M. (2004). \textit{UML Distilled: A Brief Guide to the Standard Object Modeling Language.} Boston:
 
 Addison-Wesley.
+\vspace{3mm}\newline
+Onsrud, H. ``Example Question Selection Form.'' See Appendix D.
 
 \section{System Architecture}
 \subsection{Architectural Design}
@@ -69,7 +73,7 @@ Figure 1 is a high-level abstraction of the proposed system architecture. With t
 \captionof{figure}{Component diagram of the system}
 \vspace{1mm}
 \label{fig:componentdiagram}
-{\includegraphics[scale=.7]{images/component_diagram.png}} 
+{\includegraphics[scale=.65]{images/component_diagram.png}} 
 \end{center}
 
 \vspace{3mm}
@@ -227,7 +231,7 @@ This page shows that all members of Team EVAL have reviewed the system design do
 \noindent
 \begin{tabular}{ p{5cm} p{5cm} p{5cm} } 
 \textbf{\textit{Name}} & \textbf{\textit{Signature}} & \textbf{\textit{Date}} \\[.5cm]
-\textbf{Jovon Craig} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Jovon Craig} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]The following document is Professor Harlan Onsrud's example of what a course evaluation survey should include on the system's user interface.
 Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
 \multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
 \textbf{Sam Elliott} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
@@ -252,5 +256,10 @@ Jovon Craig wrote the purpose of the document, references, decomposition descrip
 Sam Elliott helped revise the database schema and made some minor revisions to better meet the rubric. He created a draft of the technology diagram and added many of the images to the document. Sam contributed about 20 percent of the document.
 
 Robert Judkins converted the document to LaTeX and helped with front-end design. Robert contributed about 10 percent of the document.
+
+\newpage
+
+\includepdf[scale=0.85,pages=1,pagecommand=\section{Example Question Selection Form}]{images/question_appendix.pdf}
+\includepdf[scale=0.85,pages=2-]{images/question_appendix.pdf}
 
 \end{document}
