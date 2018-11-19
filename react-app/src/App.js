@@ -61,6 +61,11 @@ class App extends Component {
 		</div>
 		<br />
 		
+		<div class="container">
+			<ReminderEmailForm />
+		</div>
+		<br />
+		
       </form>
     );
   }
@@ -1082,8 +1087,7 @@ class InviteEmailForm extends Component {
 					This email will be sent to each student on the begin date you specified above.
 				</div>
 				<br />
-				<div class="fieldEntry">
-					<input type="text" name="question"/>
+				
 					Subject: Invitation to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE) <br /> <br />
 
 					Dear (FIRSTNAME), <br /><br />
@@ -1101,11 +1105,47 @@ class InviteEmailForm extends Component {
 					(SURVEYURL) <br /> <br />
 
 					(ADMINNAME) ((ADMINEMAIL) <br />  
-				</div>
+				
 				<br /> <br />
 				</form>
 		);
+	}
 }
+
+class ReminderEmailForm extends Component {
+	render(){
+		return(
+			<form>
+				<div>
+				<h2>Reminder Emails</h2>
+				</div>
+				<div class="fieldLabel">Do you want one or more remminder emails sent to students who have yet to repond after a few days?</div>
+				<input type ="checkbox" value="yes" /> Yes
+				<br />
+				<br />
+				
+				Subject: Reminder to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE) 
+
+				Dear (FIRSTNAME),
+
+				Recently we invited you to complete a teaching evaluation for “(COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)”. We note that you have not yet completed the evaluation, and wish to remind you that it is still available should you wish to take part.
+
+				To participate, please click on the link below.
+
+				The deadline for completing the evaluation is (CLOSINGDATE) at (TIM).
+
+				Your participation is extremely important to the improvement of teaching and courses at the (UNIVERSITYNAME)
+
+				Sincerely,
+				(ADMINNAME)
+				----------------------------------------------
+				Click here to complete the teaching and course evaluation:
+				(SURVEYURL)
+
+				</form>
+		);
+	}
+	
 }
 
 export default App;
