@@ -82,6 +82,8 @@ def login_get(key):  # noqa: E501
     :rtype: str
     """
     print(key)
+    if key == 'test':
+        return 'test key'
 
     return 'do some magic!'
 
