@@ -1,9 +1,16 @@
 import connexion
 import six
+import mysql.connector
 
 from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.models.result import Result  # noqa: E501
 from swagger_server import util
+
+mysql.connector.connect(host='127.0.0.1',
+                        port=4306,
+                        database='limesurvey',
+                        user='root',
+                        password='root')
 
 
 def course_delete(name):  # noqa: E501
@@ -81,7 +88,6 @@ def login_get(key):  # noqa: E501
 
     :rtype: str
     """
-    print(key)
     if key == 'test':
         return 'test key'
 
