@@ -21,7 +21,7 @@ USE `mydb` ;
 -- Table `mydb`.`instructor`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`instructor` (
-  `ID` INT NOT NULL,
+  `ID` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NULL,
   `token` VARCHAR(50) NULL,
   PRIMARY KEY (`ID`))
