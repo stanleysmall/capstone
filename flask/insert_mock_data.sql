@@ -1,4 +1,4 @@
-insert into tag values (1, 'course', 'COS 140');
+insert into tag values (1, 'name', 'COS 140 Fall 2018');
 insert into instructor values (2, 'Roy Turner', 'turnertoken');
 insert into survey values (3, 'example.com', 2);
 insert into `e-mail` values (4, 'example@gmail.com', 3);

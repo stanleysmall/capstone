@@ -121,8 +121,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`tag` (
   `ID` INT NOT NULL,
-  `name` VARCHAR(50) NULL,
   `type` VARCHAR(50) NULL,
+  `name` VARCHAR(50) NULL,
   PRIMARY KEY (`ID`))
 ENGINE = InnoDB;
 

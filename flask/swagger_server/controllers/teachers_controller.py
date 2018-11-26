@@ -15,64 +15,62 @@ mydb = mysql.connector.connect(host='127.0.0.1',
 cursor = mydb.cursor()
 
 
-def course_delete(name):  # noqa: E501
-    """deletes all surveys for a specified course
+def survey_delete(name):  # noqa: E501
+    """deletes the survey with a given name
 
      # noqa: E501
 
-    :param name: the name for a course
+    :param name: the name for a survey
     :type name: str
 
     :rtype: str
     
-    PRE: tag name must be called 'course'
+    PRE: tag type must be called 'name'
     """
     
-    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.name = 'course' && tag.type = '" + name + "';")
-    survey_IDs = cursor.fetchall()
+    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.name = '" + name + "';")
+    survey_ID = cursor.fetchone()
     
-    for survey_ID in survey_IDs:
+    if survey_ID:
         survey_ID = str(survey_ID[0])
         cursor.execute("delete from survey_to_tag where survey_ID = " + survey_ID + ";")
         cursor.execute("delete from response where survey_ID = " + survey_ID + ";")
         cursor.execute("delete from survey_to_question where survey_ID = " + survey_ID + ";")
         cursor.execute("delete from `e-mail` where survey_ID = " + survey_ID + ";")
         cursor.execute("delete from survey where ID = " + survey_ID + ";")
-    cursor.execute("delete from tag where name = 'course' && type = '" + name + "';")
+        cursor.execute("delete from tag where type = 'name' && name = '" + name + "';")
+        mydb.commit()
     
-    mydb.commit()
     return 'success'
 
 
-def course_get(name):  # noqa: E501
-    """retreives the surveys for a specified course
+def survey_get(name):  # noqa: E501
+    """retreives the survey with a given name
 
      # noqa: E501
 
-    :param name: the name for a course
+    :param name: the name for a survey
     :type name: str
     
-    PRE: tag name must be called 'course'
+    PRE: tag type must be called 'name'
     POST: output is in the following JSON format
-          { "surveys": [{"url": str,
-                         "instructor": str,
-                         "e-mails": [str, ...],
-                         "questions": [{"helpText": str,
-                                        "mandatory": bool,
-                                        "group": str,
-                                        "type": str,
-                                        "text": str}, ...],
-                         tag 1: str,
-                         tag 2: str, ...}, ...] }
+          { "url": str,
+            "instructor": str,
+            "e-mails": [str, ...],
+            "questions": [{"helpText": str,
+                           "mandatory": bool,
+                           "group": str,
+                           "type": str,
+                           "text": str}, ...],
+            tag 1: str,
+            tag 2: str, ...}
     """
     
-    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.name = 'course' && tag.type = '" + name + "';")
-    survey_IDs = cursor.fetchall()
+    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.name = '" + name + "';")
+    survey_ID = cursor.fetchone()
+    survey = {}
     
-    surveys = {'surveys': []}
-    
-    for survey_ID in survey_IDs:
-        survey = {}
+    if survey_ID:
         survey_ID = str(survey_ID[0])
         
         cursor.execute("select url from survey where ID = " + survey_ID + ";")
@@ -97,21 +95,19 @@ def course_get(name):  # noqa: E501
             new_quest['text'] = question[4]
             survey['questions'].append(new_quest)
         
-        cursor.execute("select name, type from tag, survey_to_tag where survey_to_tag.survey_ID = " + survey_ID + " && survey_to_tag.tag_ID = tag.ID;")
+        cursor.execute("select type, name from tag, survey_to_tag where survey_to_tag.survey_ID = " + survey_ID + " && survey_to_tag.tag_ID = tag.ID;")
         for tag in cursor.fetchall():
             survey[tag[0]] = tag[1]
-        
-        surveys['surveys'].append(survey)
     
-    return jsonify(surveys)
+    return jsonify(survey)
 
 
-def course_put(name):  # noqa: E501
-    """updates the info for a specified course
+def survey_put(name):  # noqa: E501
+    """updates the info for a given survey
 
      # noqa: E501
 
-    :param name: the name for a course
+    :param name: the name for a survey
     :type name: str
 
     :rtype: str
@@ -119,26 +115,26 @@ def course_put(name):  # noqa: E501
     return 'do some magic!'
 
 
-def courses_get(id):  # noqa: E501
-    """retreives a list of all courses
+def surveys_get(name):  # noqa: E501
+    """retreives a list of all survey names
 
      # noqa: E501
 
-    :param id: the ID for a teacher/administrator
+    :param id: the name for a teacher/administrator
     :type id: str
 
     :rtype: List[Course]
     """
     
-    courses = []
-    cursor.execute("select type from tag, survey_to_tag, survey where name = 'course' && tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && survey.instructor_ID = " + id + ";")
-    for course in cursor.fetchall():
-        courses.append(course[0])
+    surveys = []
+    cursor.execute("select tag.name from tag, survey_to_tag, survey, instructor where type = 'name' && tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && survey.instructor_ID = instructor.ID && instructor.name = '" + name + "';")
+    for survey in cursor.fetchall():
+        surveys.append(survey[0])
     
-    return courses
+    return surveys
 
 
-def create_user_post(key):  # noqa: E501
+def create_user_post():  # noqa: E501
     """adds a user to the database
 
      # noqa: E501
@@ -150,11 +146,9 @@ def create_user_post(key):  # noqa: E501
     
     PRE: input is in the following JSON format
          { "name": str, "key": str }
-    TODO: how to handle authentication key (I'm assuming the key is the token)
     """
     
-    cursor.execute("alter table instructor modify column ID INT AUTO_INCREMENT;")
-    cursor.execute("insert into instructor (name, token) values ('" + request.json['name'] + "', '" + request.json['key'] + "');")
+    
     
     mydb.commit();
     return 'success'
@@ -174,13 +168,10 @@ def login_get(key):  # noqa: E501
     return 'do some magic!'
 
 
-def new_course_post(course):  # noqa: E501
-    """creates a new course
+def new_survey_post():  # noqa: E501
+    """creates a new survey
 
      # noqa: E501
-
-    :param course:
-    :type course: dict | bytes
 
     :rtype: str
     """
@@ -189,27 +180,19 @@ def new_course_post(course):  # noqa: E501
     return 'do some magic!'
 
 
-def results_get(class_name):  # noqa: E501
-    """retreives a list of survey results for a specified course
+def results_get(cat, name):  # noqa: E501
+    """retreives a list of results for a given set of surveys
 
      # noqa: E501
 
-    :param class_name: the name of the class with the results
-    :type class_name: str
+    :param cat: the category in which to retrieve the results
+    :type cat: str
+    
+    :param type: the name of the survey or professor with the results
+    :type name: str
 
     :rtype: List[Result]
-    """
-    return 'do some magic!'
-
-
-def results_post(class_name):  # noqa: E501
-    """edits a list of survey results for a specified course
-
-     # noqa: E501
-
-    :param class_name: the name of the class whose results are changed
-    :type class_name: str
-
-    :rtype: str
+    
+    PRE: cat must be either 'survey' or 'instructor'
     """
     return 'do some magic!'
