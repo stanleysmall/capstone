@@ -102,15 +102,25 @@ def survey_get(name):  # noqa: E501
     return jsonify(survey)
 
 
-def survey_put(name):  # noqa: E501
+def survey_put():  # noqa: E501
     """updates the info for a given survey
+       if no survey with the given name exists, then a new one is created
 
      # noqa: E501
 
-    :param name: the name for a survey
-    :type name: str
-
     :rtype: str
+    
+    PRE: input is in the following JSON format
+         { "url": str,
+           "instructor": str,
+           "e-mails": [str, ...],
+           "questions": [{"helpText": str,
+                          "mandatory": bool,
+                          "group": str,
+                          "type": str,
+                          "text": str}, ...],
+           tag 1: str,
+           tag 2: str, ...}
     """
     return 'do some magic!'
 
@@ -123,7 +133,7 @@ def surveys_get(name):  # noqa: E501
     :param id: the name for a teacher/administrator
     :type id: str
 
-    :rtype: List[Course]
+    :rtype: List[survey names]
     """
     
     surveys = []
@@ -168,20 +178,8 @@ def login_get(key):  # noqa: E501
     return 'do some magic!'
 
 
-def new_survey_post():  # noqa: E501
-    """creates a new survey
-
-     # noqa: E501
-
-    :rtype: str
-    """
-    if connexion.request.is_json:
-        course = Course.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
-
-
 def results_get(cat, name):  # noqa: E501
-    """retreives a list of results for a given set of surveys
+    """retreives a list of results for a given survey or professor
 
      # noqa: E501
 
@@ -191,8 +189,12 @@ def results_get(cat, name):  # noqa: E501
     :param type: the name of the survey or professor with the results
     :type name: str
 
-    :rtype: List[Result]
+    :rtype: List[results]
     
     PRE: cat must be either 'survey' or 'instructor'
+    POST: output is in the following JSON format
+          { "surveys": [ {"name": str,
+                          "questions": [{"text": str,
+                                         "response": str}, ...]}, ...] }
     """
     return 'do some magic!'

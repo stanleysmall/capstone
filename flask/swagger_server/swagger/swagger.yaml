@@ -146,29 +146,6 @@ paths:
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
-  /new_survey:
-    post:
-      tags:
-      - "teachers"
-      - "admins"
-      summary: "creates a new course"
-      operationId: "new_survey_post"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "course"
-        required: true
-        schema:
-          $ref: "#/definitions/Course"
-      responses:
-        200:
-          description: "success message"
-          schema:
-            type: "string"
-        400:
-          description: "bad input parameter"
-      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
   /results:
     get:
       tags:
