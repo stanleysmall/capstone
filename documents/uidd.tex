@@ -48,7 +48,7 @@ Instructor: Professor Terry Yoo
 
 \subsection{Purpose of This Document}
 
-This user interface design document is an overview of the graphics and layouts shown to the users of our course evaluation system. The first section, the user interface standards, describes the general features of the graphics, such as layouts and components that are common to all screens in the interface. The second section, the user interface walkthrough, includes a ``navigation diagram'' of the order in which the screens are shown, and complete wireframes of each screen. The docuement's third section gives the data items typically entered in the user interface and how they are formatted.
+This user interface design document is an overview of the graphics and layouts shown to the users of our course evaluation system. The first section, the user interface standards, describes the general features of the graphics, such as layouts and components, that are common to all screens in the interface. The second section, the user interface walkthrough, includes a ``navigation diagram'' of the order in which the screens are shown, and complete wireframes of each screen. The docuement's third section gives the data items typically entered in the user interface and how they are formatted.
 
 This document is intended for the development team, the product client, Dr. Harlan Onsrud, and potential users of the system. Team EVAL needs this document to properly implement the user interface in code. Dr. Onsrud also needs it to verify that the program's appearance looks appropriate for universities and to suggest revisions to the UI. Lastly, the document helps the software's users, serving as a guide on how to use the software.
 
@@ -63,25 +63,29 @@ Onsrud, H. ``Example Question Selection Form.'' See Appendix D.
 
 \section{User Interface Standards}
 
-Figure 1 is the overall screen layout of our course evaluation system. It shows the general areas and components of each screen in the interface and how the user will navigate through the screens.
+Figure 1 is the overall screen layout of our course evaluation system. It shows the general areas and components of the screens in the user interface. Not all screens follow this exact overall layout.
+
+For ease of use, the team uses simple designs for each of the screens. On the top-left corner, there is a button to return the user to the home page (or the log-in screen if the user is at the home page). To the right is the page title, which summarizes the purpose of the screen. The top-right corner includes the help button, which directs the user to the help screen. The ``content'' is located below the top elements, containing instructions, data entry fields, and the like. Most screens also have a scroll bar on the right side if the information on a page cannot all fit in the web browser.
 
 \section{User Interface Walkthrough}
 
 Figure 2 is a diagram that shows the paths that a user can take to navigate the system's interface. It also includes the names for all the screens in the UI.
 
-The next set of figures is the wireframes for each screen in the evaluation system. These diagrams are meant to communicate the areas, menus, and buttons that are unique to a certain screen and what they do.
+The first screen that the user sees upon starting the system is the \textbf{Landing Screen}. The user then proceeds to the \textbf{Log In Screen}. After entering a correct username and password, the \textbf{Home Screen} appears. The user can switch back and forth between the home page and the \textbf{Info Edit Screen}, \textbf{New Form Screen}, \textbf{Help Screen}, and \textbf{Results Screen}. To edit a survey, a user must go to the info edit screen, then the \textbf{Question Edit Screen}, then the \textbf{E-mail Edit Screen} (all three link back to the home page). Finally, the \textbf{Help Screen} can be accessed from any other screen except the landing and log-in screens.
+
+The next set of figures consist of the wireframes for each screen in the evaluation system. These diagrams communicate the areas, menus, and buttons that are unique to a certain screen and what they do.
 
 
 \section{Data Validation}
 
-The following table lists the data items in the user interface of the evaluation system. A data item is an input that a user enters into the system and has a specified format. As shown below, many items are for editing an evaulation survey form. For more information about the form's questions, see Appendix D.
+The following table lists the data items in the user interface of the evaluation system. A data item is an input that a user enters into the system and has a specified format. As shown below, many items are for editing an evaulation survey form. For more information about a form's questions, see Appendix D.
 
 \vspace{2in}
 \newgeometry{left=1cm, right=1cm, top=1in, bottom=1in}
 
 \begin{center}
 \captionof{table}{Data item specification}
-\begin{tabular}{|p{4.4cm}|p{2.2cm}|p{2cm}|p{3cm}|p{4cm}|} 
+\begin{tabular}{|p{4.4cm}|p{2.2cm}|p{2cm}|p{4cm}|p{4cm}|} 
 \hline
 \textbf{Label} & \textbf{Screen(s)} & \textbf{Data Type} & \textbf{Format} & \textbf{Limit(s)} \\
 \hline
@@ -135,9 +139,9 @@ Added online component questions & Question edit & Strings & & \\
 \hline
 Added open-ended questions & Question edit & Strings & & \\ 
 \hline
-``Include?'' toggles & Question edit & Booleans & & \\ 
+``Include?'' checkboxes & Question edit & Booleans & & \\ 
 \hline
-``Mandatory'' toggles & Question edit & Booleans & & \\ 
+``Mandatory'' checkboxes & Question edit & Booleans & & \\ 
 \hline
 Class roll & E-mail edit & String & & \\ 
 \hline
@@ -145,7 +149,7 @@ Initial e-mail to students & E-mail edit & String & & \\
 \hline
 Reminder e-mail & E-mail edit & String & & \\ 
 \hline
-Confirmation e-mail & E-mail edit & String & & \\ 
+Final confirmation e-mail & E-mail edit & String & & \\ 
 \hline
 \end{tabular}
 \end{center}
