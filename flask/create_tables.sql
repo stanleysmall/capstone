@@ -32,7 +32,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`survey`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`survey` (
-  `ID` INT NOT NULL,
+  `ID` INT NOT NULL AUTO_INCREMENT,
   `URL` VARCHAR(50) NULL,
   `instructor_ID` INT NOT NULL,
   PRIMARY KEY (`ID`),
@@ -49,14 +49,29 @@ ENGINE = InnoDB;
 -- Table `mydb`.`e-mail`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`e-mail` (
-  `ID` INT NOT NULL,
+  `ID` INT NOT NULL AUTO_INCREMENT,
   `address` VARCHAR(50) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`survey_to_e-mail`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`survey_to_e-mail` (
   `survey_ID` INT NOT NULL,
-  PRIMARY KEY (`ID`),
-  INDEX `fk_e-mail_survey_idx` (`survey_ID` ASC),
-  CONSTRAINT `fk_e-mail_survey`
+  `e-mail_ID` INT NOT NULL,
+  PRIMARY KEY (`survey_ID`, `e-mail_ID`),
+  INDEX `fk_survey_has_e-mail_e-mail1_idx` (`e-mail_ID` ASC),
+  INDEX `fk_survey_has_e-mail_survey1_idx` (`survey_ID` ASC),
+  CONSTRAINT `fk_survey_to_e-mail_survey1`
     FOREIGN KEY (`survey_ID`)
     REFERENCES `mydb`.`survey` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_survey_to_e-mail_e-mail1`
+    FOREIGN KEY (`e-mail_ID`)
+    REFERENCES `mydb`.`e-mail` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -66,7 +81,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`question`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`question` (
-  `ID` INT NOT NULL,
+  `ID` INT NOT NULL AUTO_INCREMENT,
   `helpText` VARCHAR(50) NULL,
   `mandatory` BIT NULL,
   `group` VARCHAR(50) NULL,
