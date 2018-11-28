@@ -168,7 +168,7 @@ def survey_put():  # noqa: E501
         old_questions.append(str(row[0]))
     for question in request.json['questions']:
         cursor.execute("select ID from question where ID = '" + question['ID'] + "';")
-        question_ID = cursor.fetchone()[0])
+        question_ID = cursor.fetchone()[0]
         if question_ID:
             # If question ID in request exists, update the question row and remove it from old questions
             bit = 1 if question['mandatory'] else 0
@@ -184,14 +184,14 @@ def survey_put():  # noqa: E501
     for ID in old_question:
         cursor.execute("delete from survey_to_question where survey_to_question.ID = " + ID + ";")
     
-    tags = set(request.json.keys()) - ('URL', 'instructor', 'e-mails', 'questions', 'name')
+    tags = list(set(request.json.keys()) - ('URL', 'instructor', 'e-mails', 'questions', 'name'))
     old_tags = []
     cursor.execute("select type from tag, survey_to_tag where tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = " + survey_ID + ";")
     for row in cursor.fetchall():
         old_questions.append(str(row[0]))
     for tag in tags:
         cursor.execute("select ID, type from tag where type = '" + tag + "';")
-        tag_ID = cursor.fetchone()[0])
+        tag_ID = cursor.fetchone()[0]
         if tag_ID:
             # If tag type in request exists, update the tag row and remove it from old tags
             cursor.execute("update tag set name = '" + question[tag] + "' where ID = " + tag_ID + ";")

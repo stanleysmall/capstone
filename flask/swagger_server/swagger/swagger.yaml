@@ -110,12 +110,6 @@ paths:
       - "admins"
       summary: "updates the info for a specified course"
       operationId: "survey_put"
-      parameters:
-      - name: "name"
-        in: "query"
-        description: "the name for a course"
-        required: true
-        type: "string"
       responses:
         200:
           description: "success message"
