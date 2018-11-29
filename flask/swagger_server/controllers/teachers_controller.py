@@ -125,86 +125,97 @@ def survey_put():  # noqa: E501
            tag 3: str, ...}
         instructor is already present in database
         question IDs follow evaluation form standards
+        tag types have unique names
     """
     
     cursor.execute("select ID from instructor where name = '" + request.json['instructor'] + "';")
     instructor_ID = str(cursor.fetchone()[0])
+    survey_ID = ''
     
     cursor.execute("select name from tag where type = 'name' && name = '" + request.json['name'] + "';")
     if cursor.fetchone():
-        # If survey with name does exist, get its survey_ID
+        # If survey with name does exist, get its survey_ID and update the survey row
         cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.name = '" +  request.json['name'] + "';")
+        survey_ID = str(cursor.fetchone()[0])
+        cursor.execute("update survey set URL = '" + request.json['URL'] + "', instructor_ID = " + instructor_ID + " where ID = " + survey_ID + ";")
     else:
-        # If survey with name does not exist, make a new survey row and get its ID
-        cursor.execute("insert into survey () values ();")
-        cursor.execute("select LAST_INSERT_ID();")
-    survey_ID = str(cursor.fetchone()[0])
-    
-    cursor.execute("update survey set URL = '" + request.json['URL'] + "', instructor_ID = " + instructor_ID + " where ID = " + survey_ID + ";")
+        # If survey with name does not exist, make a new survey row and get its ID, and make a new tag row
+        cursor.execute("select max(ID) from survey;")
+        survey_ID = str(cursor.fetchone()[0] + 1)
+        cursor.execute("insert into survey values (" + survey_ID + ", '" + request.json['URL'] + "', " + instructor_ID + ");")
+        cursor.execute("select max(ID) from tag;")
+        tag_ID = str(cursor.fetchone()[0] + 1)
+        cursor.execute("insert into tag values (" + tag_ID + ", 'name', '" + request.json['name'] + "');")
+        cursor.execute("insert into survey_to_tag values (" + survey_ID + ", " + tag_ID + ");")
     
     old_addresses = []
     cursor.execute("select address from `e-mail`, `survey_to_e-mail` where `e-mail`.ID = `survey_to_e-mail`.`e-mail_ID` && `survey_to_e-mail`.survey_ID = " + survey_ID + ";")
     for row in cursor.fetchall():
         old_addresses.append(str(row[0]))
     for address in request.json['e-mails']:
-        cursor.execute("select * from `e-mail` where address = '" + address + "';")
-        email_ID, address = cursor.fetchone()
-        if address:
+        cursor.execute("select ID from `e-mail` where address = '" + address + "';")
+        email_ID = cursor.fetchone()
+        if email_ID:
             # If address in request exists, remove it from old addresses
             old_addresses.remove(address)
         else:
             # If address in request does not exist, make a new e-mail row and get its ID
-            cursor.execute("insert into `e-mail` (address) values ('" + address + "');")
-            cursor.execute("select LAST_INSERT_ID();")
-            email_ID = cursor.fetchone()[0]
-            cursor.execute("insert into `survey_to_e-mail` values (" + str(survey_ID) + ", " + str(email_ID) + ";")
+            cursor.execute("select max(ID) from `e-mail`;")
+            email_ID = str(cursor.fetchone()[0] + 1)
+            cursor.execute("insert into `e-mail` values (" + email_ID + ", '" + address + "');")
+            cursor.execute("insert into `survey_to_e-mail` values (" + survey_ID + ", " + email_ID + ");")
     # Remove addresses for the survey that were not in request
     for address in old_addresses:
-        cursor.execute("delete from `survey_to_e-mail` using `survey_to_e-mail`, `e-mail` where `e-mail`.ID = `survey_to_e-mail`.`e-mail_ID` && `e-mail`.address = '" + address + "';")
+        cursor.execute("select ID from `e-mail` where address = '" + address + "';")
+        email_ID = str(cursor.fetchone()[0])
+        cursor.execute("delete from `survey_to_e-mail` where survey_ID = " + survey_ID + " && `e-mail_ID` = " + email_ID + ";")
     
     old_questions = []
     cursor.execute("select ID from question, survey_to_question where question.ID = survey_to_question.question_ID && survey_to_question.survey_ID = " + survey_ID + ";")
     for row in cursor.fetchall():
         old_questions.append(str(row[0]))
     for question in request.json['questions']:
-        cursor.execute("select ID from question where ID = '" + question['ID'] + "';")
-        question_ID = cursor.fetchone()[0]
+        bit = '1' if question['mandatory'] else '0'
+        cursor.execute("select ID from question where ID = '" + str(question['ID']) + "';")
+        question_ID = cursor.fetchone()
         if question_ID:
             # If question ID in request exists, update the question row and remove it from old questions
-            bit = 1 if question['mandatory'] else 0
-            cursor.execute("update question set helpText = '" + question['helpText'] + "', mandatory = " + bit + ", group = '" + question['group'] + "', type = '" + question['type'] + "', text = '" + question['text'] + "' where ID = " + question_ID + ";")
+            cursor.execute("update question set helpText = '" + question['helpText'] + "', mandatory = " + bit + ", `group` = '" + question['group'] + "', type = '" + question['type'] + "', text = '" + question['text'] + "' where ID = " + str(question_ID[0]) + ";")
             old_questions.remove(question_ID)
         else:
             # If question ID in request does not exist, make a new question row and get its ID
-            cursor.execute("insert into question () values ();")
-            cursor.execute("select LAST_INSERT_ID();")
-            question_ID = cursor.fetchone()[0]
-            cursor.execute("insert into survey_to_question values (" + str(survey_ID) + ", " + str(question_ID) + ";")
+            cursor.execute("select max(ID) from question;")
+            question_ID = str(cursor.fetchone()[0] + 1)
+            cursor.execute("insert into question values (" + question_ID + ", '" + question['helpText'] + "', " + bit + ", '" + question['group'] + "', '" + question['type'] + "', '" + question['text'] + "');")
+            cursor.execute("insert into survey_to_question values (" + survey_ID + ", " + question_ID + ");")
     # Remove questions for the survey that were not in request
-    for ID in old_question:
-        cursor.execute("delete from survey_to_question where survey_to_question.ID = " + ID + ";")
+    for ID in old_questions:
+        cursor.execute("delete from response where survey_ID = " + survey_ID + " && question_ID = " + ID + ";")
+        cursor.execute("delete from survey_to_question where survey_ID = " + survey_ID + " && question_ID = " + ID + ";")
     
-    tags = list(set(request.json.keys()) - ('URL', 'instructor', 'e-mails', 'questions', 'name'))
+    tags = list(set(request.json.keys()) - {'URL', 'instructor', 'e-mails', 'questions', 'name'})
     old_tags = []
     cursor.execute("select type from tag, survey_to_tag where tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = " + survey_ID + ";")
     for row in cursor.fetchall():
         old_questions.append(str(row[0]))
     for tag in tags:
         cursor.execute("select ID, type from tag where type = '" + tag + "';")
-        tag_ID = cursor.fetchone()[0]
+        tag_ID = cursor.fetchone()
         if tag_ID:
             # If tag type in request exists, update the tag row and remove it from old tags
-            cursor.execute("update tag set name = '" + question[tag] + "' where ID = " + tag_ID + ";")
+            cursor.execute("update tag set type = '" + tag + "', name = '" + request.json[tag] + "' where ID = " + str(tag_ID[0]) + ";")
             old_tags.remove(tag)
         else:
             # If tag type in request does not exist, make a new tag row and get its ID
-            cursor.execute("insert into tag () values ();")
-            cursor.execute("select LAST_INSERT_ID();")
-            tag_ID = cursor.fetchone()[0]
-            cursor.execute("insert into survey_to_tag values (" + str(survey_ID) + ", " + str(tag_ID) + ";")
+            cursor.execute("select max(ID) from tag;")
+            tag_ID = str(cursor.fetchone()[0] + 1)
+            cursor.execute("insert into tag values (" + tag_ID + ", '" + tag + "', '" + request.json[tag] + "');")
+            cursor.execute("insert into survey_to_tag values (" + survey_ID + ", " + tag_ID + ");")
     # Remove tags for the survey that were not in request
     for tag in old_tags:
-        cursor.execute("delete from survey_to_tag using survey_to_tag, tag where tag.ID = survey_to_tag.tag_ID && tag.type = " + tag + ";")
+        cursor.execute("select ID from tag where type = '" + tag + "';")
+        tag_ID = str(cursor.fetchone()[0])
+        cursor.execute("delete from survey_to_tag where survey_ID = " + survey_ID + " && tag_ID = " + tag_ID + ";")
     
     mydb.commit()
     return 'success'
@@ -263,15 +274,16 @@ def login_get(key):  # noqa: E501
     return 'do some magic!'
 
 
-def results_get(cat, name):  # noqa: E501
+def results_get(group_type, name):  # noqa: E501
     """retreives a list of results for a given survey or professor
 
      # noqa: E501
 
-    :param cat: the category in which to retrieve the results
-    :type cat: str
+    :param group_type: the type of group for 'name' (e.g. 'faculty unit', 'university')
+    :type group: str
     
-    :param type: the name of the survey or professor with the results
+    :param name: the name of the group with the survey results
+                 (a survey name if 'cat_type' is 'all')
     :type name: str
 
     :rtype: List[results]
@@ -282,4 +294,5 @@ def results_get(cat, name):  # noqa: E501
                           "questions": [{"text": str,
                                          "response": str}, ...]}, ...] }
     """
+    
     return 'do some magic!'
