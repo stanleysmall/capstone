@@ -4,6 +4,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{graphicx}
 \usepackage{pdfpages}
+\usepackage{float}
 \pdfminorversion=7
 
 \begin{document}
@@ -93,91 +94,102 @@ The first screen that the user sees upon starting up the system is the \textbf{L
 
 The next set of figures, Figures 3 to 11, consist of the wireframes for each screen in the evaluation system. These diagrams communicate the areas, menus, and buttons that are unique to a certain screen and what they do.
 
-\vspace{1in}
+\newpage
+\newgeometry{left=1in, right=1in, top=2cm, bottom=2cm}
+
 \begin{center}
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[scale=.3]{images/landing_screen.png}
-    \caption{Landing screen wire frame. This is the first screen a user would see when they enter the website. Clickling `continue' proceeds to the Login screen.}
-    \label{fig:my_label}
+    \caption{Landing screen}
+    \includegraphics[scale=.35]{images/landing_screen.png}
 \end{figure}
 \end{center}
 
+This is the first screen a user would see when they enter the website. Clicking `Continue' proceeds to the Login screen.
+
 \begin{center}
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[scale=.3]{images/login_screen.png}
-    \caption{Login screen wire frame. A user would enter a valid username and password and login. Clicking `Log In' advances the user to the Selection Screen.}
-    \label{fig:my_label}
+    \caption{Log-in screen}
+    \includegraphics[scale=.35]{images/login_screen.png}
 \end{figure}
 \end{center}
 
+A user would enter a valid username and password and login. Clicking `Log In' advances the user to the Selection Screen.
+
 \begin{center}
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[scale=.3]{images/selection_screen.png}
-    \caption{Selection screen wire frame. This is the main screen a user would see after they login. They can choose to create a new survey, view surveys they've already created but not published, or view results of active and past surveys.}
-    \label{fig:my_label}
+    \caption{Selection screen}
+    \includegraphics[scale=.35]{images/selection_screen.png}
 \end{figure}
 \end{center}
 
+This is the main screen a user would see after they login. They can choose to create a new survey, view surveys they've already created but not published, or view results of active and past surveys.
+
 \begin{center}
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[scale=.3]{images/new_form_screen.png}
-    \caption{New form screen wire frame. This is the page a user would see if they decided to create a new survey. This page asks the user to fill out the general information of the course they're creating the survey for.}
-    \label{fig:my_label}
+    \caption{New form screen}
+    \includegraphics[scale=.35]{images/new_form_screen.png}
 \end{figure}
 \end{center}
 
+This is the page a user would see if they decided to create a new survey. This page asks the user to fill out the general information of the course they're creating the survey for.
+
 \begin{center}
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[scale=.3]{images/info_edit_screen.png}
-    \caption{Info edit screen wire frame. Much similar to the new form screen, a user would enter this screen when they choose to edit a survey they've created. It asks them to review the general course information.}
-    \label{fig:my_label}
+    \caption{Info edit screen}
+    \includegraphics[scale=.35]{images/info_edit_screen.png}
 \end{figure}
 \end{center}
 
+Much similar to the new form screen, a user would enter this screen when they choose to edit a survey they've created. It asks them to review the general course information.
+
 \begin{center}
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[scale=.3]{images/question_edit_screen.png}
-    \caption{Question edit screen wire frame. This is the second page a user would see when they are creating a course survey. It lists several generic questions that may be asked in a survey and asks if the instructor would like to include it and whether or not it should be mandatory. They can also add custom questions at each section.}
-    \label{fig:my_label}
+    \caption{Question edit screen}
+    \includegraphics[scale=.35]{images/question_edit_screen.png}
 \end{figure}
 \end{center}
 
+This is the second page a user would see when they are creating a course survey. It lists several generic questions that may be asked in a survey and asks if the instructor would like to include it and whether or not it should be mandatory. They can also add custom questions at each section.
+
 \begin{center}
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[scale=.3]{images/email_edit_screen.png}
-    \caption{Email edit screen wire frame. This is the final page a user would see when creating a new course survey. It asks the instructor to include a list of students taking the course, to review a generic email that would be sent to students, and to review a reminder email that could be sent after a certain period of time.}
-    \label{fig:my_label}
+    \caption{E-mail edit screen}
+    \includegraphics[scale=.35]{images/email_edit_screen.png}
 \end{figure}
 \end{center}
 
+This is the final page a user would see when creating a new course survey. It asks the instructor to include a list of students taking the course, to review a generic email that would be sent to students, and to review a reminder email that could be sent after a certain period of time.
+
 \begin{center}
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[scale=.3]{images/results_screen.png}
-    \caption{Results screen wire frame. This page is where a user would view results of their surveys, organized by each question in the survey. It includes the median, mean, standard deviation, and number of answers for each question.}
-    \label{fig:my_label}
+    \caption{Results screen}
+    \includegraphics[scale=.35]{images/results_screen.png}
 \end{figure}
 \end{center}
 
+This page is where a user would view results of their surveys, organized by each question in the survey. It includes the median, mean, standard deviation, and number of answers for each question.
+
 \begin{center}
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[scale=.3]{images/help_screen.png}
-    \caption{Help screen wire frame. This is the screen a user would see if they asked for help at any point in the process. It details each screen and what is being asked of the user.}
-    \label{fig:my_label}
+    \caption{Help screen}
+    \includegraphics[scale=.35]{images/help_screen.png}
 \end{figure}
 \end{center}
+
+This is the screen a user would see if they asked for help at any point in the process. It details each screen and what is being asked of the user.
 
 \section{Data Validation}
 
-The following table lists the data items in the user interface of the evaluation system. A data item is an input that a user enters into the system and has a specified format. As shown below, many items are for editing an evaulation survey form. For more information about a form's questions, see Appendix D.
+Table 1 lists the data items in the user interface of the evaluation system. A data item is an input that a user enters into the system and has a specified format. As shown on the next page, many items are for editing an evaulation survey form. For more information about a form's questions, see Appendix D.
 
 \vspace{2in}
 \newgeometry{left=1cm, right=1cm, top=1in, bottom=1in}
@@ -308,7 +320,7 @@ Jovon Craig wrote the purpose of the document, the user interface standards sect
 
 Sam Elliott revised all of the individual screen layouts and added several new screens. He also wrote the last two columns in the data item table. Sam contributed about ?? percent of the document.
 
-Robert Judkins converted the UIDD template to the LaTeX format and placed it in our document. He added the descriptions under each wireframe picture of the UI. He also added the references and appendices A, B, and D. Robert contributed about ?? percent of the document.
+Robert Judkins converted the UIDD template to the LaTeX format and placed it in our document. He wrote the descriptions under each wireframe picture of the UI. He also added the references and appendices A, B, and D. Robert contributed about ?? percent of the document.
 
 \newpage
 
