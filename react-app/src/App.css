@@ -43,6 +43,21 @@ button[type=button] {
     //float: left;
 }
 
+button[type=login]:hover {
+	background-color: #45a049;
+}
+
+button[type=login] {
+	background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    //float: left;
+	width: 500px;
+}
+
 .container {
 	width: 100%;
     border-radius: 10px;
@@ -58,12 +73,16 @@ button[type=button] {
 
 .fieldEntry {
     float: left;
-    width: 80%;
-    margin-top: 6px;
+    width: 40%;
+    margin-top: 18px;
 }
 
 .row:after {
     content: "";
     display: table;
     clear: both;
+}
+
+div{
+	padding: 30px
 }
