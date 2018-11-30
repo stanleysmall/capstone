@@ -4,8 +4,9 @@ import "./App.css";
 class CourseForm extends Component {
   render() {
     return (
-      <form>
 	  <form>
+	  <div class="container">
+	  <a href="/login/">Sign out </a>
 	  <h1>Course Information </h1>
         <div class="fieldLabel">Course Designator (e.g. MUS)</div>
         <div class="fieldEntry">
@@ -86,10 +87,10 @@ class CourseForm extends Component {
           <input type="date" name = "closingDate" /> <br />
         </div>
 		<br /><br /><br />
-		</form>
 		<form>
           <a href="/questions">Next</a>
         </form>
+		</div>
       </form>
     );
   }

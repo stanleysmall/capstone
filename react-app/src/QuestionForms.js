@@ -5,8 +5,10 @@ class QuestionForms extends Component {
 	render() {
     return (
       <form>
-		<a href="/login/">Sign out </a>
+		
         <div class="container">
+			<a href="/create/">Back </a>&nbsp;
+			<a href="/login/">Sign out </a>
           <InstructorQuestionForm />
         </div>
 		<br />
@@ -39,6 +41,7 @@ class QuestionForms extends Component {
 		
 		<div class="container">
           <OpenEndedQuestionForm />
+		  <a href="/enroll/">Next</a>
         </div>
 		<br />
 		</form>
@@ -64,8 +67,9 @@ class InstructorQuestionForm extends Component {
 		*/}
         <form>
           <div class="fieldLabel">How prepared was the instructor for the class?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -79,8 +83,9 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How clearly were the objectives of the course presented? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -94,8 +99,9 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How enthusiastic was the instructor about the subject? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -109,8 +115,9 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How clearly did the instructor present concepts, principles and theories? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -124,8 +131,9 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How much were you encouraged to think for yourselves? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -139,8 +147,9 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How concerned was the instructor for the quality of student learning? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -154,8 +163,9 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Did the instructor show respect for the questions and opinions of the students? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -169,10 +179,12 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Did the instructor ensure an environment of respect for all groups of people in the classroom? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
+		  <br />
           <questionCheckBoxes />
         </form>
 		{/*
@@ -184,8 +196,9 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Did the instructor inspire confidence in his/her knowledge? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -217,8 +230,9 @@ class CourseQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Were class meetings profitable and worth attending? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -232,8 +246,9 @@ class CourseQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">What is your overall rating of the primary readings? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -247,8 +262,9 @@ class CourseQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How much did this course challenge you intelectually? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -262,8 +278,9 @@ class CourseQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How much did you learn from this course? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -297,8 +314,9 @@ class AssessmentQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Did the instructor let you know what was expected on the assessments (exams, assignments, projects, papers, etc.)?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
 		  <br />
           <br />
@@ -313,8 +331,9 @@ class AssessmentQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Did the assessments reflect the important aspects of the course? </div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -328,8 +347,9 @@ class AssessmentQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How fair were the grading procedures?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -343,10 +363,12 @@ class AssessmentQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Overall how would you rate the assessment process (exams, assignments, projects, papers, etc.)?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
+		  <br />
           <questionCheckBoxes />
         </form>
 		{/*
@@ -378,8 +400,9 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Did you take this course as a distance learning student?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -393,8 +416,9 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Please indicate the primary online modality used with the course.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -408,8 +432,9 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">The online modality used with the course was well suited to my needs.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -423,8 +448,9 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">There was adequate opportunity for me to interact with the instructor.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -438,8 +464,9 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">There was adequate opportunity for me to interact with other students.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -453,8 +480,9 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">The online technologies used in this course worked the way they were supposed to.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -468,8 +496,9 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">The communication tools were easy to use (email, assignment delivery, exam delivery or proctoring, chat, web, etc.).</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
 		  <br />
           <br />
@@ -484,8 +513,9 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Technology support was there if I needed it.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -499,8 +529,9 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">The online expereince was well-suited to the way I like to learn.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -514,8 +545,9 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Which statement best characterizes your belief after having taken this course?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -529,8 +561,9 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Which statement best characterizes your belief about the grade you expect to receive in this course?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
 		  <br />
           <br />
@@ -545,10 +578,12 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Please identify an e-learning aspect of the course that you found particularly valuable or beneficial.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
+		  <br />
           <questionCheckBoxes />
         </form>
 		{/*
@@ -560,8 +595,9 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Please identify an e-learning aspect of the course that could be improved.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -595,8 +631,9 @@ class OpenEndedQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Please identify the aspects of this course that were of most value to you.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -610,8 +647,9 @@ class OpenEndedQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Please mention at least one additional topic or component that you would like to see included in this course.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
 		  <br />
@@ -626,8 +664,9 @@ class OpenEndedQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Please make any additional comments that you desire to make about the course instructor, maaterials or pedagogy.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
 		  <br />
@@ -667,6 +706,7 @@ class TAQuestionForm extends Component {
           <input type="checkbox" value="yes" /> Yes <br />
           <br />
           <br />
+		  <br />
           <questionCheckBoxes />
         </form>
 		{/*
@@ -678,10 +718,12 @@ class TAQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">If there was more than one teaching assistant for the course, please name the TA you are evaluating.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
+		  <br />
           <questionCheckBoxes />
         </form>
 		{/*
@@ -693,8 +735,9 @@ class TAQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How much did the teaching assistant contribute to your learning in this course?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+           <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -708,8 +751,9 @@ class TAQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How concerned was the teaching assistant for the quality of student learning?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -723,8 +767,9 @@ class TAQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Did the teaching asssistant show respect for the questions and opinions of students?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -738,8 +783,9 @@ class TAQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Would you want to have this teaching assistant in the future in another course?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -753,8 +799,9 @@ class TAQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Would you recommend this teaching assistant to assist in this course in the future?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -768,8 +815,9 @@ class TAQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Name something the teaching assistant did particularly well.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -783,8 +831,9 @@ class TAQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Name something the teaching assistant could do better in the future.</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -823,6 +872,7 @@ class LabQuestionForm extends Component {
 			<input type="checkbox" value="yes" /> Yes <br />
 			<br />
 			<br />
+			<br />
 			<questionCheckBoxes />
 		</form>
 		{/*
@@ -834,8 +884,9 @@ class LabQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How much did the laboratory experience contribute to your learning in this course></div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -849,8 +900,9 @@ class LabQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">What was done particularly well in the laboratory experience?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -864,8 +916,9 @@ class LabQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How could the laboratory be improved?</div>
-          <input type="checkbox" value="include" /> Include
-          <input type="checkbox" value="mandatory" /> Mandatory <br />
+          <input type="radio" name="q1" value="include" /> Include 
+          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		  <input type="radio" name="q1" value="exclude" />Do not include <br />
           <br />
           <br />
           <questionCheckBoxes />
@@ -877,7 +930,6 @@ class LabQuestionForm extends Component {
         <button type="button">Add question</button> <br />
         <br />
 
-          <a href="/questions/">Next </a>
 		  </form>
 		
 		</form>

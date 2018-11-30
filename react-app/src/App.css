@@ -10,6 +10,14 @@ input[type=text], select, textarea {
     border-radius: 4px;
     resize: vertical;
 }
+input[type=largeText], select, textarea {
+	width: 150%;
+	height: 200px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+	word-wrap: break-word;
+}
 
 input[type=login], textarea {
 	width: 50%;
