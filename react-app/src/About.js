@@ -5,6 +5,14 @@ class About extends Component {
 	render(){
 		return(
 			<form>
+			<div>
+					<h3>Wicked Easy Teaching Evaluations&emsp;
+					<b href="/about/">About</b>&nbsp;
+					<a href="/faq/">FAQ</a>&nbsp;
+					<a href="/login/">Login</a><hr/></h3>
+			</div>
+		
+			
 
 			<h2> About Wicked Easy Teaching Evaluations </h2>
 				The Wicked Easy platform was created in the 2018-2019 academic year as a project<br/>

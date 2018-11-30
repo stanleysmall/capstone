@@ -1,20 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
 
-class App extends Component {
-  render() {
+class QuestionForms extends Component {
+	render() {
     return (
       <form>
-        <div class="container">
-          <Welcome />
-        </div>
-        <br />
-
-        <div class="container">
-          <CourseForm />
-        </div>
-        <br />
-
+		<a href="/login/">Sign out </a>
         <div class="container">
           <InstructorQuestionForm />
         </div>
@@ -50,134 +41,9 @@ class App extends Component {
           <OpenEndedQuestionForm />
         </div>
 		<br />
-		
-		<div class="container">
-			<EnrollForm />
-		</div>
-		<br />
-		
-		<div class="container">
-			<InviteEmailForm />
-		</div>
-		<br />
-		
-		<div class="container">
-			<ReminderEmailForm />
-		</div>
-		<br />
-		
-      </form>
-    );
-  }
-}
-
-class Welcome extends Component {
-  render() {
-    return (
-	<form>
-      <div>
-        <h1>Welcome to EVAL! </h1>
-        <button type="button">Start a Survey</button> <br />
-        <br />
-        <button type="button">Log In</button> <br />
-      </div>
-	  </form>
-    );
-  }
-}
-
-class CourseForm extends Component {
-  render() {
-    return (
-      <form>
-	  <form>
-	  <h1>Course Information </h1>
-        <div class="fieldLabel">Course Designator (e.g. MUS)</div>
-        <div class="fieldEntry">
-          <input type="text" name="coursedesignator" placeholder="" /> <br />
-        </div>
-
-        <div class="fieldLabel">Course Number (e.g. 200)</div>
-        <div class="fieldEntry">
-          <input type="text" name="coursenumber" /> <br />
-        </div>
-
-        <div class="fieldLabel">Course Section (e.g. 001)</div>
-        <div class="fieldEntry">
-          <input type="text" name="coursesection" /> <br />
-        </div>
-
-        <div class="fieldLabel">Course Title (e.g. Ballroom Dance)</div>
-        <div class="fieldEntry">
-          <input type="text" name="coursetitle" /> <br />
-        </div>
-
-        <div class="fieldLabel">Semester and Calendar Year (e.g Fall 2019)</div>
-        <div class="fieldEntry">
-          <input type="text" name="year" /> <br />
-        </div>
-
-        <div class="fieldLabel"> Name of Faculty Unit ( e.g. School of Music)</div>
-        <div class="fieldEntry">
-          <input type="text" name="facultyUnit" /> <br />
-        </div>
-
-        <div class="fieldLabel">Name of College ( e.g. Liberal Arts)</div>
-        <div class="fieldEntry">
-          <input type="text" name="nameOfCollece" /> <br />
-        </div>
-
-        <div class="fieldLabel">Name of University ( e.g. Liberal Arts)</div>
-        <div class="fieldEntry">
-          <input type="text" name="nameOfUniversity" /> <br />
-        </div>
-		
-		<div class="fieldLabel">First and Last Name of Instructor ( e.g. Beth Smith)</div>
-        <div class="fieldEntry">
-          <input type="text" name="instructorName" /> <br />
-        </div>
-
-		<div class="fieldLabel">Instructor Email</div>
-        <div class="fieldEntry">
-          <input type="text" name="instructorEmail" /> <br />
-        </div>
-		<div class="fieldLabel">Instructor Phone</div>
-        <div class="fieldEntry">
-          <input type="text" name="instructorPhone" /> <br />
-        </div>
-		
-		<div class="fieldLabel">Full Name of Course Evaluation Administrator</div>
-        <div class="fieldEntry">
-          <input type="text" name="adminName" /> <br />
-        </div>
-		
-		<div class="fieldLabel">Email of Course Evaluation Administrator</div>
-        <div class="fieldEntry">
-          <input type="text" name="adminEmail" /> <br />
-        </div>
-
-		<div class="fieldLabel">Beginning Date of Assessments</div>
-        <div class="fieldEntry">
-          <input type="date" name ="beginDate" /> <br />
-        </div>
-		
-        <div class="fieldLabel">Time of Day to send reminder emails</div>
-        <div class="fieldEntry">
-          <input type="time" /> <br />
-        </div>
-		
-		<div class="fieldLabel">Closing Date of Assessments</div>
-        <div class="fieldEntry">
-          <input type="date" name = "closingDate" /> <br />
-        </div>
-		<br /><br /><br />
 		</form>
-		<form>
-          <input type="submit" value="Next" />
-        </form>
-      </form>
-    );
-  }
+		)
+	}
 }
 
 class InstructorQuestionForm extends Component {
@@ -1011,7 +877,7 @@ class LabQuestionForm extends Component {
         <button type="button">Add question</button> <br />
         <br />
 
-          <input type="submit" value="Next" />
+          <a href="/questions/">Next </a>
 		  </form>
 		
 		</form>
@@ -1019,121 +885,4 @@ class LabQuestionForm extends Component {
 	}
 }	
 
-
-
-
-class questionCheckBoxes extends Component {
-  render() {
-    return (
-      <form>
-        <div class="fieldLabel">Add new question</div>
-        <div class="fieldEntry">
-          <input type="text" name="question" />
-        </div>
-        <input type="submit" value="Add" />
-      </form>
-    );
-  }
-}
-
-class EnrollForm extends Component {
-	render(){
-		return(
-			<form>
-				<div>
-				<h2>Class Roll</h2>
-				</div>
-				<div>Please insert in the field below the first name, last name, and email of each student in the class. <br />
-										The information for each student should appear in a separate row and be separated by commas. (e.g Mary, Smith, marysmith@qmail.com) <br />
-										You may cut and paste into the window at your option.</div>
-				<br />
-				<div class="fieldEntry">
-					<input type="text" name="question" />
-					</div>
-					<br />
-				<input type="submit" value="Next" />
-			</form>
-		);
-	}
-}
-
-class InviteEmailForm extends Component {
-	render(){
-		return(
-			<form>
-				<div>
-				<h2>Emails to be sent to students</h2>
-				<h3>Initial Email invitation to Participate</h3>
-				</div>
-				<div>Although we recommend that you do not change the following email text, you may edit the Invitation to Participate as <br />
-					appropriate for your purposes if needed. Do NOT change any item listed as (VARIABLE) because this will cause an <br />
-					error in your submission that you will be forced to correct prior to successful submission. <br />
-					This email will be sent to each student on the begin date you specified above.
-				</div>
-				<br />
-				
-					Subject: Invitation to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE) <br /> <br />
-
-					Dear (FIRSTNAME), <br /><br />
-
-					Please complete the teaching and course evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE). <br />
-
-					This student evaluation of teaching is completely anonymous unless you purposefully identify yourself in response to one of the questions. <br />The software system will send you automatic reminders every few days until you complete the evaluation. <br />
-					<br />
-					To respond, simply click the link at the end of this message. <br /><br />
-
-					Sincerely, <br />
-					(ADMINNAME) <br />
-					----------------------------------------------<br />
-					Click here to complete the teaching and course evaluation: <br />
-					(SURVEYURL) <br /> <br />
-
-					(ADMINNAME) ((ADMINEMAIL) <br />  
-				
-				<br /> <br />
-				<input type="submit" value="Next" />
-				</form>
-		);
-	}
-}
-
-class ReminderEmailForm extends Component {
-	render(){
-		return(
-			<form>
-				<div>
-				<h2>Reminder Emails</h2>
-				</div>
-				<div class="fieldLabel">Do you want one or more remminder emails sent to students who have yet to repond after a few days?</div>
-				<input type ="checkbox" value="yes" /> Yes
-				<br />
-				<br />
-				
-				Subject: Reminder to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE) 
-
-				Dear (FIRSTNAME),
-
-				Recently we invited you to complete a teaching evaluation for “(COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)”. We note that you have not yet completed the evaluation, and wish to remind you that it is still available should you wish to take part.
-
-				To participate, please click on the link below.
-
-				The deadline for completing the evaluation is (CLOSINGDATE) at (TIM).
-
-				Your participation is extremely important to the improvement of teaching and courses at the (UNIVERSITYNAME)
-
-				Sincerely,
-				(ADMINNAME)
-				----------------------------------------------
-				Click here to complete the teaching and course evaluation:
-				(SURVEYURL)
-
-				<br/><br/>
-				
-				<input type="submit" value="Next" />
-				</form>
-		);
-	}
-	
-}
-
-export default App;
+export default QuestionForms;

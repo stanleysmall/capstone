@@ -5,6 +5,8 @@ import About from "./About";
 import FAQ from "./FAQ";
 import Login from "./Login";
 import App from "./App";
+import CourseForm from "./CourseForm";
+import QuestionForms from "./QuestionForms";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const about = () => <h2>About</h2>;
@@ -13,18 +15,13 @@ const login = () => <h2>Login</h2>;
 
 const AppRouter = () => (
   <Router>
-    <div id="nav">
-			<h3>Wicked Easy Teaching Evaluations&emsp;
-            <a href="/">Home</a>&nbsp;
-            <a href="/about/">About</a>&nbsp;
-            <a href="/faq/">FAQ</a>&nbsp;
-			<a href="/login/">Login</a><hr/></h3>
-			
+    <div>
       <Route path="/" exact component={Landing} />
       <Route path="/about/" component={About} />
       <Route path="/faq/" component={FAQ} />
 	  <Route path="/login/" component={Login} />
-	  <Route path="/select/" component={App} />
+	  <Route path="/create/" component={CourseForm} />
+	  <Route path="/questions/" component={QuestionForms} />
     </div>
   </Router>
 );

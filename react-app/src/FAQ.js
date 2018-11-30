@@ -5,6 +5,14 @@ class FAQ extends Component {
 	render(){
 		return(
 			<form>
+			<div>
+					<h3>Wicked Easy Teaching Evaluations&emsp;
+					<a href="/about/">About</a>&nbsp;
+					<b href="/faq/">FAQ</b>&nbsp;
+					<a href="/login/">Login</a><hr/></h3>
+			</div>
+		
+			
 				<h2>Where can I find the software supporting<br/>
 					this open source platform?</h2>
 				The Wicked Easy Teaching evaluation web site is an implementation of an open source<br/>
