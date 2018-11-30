@@ -4,7 +4,7 @@ import "./App.css";
 class FAQ extends Component {
 	render(){
 		return(
-			<div>
+			<form>
 				<h2>Where can I find the software supporting<br/>
 					this open source platform?</h2>
 				The Wicked Easy Teaching evaluation web site is an implementation of an open source<br/>
@@ -27,7 +27,7 @@ class FAQ extends Component {
 				open source software deployed by this demonstration site to host your own course<br/>
 				evaluation site for your own purposes.<br/><br/>
 				
-			</div>
+			</form>
 			
 		)
 	}

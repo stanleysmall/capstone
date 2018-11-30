@@ -7,7 +7,6 @@ class About extends Component {
 			<form>
 
 			<h2> About Wicked Easy Teaching Evaluations </h2>
-			<div>
 				The Wicked Easy platform was created in the 2018-2019 academic year as a project<br/>
 				within the two-semester computer science capstone course at the University of Maine.<br/>
 				Our goals for Wicked Easy Teaching Evaluations are to:<br/>
@@ -37,7 +36,6 @@ class About extends Component {
 				of Jovon Craig, Robert Judkins, Sam Elliott, and Stanley Small. The course instructor<br/>
 				was Dr. Terry Yoo, Associate Professor of Computer Science. The project client was<br/>
 				Professor Harlan Onsrud.
-			</div>
 			</form>
 		)
 	}

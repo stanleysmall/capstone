@@ -5,7 +5,7 @@ import "./App.css";
 class Landing extends Component {
 	render() {
 		return(
-				<div>
+				<form>
 				<h1>We make the creation of teaching <br/> evaluations and the reporting of<br/> student responses wicked easy!</h1><br/>
 				
 					We provide a secure open source platform available at no cost to any teacher or university<br/>
@@ -20,7 +20,7 @@ class Landing extends Component {
 				
 				<button type="button"> Demo Teaching Evaluation </button>&nbsp;
 				<button type="button"> Try it </button>
-			</div>
+			</form>
 		)
 	}
 }

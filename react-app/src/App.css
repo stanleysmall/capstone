@@ -11,6 +11,15 @@ input[type=text], select, textarea {
     resize: vertical;
 }
 
+input[type=login], textarea {
+	width: 50%;
+	padding: 0px 12px;
+	border: 1px solid #4CAF50;
+	border-radius: 4px;
+	resize: vertical;
+	
+}
+
 input[type=text]:focus {
     border: 1px solid #555;
 }
@@ -72,9 +81,9 @@ button[type=login] {
 }
 
 .fieldEntry {
-    float: left;
+    float: center;
     width: 40%;
-    margin-top: 18px;
+    margin-top: 6px;
 }
 
 .row:after {
@@ -86,3 +95,24 @@ button[type=login] {
 div{
 	padding: 30px
 }
+
+a:hover {
+	background-color: #45a049;
+}
+
+a {
+	background-color: #4CAF50;
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+	text-decoration: none;
+    cursor: pointer;
+    //float: right;
+	width: 50px;
+}
+
+.nav {
+	margin-right:150px;
+}
+
