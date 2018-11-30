@@ -197,78 +197,75 @@ This page is where a user would view results of their surveys, organized by each
 
 Table 1 lists the data items in the user interface of the evaluation system. A data item is an input that a user enters into the system and has a specified format. As shown on the next page, many items are for editing an evaulation survey form. For more information about a form's questions, see Appendix D.
 
-\vspace{2in}
+\newpage
 \newgeometry{left=1cm, right=1cm, top=1in, bottom=1in}
-
 \begin{center}
 \captionof{table}{Data item specification}
-\begin{tabular}{|p{4.4cm}|p{2.2cm}|p{2cm}|p{4cm}|p{4cm}|} 
+\scalebox{.95}{
+\begin{tabular}{|p{4.4cm}|p{2.2cm}|p{1.5cm}|p{4cm}|p{3cm}|} 
 \hline
 \textbf{Label} & \textbf{Screen(s)} & \textbf{Data Type} & \textbf{Format} & \textbf{Limit(s)} \\
 \hline
-Username & Log in & String & & \\ 
+Username & Log in & String & username@gmail.com & N/A \\ 
 \hline
-Password & Log in & String & & \\ 
+Password &New/Edit form & String & N/A & N/A \\ 
 \hline
-Course designator & Info edit & String & & \\ 
+Course designator & New/Edit form & String & N/A & 50 characters \\ 
 \hline
-Course number & Info edit & String & & \\ 
+Course number &New/Edit form & String & N/A & 50 characters\\ 
 \hline
-Course section & Info edit & String & & \\ 
+Course section &New/Edit form & String & N/A & 50 characters\\ 
 \hline
-Course title & Info edit & String & & \\ 
+Course title & New/Edit form & String & N/A & 50 characters\\ 
 \hline
-Semester and year & Info edit & String & & \\ 
+Graduate Course & New/Edit form & Boolean & N/A & 50 characters\\ 
 \hline
-Faculty unit & Info edit & String & & \\ 
+Semester and year &New/Edit form & String & N/A & 50 characters\\ 
 \hline
-Department & Info edit & String & & \\ 
+Faculty unit & New/Edit form & String & N/A & 50 characters\\ 
 \hline
-University & Info edit & String & & \\ 
+Department & New/Edit form & String & N/A & 50 characters\\ 
 \hline
-Instructor name & Info edit & String & & \\ 
+University &New/Edit form & String & N/A & 50 characters\\ 
 \hline
-Instructor e-mail & Info edit & String & & \\ 
+Instructor first name &New/Edit form & String & N/A & 50 characters \\ 
 \hline
-Instructor phone & Info edit & String & & \\ 
+Instructor last name & New/Edit form & String & N/A & 50 characters\\ 
 \hline
-Course evaluation adminstrator & Info edit & String & & \\ 
+Instructor e-mail & New/Edit form & String & N/A & 50 characters\\ 
 \hline
-Evaluation administrator e-mail & Info edit & String & & \\ 
+Instructor phone & New/Edit form & String & N/A & 50 characters\\ 
 \hline
-Starting assessment date & Info edit & String & & \\ 
+Course evaluation administrator & New/Edit form & String & N/A & 50 characters\\ 
 \hline
-Meeting time & Info edit & String & & \\ 
+Evaluation administrator e-mail & New/Edit form & String & N/A & 50 characters\\ 
 \hline
-Closing assessment date & Info edit & String & & \\ 
+Starting assessment date & String & New/Edit form & mm/dd/yy & 50 characters\\ 
 \hline
-Added instructor questions & Question edit & Strings & & \\ 
+Mailing time & New/Edit form & String & hr:min:sec & 50 characters\\ 
 \hline
-Added course questions & Question edit & Strings & & \\ 
+Closing assessment date & New/Edit form & String & N/A & 50 characters\\ 
 \hline
-Added work assessment questions & Question edit & Strings & & \\ 
+Added question & Question edit & Strings & N/A & 150 characters\\ 
 \hline
-Added laboratory questions & Question edit & Strings & & \\ 
+1 score label & Question edit & String & N/A & 50 characters\\
 \hline
-Added TA questions & Question edit & Strings & & \\ 
+5 score label & Question edit & String & N/A & 50 characters\\
 \hline
-Added online component questions & Question edit & Strings & & \\ 
+``Include?'' checkboxes & Question edit & Boolean & N/A & N/A \\ 
 \hline
-Added open-ended questions & Question edit & Strings & & \\ 
+``Mandatory'' checkboxes & Question edit & Boolean & N/A & N/A \\ 
 \hline
-``Include?'' checkboxes & Question edit & Booleans & & \\ 
+Class roll & E-mail edit & String & Comma separated: \newline first,last,email & N/A \\ 
 \hline
-``Mandatory'' checkboxes & Question edit & Booleans & & \\ 
+Initial e-mail to students & E-mail edit & String & N/A & N/A \\ 
 \hline
-Class roll & E-mail edit & String & & \\ 
+Reminder e-mail & E-mail edit & String & N/A & N/A\\ 
 \hline
-Initial e-mail to students & E-mail edit & String & & \\ 
-\hline
-Reminder e-mail & E-mail edit & String & & \\ 
-\hline
-Final confirmation e-mail & E-mail edit & String & & \\ 
+Final confirmation e-mail & E-mail edit & String & N/A & N/A\\ 
 \hline
 \end{tabular}
+}
 \end{center}
 
 \appendix
