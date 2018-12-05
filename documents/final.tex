@@ -49,6 +49,9 @@ Instructor: Professor Terry Yoo
 
 \subsection{Purpose of This Document}
 
+This final project document gives an overview of our course evaluation system, the purpose of it, and why we believe it is so useful. We first talk about existing survey creation software and how they are not tailored to college instructors and administrators, unlike our system. The next section goes into more detail about the system, discussing its requirements, user interface, and architecture. The section mentions what we will deliver to the client and our progress on creating the system. The conclusion talks about the steps we still need to take to successfully complete the project.
+
+This document is intended for the development team, the product client, and potential users of the system. Team EVAL needs this document to see whether the evaluation system is implemented in code properly. The client, Professor Harlan Onsrud, also needs it to verify that we are designing the system according to his needs. The document helps the software's users by informing them how the system specifically helps them with their work.
 
 \subsection{References}
 
@@ -61,14 +64,28 @@ Craig, J., Elliott, S., Judkins, R., \& Small, S. 30 November 2018. \textit{User
 Onsrud, H. ``Example Question Selection Form.'' See Appendix D.
 \vspace{3mm}\newline
 Onsrud, H. ''Report for Professor: Roy Turner'' See Appendix E.
+\vspace{3mm}\newline
+LimeSurvey: The online survey tool - open source surveys. (n.d.). Retrieved from https://www.limesurvey.org/.
 
 \section{Purpose of This System}
 
+\subsection{Our Problem}
+
+In 2015, there were more than 4,600 higher-education institutions in the United States. Virtually all of them offer a breadth of college courses for students to complete and take them through their academic careers. At the end of a course, students typically fill out an evaluation survey so that teachers know what they are doing right and wrong. Unfortunately, many institutions, such as the University of Maine, are behind in using technology for this task.
+
+The University of Maine has traditionally used Scantron sheets for course evaluation forms. As Team EVAL knows, filling in tiny bubbles with pencil and paper is tedious. The college administration shares our grief over using sheets. They need to scan the forms for every student in every course, and the data then needs to be collected in a form that is readable for instructors. The University of Maine must upgrade to keep with the times and exploit today's technology.
+
 \subsection{Existing Survey Software}
+
+Several software solutions currently exist that allow users to create, modify, and publish surveys. One notable example is LimeSurvey, a free and open-source tool that is operated online. The team acknowledges the immense amount of work put into creating LimeSurvey, with its vast number of question types, scalability, visualization features, and other powerful functionality. However, LimeSurvey has always been general-purpose software; it is aimed at multiple types of users who want to make surveys.
+
+College teachers and administrators need to jump through hoops to use a tool like LimeSurvey. Their surveys are highly standardized, they are sent to potentially hundreds of students, and students must constantly be reminded of them. LimeSurvey and similar software do not account for these qualities. A college instructor would have to manually input every field, question, and class roll into each survey from scratch. There is also no built-in functionality to send e-mail reminders to students of course evaluations. Those are some of the reasons why our client, Dr. Onsrud, wants us to create an evaluation system better suited to instructors.
 
 \subsection{Our Solution}
 
-\subsection{Use Cases}
+Our solution to the above problems is to make our own course evaluation system, which has simplicity and ease-of-use in mind. Like existing survey software, our system can too create, modify, and publish surveys. But the differences between our software and LimeSurvey are great. With the new system, instructors and administrators can select a survey created previously to use again for a different survey. They can modify the class roll at the same time as they modify their evaluation form. Also, survey results are specially displayed to indicate the current performance of an instructor.
+
+There are several way in which users can interact with our novel course evaluation system. First, they can create a new evaluation survey form with any required fields and questions already listed. They can then edit forms that are unpublished or view forms that have already been published. After publishing a survey, students are periodically reminded to complete it by our system. Finally, users can see results on a select group of college courses for each question in a survey.
 
 \section{About This System}
 
