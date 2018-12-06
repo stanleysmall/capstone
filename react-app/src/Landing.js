@@ -8,12 +8,13 @@ class Landing extends Component {
 				<form>
 				<div>
 					<h3>Wicked Easy Teaching Evaluations&emsp;
+					<b href="/">Home</b>&nbsp;
 					<a href="/about/">About</a>&nbsp;
 					<a href="/faq/">FAQ</a>&nbsp;
 					<a href="/login/">Login</a><hr/></h3>
 				</div>
 				
-				
+				<center>
 				<h1>We make the creation of teaching <br/> evaluations and the reporting of<br/> student responses wicked easy!</h1><br/>
 				
 					We provide a secure open source platform available at no cost to any teacher or university<br/>
@@ -28,6 +29,7 @@ class Landing extends Component {
 				
 				<button type="button"> Demo Teaching Evaluation </button>&nbsp;
 				<button type="button"> Try it </button>
+				</center>
 			</form>
 		)
 	}

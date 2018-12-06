@@ -28,6 +28,14 @@ input[type=login], textarea {
 	
 }
 
+input[type=password], textarea {
+	width: 50%;
+	padding: 0px 12px;
+	border: 1px solid #4CAF50;
+	border-radius: 4px;
+	resize: vertical;
+}
+
 input[type=text]:focus {
     border: 1px solid #555;
 }
@@ -104,6 +112,11 @@ div{
 	padding: 15px
 }
 
+.infoScreens {
+	padding-left: 25%;
+	padding-right: 25%;
+}
+
 a:hover {
 	background-color: #45a049;
 }
@@ -140,3 +153,7 @@ b {
 	margin-right:150px;
 }
 
+select {
+	height:25%;
+	width: 25%;
+}

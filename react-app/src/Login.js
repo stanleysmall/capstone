@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import AppRouter from "./AppRouter";
+
 
 class Login extends Component{
 	render(){
@@ -8,6 +8,7 @@ class Login extends Component{
 			<form>
 			<div>
 					<h3>Wicked Easy Teaching Evaluations&emsp;
+					<a href="/">Home</a>&nbsp;
 					<a href="/about/">About</a>&nbsp;
 					<a href="/faq/">FAQ</a>&nbsp;
 					<b href="/login/">Login</b><hr/></h3>
@@ -28,8 +29,8 @@ class Login extends Component{
 					Password<br/>
 					</form>
 					<form class = "fieldEntry">
-					<input type="login" name="password" /> </form><br/>
-					<a href="/create/">Log in </a><br/><br/>
+					<input type="password" name="password" /> </form><br/>
+					<a href="/home/">Log in </a><br/><br/>
 					
 					<a href="/">Create Account </a>
 			</center>
