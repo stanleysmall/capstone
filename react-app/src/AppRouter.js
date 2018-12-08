@@ -7,7 +7,9 @@ import Login from "./Login";
 import CourseForm from "./CourseForm";
 import QuestionForms from "./QuestionForms";
 import EnrollForm from "./EnrollForm";
+import EditCourse from "./EditCourse";
 import Home from "./Home";
+import Results from "./Results";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 
@@ -23,6 +25,8 @@ const AppRouter = () => (
 	  <Route path="/questions/" component={QuestionForms} />
 	  <Route path="/enroll/" component={EnrollForm} />
 	  <Route path="/home/" component={Home} />
+	  <Route path="/edit/" component={EditCourse} />
+	  <Route path="/results/" component={Results} />
     </div>
   </Router>
 );

@@ -9,11 +9,13 @@ class EnrollForm extends Component {
 				<a href="/questions/">Back </a>&nbsp;
 				<a href="/login/">Sign out </a>
 				<Enroll />
+				<hr/>
 				</div>
 				<br />
 				
 				<div class="container">
 					<InviteEmailForm />
+					<hr/>
 				</div>
 				<br />
 				
@@ -120,7 +122,7 @@ class ReminderEmailForm extends Component {
 
 				<br/><br/>
 				
-				<a href="/">Submit </a>
+				<a href="/home/">Submit </a>
 				</form>
 		);
 	}

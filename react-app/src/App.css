@@ -92,7 +92,7 @@ button[type=login] {
 
 .fieldLabel {
     float: left;
-    width: 20%;
+    width: 50%;
     margin-top: 6px;
 }
 
@@ -156,4 +156,11 @@ b {
 select {
 	height:25%;
 	width: 25%;
+}
+
+table, th, td {
+	border: 1px solid black;
+	width: 75%;
+	border-collapse:collapse;
+	padding:1%
 }

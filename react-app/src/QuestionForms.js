@@ -10,32 +10,38 @@ class QuestionForms extends Component {
 			<a href="/create/">Back </a>&nbsp;
 			<a href="/login/">Sign out </a>
           <InstructorQuestionForm />
+		  <hr/>
         </div>
 		<br />
 
         <div class="container">
           <CourseQuestionForm />
+		  <hr/>
         </div>
 		<br />
 		
 		<div class="container">
           <AssessmentQuestionForm />
+		  <hr/>
         </div>
 		<br />
 		
 		<div class="container">
         <LabQuestionForm />
+		<hr/>
         </div>
 		<br />
 		
 		
 		<div class="container">
           <TAQuestionForm />
+		  <hr/>
         </div>
 		<br />
 		
 		<div class="container">
           <OnlineQuestionForm />
+		  <hr/>
         </div>
 		<br />
 		
