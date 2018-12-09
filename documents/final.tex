@@ -93,18 +93,83 @@ There are several way in which users can interact with our novel course evaluati
 
 \subsection{System Requirements}
 
+\begin{center}
+\captionof{table}{Functional requirements}
+\begin{tabular}{|p{1.5cm}|p{1.5cm}|p{2.5cm}|p{6cm}|} 
+\hline
+\textbf{Number} & \textbf{Priority} & \textbf{Name} & \textbf{Description} \\
+\hline
+1 & & & \\ 
+\hline
+2 & & & \\ 
+\hline
+3 & & & \\  
+\hline
+4 & & & \\
+\hline
+5 & & & \\ 
+\hline
+6 & & & \\ 
+\hline
+7 & & & \\ 
+\hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\captionof{table}{Non-functional requirements}
+\begin{tabular}{|p{1.5cm}|p{1.5cm}|p{8cm}|}
+\hline
+\textbf{Number} & \textbf{Priority} & \textbf{Description} \\
+\hline
+1 & 3 & The software should be supported by the latest versions of Windows, Mac, Linux, iOS, and Android.\\ 
+\hline
+2 & 4 & The software should be accessible by the latest versions of Safari, Chrome, Firefox, and Edge.\\ 
+\hline
+3 & 5 & All questions entered by the teacher or administrator shall appear on the output survey.\\  
+\hline
+4 & 5 & All data stored in the program's database shall be valid.\\
+\hline
+5 & 5 & All collected survey data shall not be alterable.\\ 
+\hline
+6 & 4 & Teachers shall not be able to access data of courses other than their own.\\ 
+\hline
+7 & 3 & The mean time between failures should be at least 60 minutes.\\ 
+\hline
+8 & 5 & Students shall have no access to any data stored by the program.\\ 
+\hline
+9 & 5 & All survey responses (except signed \newline comments) shall be anonymous.\\ 
+\hline
+10 & 2 & The software should scale to at least three universites, 1000 courses per semester, 1000 teachers per university, and 500 students per course.\\  
+\hline
+11 & 1 & The software should not exceed 500 MB in size.\\
+\hline
+12 & 4 & The software's source code shall be open-source and shall use a GPLv2 license.\\ 
+\hline
+13 & 4 & The licensing requirements of any non-original code shall be met.\\ 
+\hline
+14 & 4 & The software shall meet UMaine AFUM requirements.\\ 
+\hline
+\end{tabular}
+\end{center}
+
 \subsection{System Architecture}
 
 \begin{center}
+\begin{figure}[H]
+\centering
 \captionof{figure}{Component diagram of the system}
 \vspace{2mm}
 \label{fig:componentdiagram}
-{\includegraphics[scale=.75]{images/component_diagram.png}} 
+{\includegraphics[scale=.75]{images/component_diagram.png}}
+\end{figure}
 \end{center}
 
-\pagebreak
 \subsection{User Interface}
-The user interface is a pivotal part of the user experience and is important for our product. The goal of the system is to make an easy to use software that allows users to create course evaluations for their classes with little difficulty.  Users have no interaction with the back end architecture and will only see the user interface so for this reason the ease of use relies entirely on this part of the product.  The exact description of every aspect of our user interface can be found in the User Interface Design Document (UIDD).  The overarching theme for the user interface is less is more.  The interface will have as few extraneous elements as possible, the product is intended to be as intuitive as possible and should not require a large amount of effort to understand the system.  To this end all functionality of the product should be accessible from the home page, whose wire frame is shown bellow in Figure 2.  
+The user interface is a pivotal part of the user experience and is important for our product. The goal of the system is to make an easy-to-use software that allows users to create course evaluations for their classes on a web application.  Users have no interaction with the back-end architecture and will only see the user interface, so the ease of use relies entirely on the front-end UI.  The exact description of every aspect of our user interface can be found in the User Interface Design Document (UIDD). 
+
+The overarching theme for the user interface is ``less is more''.  The interface will have as few extraneous elements as possible, be as intuitive as possible, and not require a large amount of effort to understand the system.  To this end, all functionality of the product should be accessible from the home page, whose wireframe is shown bellow in Figure 2. 
+
 \begin{center}
 \begin{figure}[H]
     \centering
@@ -113,7 +178,7 @@ The user interface is a pivotal part of the user experience and is important for
 \end{figure}
 \end{center}
 
-After the landing screen and logging in the user should instantly be aware of what the functionality of the product is be able to user it in its entirety.  Users should be able to access all aspects of the product from the home page.  While the interface should be intuitive, help text for the functionality will be present on the same page and not require users to navigate away from it.  The interface will allow users to easily create new evaluations, view their existing and previous evaluations, and get results on completed evaluations.     
+After the landing screen and log-in screen, the user should instantly be aware of the types of functions that one can make through the home screen. To reduce confusion, help text for different features will be present on the same page and not require users to navigate away from it.  The interface will allow users to create new evaluations, view their existing and previous evaluations, and view results of completed evaluations.
 
 \subsection{Tests}
 
@@ -122,9 +187,11 @@ Team EVAL will write several tests in the near future to ensure that the course 
 \section{Conclusion}
 
 \subsection{Needs This System Meets}
-Our system will potentially bring the University of Maine into the modern age with its course evaluation system. An instructor will be able to create a survey using our software and the students will be able to take the evaluation all online. The results will automatically be fed back into the software and the instructor will be able to download the data afterwards.
 
-This product will eliminate the need for Scantron sheets and provide a fast and simple way to distribute evaluation evaluations to all students in a desired course. The product will be free for use at the University of Maine and any other teachers that may be interested in using it. 
+With its high-tech features, our course evaluation system could potentially bring the University of Maine into the modern age. Using our software, an instructor will be able to create a survey with ease, and students will be able to take the whole evaluation form online. The results will automatically be fed back into the software, and the instructor will be able to view statistics of the results and download them afterwards.
+
+This product will eliminate the need for Scantron sheets and provide a fast and simple way to distribute evaluation evaluations to all students in a desired course. The product will be free for use at the University of Maine and any other teachers who may be interested in using it.
+
 \subsection{Current Progress}
 
 We have met with our client, Professor Harlan Onsrud, several times over the past few months. Initially we met him to solicit the requirements for the product so that we could deliver something that would both satisfy our customer and potential users of the system. Though it took some time, we eventually came to an agreement, and the requirements were written in detail for us to refer to during development. See the System Requirements Specification for more detail.
@@ -142,7 +209,7 @@ There is still a lot of work to do before our evaluation system is complete. Fir
 The team will create an administrator manual and user manual to tell potential users how to interact with the evaluation system. Near the end of the school year, we will submit the final copies of all of our documents electronically. Table 1 lists the date and format that each submission from Team EVAL has been or will be delivered. The dates for incomplete submissions are estimated.
 
 \begin{center}
-\captionof{table}{}
+\captionof{table}{List of document submissions}
 \begin{tabular}{|p{6cm}|p{3cm}|p{3cm}|} 
 \hline
 \textbf{Submission} & \textbf{Date of Delivery} & \textbf{Format} \\
@@ -173,7 +240,6 @@ Web Link to Program & May 2019 & Electronic\\
 \hline
 \end{tabular}
 \end{center}
-
 
 \newpage
 \section{Agreement Between Customer and Contractor}
