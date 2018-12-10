@@ -40,6 +40,7 @@ class Enroll extends Component {
 										The information for each student should appear in a separate row and be separated by commas. (e.g Mary, Smith, marysmith@qmail.com) <br />
 										You may cut and paste into the window at your option.</div>
 				<br />
+				<button type="button">Upload .csv</button>
 				<div class="fieldEntry">
 					<input type="largeText" name="enrolled" />
 					</div>

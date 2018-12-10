@@ -21,6 +21,7 @@ input[type=largeText], select, textarea {
 
 input[type=login], textarea {
 	width: 50%;
+	height: 30px;
 	padding: 0px 12px;
 	border: 1px solid #4CAF50;
 	border-radius: 4px;
@@ -30,6 +31,7 @@ input[type=login], textarea {
 
 input[type=password], textarea {
 	width: 50%;
+	height: 30px;
 	padding: 0px 12px;
 	border: 1px solid #4CAF50;
 	border-radius: 4px;
@@ -160,7 +162,11 @@ select {
 
 table, th, td {
 	border: 1px solid black;
-	width: 75%;
+	width: 50%;
 	border-collapse:collapse;
-	padding:1%
+	padding:.5%
+}
+
+table {
+	margin-top: 2%;
 }

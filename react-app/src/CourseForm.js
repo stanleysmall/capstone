@@ -6,6 +6,7 @@ class CourseForm extends Component {
     return (
 	  <form>
 	  <div class="container">
+	  <a href="/home/">Back </a>&nbsp;
 	  <a href="/login/">Sign out </a>
 	  <h1>Course Information </h1>
         <div class="fieldLabel">Course Designator (e.g. MUS)</div>
