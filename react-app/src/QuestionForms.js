@@ -212,12 +212,26 @@ class InstructorQuestionForm extends Component {
 		{/*
 			//Add question for instructor section
 		*/}
-        <button type="button">Add question</button> <br />
+        <button type="button" onClick={this.hideTextBox}>Add question</button> <br />
         <br />
-
+		<form class="hiddenForm" id="QBoxInstructor">
+			<textarea class="textAreaSmall" name="TAAddQ">Enter your additional question</textarea>
+			<input type="radio" name="q1" value="include" /> Include 
+			<input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		</form>
       </form>
     );
   }
+  hideTextBox(){
+		var box = document.getElementById("QBoxInstructor");
+		if(box.style.display==="block"){
+			box.style.display="none";
+		}else{
+			box.style.display="block";
+		}
+	
+	}
+  
 }
 
 class CourseQuestionForm extends Component {
@@ -294,12 +308,26 @@ class CourseQuestionForm extends Component {
 		{/*
 			//Add question for course section
 		*/}
-        <button type="button">Add question</button> <br />
+        <button type="button" onClick={this.hideTextBox}>Add question</button> <br />
         <br />
-		
+		<form class="hiddenForm" id="QBoxCourse">
+			<textarea class="textAreaSmall" name="TAAddQ">Enter your additional question</textarea>
+			<input type="radio" name="q1" value="include" /> Include 
+			<input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		</form>
 		
 		</form>
 	);
+	}
+	
+	hideTextBox(){
+		var box = document.getElementById("QBoxCourse");
+		if(box.style.display==="block"){
+			box.style.display="none";
+		}else{
+			box.style.display="block";
+		}
+	
 	}
 }
 
@@ -380,12 +408,26 @@ class AssessmentQuestionForm extends Component {
 		{/*
 			//Add question for assessment section
 		*/}
-        <button type="button">Add question</button> <br />
+        <button type="button" onClick={this.hideTextBox}>Add question</button> <br />
         <br />
-		
+		<form class="hiddenForm" id="QBoxAssessment">
+			<textarea class="textAreaSmall" name="TAAddQ">Enter your additional question</textarea>
+			<input type="radio" name="q1" value="include" /> Include 
+			<input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		</form>
 		
 		</form>
 	);
+	}
+	
+	hideTextBox(){
+		var box = document.getElementById("QBoxAssessment");
+		if(box.style.display==="block"){
+			box.style.display="none";
+		}else{
+			box.style.display="block";
+		}
+	
 	}
 }
 
@@ -610,8 +652,14 @@ class OnlineQuestionForm extends Component {
 		{/*
 			//Add question for online component assessment section
 		*/}
-        <button type="button">Add question</button> <br />
+        <button type="button" onClick={this.hideTextBox}>Add question</button> <br />
         <br />
+		<form class="hiddenForm" id="QBoxOnline">
+			<textarea class="textAreaSmall" name="TAAddQ">Enter your additional question</textarea>
+			<input type="radio" name="q1" value="include" /> Include 
+			<input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		</form>
+		
 		
 		</form>
 		</form>
@@ -625,6 +673,16 @@ class OnlineQuestionForm extends Component {
 		}else{
 			div.style.display="block";
 		}
+	}
+	
+	hideTextBox(){
+		var box = document.getElementById("QBoxOnline");
+		if(box.style.display==="block"){
+			box.style.display="none";
+		}else{
+			box.style.display="block";
+		}
+	
 	}
 }
 
@@ -690,12 +748,26 @@ class OpenEndedQuestionForm extends Component {
 		{/*
 			//Add question for open ended section
 		*/}
-        <button type="button">Add question</button> <br />
+        <button type="button" onClick={this.hideTextBox}>Add question</button> <br />
         <br />
-		
+		<form class="hiddenForm" id="QBoxOpen">
+			<textarea class="textAreaSmall" name="TAAddQ">Enter your additional question</textarea>
+			<input type="radio" name="q1" value="include" /> Include 
+			<input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		</form>
 		
 		</form>
 	);
+	}
+	
+	hideTextBox(){
+		var box = document.getElementById("QBoxOpen");
+		if(box.style.display==="block"){
+			box.style.display="none";
+		}else{
+			box.style.display="block";
+		}
+	
 	}
 }
 
@@ -859,7 +931,7 @@ class TAQuestionForm extends Component {
 		<form>
         <button type="button" onClick={this.hideTextBox}>Add question</button> <br />
         <br />
-		<form class="hiddenForm" id="QBox">
+		<form class="hiddenForm" id="QBoxTA">
 			<textarea class="textAreaSmall" name="TAAddQ">Enter your additional question</textarea>
 			<input type="radio" name="q1" value="include" /> Include 
 			<input type="radio" name="q1" value="mandatory" /> Mandatory <br />
@@ -881,7 +953,7 @@ class TAQuestionForm extends Component {
 	}
 	
 	hideTextBox(){
-		var box = document.getElementById("QBox");
+		var box = document.getElementById("QBoxTA");
 		if(box.style.display==="block"){
 			box.style.display="none";
 		}else{
@@ -967,7 +1039,7 @@ class LabQuestionForm extends Component {
 		*/}
 		<form>
         <button type="button" onClick={this.hideTextBox}>Add question</button> <br />
-		<form class="hiddenForm" id="QBox">
+		<form class="hiddenForm" id="QBoxLab">
 			<textarea class="textAreaSmall" name="LabAddQ">Enter your additional question</textarea>
 			<input type="radio" name="q1" value="include" /> Include 
 			<input type="radio" name="q1" value="mandatory" /> Mandatory <br />
@@ -990,7 +1062,7 @@ class LabQuestionForm extends Component {
 	}
 	
 	hideTextBox(){
-		var box = document.getElementById("QBox");
+		var box = document.getElementById("QBoxLab");
 		if(box.style.display==="block"){
 			box.style.display="none";
 		}else{

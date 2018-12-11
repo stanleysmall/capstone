@@ -94,40 +94,50 @@ class ReminderEmailForm extends Component {
 				<div>
 				<h2>Reminder Emails</h2>
 				</div>
-				<div class="fieldLabel">Do you want one or more remminder emails sent to students who have yet to repond after a few days?</div>
-				<br/><br/><input type ="checkbox" value="yes" /> Yes
+				<div class="fieldLabel">Do you want one or more reminder emails sent to students who have yet to repond after a few days?</div>
+				<br/><br/><input type ="checkbox" onClick={this.hideTextBox} value="yes" /> Yes
 				<br />
 				<br />
 				<br />
 				<br />
 				<br />
-				<textarea name="reminderEmail">
-				Subject: Reminder to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)
-			
-				Dear (FIRSTNAME),
+				<form class="hiddenForm" id="EmailBox">
+					<textarea name="reminderEmail">
+					Subject: Reminder to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)
+				
+					Dear (FIRSTNAME),
 
-				Recently we invited you to complete a teaching evaluation for “(COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)”. We note that you have not yet completed the evaluation, and wish to remind you that it is still available should you wish to take part.
+					Recently we invited you to complete a teaching evaluation for “(COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)”. We note that you have not yet completed the evaluation, and wish to remind you that it is still available should you wish to take part.
 
-				To participate, please click on the link below.
+					To participate, please click on the link below.
 
-				The deadline for completing the evaluation is (CLOSINGDATE) at (TIM).
+					The deadline for completing the evaluation is (CLOSINGDATE) at (TIM).
 
-				Your participation is extremely important to the improvement of teaching and courses at the (UNIVERSITYNAME)
+					Your participation is extremely important to the improvement of teaching and courses at the (UNIVERSITYNAME)
 
-				Sincerely,
-				(ADMINNAME)
-				----------------------------------------------
-				Click here to complete the teaching and course evaluation:
-				(SURVEYURL)
+					Sincerely,
+					(ADMINNAME)
+					----------------------------------------------
+					Click here to complete the teaching and course evaluation:
+					(SURVEYURL)
 
-				</textarea>
+					</textarea>
+				</form>
 				<br/><br/>
 				
 				<a href="/home/">Submit </a>
 				</form>
 		);
 	}
+	hideTextBox(){
+		var box = document.getElementById("EmailBox");
+		if(box.style.display==="block"){
+			box.style.display="none";
+		}else{
+			box.style.display="block";
+		}
 	
+	}
 }
 
 export default EnrollForm;
