@@ -89,6 +89,8 @@ Our solution to the above problems is to make our own free and open-source cours
 
 There are several way in which users can interact with our novel course evaluation system. First, they can create a new evaluation survey form with any required fields and questions already listed. They can then edit forms that are unpublished or view forms that have already been published. After publishing a survey, students are periodically reminded to complete it by our system. Finally, users can see results on a select group of college courses for each question in a survey.
 
+\newpage
+
 \section{About This System}
 
 \subsection{System Requirements}
@@ -165,6 +167,10 @@ There are several way in which users can interact with our novel course evaluati
 \end{figure}
 \end{center}
 
+Our system features a modular design, with many distinct parts which communicate via an API. We are using two databases, one maintained by LimeSurvey, and another maintained by our system. Additionally, the API will communicate with Google Authentication to authenticate users. The design and implementation of our system can be found in the System Design Document (SDD). 
+
+By maintaining a modular approach to the design of the system, team members can work independently on individual parts which will then undergo integration testing. Moreover, by keeping the LimeSurvey codebase separate from our system, we can update LimeSurvery without disrupting other parts of the code. 
+
 \subsection{User Interface}
 The user interface is a pivotal part of the user experience and is important for our product. The goal of the system is to make an easy-to-use software that allows users to create course evaluations for their classes on a web application.  Users have no interaction with the back-end architecture and will only see the user interface, so the ease of use relies entirely on the front-end UI.  The exact description of every aspect of our user interface can be found in the User Interface Design Document (UIDD). 
 
@@ -183,6 +189,8 @@ After the landing screen and log-in screen, the user should instantly be aware o
 \subsection{Tests}
 
 Team EVAL will write several tests in the near future to ensure that the course evaluation system meets all system requirements.
+
+\newpage
 
 \section{Conclusion}
 
@@ -206,7 +214,8 @@ The database that will store all our user's class evaluation data is in developm
 
 There is still a lot of work to do before our evaluation system is complete. First, the team will finish implementing all endpoints in the API. We will also write helper functions that use the LimeSurvey API to publish evaluations and retrieve responses. The user interface prototype will be polished to match what our wireframes specify, and the front-end will include functions that interact with the API and the database. Finally, we plan to write a series of tests for the back end and front end to debug the software and know when we are finished with the system.
 
-The team will create an administrator manual and user manual to tell potential users how to interact with the evaluation system. Near the end of the school year, we will submit the final copies of all of our documents electronically. Table 1 lists the date and format that each submission from Team EVAL has been or will be delivered. The dates for incomplete submissions are estimated.
+The team will create an administrator manual and user manual to tell potential users how to interact with the evaluation system. Near the end of the school year, we will submit the final copies of all of our documents electronically. Table 3 lists the date and format that each submission from Team EVAL has been or will be delivered. The dates for incomplete submissions are estimated.
+\newpage
 
 \begin{center}
 \captionof{table}{List of document submissions}
