@@ -13,7 +13,7 @@ class Home extends Component {
 			<hr/></h3>
 			</div>
 			
-			<div>
+			<div class="container">
 			Choose one of the following actions: <br/><br/>
 			1. <a href="/create/">Create a New Course & Teaching Evaluation Form</a><br/><br/>
 			<hr/>

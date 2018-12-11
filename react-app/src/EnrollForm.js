@@ -103,7 +103,7 @@ class ReminderEmailForm extends Component {
 				<br />
 				<textarea name="reminderEmail">
 				Subject: Reminder to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)
-
+			
 				Dear (FIRSTNAME),
 
 				Recently we invited you to complete a teaching evaluation for “(COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)”. We note that you have not yet completed the evaluation, and wish to remind you that it is still available should you wish to take part.

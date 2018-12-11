@@ -406,9 +406,7 @@ class OnlineQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Did you take this course as a distance learning student?</div>
-           <input type="radio" name="q1" value="include" /> Include 
-          <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
-		  <input type="radio" name="q1" value="exclude" />Do not include <br />
+           <input type="checkbox"  onClick={this.hideDiv} value="yes" /> Yes <br/>
           <br />
           <br />
           <questionCheckBoxes />
@@ -420,6 +418,7 @@ class OnlineQuestionForm extends Component {
 		////
 		//
 		*/}
+		<form class="hiddenForm" id="OnlineQ">
 		<form>
           <div class="fieldLabel">Please indicate the primary online modality used with the course.</div>
            <input type="radio" name="q1" value="include" /> Include 
@@ -614,9 +613,18 @@ class OnlineQuestionForm extends Component {
         <button type="button">Add question</button> <br />
         <br />
 		
-		
+		</form>
 		</form>
 	);
+	}
+	
+	hideDiv(){
+		var div = document.getElementById("OnlineQ");
+		if(div.style.display==="block"){
+			div.style.display="none";
+		}else{
+			div.style.display="block";
+		}
 	}
 }
 
@@ -709,7 +717,7 @@ class TAQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Was there a teaching assistant supporting this course?</div>
-          <input type="checkbox" value="yes" /> Yes <br />
+          <input type="checkbox" onClick={this.hideDiv} value="yes" /> Yes <br />
           <br />
           <br />
 		  <br />
@@ -722,6 +730,7 @@ class TAQuestionForm extends Component {
 		////
 		//
 		*/}
+		<form class="hiddenForm" id="TAQ">
 		<form>
           <div class="fieldLabel">If there was more than one teaching assistant for the course, please name the TA you are evaluating.</div>
           <input type="radio" name="q1" value="include" /> Include 
@@ -848,13 +857,36 @@ class TAQuestionForm extends Component {
 			//Add question for teaching assistant section
 		*/}
 		<form>
-        <button type="button">Add question</button> <br />
+        <button type="button" onClick={this.hideTextBox}>Add question</button> <br />
         <br />
-
+		<form class="hiddenForm" id="QBox">
+			<textarea class="textAreaSmall" name="TAAddQ">Enter your additional question</textarea>
+			<input type="radio" name="q1" value="include" /> Include 
+			<input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		</form>
 		  </form>
-		
+		</form>
 		</form>
 	);
+	}
+	
+	
+	hideDiv(){
+		var div = document.getElementById("TAQ");
+		if(div.style.display==="block"){
+			div.style.display="none";
+		}else{
+			div.style.display="block";
+		}
+	}
+	
+	hideTextBox(){
+		var box = document.getElementById("QBox");
+		if(box.style.display==="block"){
+			box.style.display="none";
+		}else{
+			box.style.display="block";
+		}
 	}
 }
 
@@ -875,7 +907,7 @@ class LabQuestionForm extends Component {
 		*/}
 		<form>
 			<div class="fieldLabel">Did this course have one or more regularly scheduled laboratory sessions?</div>
-			<input type="checkbox" value="yes" /> Yes <br />
+	<input type="checkbox" onClick={this.hideDiv} value="yes" /> Yes <br />
 			<br />
 			<br />
 			<br />
@@ -888,8 +920,9 @@ class LabQuestionForm extends Component {
 		////
 		//
 		*/}
-		<form id="labQ">
-          <div class="fieldLabel" styles="color:blue;">How much did the laboratory experience contribute to your learning in this course</div>
+		<form class="hiddenForm" id="labQ">
+		<form>
+          <div class="fieldLabel">How much did the laboratory experience contribute to your learning in this course</div>
           <input type="radio" name="q1" value="include" /> Include 
           <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
 		  <input type="radio" name="q1" value="exclude" />Do not include <br />
@@ -933,14 +966,39 @@ class LabQuestionForm extends Component {
 			//Add question for laboratory section
 		*/}
 		<form>
-        <button type="button">Add question</button> <br />
+        <button type="button" onClick={this.hideTextBox}>Add question</button> <br />
+		<form class="hiddenForm" id="QBox">
+			<textarea class="textAreaSmall" name="LabAddQ">Enter your additional question</textarea>
+			<input type="radio" name="q1" value="include" /> Include 
+			<input type="radio" name="q1" value="mandatory" /> Mandatory <br />
+		</form>
         <br />
-
+		</form>
 		  </form>
 		
 		</form>
 	);
 	}
+	
+	hideDiv(){
+		var div = document.getElementById("labQ");
+		if(div.style.display==="block"){
+			div.style.display="none";
+		}else{
+			div.style.display="block";
+		}
+	}
+	
+	hideTextBox(){
+		var box = document.getElementById("QBox");
+		if(box.style.display==="block"){
+			box.style.display="none";
+		}else{
+			box.style.display="block";
+		}
+	
+	}
+	
 }	
 
 export default QuestionForms;

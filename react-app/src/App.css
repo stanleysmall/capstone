@@ -104,6 +104,13 @@ button[type=login] {
     margin-top: 6px;
 }
 
+.hiddenForm {
+	display: none;
+}
+
+.textAreaSmall {
+	height:50px;
+}
 .row:after {
     content: "";
     display: table;
