@@ -170,3 +170,7 @@ table, th, td {
 table {
 	margin-top: 2%;
 }
+
+textarea {
+	height:200px;
+}

@@ -888,8 +888,8 @@ class LabQuestionForm extends Component {
 		////
 		//
 		*/}
-		<form id="labQ" styles="color:blue;">
-          <div class="fieldLabel">How much did the laboratory experience contribute to your learning in this course</div>
+		<form id="labQ">
+          <div class="fieldLabel" styles="color:blue;">How much did the laboratory experience contribute to your learning in this course</div>
           <input type="radio" name="q1" value="include" /> Include 
           <input type="radio" name="q1" value="mandatory" /> Mandatory <br />
 		  <input type="radio" name="q1" value="exclude" />Do not include <br />

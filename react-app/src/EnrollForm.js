@@ -39,11 +39,9 @@ class Enroll extends Component {
 				<div>Please insert in the field below the first name, last name, and email of each student in the class. <br />
 										The information for each student should appear in a separate row and be separated by commas. (e.g Mary, Smith, marysmith@qmail.com) <br />
 										You may cut and paste into the window at your option.</div>
-				<br />
 				<button type="button">Upload .csv</button>
-				<div class="fieldEntry">
-					<input type="largeText" name="enrolled" />
-					</div>
+				<br/><br/>
+				<textarea  name="students"></textarea>
 					<br />
 			</form>
 		);
@@ -64,24 +62,25 @@ class InviteEmailForm extends Component {
 					This email will be sent to each student on the begin date you specified above.
 				</div>
 				<br />
-					Subject: Invitation to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE) <br /> <br />
+					<textarea name="inviteEmail">
+					Subject: Invitation to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE) 
 
-					Dear (FIRSTNAME), <br /><br />
+					Dear (FIRSTNAME), 
 
-					Please complete the teaching and course evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE). <br />
+					Please complete the teaching and course evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE). 
 
-					This student evaluation of teaching is completely anonymous unless you purposefully identify yourself in response to one of the questions. <br />The software system will send you automatic reminders every few days until you complete the evaluation. <br />
-					<br />
-					To respond, simply click the link at the end of this message. <br /><br />
+					This student evaluation of teaching is completely anonymous unless you purposefully identify yourself in response to one of the questions. The software system will send you automatic reminders every few days until you complete the evaluation.
+					
+					To respond, simply click the link at the end of this message.
 
-					Sincerely, <br />
-					(ADMINNAME) <br />
-					----------------------------------------------<br />
-					Click here to complete the teaching and course evaluation: <br />
-					(SURVEYURL) <br /> <br />
+					Sincerely, 
+					(ADMINNAME) 
+					----------------------------------------------
+					Click here to complete the teaching and course evaluation:
+					(SURVEYURL) 
 
-					(ADMINNAME) ((ADMINEMAIL) <br />"
-				
+					(ADMINNAME) ((ADMINEMAIL) "
+				</textarea>
 				<br /> <br />
 				</form>
 		);
@@ -102,25 +101,26 @@ class ReminderEmailForm extends Component {
 				<br />
 				<br />
 				<br />
-				
-				Subject: Reminder to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)<br/><br/> 
+				<textarea name="reminderEmail">
+				Subject: Reminder to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)
 
-				Dear (FIRSTNAME),<br/><br/>
+				Dear (FIRSTNAME),
 
-				Recently we invited you to complete a teaching evaluation for “(COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)”.<br/> We note that you have not yet completed the evaluation, and wish to remind you that it is still available should you wish to take part.<br/><br/>
+				Recently we invited you to complete a teaching evaluation for “(COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)”. We note that you have not yet completed the evaluation, and wish to remind you that it is still available should you wish to take part.
 
-				To participate, please click on the link below.<br/>
+				To participate, please click on the link below.
 
-				The deadline for completing the evaluation is (CLOSINGDATE) at (TIM).<br/>
+				The deadline for completing the evaluation is (CLOSINGDATE) at (TIM).
 
-				Your participation is extremely important to the improvement of teaching and courses at the (UNIVERSITYNAME)<br/><br/>
+				Your participation is extremely important to the improvement of teaching and courses at the (UNIVERSITYNAME)
 
-				Sincerely,<br/>
-				(ADMINNAME)<br/>
-				----------------------------------------------<br/>
-				Click here to complete the teaching and course evaluation:<br/>
-				(SURVEYURL)<br/>
+				Sincerely,
+				(ADMINNAME)
+				----------------------------------------------
+				Click here to complete the teaching and course evaluation:
+				(SURVEYURL)
 
+				</textarea>
 				<br/><br/>
 				
 				<a href="/home/">Submit </a>
