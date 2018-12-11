@@ -95,25 +95,29 @@ There are several way in which users can interact with our novel course evaluati
 
 \subsection{System Requirements}
 
+Near the beginning of the project, we met with Professor Onsrud to solicit the system requirements, what the evaluation system must do to function as Dr. Onsrud intends. The System Requirements Specification (SRS) divides the requirements into two categories. The functional requirements specify the major actions a user can perform with the system. They are listed in Table 1 below:
+
 \begin{center}
 \captionof{table}{Functional requirements}
 \begin{tabular}{|p{1.5cm}|p{1.5cm}|p{3.5cm}|p{6cm}|} 
 \hline
 \textbf{Number} & \textbf{Priority} & \textbf{Name} & \textbf{Description} \\
 \hline
-1 & 5 & Log In to System & A user logs in with a google e-mail and password \\ 
+1 & 5 & Log in to system & A user logs in with a Google e-mail address and password \\ 
 \hline
-2 & 5 & Create Evaluation & A user creates a new evaluation for a class \\ 
+2 & 5 & Create evaluation & A user creates a new evaluation form for a class \\ 
 \hline
-3 & 5 & Edit Evaluation & A user enters and edits information and questions for an evaluation \\  
+3 & 5 & Edit evaluation & A user enters and edits information and questions for an evaluation form \\  
 \hline
-4 & 5 & Publish Evaluation & A user publishes an evaluation \\
+4 & 5 & Publish evaluation & A user publishes an evaluation form \\
 \hline
-5 & 5 & View Evaluation Results & The user reviews a course, or category of courses results. \\ 
+5 & 5 & View evaluation results & The user reviews a course's or category of courses' results \\ 
 \hline
 
 \end{tabular}
 \end{center}
+
+The non-functional requirements state the system's qualities that are irrelevant to how the program behaves. They are listed below in Table 2:
 
 \begin{center}
 \captionof{table}{Non-functional requirements}
@@ -152,8 +156,6 @@ There are several way in which users can interact with our novel course evaluati
 \end{tabular}
 \end{center}
 
-Tests will be completed as described in the System Requirements Specification (SRS). The most important tests concern the over functionality of the system and integrations with LimeSurvey. These will be tested extensively, as they represent the core functionality of the system. Only when the functional tests pass will the team begin testing the non-functional requirements. 
-
 \subsection{System Architecture}
 
 \begin{center}
@@ -166,11 +168,12 @@ Tests will be completed as described in the System Requirements Specification (S
 \end{figure}
 \end{center}
 
-Our system features a modular design, with many distinct parts which communicate via an API. We are using two databases, one maintained by LimeSurvey, and another maintained by our system. Additionally, the API will communicate with Google Authentication to authenticate users. The design and implementation of our system can be found in the System Design Document (SDD). 
+Our system features a modular design, with many distinct parts which communicate via an API. The front end implements the user interface, written in JavaScript. The back end communicates with the system's databases and is written in Python. We are using two databases, one maintained by LimeSurvey and another maintained by our system. Additionally, the API will communicate with Google Authentication to authenticate users. The design and implementation of our system can be found in the System Design Document (SDD).
 
-By maintaining a modular approach to the design of the system, team members can work independently on individual parts which will then undergo integration testing. Moreover, by keeping the LimeSurvey codebase separate from our system, we can update LimeSurvery without disrupting other parts of the code. 
+By maintaining a modular approach to the design of the system, team members can work independently on individual parts, which will then undergo integration testing. Moreover, by keeping the LimeSurvey codebase separate from our system, we can update LimeSurvery without disrupting other parts of the code. 
 
 \subsection{User Interface}
+
 The user interface is a pivotal part of the user experience and is important for our product. The goal of the system is to make an easy-to-use software that allows users to create course evaluations for their classes on a web application.  Users have no interaction with the back-end architecture and will only see the user interface, so the ease of use relies entirely on the front-end UI.  The exact description of every aspect of our user interface can be found in the User Interface Design Document (UIDD). 
 
 The overarching theme for the user interface is ``less is more''.  The interface will have as few extraneous elements as possible, be as intuitive as possible, and not require a large amount of effort to understand the system.  To this end, all functionality of the product should be accessible from the home page, whose wireframe is shown bellow in Figure 2. 
@@ -187,7 +190,9 @@ After the landing screen and log-in screen, the user should instantly be aware o
 
 \subsection{Tests}
 
-Team EVAL will write several tests in the near future to ensure that the course evaluation system meets all system requirements.
+Team EVAL will write several tests in the near future to ensure that the course evaluation system meets all system requirements. These tests are fully described in the system requirements specification. The most important tests concern the overall functionality of the system and integration with LimeSurvey. These will be tested extensively, as they represent the core components of the system. The team will begin testing the non-functional requirements only after all tests for the functional requirements pass.
+
+The team will verify the functional requirements by trying every function available in the course evaluation system. For example, we will create new evaluation forms, edit survey forms, view saved forms, publish forms, and view results for certain courses and categories. Our tests will load mock data into the database so that it is easy to check for correctness. After testing individual functions, we will integrate the components of the system together and run all functional tests at once. Finally, the team will check each non-functional requirement to ensure that the software is acceptable to deliver.
 
 \newpage
 
@@ -197,7 +202,7 @@ Team EVAL will write several tests in the near future to ensure that the course 
 
 With its high-tech features, our course evaluation system could potentially bring the University of Maine into the modern age. Using our software, an instructor will be able to create a survey with ease, and students will be able to take the whole evaluation form online. The results will automatically be fed back into the software, and the instructor will be able to view statistics of the results and download them afterwards.
 
-This product will eliminate the need for Scantron sheets and provide a fast and simple way to distribute evaluation evaluations to all students in a desired course. The product will be free for use at the University of Maine and any other teachers who may be interested in using it.
+This product will eliminate the need for Scantron sheets and provide a fast and simple way to distribute evaluation evaluations to all students in a desired course. The product will be free for use at the University of Maine and by any teachers elsewhere who may be interested in using it.
 
 \subsection{Current Progress}
 
@@ -296,13 +301,13 @@ Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
 \newpage
 \section{Document Contributions}
 
-Stanley Small ??. Stan contributed about ?? percent of the document.
+Stanley Small wrote the system architecture section and part of the tests section. Stan contributed about ?? percent of the document.
 
-Jovon Craig ??. Jovon contributed about ?? percent of the document.
+Jovon Craig wrote the introduction, ``Purpose of the System'' section, and parts of the conclusion. He also added the non-functional requirements table and the images, and he revised several parts of the document. Jovon contributed about 35 percent of the document.
 
-Sam Elliott ??. Sam contributed about ?? percent of the document.
+Sam Elliott wrote the user interface section and the ``Needs This System Meets'' section. He added the functional requirements table as well. Sam contributed about ?? percent of the document.
 
-Robert Judkins ??. Robert contributed about ?? percent of the document.
+Robert Judkins wrote the ``Current Progress'' section. Robert contributed about ?? percent of the document.
 
 \newpage
 
