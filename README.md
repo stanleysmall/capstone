@@ -6,7 +6,6 @@ Database https://app.sqldbm.com/SQLServer/Edit/p44622
 API      https://app.swaggerhub.com/apis/teameval/Eval/1.0.0
 
 ## Purpose of the Product
->>>>>>> fd0088d371ee4a704e4e7870503cfa8c917eeaef
 The University of Maine gives out course evaluation surveys to students at the end of each course. The
 survey is filled on a bubble sheet and is then scanned. Harlan Onsrud nds it inconvenient for the school
 administrators to manually scan and compile the survey results. Current campus experiments with electronic
