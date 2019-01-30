@@ -1,11 +1,11 @@
-# Capstone
+# Course Evaluation System
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-lightgrey.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![Build Status](https://travis-ci.com/stansmall/capstone.svg?branch=master)](https://travis-ci.com/stansmall/capstone)
 
-# Outside Docs
+## Outside Docs
 Database https://app.sqldbm.com/SQLServer/Edit/p44622
 API      https://app.swaggerhub.com/apis/teameval/Eval/1.0.0
 
-# Purpose of the Product
+## Purpose of the Product
 The University of Maine gives out course evaluation surveys to students at the end of each course. The
 survey is filled on a bubble sheet and is then scanned. Harlan Onsrud nds it inconvenient for the school
 administrators to manually scan and compile the survey results. Current campus experiments with electronic
@@ -13,7 +13,7 @@ evaluations are not fully automated and do not seem to fulll the desires of stu
 an online, automated evaluation system that is responsive to the University's community needs and improves
 productivity.
 
-# Product Scope
+## Product Scope
 Team EVAL will create a product which interfaces with an already existing survey software, LimeSurvey, to
 provide both individual teachers and administrators the ability to create and administer evaluations. This
 product will be usable even by those without technical backgrounds, and it will have an intuitive interface
@@ -36,3 +36,28 @@ University of Maine, whether evaluation forms are created by instructors or admi
 below shows the scope as a dotted rectangle.
 
 ![alt text](https://raw.githubusercontent.com/stansmall/capstone/master/documents/images/scope.png)
+
+## Set-Up for Developers
+
+To run the databases and React front end, use this command in /capstone:
+
+    sudo docker-compose up
+
+Next, to access the databases using MySQL, use this command:
+
+    mysql -u root -P 4306 -h 127.0.0.1 -p limesurvey
+    
+The LimeSurvey database is called "limesurvey", and the back-end database is called "mydb".
+
+<br/>
+
+To run the API, you first need Python 3 and pip3 installed. Next, to install the packages required for the API scripts, use this command in /capstone/flask:
+
+    pip3 install -r requirements.txt
+
+Next, run the databases with "docker-compose", then use this command in /capstone/flask:
+
+    python3 -m swagger_server
+    
+Changing the endpoint specifications requires editing "swagger.yaml".
+
