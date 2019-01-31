@@ -42,6 +42,10 @@ below shows the scope as a dotted rectangle.
 To run the databases and React front end, use this command in /capstone:
 
     sudo docker-compose up
+    
+The web address to configure LimeSurvey is
+
+    http://localhost:5000/index.php/admin
 
 Next, to access the databases using MySQL, use this command:
 
