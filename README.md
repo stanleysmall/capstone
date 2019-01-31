@@ -42,12 +42,16 @@ below shows the scope as a dotted rectangle.
 To run the databases and React front end, use this command in /capstone:
 
     sudo docker-compose up
+    
+The web address to configure LimeSurvey is
+
+    http://localhost:5000/index.php/admin
 
 Next, to access the databases using MySQL, use this command:
 
     mysql -u root -P 4306 -h 127.0.0.1 -p limesurvey
     
-The LimeSurvey database is called "limesurvey", and the back-end database is called "mydb".
+The password is "root". The LimeSurvey database is called "limesurvey", and the back-end database is called "mydb".
 
 <br/>
 
