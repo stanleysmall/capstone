@@ -6,6 +6,9 @@ from flask import jsonify, request
 from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.models.result import Result  # noqa: E501
 from swagger_server import util
+from swagger_server.lime_py_api.limesurvey import Api
+
+lime = Api('http://localhost:5000/index.php/admin/remotecontrol', 'admin', 'password')
 
 mydb = mysql.connector.connect(host='127.0.0.1',
                                port=4306,
