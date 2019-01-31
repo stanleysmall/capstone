@@ -24,7 +24,7 @@ class Home extends Component {
 				<option value="C1">COS 125 001 </option>
 				<option value="C2">COS 140 001 </option>
 				<option value="C3">COS 250 001 </option>
-			</select>
+			</select>&emsp;
 			<a href="/edit/">Edit Course</a>
 			<br/>
 			<hr/>
@@ -33,7 +33,7 @@ class Home extends Component {
 			<select id="viewPubCourse">
 				<option value="default">Select a Form</option>
 				<option value="C1">COS 225 001</option>
-			</select>
+			</select>&emsp;
 			<a href="/edit/">View Course</a>
 			<br/>
 			<hr/>
@@ -42,13 +42,13 @@ class Home extends Component {
 			<select id="viewInactiveCourse">
 				<option value="default">Select a Form</option>
 				<option value="C1">COS 301 001</option>
-			</select>
+			</select>&emsp;
 			<a href="/edit/">View Course</a>
 			<br/>
 			<hr/>
 			
 			5. View Evaluation Results&emsp;
-			<button type="button">Download All Results</button>
+			<a type="button">Download All Results</a>
 			<br/>
 			<fieldset>
 			<input type="radio" id="courseSec" name="viewEvail"></input>
