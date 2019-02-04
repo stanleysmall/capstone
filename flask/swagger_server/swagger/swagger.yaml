@@ -140,29 +140,46 @@ paths:
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
+  /publish:
+    get:
+      tags:
+      - "teachers"
+      - "admins"
+      summary: "publishes a survey with the specified name"
+      operationId: "publish_get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "query"
+        description: "the name for a survey"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "success message"
+          schema:
+            $ref: "#/definitions/Course"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
   /results:
     get:
       tags:
       - "teachers"
       - "admins"
-      summary: "retreives a list of survey results for a specified course"
+      summary: "retreives a list of survey results, optionally for a specified instructor"
       operationId: "results_get"
       produces:
       - "application/json"
       parameters:
-      - name: "cat"
+      - name: "instructor"
         in: "query"
-        description: "the name of the class with the results"
-        required: true
-        type: "string"
-      - name: "name"
-        in: "query"
-        description: "the name of the class with the results"
-        required: true
+        description: "the instructor to which the results pertain"
         type: "string"
       responses:
         200:
-          description: "survey results matching criteria"
+          description: "survey results found"
           schema:
             type: "array"
             items:

@@ -21,8 +21,6 @@ cursor = mydb.cursor()
 def survey_delete(name):  # noqa: E501
     """deletes the survey with a given name
 
-     # noqa: E501
-
     :param name: the name for a survey
     :type name: str
 
@@ -50,12 +48,10 @@ def survey_delete(name):  # noqa: E501
 def survey_get(name):  # noqa: E501
     """retreives the survey with a given name
 
-     # noqa: E501
-
     :param name: the name for a survey
     :type name: str
     
-    PRE: tag type must be called 'name'
+    PRE: 'name' is already present in the database
     POST: output is in the following JSON format
           { "url": str,
             "instructor": str,
@@ -108,8 +104,6 @@ def survey_get(name):  # noqa: E501
 def survey_put():  # noqa: E501
     """updates the info of a survey with a given name
        if no survey with the given name exists, then a new one is created
-
-     # noqa: E501
 
     :rtype: str
     
@@ -227,8 +221,6 @@ def survey_put():  # noqa: E501
 def surveys_get(name):  # noqa: E501
     """retreives a list of all survey names
 
-     # noqa: E501
-
     :param id: the name for a teacher/administrator
     :type id: str
 
@@ -245,8 +237,6 @@ def surveys_get(name):  # noqa: E501
 
 def create_user_post():  # noqa: E501
     """adds a user to the database
-
-     # noqa: E501
 
     :param key: a user with an authentication key
     :type key: str
@@ -266,8 +256,6 @@ def create_user_post():  # noqa: E501
 def login_get(key):  # noqa: E501
     """retrieves a token for a certain authentication key
 
-     # noqa: E501
-
     :param key: an authentication key
     :type key: str
 
@@ -277,25 +265,77 @@ def login_get(key):  # noqa: E501
     return 'do some magic!'
 
 
-def results_get(group_type, name):  # noqa: E501
-    """retreives a list of results for a given survey or professor
+def publish_get(name):  # noqa: E501
+    """publishes the survey with a given name
 
-     # noqa: E501
-
-    :param group_type: the type of group for 'name' (e.g. 'faculty unit', 'university')
-    :type group: str
-    
-    :param name: the name of the group with the survey results
-                 (a survey name if 'cat_type' is 'all')
+    :param name: the name for a survey
     :type name: str
+    
+    PRE: 'name' is already present in database
+    """
+    
+    # Translate survey data into a .txt file
+    translate_to_txt(name)
+    
+    # Use .txt file to put survey into LimeSurvey database
+    # Add participants to survey on database
+    # Activate survey on LimeSurvey
+    
+    return 'success'
+
+
+def translate_to_txt(name):
+    """translate the survey with a given name to a text file that can be
+       imported into the LimeSurvey database
+    
+    :param name: the name for a survey
+    :type name: str
+    
+    PRE: 'name' is already present in database
+    """
+    
+    fil = open(name + '.txt', 'w')
+    template = open('template.txt', 'r')
+    text = template.readline()
+    lines = template.readlines()
+    
+    values = ['162243', '1', 'Administrator', 'your-email@example.net', 'N', '', 'G', 'N', 'fruity', 'en', '', 'N', 'N', 'N', 'Y', '0', 'N', 'N', 'N', 'N', 'N', '0', 'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N', 'your-email@example.net', '', '', '15', 'Y', 'B', 'N', 'X', 'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', 'Title', 'Description', 'Welcome', 'End', '', '', 'Invite Sub', 'Invite Text', 'Remind Sub', 'Remind Text', 'Register Sub', 'Register Text', 'Confirm Sub', 'Confirm Text', '1', 'Notification Sub', 'Notification Text', 'Responses Sub', 'Responses Text', '0']
+    for i in range(len(lines)):
+        fields = lines[i].split('\t')
+        fields[6] = values[i]
+        text += '\t'.join(fields)
+    
+    questions = [{'id': '2', 'class': 'G', 'type': '1', 'name': 'Group', 'relevance': '', 'text': 'Test Group', 'language': 'en', 'mandatory': ''}, 
+                 {'id': '1', 'class': 'Q', 'type': 'T', 'name': 'code', 'relevance': '1', 'text': 'Test question?', 'language': 'en', 'mandatory': 'N'}]
+    for q in questions:
+        text += '{}\t\t{}\t{}\t{}\t{}\t{}\t\t{}\t\t{}'.format(q['id'], q['class'], q['type'], q['name'], q['relevance'], q['text'], q['language'], q['mandatory'])
+        if q['class'] == 'Q':
+            text += '\tN\t\t0' + '\t'*129 + '\n'
+        else:
+            text += '\t'*132 + '\n'
+    
+    fil.write(text)
+
+
+def results_get(instructor=None):  # noqa: E501
+    """retreives a list of results, optionally for a given instructor
+       if instructor is None, retrieves results for all surveys
+
+    :param instructor: the instructor to which the results pertain
+    :type group: str
 
     :rtype: List[results]
     
-    PRE: cat must be either 'survey' or 'instructor'
+    PRE: 'instructor' is already present in database if not None
     POST: output is in the following JSON format
           { "surveys": [ {"name": str,
                           "questions": [{"text": str,
                                          "response": str}, ...]}, ...] }
     """
+    
+    # Retrieve responses from the LimeSurvey database
+    # Insert responses into back-end database
+    #   Do not insert them if already in database
+    # Translate responses from back-end database into JSON
     
     return 'do some magic!'
