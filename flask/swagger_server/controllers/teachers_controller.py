@@ -284,6 +284,23 @@ def publish_get(name):  # noqa: E501
     return 'success'
 
 
+def get_template_text(name, typ):
+    """returns text for use as a template
+
+    :param name: the name for a survey
+    :type name: str
+    :param typ: the type of template to return
+    :type typ: str
+    
+    PRE: 'typ' is a valid template name
+    """
+    
+    # How should administrator notifications be written?
+    if typ.startswith('admin'):
+        return """Hello,<br /><br />A new response was submitted for your survey '{SURVEYNAME}'.<br /><br />
+                  Check the course evaluation system to see the response and its statistics."""
+    
+
 def translate_to_txt(name):
     """translate the survey with a given name to a text file that can be
        imported into the LimeSurvey database
@@ -299,14 +316,61 @@ def translate_to_txt(name):
     text = template.readline()
     lines = template.readlines()
     
-    values = ['162243', '1', 'Administrator', 'your-email@example.net', 'N', '', 'G', 'N', 'fruity', 'en', '', 'N', 'N', 'N', 'Y', '0', 'N', 'N', 'N', 'N', 'N', '0', 'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N', 'your-email@example.net', '', '', '15', 'Y', 'B', 'N', 'X', 'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', 'Title', 'Description', 'Welcome', 'End', '', '', 'Invite Sub', 'Invite Text', 'Remind Sub', 'Remind Text', 'Register Sub', 'Register Text', 'Confirm Sub', 'Confirm Text', '1', 'Notification Sub', 'Notification Text', 'Responses Sub', 'Responses Text', '0']
+    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.name = '" + name + "';")
+    survey_ID = str(cursor.fetchone()[0])
+    value_query = "select name from tag, survey_to_tag where survey_to_tag.survey_ID = " + survey_ID + " && survey_to_tag.tag_ID = tag.ID && tag.type = '{}';"
+    
+    # Retreive general survey info
+    cursor.execute(value_query.format('title'))
+    title = str(cursor.fetchone()[0])
+    cursor.execute(value_query.format('description'))
+    description = str(cursor.fetchone()[0])
+    cursor.execute(value_query.format('welcometext'))
+    welcometext = str(cursor.fetchone()[0])
+    cursor.execute(value_query.format('endtext'))
+    endtext = str(cursor.fetchone()[0])
+    
+    # Retrieve e-mail templates
+    cursor.execute(value_query.format('email_invite'))
+    email_invite = str(cursor.fetchone()[0])
+    cursor.execute(value_query.format('email_remind'))
+    email_remind = str(cursor.fetchone()[0])
+    cursor.execute(value_query.format('email_register'))
+    email_register = str(cursor.fetchone()[0])
+    cursor.execute(value_query.format('email_confirm'))
+    email_confirm = str(cursor.fetchone()[0])
+    
+    # Add rows containing general info and e-mail templates
+    values = ['162243', '1', 'Administrator', 'your-email@example.net', 'N', '', 'G', 'N', 'fruity', 'en', '', 'N', 'N', 'N', 'Y', '0', 'N', 'N', 'N', 'N', 'N', '0', 'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N', 'your-email@example.net', '', '', '15', 'Y', 'B', 'N', 'X', 'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', title, description, welcome, end, '', '', 'Invitation to participate in a survey', email_invite, 'Reminder to participate in a survey', email_remind, 'Survey registration confirmation', email_register, 'Confirmation of your participation in our survey', email_confirm, '1', 'Response submission for survey ' + name, get_template_text(name, 'admin_notification'), 'Response submission for survey ' + name, get_template_text(name, 'admin_responses'), '0']
     for i in range(len(lines)):
         fields = lines[i].split('\t')
         fields[6] = values[i]
         text += '\t'.join(fields)
     
-    questions = [{'id': '2', 'class': 'G', 'type': '1', 'name': 'Group', 'relevance': '', 'text': 'Test Group', 'language': 'en', 'mandatory': ''}, 
-                 {'id': '1', 'class': 'Q', 'type': 'T', 'name': 'code', 'relevance': '1', 'text': 'Test question?', 'language': 'en', 'mandatory': 'N'}]
+    
+    groups = ['The Instructor', 'The Course', 'Assessment', 'The Laboratory Experience', 'Open Ended Questions', 'The Teaching Assessment', 'Online Component Assessment']
+    questions = []
+    question_query = "select {} from question where ID = {};"
+    
+    # Iterate over groups and group numbers
+    for i in range(len(groups)):
+        questions.append({'id': str(1000 + i), 'class': 'G', 'type': '1', 'name': groups[i], 'relevance': '', 'text': '', 'language': 'en', 'mandatory': ''})
+        
+        cursor.execute("select question.ID from question, survey_to_question where survey_to_question.survey_ID = " + survey_ID + " && survey_to_question.question_ID = question.ID && questions.group = '" + groups[i] + "';")
+        question_IDs = [row[0] for row in cursor.fetchall()]
+        
+        # Iterate over questions for each group
+        for ID in question_IDs:
+            cursor.execute(question_query.format('type', ID))
+            typ = str(cursor.fetchone[0])
+            cursor.execute(question_query.format('text', ID))
+            text = str(cursor.fetchone[0])
+            cursor.execute(question_query.format('mandatory', ID))
+            mandatory = str(cursor.fetchone[0])
+            mandatory = 'Y' if int(mandatory) == 1 else 'N'
+            
+            questions.append({'id': ID, 'class': 'Q', 'type': typ, 'name': 'Q'+ID, 'relevance': '1', 'text': text, 'language': 'en', 'mandatory': mandatory})
+
     for q in questions:
         text += '{}\t\t{}\t{}\t{}\t{}\t{}\t\t{}\t\t{}'.format(q['id'], q['class'], q['type'], q['name'], q['relevance'], q['text'], q['language'], q['mandatory'])
         if q['class'] == 'Q':
