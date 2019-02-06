@@ -215,7 +215,7 @@ class InstructorQuestionForm extends Component {
         <button type="button" onClick={this.hideTextBox}>Add question</button> <br />
         <br />
 		<form class="hiddenForm" id="QBoxInstructor">
-			<textarea class="textAreaSmall" name="TAAddQ">Enter your additional question</textarea>
+			<textarea class="textAreaSmall">Enter your additional question</textarea>
 			<input type="radio" name="q1" value="include" /> Include 
 			<input type="radio" name="q1" value="mandatory" /> Mandatory <br />
 		</form>
@@ -229,10 +229,11 @@ class InstructorQuestionForm extends Component {
 		}else{
 			box.style.display="block";
 		}
-	
 	}
+	
   
 }
+
 
 class CourseQuestionForm extends Component {
 	render(){
