@@ -379,6 +379,19 @@ def translate_to_txt(name):
             text += '\t'*132 + '\n'
     
     fil.write(text)
+    
+    
+def translate_responses(responses):
+    """translate the responses from JSON to data that can be
+       imported into the back end database
+          
+    :param responses: the responses for a survey
+    :type name: str
+    
+    PRE: 'responses' is in JSON format
+    """
+    
+    return 0
 
 
 def results_get(instructor=None):  # noqa: E501
@@ -398,8 +411,11 @@ def results_get(instructor=None):  # noqa: E501
     """
     
     # Retrieve responses from the LimeSurvey database
+    responses = {}
+    
     # Insert responses into back-end database
-    #   Do not insert them if already in database
-    # Translate responses from back-end database into JSON
+    translate_responses(responses)
+    
+    # Compute statistics and return them
     
     return 'do some magic!'
