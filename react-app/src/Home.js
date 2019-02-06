@@ -48,7 +48,7 @@ class Home extends Component {
 			<hr/>
 			
 			5. View Evaluation Results&emsp;
-			<a type="button">Download All Results</a>
+			<button type="button">Download All Results</button>
 			<br/>
 			<fieldset>
 			<input type="radio" id="courseSec" name="viewEvail"></input>
