@@ -1,10 +1,6 @@
 # Capstone
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-lightgrey.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![Build Status](https://travis-ci.com/stansmall/capstone.svg?branch=master)](https://travis-ci.com/stansmall/capstone)
 
-# Outside Docs
-Database https://app.sqldbm.com/SQLServer/Edit/p44622
-API      https://app.swaggerhub.com/apis/teameval/Eval/1.0.0
-
 # Purpose of the Product
 The University of Maine gives out course evaluation surveys to students at the end of each course. The
 survey is filled on a bubble sheet and is then scanned. Harlan Onsrud nds it inconvenient for the school
@@ -35,4 +31,4 @@ The product will be completed in time to administer teacher evaluations for the 
 University of Maine, whether evaluation forms are created by instructors or administrators. A UML diagram
 below shows the scope as a dotted rectangle.
 
-![alt text](https://raw.githubusercontent.com/stansmall/capstone/master/documents/images/scope.png)
+![alt text](https://raw.githubusercontent.com/stansmall/capstone/master/documents/images/scope_diagram.png)
