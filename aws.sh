@@ -14,5 +14,6 @@ sudo usermod -a -G docker ec2-user
 sudo curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash 
 . ~/.nvm/nvm.sh 
 nvm install 11.9.0 
-cd capstone/react-app
+cd capstone
+cd react-app
 npm install
