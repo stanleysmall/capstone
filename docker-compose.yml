@@ -29,7 +29,7 @@ services:
         container_name: react
         environment:
             - NODE_ENV=production
-        command: npm start
+        command: npm run build
         ports:
             - 80:3000
         volumes:
