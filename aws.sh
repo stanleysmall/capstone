@@ -1,5 +1,5 @@
 # AWS CONFIG FILE
-# run after cloning the github repository 
+# run these commands on a new EC2 instance
 
 sudo yum update -y
 sudo yum install git -y
