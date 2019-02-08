@@ -114,7 +114,7 @@ class CourseForm extends Component {
 		  AdminEmail: document.getElementById("ademail").value,
 		  BeginDate: document.getElementById("begdate").value,
 		  Time: document.getElementById("time").value,
-		  CloseDate: document.getElementById("closdate").value,
+		  CloseDate: document.getElementById("closdate").value
 	}
 	
 	
@@ -128,6 +128,16 @@ class CourseForm extends Component {
 		.then(response => response.json())
 		.then(json => console.log(json))
 	
+	document.location.href= "/questions/";
+  }
+  
+  loadJSON(){
+	  let course;
+	  fetch('https://jsonplaceholder.typecode.com/posts')
+	  .then(response => response.json())
+	  .then(json => course=JSON.parse(json))
+	  
+	  document.getElementById("des").value='lemon!';
   }
   
 }
