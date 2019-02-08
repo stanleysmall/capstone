@@ -321,7 +321,7 @@ def translate_to_txt(name):
     value_query = "select name from tag, survey_to_tag where survey_to_tag.survey_ID = " + survey_ID + " && survey_to_tag.tag_ID = tag.ID && tag.type = '{}';"
     
     # Retreive general survey info
-    cursor.execute(value_query.format('title'))
+    cursor.execute(value_query.format('name'))
     title = str(cursor.fetchone()[0])
     cursor.execute(value_query.format('description'))
     description = str(cursor.fetchone()[0])
@@ -339,14 +339,13 @@ def translate_to_txt(name):
     email_register = str(cursor.fetchone()[0])
     cursor.execute(value_query.format('email_confirm'))
     email_confirm = str(cursor.fetchone()[0])
-    
+
     # Add rows containing general info and e-mail templates
-    values = ['162243', '1', 'Administrator', 'your-email@example.net', 'N', '', 'G', 'N', 'fruity', 'en', '', 'N', 'N', 'N', 'Y', '0', 'N', 'N', 'N', 'N', 'N', '0', 'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N', 'your-email@example.net', '', '', '15', 'Y', 'B', 'N', 'X', 'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', title, description, welcome, end, '', '', 'Invitation to participate in a survey', email_invite, 'Reminder to participate in a survey', email_remind, 'Survey registration confirmation', email_register, 'Confirmation of your participation in our survey', email_confirm, '1', 'Response submission for survey ' + name, get_template_text(name, 'admin_notification'), 'Response submission for survey ' + name, get_template_text(name, 'admin_responses'), '0']
+    values = ['162243', '1', 'Administrator', 'your-email@example.net', 'N', '', 'G', 'N', 'fruity', 'en', '', 'N', 'N', 'N', 'Y', '0', 'N', 'N', 'N', 'N', 'N', '0', 'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N', 'your-email@example.net', '', '', '15', 'Y', 'B', 'N', 'X', 'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', title, description, welcometext, endtext, '', '', 'Invitation to participate in a survey', email_invite, 'Reminder to participate in a survey', email_remind, 'Survey registration confirmation', email_register, 'Confirmation of your participation in our survey', email_confirm, '1', 'Response submission for survey ' + name, get_template_text(name, 'admin_notification'), 'Response submission for survey ' + name, get_template_text(name, 'admin_responses'), '0']
     for i in range(len(lines)):
         fields = lines[i].split('\t')
         fields[6] = values[i]
         text += '\t'.join(fields)
-    
     
     groups = ['The Instructor', 'The Course', 'Assessment', 'The Laboratory Experience', 'Open Ended Questions', 'The Teaching Assessment', 'Online Component Assessment']
     questions = []
@@ -354,22 +353,22 @@ def translate_to_txt(name):
     
     # Iterate over groups and group numbers
     for i in range(len(groups)):
-        questions.append({'id': str(1000 + i), 'class': 'G', 'type': '1', 'name': groups[i], 'relevance': '', 'text': '', 'language': 'en', 'mandatory': ''})
+        questions.append({'id': str(100 + i), 'class': 'G', 'type': '1', 'name': groups[i], 'relevance': '', 'text': '', 'language': 'en', 'mandatory': ''})
         
-        cursor.execute("select question.ID from question, survey_to_question where survey_to_question.survey_ID = " + survey_ID + " && survey_to_question.question_ID = question.ID && questions.group = '" + groups[i] + "';")
-        question_IDs = [row[0] for row in cursor.fetchall()]
+        cursor.execute("select question.ID from question, survey_to_question where survey_to_question.survey_ID = " + survey_ID + " && survey_to_question.question_ID = question.ID && question.group = '" + groups[i] + "';")
+        question_IDs = [str(row[0]) for row in cursor.fetchall()]
         
         # Iterate over questions for each group
         for ID in question_IDs:
             cursor.execute(question_query.format('type', ID))
-            typ = str(cursor.fetchone[0])
+            typ = str(cursor.fetchone()[0])
             cursor.execute(question_query.format('text', ID))
-            text = str(cursor.fetchone[0])
+            txt = str(cursor.fetchone()[0])
             cursor.execute(question_query.format('mandatory', ID))
-            mandatory = str(cursor.fetchone[0])
+            mandatory = str(cursor.fetchone()[0])
             mandatory = 'Y' if int(mandatory) == 1 else 'N'
             
-            questions.append({'id': ID, 'class': 'Q', 'type': typ, 'name': 'Q'+ID, 'relevance': '1', 'text': text, 'language': 'en', 'mandatory': mandatory})
+            questions.append({'id': ID, 'class': 'Q', 'type': typ, 'name': 'Q'+ID, 'relevance': '1', 'text': txt, 'language': 'en', 'mandatory': mandatory})
 
     for q in questions:
         text += '{}\t\t{}\t{}\t{}\t{}\t{}\t\t{}\t\t{}'.format(q['id'], q['class'], q['type'], q['name'], q['relevance'], q['text'], q['language'], q['mandatory'])
@@ -377,7 +376,7 @@ def translate_to_txt(name):
             text += '\tN\t\t0' + '\t'*129 + '\n'
         else:
             text += '\t'*132 + '\n'
-    
+
     fil.write(text)
     
     
