@@ -41,7 +41,6 @@ services:
         build:
             context: ./flask
         container_name: flask
-        command: pip install --upgrade pip
         ports:
             - 8080
         networks:
