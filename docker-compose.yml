@@ -43,7 +43,7 @@ services:
         container_name: flask
         command: pip install --upgrade pip
         ports:
-            - 8080:8080
+            - 8080
         networks:
             net: 
                 ipv4_address: 10.5.0.8
