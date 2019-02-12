@@ -41,7 +41,7 @@ class Enroll extends Component {
 										You may cut and paste into the window at your option.</div>
 				<button type="button">Upload .csv</button>
 				<br/><br/>
-				<textarea  name="students"></textarea>
+				<textarea  name="students" id='students'></textarea>
 					<br />
 			</form>
 		);
@@ -62,7 +62,7 @@ class InviteEmailForm extends Component {
 					This email will be sent to each student on the begin date you specified above.
 				</div>
 				<br />
-					<textarea name="inviteEmail">
+					<textarea name="inviteEmail" id='inviteEmail'>
 					Subject: Invitation to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE) 
 
 					Dear (FIRSTNAME), 
@@ -102,7 +102,7 @@ class ReminderEmailForm extends Component {
 				<br />
 				<br />
 				<form class="hiddenForm" id="EmailBox">
-					<textarea name="reminderEmail">
+					<textarea name="reminderEmail" id='reminderEmail'>
 					Subject: Reminder to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE)
 				
 					Dear (FIRSTNAME),
@@ -125,10 +125,19 @@ class ReminderEmailForm extends Component {
 				</form>
 				<br/><br/>
 				
-				<a href="/home/">Submit </a>
+				<button type='button' onClick={this.createJSON}>Submit </button>
 				</form>
 		);
 	}
+	createJSON(){
+		let emailForm ={
+			students: document.getElementById("students").value,
+			inviteEmail: document.getElementById('inviteEmail').value,
+			reminderEmail: document.getElementById('reminderEmail').value
+		}
+		
+	}
+	
 	hideTextBox(){
 		var box = document.getElementById("EmailBox");
 		if(box.style.display==="block"){
