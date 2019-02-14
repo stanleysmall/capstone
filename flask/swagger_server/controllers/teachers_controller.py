@@ -12,7 +12,7 @@ from swagger_server.lime_py_api.limesurvey import Api
 lime = Api('http://teachingevaluations.org:5000/index.php/admin/remotecontrol', 'admin', 'password')
 
 mydb = mysql.connector.connect(host='127.0.0.1',
-                               port=4306,
+                               port=3306,
                                database='mydb',
                                user='root',
                                password='root')
