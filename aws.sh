@@ -35,3 +35,7 @@ exit
 # sudo chmod -R 0777 ./ 
 # mysql -h 10.5.0.6 -u root -p limesurvey
 # root 
+# mysql -h 10.5.0.6 -u root -p limesurvey < /home/ec2-user/capstone/sql/create_tables.sql
+# root
+# mysql -h 10.5.0.6 -u root -p mydb < /home/ec2-user/capstone/sql/insert_mock_data.sql
+# root
