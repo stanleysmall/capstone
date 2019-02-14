@@ -21,10 +21,9 @@ sudo curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.s
 nvm install 11.9.0 
 npm install
 npm audit fix
-cd ..
-cd data
-sudo chmod -R 0777 ./ 
 
 # close the session and log back in
 # cd capstone
 # docker-compose up -d
+# cd data
+# sudo chmod -R 0777 ./ 
