@@ -4,6 +4,7 @@
 
 sudo yum update -y
 sudo yum install git -y
+sudo yum install mysql -y
 git clone https://github.com/stansmall/capstone.git 
 cd capstone
 pwd
