@@ -48,12 +48,6 @@ paths:
       - "admins"
       summary: "adds a user to the database"
       operationId: "create_user_post"
-      parameters:
-      - name: "key"
-        in: "query"
-        description: "an authentication key"
-        required: true
-        type: "string"
       responses:
         200:
           description: "success message"
@@ -62,20 +56,20 @@ paths:
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
-  /courses:
+  /surveys:
     get:
       tags:
       - "teachers"
       - "admins"
       summary: "retreives a list of all courses"
-      operationId: "courses_get"
+      operationId: "surveys_get"
       produces:
       - "application/json"
       parameters:
-      - name: "id"
+      - name: "name"
         in: "query"
         description: "the ID for a teacher/administrator"
-        required: true
+        required: false
         type: "string"
       responses:
         200:
@@ -87,13 +81,13 @@ paths:
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
-  /course:
+  /survey:
     get:
       tags:
       - "teachers"
       - "admins"
       summary: "retreives the info for a specified course"
-      operationId: "course_get"
+      operationId: "survey_get"
       produces:
       - "application/json"
       parameters:
@@ -115,13 +109,7 @@ paths:
       - "teachers"
       - "admins"
       summary: "updates the info for a specified course"
-      operationId: "course_put"
-      parameters:
-      - name: "name"
-        in: "query"
-        description: "the name for a course"
-        required: true
-        type: "string"
+      operationId: "survey_put"
       responses:
         200:
           description: "success message"
@@ -135,7 +123,7 @@ paths:
       - "teachers"
       - "admins"
       summary: "deletes a specified course"
-      operationId: "course_delete"
+      operationId: "survey_delete"
       produces:
       - "application/json"
       parameters:
@@ -152,26 +140,26 @@ paths:
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
-  /new_course:
-    post:
+  /publish:
+    get:
       tags:
       - "teachers"
       - "admins"
-      summary: "creates a new course"
-      operationId: "new_course_post"
+      summary: "publishes a survey with the specified name"
+      operationId: "publish_get"
       produces:
       - "application/json"
       parameters:
-      - in: "body"
-        name: "course"
+      - name: "name"
+        in: "query"
+        description: "the name for a survey"
         required: true
-        schema:
-          $ref: "#/definitions/Course"
+        type: "string"
       responses:
         200:
           description: "success message"
           schema:
-            type: "string"
+            $ref: "#/definitions/Course"
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
@@ -180,45 +168,22 @@ paths:
       tags:
       - "teachers"
       - "admins"
-      summary: "retreives a list of survey results for a specified course"
+      summary: "retreives a list of survey results, optionally for a specified instructor"
       operationId: "results_get"
       produces:
       - "application/json"
       parameters:
-      - name: "class_name"
+      - name: "instructor"
         in: "query"
-        description: "the name of the class with the results"
-        required: true
+        description: "the instructor to which the results pertain"
         type: "string"
       responses:
         200:
-          description: "survey results matching criteria"
+          description: "survey results found"
           schema:
             type: "array"
             items:
               $ref: "#/definitions/Result"
-        400:
-          description: "bad input parameter"
-      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
-    post:
-      tags:
-      - "teachers"
-      - "admins"
-      summary: "edits a list of survey results for a specified course"
-      operationId: "results_post"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "class_name"
-        in: "query"
-        description: "the name of the class whose results are changed"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "success message"
-          schema:
-            type: "string"
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
