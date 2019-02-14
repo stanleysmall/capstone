@@ -33,3 +33,5 @@ exit
 # docker-compose up -d
 # cd data
 # sudo chmod -R 0777 ./ 
+# mysql -h 10.5.0.6 -u root -p limesurvey
+# root 
