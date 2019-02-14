@@ -21,6 +21,8 @@ sudo curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.s
 nvm install 11.9.0 
 npm install
 npm audit fix
+cd ../flask/swagger_server
+git clone https://github.com/TaiSHiNet/lime-py-api.git
 
 # close the session and log back in
 # cd capstone
