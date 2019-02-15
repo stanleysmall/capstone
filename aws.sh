@@ -26,7 +26,7 @@ cd ../flask/swagger_server
 git clone https://github.com/TaiSHiNet/lime-py-api.git
 mv lime-py-api lime_py_api
 newgrp docker
-newgrp 1000
+newgrp ec2-user
 cd ..
 cd ..
 docker-compose up -d
