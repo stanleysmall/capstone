@@ -31,5 +31,9 @@ cd ..
 docker-compose up -d
 cd data
 sudo chmod -R 0777 ./ 
-# mysql -h 10.5.0.6 -u root -p limesurvey < /home/ec2-user/capstone/sql/create_tables.sql
-# mysql -h 10.5.0.6 -u root -p mydb < /home/ec2-user/capstone/sql/insert_mock_data.sql
+spawn mysql -h 10.5.0.6 -u root -p limesurvey < /home/ec2-user/capstone/sql/create_tables.sql
+expect "Enter password: "
+send -- "root\r"
+spawn mysql -h 10.5.0.6 -u root -p mydb < /home/ec2-user/capstone/sql/insert_mock_data.sql
+expect "Enter password: "
+send -- "root\r"
