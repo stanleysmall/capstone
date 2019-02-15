@@ -6,7 +6,7 @@ sudo yum update -y
 sudo yum install git -y
 sudo yum install mysql -y
 sudo yum install docker -y 
-sudo yum install php -y
+sudo yum install php-mysqlnd -y
 
 git clone https://github.com/stansmall/capstone.git 
 cd capstone
