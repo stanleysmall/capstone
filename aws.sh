@@ -32,10 +32,5 @@ cd ..
 docker-compose up -d
 cd data
 sudo chmod -R 0777 ./ 
-read -p "Install Limesurvey at 127.0.0.1:5000 and press enter to continue"
-mysql -h 10.5.0.6 -u root -p limesurvey
-root 
 mysql -h 10.5.0.6 -u root -p limesurvey < /home/ec2-user/capstone/sql/create_tables.sql
-root
 mysql -h 10.5.0.6 -u root -p mydb < /home/ec2-user/capstone/sql/insert_mock_data.sql
-root
