@@ -7,14 +7,14 @@ sudo yum install git -y
 sudo yum install mysql -y
 git clone https://github.com/stansmall/capstone.git 
 cd capstone
-pwd
+mkdir data
+sudo chmod -R 0777 ./data
 sudo git clone https://github.com/LimeSurvey/LimeSurvey.git
 sudo chmod -R 777 LimeSurvey/
 sudo yum install -y docker 
 sudo curl -L https://github.com/docker/compose/releases/download/1.20.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose 
 sudo chmod +x /usr/local/bin/docker-compose 
 cd react-app
-pwd
 sudo curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash 
 . ~/.nvm/nvm.sh 
 nvm install 11.9.0 
@@ -29,8 +29,7 @@ cd ..
 # newgrp docker
 # newgrp ec2-user
 # docker-compose up -d
-cd data
-sudo chmod -R 0777 ./ 
+
 # mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql
 # mysql -h 10.5.0.6 -u root -p mydb < /home/ec2-user/capstone/sql/insert_mock_data.sql
 
