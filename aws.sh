@@ -25,10 +25,10 @@ git clone https://github.com/TaiSHiNet/lime-py-api.git
 mv lime-py-api lime_py_api
 cd ..
 cd ..
-sudo service docker start 
-newgrp docker
-newgrp ec2-user
-docker-compose up -d
+# sudo service docker start 
+# newgrp docker
+# newgrp ec2-user
+# docker-compose up -d
 cd data
 sudo chmod -R 0777 ./ 
 # mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql
