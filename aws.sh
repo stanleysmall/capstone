@@ -25,7 +25,8 @@ npm audit fix
 cd ../flask/swagger_server
 git clone https://github.com/TaiSHiNet/lime-py-api.git
 mv lime-py-api lime_py_api
-PATH=/path/to/dir:/path/to/dir
+newgrp docker
+newgrp 1000
 cd ..
 cd ..
 docker-compose up -d
