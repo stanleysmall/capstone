@@ -25,12 +25,10 @@ npm audit fix
 cd ../flask/swagger_server
 git clone https://github.com/TaiSHiNet/lime-py-api.git
 mv lime-py-api lime_py_api
-cd ..
-cd ..
-# sudo service docker start 
-# newgrp docker
-# newgrp ec2-user
-# docker-compose up -d
+cd ../..
+newgrp docker
+newgrp ec2-user
+docker-compose up -d
 
 # mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql
 # mysql -h 10.5.0.6 -u root -p mydb < /home/ec2-user/capstone/sql/insert_mock_data.sql
