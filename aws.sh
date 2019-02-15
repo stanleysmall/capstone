@@ -9,6 +9,7 @@ sudo yum install mysql -y
 sudo yum install docker -y 
 sudo yum install php-mysqlnd -y
 sudo yum install php -y
+sudo amazon-linux-extras install -y php7.2
 
 # clone the repository and limesurvey
 git clone https://github.com/stansmall/capstone.git 
