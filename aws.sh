@@ -33,11 +33,6 @@ sudo service docker start
 sudo usermod -a -G docker ec2-user 
 sudo curl -L https://github.com/docker/compose/releases/download/1.20.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose 
 sudo chmod +x /usr/local/bin/docker-compose 
-newgrp docker
-newgrp ec2-user
-docker-compose up -d
-
-sudo chmod -R 0777 ./data
 
 # mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql
 # mysql -h 10.5.0.6 -u root -p mydb < /home/ec2-user/capstone/sql/insert_mock_data.sql
