@@ -43,10 +43,6 @@ newgrp docker
 newgrp ec2-user
 docker-compose up -d
 
-# install limesurvey
-cd LimeSurvey/application/commands
-php console.php install admin password Admin admin@mydomain.com
-
 # mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql
 # mysql -h 10.5.0.6 -u root -p mydb < /home/ec2-user/capstone/sql/insert_mock_data.sql
 
