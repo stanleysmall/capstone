@@ -3,6 +3,7 @@ services:
     limesurvey:
         build: .
         container_name: limesurvey
+        command: cd /var/www/html/limesurvey/application/commands && php console.php install admin password Admin admin@mydomain.com
         ports:
             - 5000:80
         volumes:
