@@ -15,7 +15,7 @@ services:
     limesurvey_db:
         image: mysql:5.5.61
         container_name: limesurvey_db
-        command: --init-file /data/application/init.sql
+        command: --init-file ./sql/create_tables.sql
         restart: always
         networks:
             net: 
