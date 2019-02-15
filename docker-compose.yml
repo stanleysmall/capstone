@@ -15,7 +15,7 @@ services:
     limesurvey_db:
         image: mysql:5.5.61
         container_name: limesurvey_db
-        command: --init-file ./sql/create_tables.sql
+        command: --init-file /data/application/init.sql
         restart: always
         networks:
             net: 
@@ -24,6 +24,7 @@ services:
             MYSQL_ROOT_PASSWORD: root
         volumes:
             - ./data:/var/lib/mysql
+            - ./sql/create_tables.sql:/data/application/init.sql
     react:
         build: ./react-app
         container_name: react
