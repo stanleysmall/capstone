@@ -8,6 +8,7 @@ sudo yum install git -y
 sudo yum install mysql -y
 sudo yum install docker -y 
 sudo yum install php-mysqlnd -y
+sudo yum install php -y
 
 # clone the repository and limesurvey
 git clone https://github.com/stansmall/capstone.git 
