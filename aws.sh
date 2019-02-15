@@ -5,17 +5,11 @@
 # install required packages
 sudo yum update -y
 sudo yum install git -y
-sudo yum install mysql -y
 sudo yum install docker -y 
-sudo yum install php-mysqlnd -y
-sudo yum install php -y
-sudo amazon-linux-extras install -y php7.2
 
 # clone the repository and limesurvey
 git clone https://github.com/stansmall/capstone.git 
 cd capstone
-mkdir data
-sudo chmod -R 0777 ./data
 sudo git clone https://github.com/LimeSurvey/LimeSurvey.git
 sudo chmod -R 777 LimeSurvey/
 mv config.php LimeSurvey/application/config
@@ -42,6 +36,8 @@ sudo chmod +x /usr/local/bin/docker-compose
 newgrp docker
 newgrp ec2-user
 docker-compose up -d
+
+sudo chmod -R 0777 ./data
 
 # mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql
 # mysql -h 10.5.0.6 -u root -p mydb < /home/ec2-user/capstone/sql/insert_mock_data.sql
