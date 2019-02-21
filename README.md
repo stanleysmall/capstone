@@ -39,7 +39,7 @@ below shows the scope as a dotted rectangle.
 
 3. In your console, execute `ssh -i "limesurvey.pem" ec2-user@ec2-x-x-x-x.us-east-2.compute.amazonaws.com` with the x’s replaced by the fields in the instance’s IP address (see “IPv4 Public IP”). (Or right-click on the instance, click Connect, and copy and paste the example command.)
 
-4. Type yes when prompted, then run `wget -O - https://raw.githubusercontent.com/stansmall/capstone/master/aws.sh | bash`. After installation is finished, exit ssh with the command `exit`, then execute the ssh command again.
+4. Enter "yes" when prompted, then run `wget -O - https://raw.githubusercontent.com/stansmall/capstone/master/aws.sh | bash`. After installation is finished, exit ssh with the command `exit`, then execute the ssh command again.
 
 5. Execute `cd capstone`, then `docker-compose up -d`. After installation is finished, in your web browser, enter x.x.x.x:5000, with the x’s replaced by the instance’s IP address (“IPv4 Public IP”).
 
