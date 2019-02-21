@@ -33,31 +33,25 @@ below shows the scope as a dotted rectangle.
 
 # Set-Up for Developers
 
-To run the databases and React front end, use this command in /capstone:
+1. Go to your EC2 Dashboard in your AWS account. Click on "Instances", then "Launch Instance". Select the first AMI, then click "Review and Launch", then "Launch". Select “Create a new key pair”. Name it “limesurvey”, and download the key. Click on "Launch Instances".
 
-    sudo docker-compose up
-    
-The web address to configure LimeSurvey is
+2. In the left pane, click "Security Groups", right-click the group with its name starting with “launch-wizard”, then click “Edit inbound rules”. Add three new rules, with their ports being 80, 5000, and 8080 respectively, and their source being Anywhere. Click on "Save".
 
-    http://localhost:5000/index.php/admin
+3. In your console, execute `ssh -i "limesurvey.pem" ec2-user@ec2-x-x-x-x.us-east-2.compute.amazonaws.com` with the x’s replaced by the fields in the instance’s IP address (see “IPv4 Public IP”). (Or right-click on the instance, click Connect, and copy and paste the example command.)
 
-Next, to access the databases using MySQL, use this command:
+4. Type yes when prompted, then run `wget -O - https://raw.githubusercontent.com/stansmall/capstone/master/aws.sh | bash`. After installation is finished, exit ssh with the command exit, then execute the ssh command again.
 
-    mysql -u root -P 4306 -h 127.0.0.1 -p limesurvey
-    
-The password is "root". The LimeSurvey database is called "limesurvey", and the back-end database is called "mydb".
+5. Execute `cd capstone`, then `docker-compose up -d`. After installation is finished, in your web browser, enter x.x.x.x:5000, with the x’s replaced by the instance’s IP address (“IPv4 Public IP”).
 
-<br/>
+6. Click “Start installation”, “I accept”, and “Next”. In the database configuration, enter 10.5.0.6 for the location, “root” for the username and password, and “limesurvey” for the database name. Click “Create database”, then “Populate database”. Click “Next” to use the default LimeSurvey credentials.
 
-To run the API, you first need Python 3 and pip3 installed. Next, to install the packages required for the API scripts, use this command in /capstone/flask:
+7. Click “Administration”, and log in with your credentials. Go to “Configuration”, then “Global settings”, then “Interfaces”. Click on “JSON-RPC” and the toggle below. Click "Save".
 
-    pip3 install -r requirements.txt
+8. Execute `mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql`, then `mysql -h 10.5.0.6 -u root -p mydb < /home/ec2-user/capstone/sql/insert_mock_data.sql`, entering “root” as the password both times.
 
-Next, run the databases with "docker-compose", then use this command in /capstone/flask:
+9. Start Docker up again. Test the API by entering in the web browser http://x.x.x.x:8080/teameval/Eval/1.0.0/survey?name=COS%20140%20001, with the x’s replaced by your instance’s IP address.
 
-    python3 -m swagger_server
-    
-Changing the endpoint specifications requires editing "swagger.yaml".
+To see your changes to the code, run Docker with `docker-compose up -d`. Stop Docker using `docker-compose stop`. To start up MySQL, run the command `mysql -h 10.5.0.6 -u root -p` and enter the password “root”. The back-end database is called  “mydb”. To log in to LimeSurvey, enter http://x.x.x.x:5000/index.php/admin/ in your web browser (with the x’s being your instance’s IP address). You may need to edit "swagger.yaml" to change the API endpoint specifications.
 
 ![alt text](https://raw.githubusercontent.com/stansmall/capstone/master/documents/images/scope_diagram.png)
 
