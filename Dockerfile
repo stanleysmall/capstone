@@ -3,4 +3,4 @@ RUN apt-get update -y && apt-get install -y libpng-dev
 RUN docker-php-ext-install pdo_mysql 
 RUN docker-php-ext-install gd
 WORKDIR /var/www/html/application/commands
-CMD [ "php", "./console.php", "installfromconfig", "/var/www/html/application/config/config.php"]
+CMD [ "php", "./console.php", "installfromconfig", "/config.php"]
