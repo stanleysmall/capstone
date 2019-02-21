@@ -13,6 +13,7 @@ git clone https://github.com/stansmall/capstone.git
 cd capstone
 sudo git clone https://github.com/LimeSurvey/LimeSurvey.git
 sudo chmod -R 777 LimeSurvey/
+mv config.php LimeSurvey/application/config
 
 # install node modules
 cd react-app
