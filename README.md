@@ -54,4 +54,3 @@ below shows the scope as a dotted rectangle.
 To see your changes to the code, run `docker-compose build flask` or `docker-compose build react` (depending on the component), then `docker-compose up -d` (omit the "-d" to see debug info). Stop Docker with `docker-compose stop`. To start up MySQL, run the command `mysql -h 10.5.0.6 -u root -p` and enter the password "root". The back-end database is called  "mydb". To log in to LimeSurvey, enter http://x.x.x.x:5000/index.php/admin/ in your web browser (with the x’s being your instance’s IP address). You may need to edit "swagger.yaml" to change the API endpoint specifications.
 
 ![alt text](https://raw.githubusercontent.com/stansmall/capstone/master/documents/images/scope_diagram.png)
-
