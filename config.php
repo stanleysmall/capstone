@@ -22,10 +22,6 @@
 |
 */
 
-$config['defaultuser']        = 'admin'; // This is the default username when LimeSurvey is installed
-$config['defaultpass']        = 'password'; // This is the default password for the default user when LimeSurvey is install
-$config['RPCInterface'] = 'json';
-
 return array(
 	'components' => array(
 		'db' => array(
@@ -65,6 +61,9 @@ return array(
 	// LimeSurvey developers: Set this to 2 to additionally display STRICT PHP error messages and get full access to standard templates
 		'debug'=>0,
 		'debugsql'=>0, // Set this to 1 to enanble sql logging, only active when debug = 2
+		'defaultuser' => 'admin', // This is the default username when LimeSurvey is installed
+		'defaultpass' => 'password', // This is the default password for the default user when LimeSurvey is install
+		'RPCInterface' => 'json',
 		// Update default LimeSurvey config here
 	)
 );
