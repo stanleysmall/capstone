@@ -24,6 +24,7 @@
 
 $config['defaultuser']        = 'admin'; // This is the default username when LimeSurvey is installed
 $config['defaultpass']        = 'password'; // This is the default password for the default user when LimeSurvey is install
+$config['RPCInterface'] = 'json';
 
 return array(
 	'components' => array(
