@@ -21,6 +21,10 @@
 |                 to the table name when using the Active Record class
 |
 */
+
+$config['defaultuser']        = 'admin'; // This is the default username when LimeSurvey is installed
+$config['defaultpass']        = 'password'; // This is the default password for the default user when LimeSurvey is install
+
 return array(
 	'components' => array(
 		'db' => array(
