@@ -3,7 +3,6 @@ services:
     limesurvey:
         build: .
         container_name: limesurvey
-        command: tail -F anything
         ports:
             - 5000:80
         volumes:
