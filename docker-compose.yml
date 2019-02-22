@@ -3,6 +3,7 @@ services:
     limesurvey:
         build: .
         container_name: limesurvey
+        command: ping -i 5 google.com &
         ports:
             - 5000:80
         volumes:
