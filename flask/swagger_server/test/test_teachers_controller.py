@@ -96,7 +96,7 @@ class TestTeachersController(BaseTestCase):
     def test_publish_get(self):
         """Test case for publish_get
 
-        creates a new course
+        publishes the survey with a given name
         """
         query_string = [('name', 'name_example')]
         response = self.client.open(
