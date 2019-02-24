@@ -47,6 +47,18 @@ services:
         networks:
             net: 
                 ipv4_address: 10.5.0.8
+    flask-test:
+        build:
+            context: ./flask
+            dockerfile: Dockerfile-b
+        container_name: flask-test
+        ports:
+            - 8080:8080
+        depends_on:
+            - limesurvey
+        networks:
+            net: 
+                ipv4_address: 10.5.0.9
 networks:
     net:
         driver: bridge
