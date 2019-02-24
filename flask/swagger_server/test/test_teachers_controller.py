@@ -13,53 +13,54 @@ from swagger_server.test import BaseTestCase
 class TestTeachersController(BaseTestCase):
     """TeachersController integration test stubs"""
 
-    def test_course_delete(self):
-        """Test case for course_delete
+    def test_survey_delete(self):
+        """Test case for survey_delete
 
-        deletes a specified course
+        deletes the survey with a given name
         """
         query_string = [('name', 'name_example')]
         response = self.client.open(
-            '/teameval/Eval/1.0.0/course',
+            '/teameval/Eval/1.0.0/survey',
             method='DELETE',
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_course_get(self):
-        """Test case for course_get
+    def test_survey_get(self):
+        """Test case for survey_get
 
-        retreives the info for a specified course
+        retreives the survey with a given name
         """
         query_string = [('name', 'name_example')]
         response = self.client.open(
-            '/teameval/Eval/1.0.0/course',
+            '/teameval/Eval/1.0.0/survey',
             method='GET',
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_course_put(self):
-        """Test case for course_put
+    def test_survey_put(self):
+        """Test case for survey_put
 
-        updates the info for a specified course
+        updates the info of a survey with a given name
         """
-        query_string = [('name', 'name_example')]
+        query = {}
         response = self.client.open(
-            '/teameval/Eval/1.0.0/course',
+            '/teameval/Eval/1.0.0/survey',
             method='PUT',
-            query_string=query_string)
+            data=json.dumps(query),
+            content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_courses_get(self):
-        """Test case for courses_get
+    def test_surveys_get(self):
+        """Test case for surveys_get
 
-        retreives a list of all courses
+        retreives a list of survey names, optionally for a given instructor
         """
-        query_string = [('id', 'id_example')]
+        query_string = [('name', 'name_example')]
         response = self.client.open(
-            '/teameval/Eval/1.0.0/courses',
+            '/teameval/Eval/1.0.0/surveys',
             method='GET',
             query_string=query_string)
         self.assert200(response,
@@ -70,11 +71,12 @@ class TestTeachersController(BaseTestCase):
 
         adds a user to the database
         """
-        query_string = [('key', 'key_example')]
+        query = {}
         response = self.client.open(
             '/teameval/Eval/1.0.0/create_user',
             method='POST',
-            query_string=query_string)
+            data=json.dumps(query),
+            content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -91,42 +93,28 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_new_course_post(self):
-        """Test case for new_course_post
+    def test_publish_get(self):
+        """Test case for publish_get
 
         creates a new course
         """
-        course = Course()
+        query_string = [('name', 'name_example')]
         response = self.client.open(
-            '/teameval/Eval/1.0.0/new_course',
-            method='POST',
-            data=json.dumps(course),
-            content_type='application/json')
+            '/teameval/Eval/1.0.0/publish',
+            method='GET',
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
     def test_results_get(self):
         """Test case for results_get
 
-        retreives a list of survey results for a specified course
+        retreives a list of results, optionally for a given instructor
         """
-        query_string = [('class_name', 'class_name_example')]
+        query_string = [('instructor', 'instructor_example')]
         response = self.client.open(
             '/teameval/Eval/1.0.0/results',
             method='GET',
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_results_post(self):
-        """Test case for results_post
-
-        edits a list of survey results for a specified course
-        """
-        query_string = [('class_name', 'class_name_example')]
-        response = self.client.open(
-            '/teameval/Eval/1.0.0/results',
-            method='POST',
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

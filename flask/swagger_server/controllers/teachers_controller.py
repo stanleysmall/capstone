@@ -133,6 +133,8 @@ def survey_put():  # noqa: E501
             'email_invite', 'email_remind', 'email_register', and 'email_confirm'
     """
     
+    if 'instructor' not in request.json.keys():
+        return 'no matching instructor found'
     cursor.execute("select ID from instructor where name = '" + request.json['instructor'] + "';")
     instructor_ID = str(cursor.fetchone()[0])
     survey_ID = ''
@@ -289,6 +291,8 @@ def publish_get(name):  # noqa: E501
     
     # Translate survey data into a .txt file
     text, survey_ID = translate_to_txt(name)
+    if not survey_ID:
+        return 'invalid survey name'
     
     # Use .txt file to put survey into LimeSurvey database
     enc_text = base64.b64encode(bytes(text, 'utf-8')).decode('utf-8')
@@ -333,14 +337,16 @@ def translate_to_txt(name):
     PRE: 'name' is already present in database
     """
     
+    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.value = '" + name + "';")
+    if not cursor.fetchone():
+        return None, None
+    survey_ID = str(cursor.fetchone()[0])
+    value_query = "select value from tag, survey_to_tag where survey_to_tag.survey_ID = " + survey_ID + " && survey_to_tag.tag_ID = tag.ID && tag.type = '{}';"
+    
     fil = open(name + '.txt', 'w')
     template = open('template.txt', 'r')
     text = template.readline()
     lines = template.readlines()
-    
-    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.value = '" + name + "';")
-    survey_ID = str(cursor.fetchone()[0])
-    value_query = "select value from tag, survey_to_tag where survey_to_tag.survey_ID = " + survey_ID + " && survey_to_tag.tag_ID = tag.ID && tag.type = '{}';"
     
     # Retreive general survey info
     cursor.execute(value_query.format('name'))
