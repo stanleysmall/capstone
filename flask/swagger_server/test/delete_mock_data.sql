@@ -7,7 +7,6 @@ delete from participant;
 delete from survey;
 delete from instructor;
 delete from tag;
-
 alter table question auto_increment=1;
 alter table participant auto_increment=1;
 alter table survey auto_increment=1;

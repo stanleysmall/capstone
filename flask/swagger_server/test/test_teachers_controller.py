@@ -2,6 +2,7 @@
 
 from __future__ import absolute_import
 
+import mysql.connector
 from flask import json
 from six import BytesIO
 
@@ -12,6 +13,30 @@ from swagger_server.test import BaseTestCase
 
 class TestTeachersController(BaseTestCase):
     """TeachersController integration test stubs"""
+    
+    @classmethod
+    def setUpClass(cls):
+        cls.mydb = mysql.connector.connect(host='10.5.0.6',
+                                           port=3306,
+                                           database='mydb',
+                                           user='root',
+                                           password='root')
+        cls.cursor = cls.mydb.cursor()
+        
+        with open('swagger_server/test/insert_mock_data.sql', 'r') as f:
+            for line in f.readlines():
+                cls.cursor.execute(line)
+            cls.mydb.commit()
+        
+    @classmethod
+    def tearDownClass(cls):
+        with open('swagger_server/test/delete_mock_data.sql', 'r') as f:
+            for line in f.readlines():
+                if line.startswith('alter table survey'):
+                    cls.cursor.execute('show processlist;')
+                    cls.cursor.execute('kill ' + str(cls.cursor.fetchall()[-1][0]) + ';')
+                cls.cursor.execute(line)
+            cls.mydb.commit()
 
     def test_survey_delete(self):
         """Test case for survey_delete
