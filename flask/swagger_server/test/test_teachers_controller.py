@@ -21,7 +21,6 @@ class TestTeachersController(BaseTestCase):
                                            user='root',
                                            password='root')
         cls.cursor = cls.mydb.cursor()
-        cls.NUM_TESTS = 10
         
     def setUp(self):
         with open('swagger_server/test/insert_mock_data.sql', 'r') as f:
