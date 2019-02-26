@@ -229,19 +229,19 @@ def survey_put():  # noqa: E501
     return 'success'
 
 
-def surveys_get(name=None):  # noqa: E501
+def surveys_get(instructor=None):  # noqa: E501
     """retreives a list of survey names, optionally for a given instructor
        if 'instructor' is None, retreives all survey names
 
-    :param id: the name for an instructor
-    :type id: str
+    :param instructor: the instructor to which the surveys pertain
+    :type instructor: str
 
     :rtype: List[survey names]
     """
     
     surveys = []
-    if name:
-        cursor.execute("select tag.value from tag, survey_to_tag, survey, instructor where type = 'name' && tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && survey.instructor_ID = instructor.ID && instructor.name = '" + name + "';")
+    if instructor:
+        cursor.execute("select tag.value from tag, survey_to_tag, survey, instructor where type = 'name' && tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && survey.instructor_ID = instructor.ID && instructor.name = '" + instructor + "';")
     else:
         cursor.execute("select tag.value from tag where type = 'name';")
     for survey in cursor.fetchall():
@@ -270,7 +270,7 @@ def create_user_post():  # noqa: E501
 
 def login_get(key):  # noqa: E501
     """retrieves a token for a certain authentication key
-
+name
     :param key: an authentication key
     :type key: str
 
