@@ -47,7 +47,7 @@ below shows the scope as a dotted rectangle.
 
 7. Click "Administration", and log in with your credentials. Go to "Configuration", then "Global settings", then "Interfaces". Click on "JSON-RPC" then the toggle below. Click "Save".
 
-8. Execute `mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql`, then `mysql -h 10.5.0.6 -u root -p mydb < /home/ec2-user/capstone/sql/insert_mock_data.sql`, entering "root" as the password both times.
+8. Execute `mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql`, entering "root" as the password.
 
 9. Start Docker up again. Test the API by entering in the web browser http://x.x.x.x:8080/teameval/Eval/1.0.0/survey?name=COS%20140%20001, with the x’s replaced by your instance’s IP address.
 
