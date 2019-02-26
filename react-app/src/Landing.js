@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import "./App.css";
 
 
+
 class Landing extends Component {
 	render() {
+
 		return(
 				<form>
 				<div>
@@ -32,6 +34,13 @@ class Landing extends Component {
 				</center>
 			</form>
 		)
+	}
+
+	componentDidMount()
+	{
+		fetch('http://18.224.246.184:8080/teameval/Eval/1.0.0/survey?name=COS%20140%20001')
+			.then(response => response.json())
+			.then(json => console.log(json))
 	}
 }
 
