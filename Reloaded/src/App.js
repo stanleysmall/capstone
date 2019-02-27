@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 import './App.css';
 import Form from './Form';
 import Tabs from './SimpleTabs'
@@ -24,6 +23,9 @@ class App extends Component {
   render() {
     return (
       <div>
+    
+
+
           <div>
             <Tabs />
           </div>

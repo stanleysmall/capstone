@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import "./App.css";
-
+import ReactDOM from 'react-dom';
+import GoogleLogin from 'react-google-login';
 
 class Login extends Component{
+	
+	
 	render(){
 		return(
+
 			<form>
 			<div>
 					<h3>Wicked Easy Teaching Evaluations&emsp;
@@ -14,6 +18,8 @@ class Login extends Component{
 					<b href="/login/">Login</b><hr/></h3>
 			</div>
 		
+			
+
 			
 			<center>
 				<h1>Welcome</h1>
