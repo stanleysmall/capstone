@@ -90,24 +90,94 @@ class TestTeachersController(BaseTestCase):
         self.cursor.execute("select * from tag where type = 'name';")
         self.assertEqual(len(self.cursor.fetchall()), 1)
 
-    def test_survey_get(self):
+    def test_survey_get_valid(self):
         """Test case for survey_get
 
         retreives the survey with a given name
+        'name' is a valid survey name
         """
         
-        query_string = [('name', 'name_example')]
+        query_string = [('name', 'COS 140 001')]
         response = self.client.open(
             '/teameval/Eval/1.0.0/survey',
             method='GET',
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data),
+            {
+                "description": "Description",
+                "email_confirm": "Email confirm text",
+                "email_invite": "Email invite text",
+                "email_register": "Email register text",
+                "email_remind": "Email remind text",
+                "endtext": "End text",
+                "instructor": "Roy Turner",
+                "name": "COS 140 001",
+                "participants": [
+                    {
+                        "address": "example@gmail.com",
+                        "name": "Example Person"
+                    }
+                ],
+                "questions": [
+                    {
+                        "group": "The Instructor",
+                        "helpText": "Help text",
+                        "mandatory": 1,
+                        "text": "Question?",
+                        "type": "5"
+                    },
+                    {
+                        "group": "The Instructor",
+                        "helpText": "Help text",
+                        "mandatory": 0,
+                        "text": "Question 2?",
+                        "type": "L"
+                    }
+                ],
+                "url": "example.com",
+                "welcometext": "Welcome text"
+            }
+        )
+    
+    def test_survey_get_invalid(self):
+        """Test case for survey_get
 
-    def test_survey_put(self):
+        retreives the survey with a given name
+        'name' is not a valid survey name
+        """
+        
+        query_string = [('name', 'COS 225 001')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/survey',
+            method='GET',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), {})
+
+    def test_survey_put_update(self):
         """Test case for survey_put
 
         updates the info of a survey with a given name
+        survey with 'name' is updated with new information
+        """
+        
+        query = {}
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/survey',
+            method='PUT',
+            data=json.dumps(query),
+            content_type='application/json')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+    
+    def test_survey_put_create(self):
+        """Test case for survey_put
+
+        updates the info of a survey with a given name
+        survey is created because 'name' does not exist
         """
         
         query = {}
