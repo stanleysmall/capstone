@@ -11,7 +11,8 @@ script:
 #check if the docker files build
 - wget -O - https://raw.githubusercontent.com/stansmall/capstone/master/aws.sh | bash
 - cd capstone
-- docker-compose up -d
+- docker-compose up -d limesurvey
+- docker-compose up -d react
   
 deploy:
   provider: releases
