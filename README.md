@@ -3,9 +3,9 @@
 
 # Purpose of the Product
 The University of Maine gives out course evaluation surveys to students at the end of each course. The
-survey is filled on a bubble sheet and is then scanned. Harlan Onsrud nds it inconvenient for the school
+survey is filled on a bubble sheet and is then scanned. Dr. Harlan Onsrud finds it inconvenient for the school
 administrators to manually scan and compile the survey results. Current campus experiments with electronic
-evaluations are not fully automated and do not seem to fulll the desires of students and faculty. He desires
+evaluations are not fully automated and do not seem to fulfill the desires of students and faculty. He desires
 an online, automated evaluation system that is responsive to the University's community needs and improves
 productivity.
 
