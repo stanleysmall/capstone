@@ -51,9 +51,9 @@ below shows the scope as a dotted rectangle.
 
 9. Execute `mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql`, entering "root" as the password.
 
-10. Start Docker up again. Test the API by entering in the web browser http://x.x.x.x:8080/teameval/Eval/1.0.0/survey?name=COS%20140%20001, with the x’s replaced by your instance’s IP address.
+10. Start Docker up again if it's stopped. Test the API by entering in the web browser http://x.x.x.x:8080/teameval/Eval/1.0.0/survey?name=COS%20140%20001, with the x’s replaced by your instance’s IP address.  The browser should output "{}", indicating there are no surveys in the database.
 
-It is recommended that you mount your instance's capstone directory on your local machine. To do this, execute `sshfs ec2-user@ec2-x.x.x.x.us-east-2.compute.amazonaws.com:./capstone [relative path to local folder] -o IdentityFile=[full path to limesurvey.pem]`, with the x's being the instance's IP address. 
+It is recommended that you mount your instance's capstone directory on your local machine. To do this, execute `sshfs ec2-user@ec2-x.x.x.x.us-east-2.compute.amazonaws.com:./capstone [relative path to local folder] -o IdentityFile=[full path to limesurvey.pem]`, with the x's being the instance's IP address.
 
 To see your changes to the code, run `docker-compose build [react/flask]` (depending on the component), then `docker-compose up -d [react/flask]` (omit the "-d" to see debug info). Stop Docker with `docker-compose stop`. To start up MySQL, run the command `mysql -h 10.5.0.6 -u root -p` and enter the password "root". The back-end database is called  "mydb". To log in to LimeSurvey, enter http://x.x.x.x:5000/index.php/admin/ in your web browser (with the x’s being your instance’s IP address). You may need to edit "swagger.yaml" to change the API endpoint specifications.
 
