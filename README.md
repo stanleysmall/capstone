@@ -45,7 +45,7 @@ below shows the scope as a dotted rectangle.
 
 6. Execute `cd capstone`, then `docker-compose up -d`. After installation is finished, in your web browser, enter x.x.x.x:5000, with the x’s replaced by the instance’s IP address ("IPv4 Public IP").
 
-7. Click "Start installation", "I accept", and "Next". In the database configuration, enter 10.5.0.6 for the location, "root" for the username and password, and "limesurvey" for the database name. Click "Create database", then "Populate database". Click "Next" to use the default LimeSurvey credentials.
+7. Click "Start installation", "I accept", and "Next". In the database configuration, enter 10.5.0.6 for the location, "root" for the username and password, and "limesurvey" for the database name. Click "Next", then "Create database", then "Populate database". Click "Next" to use the default LimeSurvey credentials.
 
 8. Click "Administration", and log in with your credentials. Go to "Configuration", then "Global settings", then "Interfaces". Click on "JSON-RPC" then the toggle below. Click "Save".
 
