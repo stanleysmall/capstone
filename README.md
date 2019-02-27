@@ -47,7 +47,7 @@ below shows the scope as a dotted rectangle.
 
 7. Click "Start installation", "I accept", and "Next". In the database configuration, enter 10.5.0.6 for the location, "root" for the username and password, and "limesurvey" for the database name. Click "Next", then "Create database", then "Populate database". Click "Next" to use the default LimeSurvey credentials.
 
-8. Click "Administration", and log in with your credentials. Go to "Configuration", then "Global settings", then "Interfaces". Click on "JSON-RPC" then the toggle below. Click "Save".
+8. Click "Administration", and log in "admin" and the username and "password" as the password. Go to "Configuration", then "Global settings", then "Interfaces". Click on "JSON-RPC" then the toggle below. Click "Save".
 
 9. Execute `mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql`, entering "root" as the password.
 
