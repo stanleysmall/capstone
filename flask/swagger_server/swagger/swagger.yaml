@@ -66,10 +66,10 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "name"
+      - name: "instructor"
         in: "query"
         description: "the ID for a teacher/administrator"
-        required: true
+        required: false
         type: "string"
       responses:
         200:
