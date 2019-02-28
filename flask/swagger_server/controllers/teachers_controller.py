@@ -2,6 +2,7 @@ import connexion
 import six
 import mysql.connector
 import base64
+import logging
 from flask import jsonify, request
 
 from swagger_server.models.course import Course  # noqa: E501
@@ -9,6 +10,7 @@ from swagger_server.models.result import Result  # noqa: E501
 from swagger_server import util
 from swagger_server.lime_py_api.limesurvey import Api
 
+logging.basicConfig(level=logging.INFO)
 lime = Api('http://10.5.0.5/index.php/admin/remotecontrol', 'admin', 'password')
 
 mydb = mysql.connector.connect(host='10.5.0.6',
@@ -296,16 +298,20 @@ def publish_get(name):  # noqa: E501
     
     # Use .txt file to put survey into LimeSurvey database
     enc_text = base64.b64encode(bytes(text, 'utf-8')).decode('utf-8')
-    lime.import_survey(enc_text, name, int(survey_ID), type='txt')
+    lime.import_survey(enc_text, name, survey_ID, type='txt')
     
     # Add participants to survey on database
     participants = []
-    cursor.execute("select name, address from participant, survey_to_participant where participant.ID = survey_to_participant.participant_ID && survey_to_participant.survey_ID = " + survey_ID + ";")
+    cursor.execute("select name, address from participant, survey_to_participant where participant.ID = survey_to_participant.participant_ID && survey_to_participant.survey_ID = " + str(survey_ID) + ";")
     for row in cursor.fetchall():
         first, last = row[0].split(' ')
         participants.append({'email': row[1], 'lastname': last, 'firstname': first})
+    lime.activate_tokens(survey_ID)
+    lime.add_participants(survey_ID, participants)
     
     # Activate survey on LimeSurvey
+    lime.set_survey_property(survey_ID, 'anonymized', 'true')
+    lime.activate_survey(survey_ID)
     
     return 'success'
 
@@ -338,9 +344,10 @@ def translate_to_txt(name):
     """
     
     cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.value = '" + name + "';")
-    if not cursor.fetchone():
+    result = cursor.fetchone()
+    if not result:
         return None, None
-    survey_ID = str(cursor.fetchone()[0])
+    survey_ID = str(result[0])
     value_query = "select value from tag, survey_to_tag where survey_to_tag.survey_ID = " + survey_ID + " && survey_to_tag.tag_ID = tag.ID && tag.type = '{}';"
     
     fil = open(name + '.txt', 'w')
@@ -407,7 +414,7 @@ def translate_to_txt(name):
             text += '\t'*132 + '\n'
 
     fil.write(text)
-    return text, survey_ID
+    return text, int(survey_ID)
     
     
 def translate_responses(responses):
