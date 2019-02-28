@@ -10,5 +10,7 @@ COPY ["package.json", "package-lock.json*", "./"]
 #  yarn build
 RUN rm -rf node_modules && npm install --production --silent
 
+RUN npm install react-google-login
+
 # Expose PORT 3000 on our virtual machine so we can run our server
 EXPOSE 3000
