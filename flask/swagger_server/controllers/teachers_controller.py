@@ -270,7 +270,7 @@ def create_user_post():  # noqa: E501
 
 def login_get(key):  # noqa: E501
     """retrieves a token for a certain authentication key
-name
+
     :param key: an authentication key
     :type key: str
 
@@ -415,7 +415,7 @@ def translate_responses(responses):
        imported into the back end database
           
     :param responses: the responses for a survey
-    :type name: str
+    :type responses: str
     
     PRE: 'responses' is in JSON format
     """
@@ -428,7 +428,7 @@ def results_get(instructor=None):  # noqa: E501
        if 'instructor' is None, retrieves results for all surveys
 
     :param instructor: the instructor to which the results pertain
-    :type group: str
+    :type instructor: str
 
     :rtype: List[results]
     
