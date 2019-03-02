@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 
 import './App.css';
-import Form from './Form';
+import CourseForm from './CourseForm';
 import Tabs from './SimpleTabs'
-
 
 class App extends Component {
   
@@ -32,7 +31,7 @@ class App extends Component {
 
           <div className="App">
             
-            < Form onChange={fields =>this.onChange(fields)}/>
+            < CourseForm onChange={fields =>this.onChange(fields)}/>
             <p>{JSON.stringify(this.state.fields, null, 2)}</p>
           </div>
         </div>

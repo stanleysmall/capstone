@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import GoogleLogin from 'react-google-login';
 
 
-export default class Form extends React.Component {
+export default class CourseForm extends React.Component {
 
     state = {
         course_Designator: '',
@@ -99,13 +99,13 @@ export default class Form extends React.Component {
         return(
 
         <div>
-
-        <GoogleLogin
+		<GoogleLogin
             clientId="http://410688583447-dashcvq6bs4t85lujq542hegi8jf9gmn.apps.googleusercontent.com/"
             buttonText="Login"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
           />
+      
         
         <form>
         

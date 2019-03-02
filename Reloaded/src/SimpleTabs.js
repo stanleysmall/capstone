@@ -32,6 +32,14 @@ class SimpleTabs extends React.Component {
 
   handleChange = (event, value) => {
     this.setState({ value });
+	if(value==0)
+		window.location.href="/";
+	else if(value==1)
+		window.location.href="/about";
+	else if(value==2)
+		window.location.href="/faq";
+	else if(value==3)
+		window.location.href="/login";
   };
 
   render() {
@@ -45,13 +53,13 @@ class SimpleTabs extends React.Component {
             <Tab label="Home" />
             <Tab label="About" />
             <Tab label="FAQ" />
-            <Tab label="Logout" />
+            <Tab label="Login" />
           </Tabs>
         </AppBar>
         {value === 0 && <TabContainer>Home</TabContainer>}
         {value === 1 && <TabContainer>About</TabContainer>}
         {value === 2 && <TabContainer>FAQ</TabContainer>}
-        {value === 3 && <TabContainer>Logout</TabContainer>}
+        {value === 3 && <TabContainer>Login</TabContainer>}
       </div>
     );
   }

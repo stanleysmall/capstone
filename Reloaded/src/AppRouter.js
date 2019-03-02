@@ -15,7 +15,19 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 
 const AppRouter = () => (
+	/*this.state= {
+		fields: {}
+	}
 
+	onChange = newValue => {
+    this.setState({
+      fields: {
+        ...this.state.fields,
+        ...newValue
+      }
+    });
+  };
+	*/
   <Router>
     <div>
       <Route path="/" exact component={Landing} />
@@ -27,7 +39,7 @@ const AppRouter = () => (
 	  <Route path="/enroll/" component={EnrollForm} />
 	  <Route path="/home/" component={Home} />
 	  <Route path="/edit/" component={EditCourse} />
-	  <Route path="/results/" component={Results} />
+	  <Route path="/results/" component={Results} /> 
     </div>
   </Router>
 );
