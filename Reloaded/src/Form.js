@@ -101,7 +101,7 @@ export default class Form extends React.Component {
         <div>
 
         <GoogleLogin
-            clientId="http://410688583447-dashcvq6bs4t85lujq542hegi8jf9gmn.apps.googleusercontent.com/"
+            clientId="410688583447-dashcvq6bs4t85lujq542hegi8jf9gmn.apps.googleusercontent.com"
             buttonText="Login"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}

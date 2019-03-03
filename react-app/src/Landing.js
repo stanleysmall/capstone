@@ -1,10 +1,24 @@
 import React, { Component } from "react";
 import "./App.css";
+import GoogleLogin from 'react-google-login';
 
 
 class Landing extends Component {
 	render() {
-		return(
+
+		const responseGoogle = (response) => {
+            console.log(response);}
+
+        return(
+
+        <div>
+
+        <GoogleLogin
+            clientId="410688583447-dashcvq6bs4t85lujq542hegi8jf9gmn.apps.googleusercontent.com"
+            buttonText="Login"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+          />
 				<form>
 				<div>
 					<h3>Wicked Easy Teaching Evaluations&emsp;
@@ -31,6 +45,7 @@ class Landing extends Component {
 				<button type="button"> Try it </button>
 				</center>
 			</form>
+			</div>
 		)
 	}
 }
