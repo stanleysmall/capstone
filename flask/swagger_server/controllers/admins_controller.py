@@ -81,10 +81,6 @@ def login_get(key):  # noqa: E501
 
     :rtype: str
     """
-    print(key)
-    if key == 'test':
-        return 'test key'
-
     return 'do some magic!'
 
 
@@ -93,7 +89,7 @@ def new_course_post(course):  # noqa: E501
 
      # noqa: E501
 
-    :param course:
+    :param course: 
     :type course: dict | bytes
 
     :rtype: str

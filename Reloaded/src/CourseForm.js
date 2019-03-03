@@ -1,10 +1,8 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import GoogleLogin from 'react-google-login';
 
-
-export default class Form extends React.Component {
+export default class CourseForm extends React.Component {
 
     state = {
         course_Designator: '',
@@ -58,7 +56,7 @@ export default class Form extends React.Component {
             reminderTime: '',
             endDate: ''
         })
-        //this.props.onSubmit(this.state)
+        window.location.href="/questions";
     }
 
     loadForm = () =>
@@ -93,11 +91,9 @@ export default class Form extends React.Component {
 
     render() {
 
-        const responseGoogle = (response) => {
-            console.log(response);}
 
         return(
-
+      
         <div>
 
         <GoogleLogin

@@ -49,8 +49,8 @@ id	related_id	class	type/scale	name	relevance	text	help	language	validation	mand
 		SL		surveyls_language		en		en																																																																																																																																									
 		SL		surveyls_title		Title		en																																																																																																																																									
 		SL		surveyls_description		Description		en																																																																																																																																									
-		SL		surveyls_welcometext		Welcome		en																																																																																																																																									
-		SL		surveyls_endtext		End		en																																																																																																																																									
+		SL		surveyls_welcometext		Welcome Text		en																																																																																																																																									
+		SL		surveyls_endtext		End Text		en																																																																																																																																									
 		SL		surveyls_url				en																																																																																																																																									
 		SL		surveyls_urldescription				en																																																																																																																																									
 		SL		surveyls_email_invite_subj		"Invitation to participate in a survey"		en																																																																																																																																									
