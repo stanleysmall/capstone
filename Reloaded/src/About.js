@@ -7,7 +7,7 @@ class About extends Component {
 		return(
 			<form>
 			<div>
-			<Tabs />
+			<Tabs value={1}/>
 			</div>
 		
 			

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./App.css";
-import ReactDOM from 'react-dom';
 import GoogleLogin from 'react-google-login';
 import Tabs from './SimpleTabs';
 
