@@ -18,11 +18,11 @@
 \vspace{1cm}
 {\Large Team EVAL\par}
 \vspace{.2cm}
-{\Large Jovon Craig, Sam Elliott, Robert Judkins, and Stanley Small\par}
+{\Large Jovon Craig, Sam Elliott, Yuanqi Guo, Robert Judkins, and Stanley Small\par}
 \vspace{1cm}
 {\Large Client: Dr. Harlan Onsrud\par}
 \vspace{1cm}
-{\Large March ??, 2019\par}
+{\Large March 14, 2019\par}
 \vspace{11cm}
 
 University of Maine - Spring 2019 - COS 497
@@ -44,10 +44,14 @@ Instructor: Professor Terry Yoo
 \newpage
 
 \section{Introduction}
+
+Team EVAL is creating a system to more efficiently create and distribute post-semester teaching evaluations. Our system must be properly inspected so that it meets functional requirements.
  
 \subsection{Purpose of This Document}
 
+The code inspection report is a detailed overview of the walkthrough our team made to ensure that the course evaluation system works as intended. The first section of the document mentions the coding conventions that the team used as guidelines, as well as a list of defects we checked during the review. The second section details our inspection process, how it deviated from a typical inspection, and Team EVAL's feelings about it. The last sections describe the system components inspected and the defects we found.
 
+This document is intended for the development team, the product client, Dr. Harlan Onsrud, and potential users of the system. Team EVAL needs this document to fix the defects that we found during inspection and keep the defect checklist in mind. Dr. Onsrud needs it to confirm that Team EVAL is meeting requirements and caring about code quality. Lastly, the document helps the software's users by telling how the actual modules differ from how they were designed in the SDD.
 
 \subsection{References}
 
@@ -55,17 +59,25 @@ Craig, J., Elliott, S., Judkins, R., \& Small, S. 29 October 2018. \textit{Syste
 \vspace{3mm}\newline
 Craig, J., Elliott, S., Judkins, R., \& Small, S. 16 November 2018. \textit{System Design Document.}
 \vspace{3mm}\newline
-Onsrud, H. ``Example Question Selection Form.'' See Appendix D.
+Van Rossum, G., Warsaw, B., \& Coghlan, N. (2001, July 5). \textit{PEP 8 -- Style Guide for Python Code.} Retrieved from https://www.python.org/dev/peps/pep-0008/
 \vspace{3mm}\newline
-Onsrud, H. ''Report for Professor: Roy Turner'' See Appendix E.
+Goodger, D., \& Van Rossum, G. (2001, May 29). \textit{PEP 257 -- Docstring Conventions.} Retrieved from https://www.python.org/dev/peps/pep-0257/
+\vspace{3mm}\newline
+\textit{Google JavaScript Style Guide.} (n.d.). Retrieved March 4, 2019, from https://google.github.io/styleguide/\newline jsguide.html
 
 \subsection{Coding and Commenting Conventions}
 
+Team EVAL is adopting several guidelines for proper code and commenting to better understand what kinds of defects for which to check during inspection.
 
+For the Python code in the back-end API, the team is following the official Python style guide, PEP 8, and the docstring conventions in PEP 257. Available on the Python website, PEP 8 and 257 were written in 2001 by the creator of Python, Guido van Rossum, and other core developers. Both guides in turn were derived by van Rossum's original style guide for Python. PEP 8 covers topics such as indentation, line length, imports, whitespace, comments, and naming. PEP 257 has brief guidelines on documentation strings.
+
+For the JavaScript code written on the front end, Team EVAL is following the Google JavaScript Style Guide. Google uses JavaScript so much for its front-end projects that it wrote conventions on how to properly write in the language. The standards in this guide are followed by Google's developers for their own development. The style guide includes guidelines on issues like source file structure, indentation, whitespace, comments, literals, naming, and JavaScript's documentation language, JSDoc. 
 
 \subsection{Defect Checklist}
 
+The team created a list of possible defects that could be encountered during our inspection. Much of the defect list references the style guides mentioned in the previous section. Each defect falls into one of four categories: violations of coding conventions, control flow errors, flaws in the system's security, and violations of commenting standards. The list is shown in Table 1 on the next page:
 
+\vspace{2cm}
 
 \begin{center}
 \captionof{table}{Defect checklist}
@@ -154,11 +166,6 @@ Onsrud, H. ''Report for Professor: Roy Turner'' See Appendix E.
 \appendix
 
 \newpage
-\section{Coding and Commenting Conventions}
-
-
-
-\newpage
 \section{Agreement Between Customer and Contractor}
 This page shows that all members of Team EVAL and the client, Harlan Onsrud, have agreed on all the information in the code inspection report. By signing this document, Team EVAL and Dr. Onsrud approve the coding conventions used, the information about the inspection process, and the descriptions of the defects and inspected modules.
 
@@ -170,9 +177,10 @@ The team will follow a process in the case that the document is changed after we
 \textbf{\textit{Name}} & \textbf{\textit{Signature}} & \textbf{\textit{Date}} \\[.5cm]
 \textbf{Jovon Craig} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
 \textbf{Sam Elliott} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Yuanqi Guo} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
 \textbf{Robert Judkins} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
 \textbf{Stanley Small} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
-\textbf{Harlan Onsrud} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Dr. Harlan Onsrud} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
 Customer Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
 \multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
 \end{tabular}
@@ -192,6 +200,9 @@ Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
 \textbf{Sam Elliott} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
 Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
 \multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\textbf{Yuanqi Guo} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
 \textbf{Robert Judkins} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
 Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
 \multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
@@ -208,17 +219,10 @@ Stanley Small ??. Stan contributed approximately ?? percent of the document.
 
 Jovon Craig ??. Jovon contributed about ?? percent of the document.
 
+Yuanqi Guo ??. Tom contributed about ?? percent of the document.
+
 Sam Elliott ??. Sam contributed about ?? percent of the document.
 
 Robert Judkins ??. Robert contributed about ?? percent of the document.
 
-\newpage
-
-\includepdf[scale=0.85,pages=1,pagecommand=\section{Example Question Selection Form}]{images/question_appendix.pdf}
-\includepdf[scale=0.85,pages=2-]{images/question_appendix.pdf}
-
-\newpage
-
-\includepdf[scale=0.92,pages=1,pagecommand=\section{Example Results Display}]{images/results_appendix.pdf}
-\includepdf[scale=0.92,pages=2-]{images/results_appendix.pdf}
 \end{document}
