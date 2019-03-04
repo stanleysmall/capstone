@@ -312,6 +312,7 @@ def publish_get(name):  # noqa: E501
     # Activate survey on LimeSurvey
     lime.set_survey_property(survey_ID, 'anonymized', 'true')
     lime.activate_survey(survey_ID)
+    lime.invite_participants(survey_ID)
     
     return 'success'
 
