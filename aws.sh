@@ -20,6 +20,7 @@ sudo curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.s
 . ~/.nvm/nvm.sh 
 nvm install 11.9.0 
 npm install
+npm install react-google-login
 npm audit fix
 
 # install lime-py-api
