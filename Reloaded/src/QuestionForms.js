@@ -1,14 +1,141 @@
 import React, { Component } from "react";
 import "./App.css";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Button from '@material-ui/core/Button';
 
-class QuestionForms extends Component {
+
+class QuestionForms extends React.Component {
+	
+	state = {
+			InstructorQ1: '',
+			InstructorQ2: '',
+			InstructorQ3: '',
+			InstructorQ4: '',
+			InstructorQ5: '',
+			InstructorQ6: '',
+			InstructorQ7: '',
+			InstructorQ8: '',
+			InstructorQ9: '',
+			CourseQ1: '',
+			CourseQ2: '',
+			CourseQ3: '',
+			CourseQ4: '',
+			AssessmentQ1: '',
+			AssessmentQ2: '',
+			AssessmentQ3: '',
+			AssessmentQ4: '',
+			OpenEndedQ1:  '',
+			OpenEndedQ2: '',
+			OpenEndedQ3: '',
+			TAQ1: '',
+			TAQ2: '',
+			TAQ3: '',
+			TAQ4: '',
+			TAQ5: '',
+			TAQ6: '',
+			TAQ7: '',
+			TAQ8: '',
+			OnlineQ1: '',
+			OnlineQ2: '',
+			OnlineQ3: '',
+			OnlineQ4: '',
+			OnlineQ5: '',
+			OnlineQ6: '',
+			OnlineQ7: '',
+			OnlineQ8: '',
+			OnlineQ9: '',
+			OnlineQ10: '',
+			OnlineQ11: '',
+			OnlineQ12: '',
+			LabQ1: '',
+			LabQ2: '',
+			LabQ3: ''
+			
+		}
+		
+		change = (e) => {
+        
+        this.props.onChange({[e.target.name] : e.target.value})
+        this.setState(
+            {[e.target.name]: e.target.value}
+			);
+		};
+
+		onSubmit = (e) =>
+		{
+			e.preventDefault()
+				
+			this.setState({
+				InstructorQ1: '',
+				InstructorQ2: '',
+				InstructorQ3: '',
+				InstructorQ4: '',
+				InstructorQ5: '',
+				InstructorQ6: '',
+				InstructorQ7: '',
+				InstructorQ8: '',
+				InstructorQ9: '',
+				CourseQ1: '',
+				CourseQ2: '',
+				CourseQ3: '',
+				CourseQ4: '',
+				AssessmentQ1: '',
+				AssessmentQ2: '',
+				AssessmentQ3: '',
+				AssessmentQ4: '',
+				OpenEndedQ1:  '',
+				OpenEndedQ2: '',
+				OpenEndedQ3: '',
+				TAQ1: '',
+				TAQ2: '',
+				TAQ3: '',
+				TAQ4: '',
+				TAQ5: '',
+				TAQ6: '',
+				TAQ7: '',
+				TAQ8: '',
+				OnlineQ1: '',
+				OnlineQ2: '',
+				OnlineQ3: '',
+				OnlineQ4: '',
+				OnlineQ5: '',
+				OnlineQ6: '',
+				OnlineQ7: '',
+				OnlineQ8: '',
+				OnlineQ9: '',
+				OnlineQ10: '',
+				OnlineQ11: '',
+				OnlineQ12: '',
+				LabQ1: '',
+				LabQ2: '',
+				LabQ3: ''
+				
+			})
+			window.location.href="/enroll";
+		}
+		
+		componentDidMount()
+			{
+				fetch('http://18.224.246.184:8080/teameval/Eval/1.0.0/survey?name=COS%20140%20001')
+				.then(response => response.json())
+				.then(json => console.log(json))
+			}
+			
+		 logout(){
+			 window.location.href="/login";
+		 }
+		 goBack(){
+			 window.location.href="/create";
+		 }
 	render() {
     return (
       <form>
 		
         <div class="container">
-			<a href="/create/">Back </a>&nbsp;
-			<a href="/login/">Sign out </a>
+			<Button variant = "contained" color = "primary" onClick= {this.goBack}>Back </Button>&emsp;
+			<Button variant = "contained" color = "primary" onClick= {this.logout}>Log out </Button>
           <InstructorQuestionForm />
 		  <hr/>
         </div>
@@ -47,73 +174,12 @@ class QuestionForms extends Component {
 		
 		<div class="container">
           <OpenEndedQuestionForm />
-		  <button type="button" onClick={this.createJSON}>Next</button>
+		  <button type="button" onClick={e =>this.onSubmit(e)}>Next</button>
         </div>
 		<br />
 		</form>
 		)
 	}
-	
-	createJSON(){
-		let courseQuestions = {
-			InstructorQ1: getRadioVal("iq1"),
-			InstructorQ2: getRadioVal("iq2"),
-			InstructorQ3: getRadioVal("iq3"),
-			InstructorQ4: getRadioVal("iq4"),
-			InstructorQ5: getRadioVal("iq5"),
-			InstructorQ6: getRadioVal("iq6"),
-			InstructorQ7: getRadioVal("iq7"),
-			InstructorQ8: getRadioVal("iq8"),
-			InstructorQ9: getRadioVal("iq9"),
-			CourseQ1: getRadioVal("cq1"),
-			CourseQ2: getRadioVal("cq2"),
-			CourseQ3: getRadioVal("cq3"),
-			CourseQ4: getRadioVal("cq4"),
-			AssessmentQ1: getRadioVal("aq1"),
-			AssessmentQ2: getRadioVal("aq2"),
-			AssessmentQ3: getRadioVal("aq3"),
-			AssessmentQ4: getRadioVal("aq3"),
-			OpenEndedQ1: getRadioVal("oeq1"),
-			OpenEndedQ2: getRadioVal("oeq2"),
-			OpenEndedQ3: getRadioVal("oeq3"),
-			TAQ1: getRadioVal("tq1"),
-			TAQ2: getRadioVal("tq2"),
-			TAQ3: getRadioVal("tq3"),
-			TAQ4: getRadioVal("tq4"),
-			TAQ5: getRadioVal("tq5"),
-			TAQ6: getRadioVal("tq6"),
-			TAQ7: getRadioVal("tq7"),
-			TAQ8: getRadioVal("tq8"),
-			OnlineQ1: getRadioVal("oq1"),
-			OnlineQ2: getRadioVal("oq2"),
-			OnlineQ3: getRadioVal("oq3"),
-			OnlineQ4: getRadioVal("oq4"),
-			OnlineQ5: getRadioVal("oq5"),
-			OnlineQ6: getRadioVal("oq6"),
-			OnlineQ7: getRadioVal("oq7"),
-			OnlineQ8: getRadioVal("oq8"),
-			OnlineQ9: getRadioVal("oq9"),
-			OnlineQ10: getRadioVal("oq10"),
-			OnlineQ11: getRadioVal("oq11"),
-			OnlineQ12: getRadioVal("oq12"),
-			LabQ1: getRadioVal("lq1"),
-			LabQ2: getRadioVal("lq2"),
-			LabQ3: getRadioVal("lq3")
-			
-		}
-		fetch('https://jsonplaceholder.typicode.com/posts',{
-		method: 'POST',
-		body: JSON.stringify(courseQuestions),
-		headers: {
-			'Content-type': 'application/json; charsett=UTF-8'
-		}
-		})
-		.then(response => response.json())
-		.then(json => console.log(json))
-		
-		window.location.href="/enroll/";
-	}
-	
 }
 
 class InstructorQuestionForm extends Component {
@@ -134,12 +200,18 @@ class InstructorQuestionForm extends Component {
 		*/}
         <form>
           <div class="fieldLabel">How prepared was the instructor for the class?</div>
-          <input type="radio" name="iq1" value="include" /> Include 
-          <input type="radio" name="iq1" value="mandatory" /> Mandatory <br />
-		  <input type="radio" name="iq1" value="exclude" />Do not include <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
+		  
+        <RadioGroup
+			/*
+			value={this.state.InstructorQ1}
+			onChange={e => this.change(e)}
+			*/
+		>
+         <FormControlLabel value="include" control={<Radio color="primary"/>} label = "Include" />
+		 <FormControlLabel value="mandatory" control={<Radio color="primary"/>} label = "Mandatory" />
+		 <FormControlLabel value="notInclude" control={<Radio color="primary"/>} label = "Do Not Include" />
+		 </RadioGroup>
+        
         </form>
 		{/*
 		//
@@ -150,12 +222,17 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How clearly were the objectives of the course presented? </div>
-           <input type="radio" name="iq2" value="include" /> Include 
-          <input type="radio" name="iq2" value="mandatory" /> Mandatory <br />
-		  <input type="radio" name="iq2" value="exclude" />Do not include <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
+          
+		  <RadioGroup
+			/*
+			value={this.state.InstructorQ2}
+			onChange={e => this.change(e)}
+			*/
+		>
+         <FormControlLabel value="include" control={<Radio color="primary"/>} label = "Include" />
+		 <FormControlLabel value="mandatory" control={<Radio color="primary"/>} label = "Mandatory" />
+		 <FormControlLabel value="notInclude" control={<Radio color="primary"/>} label = "Do Not Include" />
+		 </RadioGroup>
         </form>
 		{/*
 		//
@@ -166,12 +243,16 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How enthusiastic was the instructor about the subject? </div>
-           <input type="radio" name="iq3" value="include" /> Include 
-          <input type="radio" name="iq3" value="mandatory" /> Mandatory <br />
-		  <input type="radio" name="iq3" value="exclude" />Do not include <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
+          <RadioGroup
+			/*
+			value={this.state.InstructorQ3}
+			onChange={e => this.change(e)}
+			*/
+		>
+         <FormControlLabel value="include" control={<Radio color="primary"/>} label = "Include" />
+		 <FormControlLabel value="mandatory" control={<Radio color="primary"/>} label = "Mandatory" />
+		 <FormControlLabel value="notInclude" control={<Radio color="primary"/>} label = "Do Not Include" />
+		 </RadioGroup>
         </form>
 		{/*
 		//
@@ -182,12 +263,16 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How clearly did the instructor present concepts, principles and theories? </div>
-           <input type="radio" name="iq4" value="include" /> Include 
-          <input type="radio" name="iq4" value="mandatory" /> Mandatory <br />
-		  <input type="radio" name="iq4" value="exclude" />Do not include <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
+          <RadioGroup
+			/*
+			value={this.state.InstructorQ4}
+			onChange={e => this.change(e)}
+			*/
+		>
+         <FormControlLabel value="include" control={<Radio color="primary"/>} label = "Include" />
+		 <FormControlLabel value="mandatory" control={<Radio color="primary"/>} label = "Mandatory" />
+		 <FormControlLabel value="notInclude" control={<Radio color="primary"/>} label = "Do Not Include" />
+		 </RadioGroup>
         </form>
 		{/*
 		//
@@ -198,12 +283,16 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How much were you encouraged to think for yourselves? </div>
-           <input type="radio" name="iq5" value="include" /> Include 
-          <input type="radio" name="iq5" value="mandatory" /> Mandatory <br />
-		  <input type="radio" name="iq5" value="exclude" />Do not include <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
+          <RadioGroup
+			/*
+			value={this.state.InstructorQ5}
+			onChange={e => this.change(e)}
+			*/
+		>
+         <FormControlLabel value="include" control={<Radio color="primary"/>} label = "Include" />
+		 <FormControlLabel value="mandatory" control={<Radio color="primary"/>} label = "Mandatory" />
+		 <FormControlLabel value="notInclude" control={<Radio color="primary"/>} label = "Do Not Include" />
+		 </RadioGroup>
         </form>
 		{/*
 		//
@@ -214,12 +303,16 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">How concerned was the instructor for the quality of student learning? </div>
-           <input type="radio" name="iq6" value="include" /> Include 
-          <input type="radio" name="iq6" value="mandatory" /> Mandatory <br />
-		  <input type="radio" name="iq6" value="exclude" />Do not include <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
+          <RadioGroup
+			/*
+			value={this.state.InstructorQ6}
+			onChange={e => this.change(e)}
+			*/
+		>
+         <FormControlLabel value="include" control={<Radio color="primary"/>} label = "Include" />
+		 <FormControlLabel value="mandatory" control={<Radio color="primary"/>} label = "Mandatory" />
+		 <FormControlLabel value="notInclude" control={<Radio color="primary"/>} label = "Do Not Include" />
+		 </RadioGroup>
         </form>
 		{/*
 		//
@@ -230,12 +323,16 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Did the instructor show respect for the questions and opinions of the students? </div>
-           <input type="radio" name="iq7" value="include" /> Include 
-          <input type="radio" name="iq7" value="mandatory" /> Mandatory <br />
-		  <input type="radio" name="iq7" value="exclude" />Do not include <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
+          <RadioGroup
+			/*
+			value={this.state.InstructorQ7}
+			onChange={e => this.change(e)}
+			*/
+		>
+         <FormControlLabel value="include" control={<Radio color="primary"/>} label = "Include" />
+		 <FormControlLabel value="mandatory" control={<Radio color="primary"/>} label = "Mandatory" />
+		 <FormControlLabel value="notInclude" control={<Radio color="primary"/>} label = "Do Not Include" />
+		 </RadioGroup>
         </form>
 		{/*
 		//
@@ -246,13 +343,16 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Did the instructor ensure an environment of respect for all groups of people in the classroom? </div>
-          <input type="radio" name="iq8" value="include" /> Include 
-          <input type="radio" name="iq8" value="mandatory" /> Mandatory <br />
-		  <input type="radio" name="iq8" value="exclude" />Do not include <br />
-          <br />
-          <br />
-		  <br />
-          <questionCheckBoxes />
+          <RadioGroup
+			/*
+			value={this.state.InstructorQ8}
+			onChange={e => this.change(e)}
+			*/
+		>
+         <FormControlLabel value="include" control={<Radio color="primary"/>} label = "Include" />
+		 <FormControlLabel value="mandatory" control={<Radio color="primary"/>} label = "Mandatory" />
+		 <FormControlLabel value="notInclude" control={<Radio color="primary"/>} label = "Do Not Include" />
+		 </RadioGroup>
         </form>
 		{/*
 		//
@@ -263,16 +363,23 @@ class InstructorQuestionForm extends Component {
 		*/}
 		<form>
           <div class="fieldLabel">Did the instructor inspire confidence in his/her knowledge? </div>
-           <input type="radio" name="iq9" value="include" /> Include 
-          <input type="radio" name="iq9" value="mandatory" /> Mandatory <br />
-		  <input type="radio" name="iq9" value="exclude" />Do not include <br />
-          <br />
-          <br />
-          <questionCheckBoxes />
+          <RadioGroup
+			/*
+			value={this.state.InstructorQ9}
+			onChange={e => this.change(e)}
+			*/
+		>
+         <FormControlLabel value="include" control={<Radio color="primary"/>} label = "Include" />
+		 <FormControlLabel value="mandatory" control={<Radio color="primary"/>} label = "Mandatory" />
+		 <FormControlLabel value="notInclude" control={<Radio color="primary"/>} label = "Do Not Include" />
+		 </RadioGroup>
         </form>
 		{/*
 			//Add question for instructor section
 		*/}
+		
+		
+		
         <button type="button" onClick={this.hideTextBox}>Add question</button> <br />
         <br />
 		<form class="hiddenForm" id="QBoxInstructor">
@@ -1135,17 +1242,5 @@ class LabQuestionForm extends Component {
 	
 }	
 
-function getRadioVal(name){
-	var val = "exclude";
-	var radios = document.getElementsByName(name);
-	
-	for(var i=0, len=radios.length; i<len; i++){
-		if(radios[i].checked){
-			val=radios[i].value;
-			break;
-		}
-	}
-	return val;
-}
 
 export default QuestionForms;
