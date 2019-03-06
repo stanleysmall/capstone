@@ -1,32 +1,15 @@
 import React, { Component } from "react";
 import "./App.css";
-import GoogleLogin from 'react-google-login';
-
+import Tabs from './SimpleTabs';
 
 class Landing extends Component {
 	render() {
-
-		const responseGoogle = (response) => {
-            console.log(response);}
-
-        return(
-
-        <div>
-
-        <GoogleLogin
-            clientId="410688583447-dashcvq6bs4t85lujq542hegi8jf9gmn.apps.googleusercontent.com"
-            buttonText="Login"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-          />
+		return(
 				<form>
 				<div>
-					<h3>Wicked Easy Teaching Evaluations&emsp;
-					<b href="/">Home</b>&nbsp;
-					<a href="/about/">About</a>&nbsp;
-					<a href="/faq/">FAQ</a>&nbsp;
-					<a href="/login/">Login</a><hr/></h3>
+					<Tabs />
 				</div>
+				
 				
 				<center>
 				<h1>We make the creation of teaching <br/> evaluations and the reporting of<br/> student responses wicked easy!</h1><br/>
@@ -45,7 +28,6 @@ class Landing extends Component {
 				<button type="button"> Try it </button>
 				</center>
 			</form>
-			</div>
 		)
 	}
 }
