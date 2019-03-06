@@ -6,10 +6,14 @@ import Tabs from './SimpleTabs'
 
 class App extends Component {
   
+  //State starts out with no fields however it will be built up when
+  //onChange is called.  Should be reset to {} when a course form is submitted
   state = {
     fields: {}
   };
 
+  //On change function taks a new value, unpakcs the state and the new value
+  //and sets the state to the two
   onChange = newValue => {
     this.setState({
       fields: {
@@ -22,9 +26,6 @@ class App extends Component {
   render() {
     return (
       <div>
-    
-
-
           <div>
             <Tabs />
           </div>

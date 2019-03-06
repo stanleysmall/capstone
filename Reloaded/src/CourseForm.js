@@ -5,26 +5,29 @@ import Button from '@material-ui/core/Button';
 export default class CourseForm extends React.Component {
 
     state = {
-        course_Designator: '',
-        courseNumber: '',
-        courseSection: '',
+        course_designator: '',
+        course_number: '',
+        course_section: '',
         courseTitle: '',
         semester: '',
         facultyUnit: '',
         college: '',
         university: '',
-        instructorFirst: '',
-        instructorLast: '',
+        instructor: '',
         instructorEmail: '',
         instructorPhone: '',
         adminName: '',
         adminEmail: '',
         beginDate: '',
         reminderTime: '',
-        endDate: ''
+        endDate: '',
 
     }
 
+    //Change function changes the field that shares
+    //a name with the passed component and sets it to the 
+    //passed components value.
+    //This occurs in both the local state and the props state
     change = (e) => {
         
         this.props.onChange({[e.target.name] : e.target.value})
@@ -38,93 +41,67 @@ export default class CourseForm extends React.Component {
         e.preventDefault()
 
         this.setState({   
-            course_Designator: '',
-            courseNumber: '',
-            courseSection: '',
+            course_designator: '',
+            course_number: '',
+            course_section: '',
             courseTitle: '',
             semester: '',
             facultyUnit: '',
             college: '',
             university: '',
-            instructorFirst: '',
-            instructorLast: '',
+            instructor: '',
             instructorEmail: '',
             instructorPhone: '',
             adminName: '',
             adminEmail: '',
             beginDate: '',
             reminderTime: '',
-            endDate: ''
+            endDate: '',
         })
         window.location.href="/questions";
     }
 
     loadForm = () =>
     {
-        this.setState({
-            course_Designator: 'a',
-            courseNumber: 'b',
-            courseSection: 'c',
-            courseTitle: 'd',
-            semester: 'e',
-            facultyUnit: 'f',
-            college: 'g',
-            university: 'h',
-            instructorFirst: 'i',
-            instructorLast: 'j',
-            instructorEmail: 'k',
-            instructorPhone: 'l',
-            adminName: 'm',
-            adminEmail: 'n',
-            beginDate: 'o',
-            reminderTime: 'p',
-            endDate: 'q'
-        })
+        //Fetch the data from the api and set the state to it
+		fetch('http://18.224.246.184:8080/teameval/Eval/1.0.0/survey?name=COS%20140%20001')
+        .then(response => response.json())
+        .then(data => this.setState(data))
     }
 
 	componentDidMount()
-	{
-		fetch('http://18.224.246.184:8080/teameval/Eval/1.0.0/survey?name=COS%20140%20001')
-			.then(response => response.json())
-			.then(json => console.log(json))
-	}
+	{       
+        
+    }
 
     render() {
-
-
+        
+        console.log(this.state)
         return(
       
         <div>
-
-        <GoogleLogin
-            clientId="410688583447-dashcvq6bs4t85lujq542hegi8jf9gmn.apps.googleusercontent.com"
-            buttonText="Login"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-          />
-        
         <form>
         
-        
+        <p>{JSON.stringify(this.state.fields, null, 2)}</p> 
                 <Button variant = "contained" color = "primary" onClick= {e => this.loadForm(e)}>Load Form </Button>
 
                 <br />
                 <br />
           
                 <TextField 
-                    name = "courseDesignator"
+                    name = "course_designator"
                     label = "Course Designator"
-                    helperText = "im helping"
-                    value={this.state.course_Designator} 
+                    //helperText = "im helping"
+                    value={this.state.course_designator} 
                     onChange={e => this.change(e)}
                 />
                 <br />
                 <br />
 
                 <TextField 
-                    name = "courseNumber"
-                    label ="courseNumber" 
-                    value={this.state.courseNumber} 
+                    name = "course_number"
+                    label ="course Number" 
+                    value={this.state.course_number} 
                     onChange={e => this.change(e)}
                 />
 
@@ -132,9 +109,9 @@ export default class CourseForm extends React.Component {
                 <br />
 
                 <TextField 
-                    name = "courseSection"
+                    name = "course_section"
                     label ="courseSection" 
-                    value={this.state.courseSection} 
+                    value={this.state.course_section} 
                     onChange={e => this.change(e)}
                 />
 
@@ -192,19 +169,9 @@ export default class CourseForm extends React.Component {
                 <br />
 
                 <TextField 
-                    name = "instructorFirst"
-                    label ="instructorFirst" 
-                    value={this.state.instructorFirst} 
-                    onChange={e => this.change(e)}
-                />
-
-                <br />
-                <br />
-
-                <TextField 
-                    name = "instructorLast"
-                    label ="instructorLast" 
-                    value={this.state.instructorLast} 
+                    name = "instructor"
+                    label ="Instructor" 
+                    value={this.state.instructor} 
                     onChange={e => this.change(e)}
                 />
 
