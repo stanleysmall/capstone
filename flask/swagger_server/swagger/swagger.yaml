@@ -168,14 +168,18 @@ paths:
       tags:
       - "teachers"
       - "admins"
-      summary: "retreives a list of survey results, optionally for a specified instructor"
+      summary: "retreives a list of results for a given category of surveys"
       operationId: "results_get"
       produces:
       - "application/json"
       parameters:
-      - name: "instructor"
+      - name: "cat_type"
         in: "query"
-        description: "the instructor to which the results pertain"
+        description: "the type of the category named 'value'"
+        type: "string"
+      - name: "cat_name"
+        in: "query"
+        description: "the name of the category to which the surveys pertain"
         type: "string"
       responses:
         200:
