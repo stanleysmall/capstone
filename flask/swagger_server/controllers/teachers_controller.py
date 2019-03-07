@@ -417,41 +417,31 @@ def translate_to_txt(name):
     fil.write(text)
     return text, int(survey_ID)
     
-    
-def translate_responses(responses):
-    """translate the responses from JSON to data that can be
-       imported into the back end database
-          
-    :param responses: the responses for a survey
-    :type responses: str
-    
-    PRE: 'responses' is in JSON format
-    """
-    
-    return 0
 
+def results_get(cat_type, cat_name):  # noqa: E501
+    """retreives a list of results for a given category of surveys
 
-def results_get(instructor=None):  # noqa: E501
-    """retreives a list of results, optionally for a given instructor
-       if 'instructor' is None, retrieves results for all surveys
-
-    :param instructor: the instructor to which the results pertain
-    :type instructor: str
+    :param cat_type: the type of the category named 'value'
+    :type cat_type: str
+    :param cat_name: the name of the category to which the surveys pertain
+    :type cat_name: str
 
     :rtype: List[results]
     
-    PRE: 'instructor' is already present in database if not None
+    PRE: 'cat_type' is either 'course_section', 'course_designator',
+         'instructor', 'unit', 'college', or 'university'
+         a tag in the database is of type 'cat_type' and value 'cat_name'
     POST: output is in the following JSON format
-          { "surveys": [ {"name": str,
-                          "questions": [{"text": str,
-                                         "response": str}, ...]}, ...] }
+          { "questions": [ {"text": str,
+                            "surveys": [{"name": str,
+                                         "median": int,
+                                         "mean": float,
+                                         "std_dev": float,
+                                         "n": int}, ...]}, ...] }
     """
     
     # Retrieve responses from the LimeSurvey database
     responses = {}
-    
-    # Insert responses into back-end database
-    translate_responses(responses)
     
     # Compute statistics and return them
     
