@@ -75,13 +75,12 @@ For the JavaScript code written on the front end, Team EVAL is following the Goo
 
 \subsection{Defect Checklist}
 
-The team created a list of possible defects that could be encountered during our inspection. Much of the defect list references the style guides mentioned in the previous section. Each defect falls into one of four categories: violations of coding conventions, control flow errors, flaws in the system's security, and violations of commenting standards. The list is shown in Table 1 on the next page:
+The team created a list of possible defects that could be encountered during our inspection. Much of the defect list references the style guides mentioned in the previous section. Each defect falls under one of four categories: violations of coding conventions, control flow errors, flaws in the system's security, and violations of commenting standards. The list is shown in Table 1 on the next page:
 
 \vspace{2cm}
 
 \begin{center}
 \captionof{table}{Defect checklist}
-\scalebox{.92}{
 \begin{tabular}{|p{3cm}|p{8cm}|} 
 \hline
 \textbf{Category} & \textbf{Statement} \\
@@ -137,14 +136,15 @@ Security & Open TCP/IP ports\\
 Other & Function has no unit test(s)\\ 
 \hline
 \end{tabular}
-}
 \end{center}
 
 \section{Code Inspection Process}
 
 \subsection{Description}
 
+The code inspection process that Team EVAL followed was more informal than a typical Fagan inspection. In fact, our team compared the inspection meeting to a walkthrough. Our process diverged from the typical one because ours saved time, required less preparation, and allowed for a more casual atmosphere.
 
+Before the inspection, the team decided the time and location of the meeting and who would take each role. Next, Stan and Jovon wrote the defect checklist so that the team could use it as a reference for what defects could be found. During the inspection, Stan led the proceedings as the ``moderator'', and Sam was the ``recorder'', typing down any defects encountered. The author of a module took on the ``author'' and ``reader'' roles. All members of the team were ``inspectors'', pointing out flaws in the code. Some flaws referenced the style guides described earlier in this report.
 
 \subsection{Impressions of the Process}
 
@@ -152,35 +152,126 @@ Other & Function has no unit test(s)\\
 
 \subsection{Inspection Meetings}
 
-
+We held one inspection meeting to make our code inspection report. This meeting took place in a physical location, Boardman Hall 136. It occurred on March 6, 2019, from 3 PM to 4:15 PM. Everyone on Team EVAL (Jovon, Sam, Tom, Robert, and Stan) participated in the inspection. Stan was the moderator of the inspection, Sam was the recorder, whoever wrote a modular unit served as the author and reader, and all team members were inspectors. The meeting covered every code unit in the system that is not automatically generated, including Dockerfiles, JavaScript files, and Python scripts.
 
 \section{Modules Inspected}
 
+In our inspection meeting, we looked through any module that was integral to our course evaluation system. The team defines a module as any individual script that the system can run. Table 2 below lists each module examined, its functionality, and how it fits into the design mentioned in the SDD.
 
+\begin{center}
+\captionof{table}{List of modules inspected}
+\begin{tabular}{|p{4cm}|p{5.5cm}|p{5.5cm}|} 
+\hline
+\textbf{Name} & \textbf{Functionality} & \textbf{Relation to System Design} \\
+\hline
+.travis.yml & & \\ 
+\hline
+docker-compose.yml & & \\  
+\hline
+About.js & & \\  
+\hline
+Form.js & & \\ 
+\hline
+EditCourse.js & & \\ 
+\hline
+EnrollForm.js & & \\ 
+\hline
+QuestionForms.js & & \\ 
+\hline
+Results.js & & \\ 
+\hline
+insert\_mock\_data.sql & & \\ 
+\hline
+test\_teachers\_controller.py & & \\
+\hline
+teachers\_controller.py & & \\
+\hline
+limesurvey.py & & \\ 
+\hline
+ADD THE REST & & \\ 
+\hline
+\end{tabular}
+\end{center}
+
+Some of the modules in the system are not yet completed. MENTION INCOMPLETE MODULES AND THEIR ESTIMATED COMPLETION DATES.
+
+There are several differences between the actual design of a few of the modules and what was proposed in the System Design Document. DESCRIBE DIFFERENCES HERE.
 
 \section{Defects}
 
+During the inspection, the team found multiple defects in the system, spread across many different components. Table 3 below gives a list of all the defects that we found. Each defects falls under one of five categories: correctness to the functional requirements, coding conventions, commenting conventions, user friendliness, and miscellaneous flaws.
 
+\newpage
 
 \begin{center}
 \captionof{table}{List of defects found}
-\scalebox{.92}{
-\begin{tabular}{|p{1.5cm}|p{2.5cm}|p{4cm}|p{3cm}|} 
+\begin{tabular}{|p{4cm}|p{3cm}|p{6cm}|} 
 \hline
-\textbf{Number} & \textbf{Module} & \textbf{Description} & \textbf{Category} \\
+\textbf{Module} & \textbf{Category} & \textbf{Description} \\
 \hline
- & & & \\ 
+.travis.yml & Other & Lacks back-end API tests \\ 
 \hline
- & & & \\ 
+.travis.yml & Commenting & Does not have enough comments\\ 
 \hline
- & & & \\ 
+docker-compose.yml & Commenting & Lacks comments\\ 
 \hline
- & & & \\ 
+Front-end modules & Commenting & No header comment in each file\\ 
 \hline
- & & & \\ 
+Front-end modules & Commenting & No docstrings \\ 
+\hline
+Front-end modules & Coding Convention & Double quotes used in some strings\\ 
+\hline
+Front-end modules & Correctness & No input validation\\ 
+\hline
+Front-end modules & User Friendliness & No error messages\\ 
+\hline
+Front-end modules & Other & Log-in validation ignored after authentication token generated\\ 
+\hline
+Front-end modules & Other & Files are not in subdirectories\\ 
+\hline
+Front-end modules & Other & No tests\\ 
+\hline
+Front-end modules & User Friendliness & CSS buttons too big \\ 
+\hline
+About.js & Commenting & No comments\\ 
+\hline
+About.js & User Friendliness & Displayed text is outdated\\ 
+\hline
+Form.js & Coding Convention & Some names not in lower camel case\\ 
+\hline
+Form.js & Correctness & No global variable for API\\ 
+\hline
+EditCourse.js & Other & Redundant file\\ 
+\hline
+EnrollForm.js & Coding Convention & Has too little whitespace\\ 
+\hline
+QuestionForms.js & Coding Convention & Poor formatting\\ 
+\hline
+QuestionForms.js & Other & Too long to be one script\\ 
+\hline
+Results.js & Correctness & Displays mock data\\ 
+\hline
+Back-end modules & Other & Has unnecessary ``admins'' scripts\\ 
+\hline
+insert\_mock\_data.sql & Correctness & Does not insert all required survey tags\\ 
+\hline
+test\_teachers\_controller.py & Commenting & Lacks comments\\ 
+\hline
+teachers\_controller.py & Coding Convention & Has multiple imports in one line\\ 
+\hline
+teachers\_controller.py & Correctness & Uses default MySQL username and \newline password\\ 
+\hline
+teachers\_controller.py & Other & MySQL password exposed in repo\\ 
+\hline
+teachers\_controller.py & Commenting & Too few comments\\ 
+\hline
+teachers\_controller.py & Coding Convention & Some lines are too long\\ 
+\hline
+teachers\_controller.py & Coding Convention & Inconsistent string formatting methods \\ 
+\hline
+limesurvey.py & Commenting & Lacks comments \\ 
 \hline
 \end{tabular}
-}
 \end{center}
 
 \appendix
