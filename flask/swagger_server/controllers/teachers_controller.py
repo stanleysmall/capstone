@@ -3,7 +3,8 @@ import six
 import mysql.connector
 import base64
 import logging
-from flask import jsonify, request
+import statistics
+from flask import request
 
 from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.models.result import Result  # noqa: E501
@@ -105,7 +106,7 @@ def survey_get(name):  # noqa: E501
         for tag in cursor.fetchall():
             survey[tag[0]] = tag[1]
     
-    return jsonify(survey)
+    return survey
 
 
 def survey_put():  # noqa: E501
@@ -243,9 +244,9 @@ def surveys_get(instructor=None):  # noqa: E501
     
     surveys = []
     if instructor:
-        cursor.execute("select tag.value from tag, survey_to_tag, survey, instructor where type = 'name' && tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && survey.instructor_ID = instructor.ID && instructor.name = '" + instructor + "';")
+        cursor.execute("select value from tag, survey_to_tag, survey, instructor where type = 'name' && tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && survey.instructor_ID = instructor.ID && instructor.name = '" + instructor + "';")
     else:
-        cursor.execute("select tag.value from tag where type = 'name';")
+        cursor.execute("select value from tag where type = 'name';")
     for survey in cursor.fetchall():
         surveys.append(survey[0])
     
@@ -421,7 +422,7 @@ def translate_to_txt(name):
 def results_get(cat_type, cat_name):  # noqa: E501
     """retreives a list of results for a given category of surveys
 
-    :param cat_type: the type of the category named 'value'
+    :param cat_type: the type of category named 'cat_name'
     :type cat_type: str
     :param cat_name: the name of the category to which the surveys pertain
     :type cat_name: str
@@ -432,17 +433,79 @@ def results_get(cat_type, cat_name):  # noqa: E501
          'instructor', 'unit', 'college', or 'university'
          a tag in the database is of type 'cat_type' and value 'cat_name'
     POST: output is in the following JSON format
-          { "questions": [ {"text": str,
-                            "surveys": [{"name": str,
-                                         "median": int,
-                                         "mean": float,
-                                         "std_dev": float,
-                                         "n": int}, ...]}, ...] }
+          { question 1:
+              { survey 1: {"median": float,
+                           "mean": float,
+                           "std_dev": float,
+                           "n": int},
+                survey 2: ...}
+            question 2: {...}, ...}
     """
     
-    # Retrieve responses from the LimeSurvey database
-    responses = {}
+    stats = {}
     
-    # Compute statistics and return them
+    if cat_type == 'instructor':
+        # Get the survey IDs for the given instructor
+        cursor.execute("select survey.ID from survey, instructor where \
+            survey.instructor_ID = instructor.ID && instructor.name = '"
+            + cat_name + "';")
+        
+        # Check if there are any surveys for the instructor
+        survey_IDs = cursor.fetchall()
+        if not survey_IDs:
+            return "no surveys found for instructor '{}'".format(cat_name)
+        
+        # Loop through all of the instructor's surveys
+        for survey_ID in survey_IDs[0]:
+            # Get the survey's name
+            cursor.execute("select value from tag, survey_to_tag, survey " \
+                "where type = 'name' && tag.ID = survey_to_tag.tag_ID && " \
+                "survey_to_tag.survey_ID = " + str(survey_ID) + ";")
+            survey_name = cursor.fetchone()[0]
+            
+            # Retrieve responses from the LimeSurvey database
+            responses = lime.export_responses(survey_ID, heading='full')['responses']
+            
+            for response in responses:
+                # Keys are one level deeper
+                response = response[list(response.keys())[0]]
+                
+                # Use only the question keys of a response
+                q_keys = list(set(response.keys()) - {'Response ID', 
+                    'Date submitted', 'Last page', 'Start language', 'Seed'})
+                
+                # Add q_key's response to the stats dictionary
+                for q_key in q_keys:
+                    try:
+                        q_value = int(response[q_key])  # q_key's response
+                    except ValueError:  # Only 1-5 scale questions permitted
+                        continue
+                    
+                    # Create a question key in stats if not there
+                    if q_key not in stats:
+                        stats[q_key] = {survey_name: [q_value]}
+                    # Create a survey key in stats if not there
+                    elif survey_name not in stats[q_key]:
+                        stats[q_key][survey_name] = [q_value]
+                    # Otherwise, just add q_value
+                    else:
+                        stats[q_key][survey_name].append(q_value)
+                    
+        # Loop over each set of responses per survey per question
+        for question in stats:
+            for survey in stats[question]:
+                # Replace responses with actual statistics
+                values = stats[question][survey]
+                
+                # Find appropriate statistics for values
+                stats[question][survey] = {
+                    'median': statistics.median(values),
+                    'mean': statistics.mean(values),
+                    # Standard deviation of response values
+                    'std_dev': round(statistics.stdev(values), 2),
+                    'n': len(values)    # Number of responses
+                }
+    else:
+        return 'invalid category type'
     
-    return 'do some magic!'
+    return stats

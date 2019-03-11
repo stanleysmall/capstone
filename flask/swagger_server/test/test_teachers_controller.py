@@ -82,9 +82,9 @@ class TestTeachersController(BaseTestCase):
         self.cursor.execute("select * from response;")
         self.assertEqual(len(self.cursor.fetchall()), 1)
         self.cursor.execute("select * from survey_to_question;")
-        self.assertEqual(len(self.cursor.fetchall()), 2)
+        self.assertEqual(len(self.cursor.fetchall()), 3)
         self.cursor.execute("select * from survey_to_participant;")
-        self.assertEqual(len(self.cursor.fetchall()), 1)
+        self.assertEqual(len(self.cursor.fetchall()), 2)
         self.cursor.execute("select * from survey;")
         self.assertEqual(len(self.cursor.fetchall()), 1)
         self.cursor.execute("select * from tag where type = 'name';")
@@ -108,7 +108,7 @@ class TestTeachersController(BaseTestCase):
             {
                 "description": "Description",
                 "email_confirm": "Email confirm text",
-                "email_invite": "Email invite text",
+                "email_invite": "Survey URL: {SURVEYURL}<br/>Token: {TOKEN}",
                 "email_register": "Email register text",
                 "email_remind": "Email remind text",
                 "endtext": "End text",
@@ -116,8 +116,12 @@ class TestTeachersController(BaseTestCase):
                 "name": "COS 140 001",
                 "participants": [
                     {
-                        "address": "example@gmail.com",
+                        "address": "jovon.craig@maine.edu",
                         "name": "Example Person"
+                    },
+                    {
+                        "address": "teachingevaluationstest@gmail.com",
+                        "name": "Example2 Person"
                     }
                 ],
                 "questions": [
@@ -131,9 +135,16 @@ class TestTeachersController(BaseTestCase):
                     {
                         "group": "The Instructor",
                         "helpText": "Help text",
-                        "mandatory": 0,
+                        "mandatory": 1,
                         "text": "Question 2?",
-                        "type": "L"
+                        "type": "5"
+                    },
+                    {
+                        "group": "The Instructor",
+                        "helpText": "Help text",
+                        "mandatory": 0,
+                        "text": "Question 3?",
+                        "type": "Y"
                     }
                 ],
                 "url": "example.com",
@@ -272,7 +283,7 @@ class TestTeachersController(BaseTestCase):
         retreives a list of results, optionally for a given instructor
         """
         
-        query_string = [('instructor', 'instructor_example')]
+        query_string = [('cat_type', 'instructor'), ('cat_name', 'example')]
         response = self.client.open(
             '/teameval/Eval/1.0.0/results',
             method='GET',
