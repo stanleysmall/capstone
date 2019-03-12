@@ -45,7 +45,7 @@ Instructor: Professor Terry Yoo
 
 \section{Introduction}
 
-Team EVAL is creating a system to more efficiently create and distribute post-semester teaching evaluations. Our system must be properly inspected so that it meets functional requirements.
+Team EVAL is creating a system to more efficiently create and distribute post-semester teaching evaluations. Our system must be properly inspected so that it is free from all defects and meets functional requirements as laid out in the System Requirements Specification document.
  
 \subsection{Purpose of This Document}
 
@@ -67,7 +67,7 @@ Goodger, D., \& Van Rossum, G. (2001, May 29). \textit{PEP 257 -- Docstring Conv
 
 \subsection{Coding and Commenting Conventions}
 
-Team EVAL is adopting several guidelines for proper code and commenting to better understand what kinds of defects for which to check during inspection.
+Team EVAL has adopted several guidelines for proper code and commenting to have a more consistent code base. In code inspections these standards will be referenced better understand what kinds of defects may be present in the code inspected.
 
 For the Python code in the back-end API, the team is following the official Python style guide, PEP 8, and the docstring conventions in PEP 257. Available on the Python website, PEP 8 and 257 were written in 2001 by the creator of Python, Guido van Rossum, and other core developers. Both guides in turn were derived by van Rossum's original style guide for Python. PEP 8 covers topics such as indentation, line length, imports, whitespace, comments, and naming. PEP 257 has brief guidelines on documentation strings.
 
@@ -142,13 +142,13 @@ Other & Function has no unit test(s)\\
 
 \subsection{Description}
 
-The code inspection process that Team EVAL followed was more informal than a typical Fagan inspection. In fact, our team compared the inspection meeting to a walkthrough. Our process diverged from the typical one because ours saved time, required less preparation, and allowed for a more casual atmosphere.
+The code inspection process that Team EVAL followed was more informal than a typical Fagan inspection. Our team compared the process that we followed at the inspection meeting to a walkthrough as described by Williams in the text Intro to Software Engineering. Our process diverged from the typical inspection in an attempt to save time, allow for a more flexible meeting style, and a more casual atmosphere.
 
 Before the inspection, the team decided the time and location of the meeting and who would take each role. Next, Stan and Jovon wrote the defect checklist so that the team could use it as a reference for what defects could be found. During the inspection, Stan led the proceedings as the ``moderator'', and Sam was the ``recorder'', typing down any defects encountered. The author of a module took on the ``author'' and ``reader'' roles. All members of the team were ``inspectors'', pointing out flaws in the code. Some flaws referenced the style guides described earlier in this report.
 
 \subsection{Impressions of the Process}
-Our inspection process proved very effective. We were able to find many defects or simple fixes that may have not been caught before. It also helped us focus on continuity and consistency in our code. It was very beneficial to sit down as a team and walk through every file in our growing project. Since our project has several seperate components, it was useful for each of us to see files that we may have not contributed to.
-	We were able to find defects and discuss possible solutions to them quickly. We did not waste time delving into large issues but most of our defects were quick fixes and it was important to discuss them as a team. Honestly, the process seemed beneficial enough for a team and project this size that it would be useful to do the exact same process several times throughout development.
+Our inspection process proved very effective. We were able to find a number of defects or simple fixes that may have not been caught without the inspection. It also helped the team focus on continuity and consistency in our code. It was very beneficial to sit down as a team and walk through every file in our growing project.  As the project grows in size it is easy for things to fall through the cracks when trying to produce high quality code.  Sitting down as a team and systematically going through every file in our repository caused us to double check work which we previously may not have.  Since our project has several separate components, it was useful for each of us to see files that we may have not contributed to and have the original authors explain them.
+	We were able to find defects and discuss possible solutions to them quickly. We did not waste time delving into exact solutions of larger issues but many of our defects were quick fixes and it was important to discuss them as a team. The process seemed beneficial enough for a team and project this size that it would be useful to do the exact same process several times throughout development.
 
 
 \subsection{Inspection Meetings}
@@ -169,19 +169,29 @@ In our inspection meeting, we looked through any module that was integral to our
 \hline
 docker-compose.yml & & \\  
 \hline
-Home.js & & \\
+About.js & & \\
 \hline
-About.js & & \\  
+App.js & & \\  
 \hline
-Form.js & & \\ 
+AppRouter.js & & \\ 
+\hline
+CourseForm.js & & \\ 
 \hline
 EditCourse.js & & \\ 
 \hline
 EnrollForm.js & & \\ 
 \hline
-QuestionForms.js & & \\ 
+FAQ.js & & \\
 \hline
-Results.js & & \\ 
+Home.js & & \\ 
+\hline
+Landing.js & & \\  
+\hline
+Login.js & & \\ 
+\hline
+QuestionForm.js & & \\ 
+\hline
+Index.js & & \\  
 \hline
 insert\_mock\_data.sql & & \\ 
 \hline
@@ -191,7 +201,7 @@ teachers\_controller.py & & \\
 \hline
 limesurvey.py & & \\ 
 \hline
-ADD THE REST & & \\ 
+insert\_mock\_data.sql & & \\ 
 \hline
 \end{tabular}
 \end{center}
@@ -228,7 +238,7 @@ Front-end modules & Correctness & No input validation\\
 \hline
 Front-end modules & User Friendliness & No error messages\\ 
 \hline
-Front-end modules & Other & Log-in validation ignored after authentication token generated\\ 
+Front-end modules & Security & Log-in validation ignored after authentication token generated\\ 
 \hline
 Front-end modules & Other & Files are not in subdirectories\\ 
 \hline
@@ -262,9 +272,9 @@ test\_teachers\_controller.py & Commenting & Lacks comments\\
 \hline
 teachers\_controller.py & Coding Convention & Has multiple imports in one line\\ 
 \hline
-teachers\_controller.py & Correctness & Uses default MySQL username and \newline password\\ 
+teachers\_controller.py & Security & Uses default MySQL username and \newline password\\ 
 \hline
-teachers\_controller.py & Other & MySQL password exposed in repo\\ 
+teachers\_controller.py & Security & MySQL password exposed in repo\\ 
 \hline
 teachers\_controller.py & Commenting & Too few comments\\ 
 \hline
