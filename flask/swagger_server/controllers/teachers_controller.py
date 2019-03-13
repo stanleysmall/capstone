@@ -3,7 +3,7 @@ import six
 import mysql.connector
 import base64
 import logging
-from flask import jsonify, request, session
+from flask import jsonify, request
 
 from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.models.result import Result  # noqa: E501
@@ -279,9 +279,7 @@ def login_get(key):  # noqa: E501
     :rtype: str
     """
 
-    Session['token'] = key
-
-    return validate()
+    return key
 
 
 def publish_get(name):  # noqa: E501
@@ -458,7 +456,3 @@ def results_get(instructor=None):  # noqa: E501
     # Compute statistics and return them
     
     return 'do some magic!'
-  
-def validate():
-    r = requests.get('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + session['token'])
-    return r.text
