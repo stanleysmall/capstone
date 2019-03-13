@@ -5,6 +5,7 @@ import base64
 import logging
 from flask import jsonify, request
 from flask import session
+import requests 
 
 from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.models.result import Result  # noqa: E501
