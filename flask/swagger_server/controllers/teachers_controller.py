@@ -279,7 +279,7 @@ def login_get(key):  # noqa: E501
 
     :rtype: str
     """
-    Session['token'] = key
+    session['token'] = key
     return key
 
 
