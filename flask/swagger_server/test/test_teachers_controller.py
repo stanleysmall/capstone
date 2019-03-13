@@ -140,6 +140,55 @@ class TestTeachersController(BaseTestCase):
                 "welcometext": "Welcome text"
             }
         )
+        def test_survey_get_valid(self):
+        """ Another test case for survey_get
+
+        retreives the survey with a given name
+        'name' is a valid survey name
+        """
+        
+        query_string = [('name', 'COS 250 001')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/survey',
+            method='GET',
+            query_string=query_string)
+        self.assert200(response,'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data),
+            {
+                "description": "De",
+                "email_confirm": "Ec text",
+                "email_invite": "Ei text",
+                "email_register": "Er text",
+                "email_remind": "Eremind text",
+                "endtext": "End text",
+                "instructor": "Torsten Hahmann",
+                "name": "COS 250 001",
+                "participants": [
+                    {
+                        "address": "tg@gmail.com",
+                        "name": "tom guo"
+                    }
+                ],
+                "questions": [
+                    {
+                        "group": "The Instructor",
+                        "helpText": "Help text",
+                        "mandatory": 1,
+                        "text": "Question?",
+                        "type": "5"
+                    },
+                    {
+                        "group": "The Instructor",
+                        "helpText": "Help text",
+                        "mandatory": 0,
+                        "text": "Question 2?",
+                        "type": "L"
+                    }
+                ],
+                "url": "example.com",
+                "welcometext": "Welcome text"
+            }
+        )
     
     def test_survey_get_invalid(self):
         """Test case for survey_get
@@ -177,7 +226,7 @@ class TestTeachersController(BaseTestCase):
         """Test case for survey_put
 
         updates the info of a survey with a given name
-        survey is created because 'name' does not exist
+        survey will be created while 'name' is not as same as exist survey name 
         """
         
         query = {}
@@ -205,6 +254,22 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), ['COS 140 001'])
+     def test_surveys_get_instructor(self):
+        """Another test case for surveys_get
+
+        retreives a list of survey names, optionally for a given instructor
+        test includes 'instructor' key
+        """
+        
+        query_string = [('instructor', 'Torsten Hahmann')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/surveys',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), ['COS 250 001'])
     
     def test_surveys_get_all(self):
         """Test case for surveys_get
@@ -222,7 +287,23 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), ['COS 140 001'])
+    def test_surveys_get_all(self):
+        """Another test case for surveys_get
 
+        retreives a list of survey names, optionally for a given instructor
+        test does not include 'instructor' key
+        """
+        
+        query_string = []
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/surveys',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), ['COS 250 001'])
+        
     def test_create_user_post(self):
         """Test case for create_user_post
 
