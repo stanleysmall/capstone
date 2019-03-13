@@ -279,9 +279,11 @@ def login_get(key):  # noqa: E501
 
     :rtype: str
     """
-    session['token'] = key
-    return key
-
+    return validate(key)
+  
+def validate(token):
+    r = requests.get('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + token)
+    return r.text
 
 def publish_get(name):  # noqa: E501
     """publishes the survey with a given name
@@ -457,3 +459,5 @@ def results_get(instructor=None):  # noqa: E501
     # Compute statistics and return them
     
     return 'do some magic!'
+  
+
