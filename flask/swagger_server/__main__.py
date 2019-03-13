@@ -3,6 +3,7 @@
 import connexion
 import os
 from swagger_server import encoder
+from app import sess
 
 
 def main():
