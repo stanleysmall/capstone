@@ -4,7 +4,7 @@ import connexion
 import os
 from swagger_server import encoder
 from flask import Flask
-from flask import session
+from flask_session import Session
 import redis
 
 
