@@ -6,6 +6,7 @@ from swagger_server import encoder
 
 
 def main():
+    app.secret_key = os.urandom(24)
     app = connexion.App(__name__, specification_dir='./swagger/')
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('swagger.yaml', arguments={'title': 'Project Eval API'})
@@ -15,4 +16,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-    app.secret_key = os.urandom(24)
+    
