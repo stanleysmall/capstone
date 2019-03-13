@@ -284,7 +284,8 @@ def login_get(key):  # noqa: E501
   
 def validate(token):
     r = requests.get('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + token)
-    return r.email
+    data = r.json()
+    return data.email
 
 def publish_get(name):  # noqa: E501
     """publishes the survey with a given name
