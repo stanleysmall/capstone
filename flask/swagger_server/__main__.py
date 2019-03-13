@@ -10,6 +10,7 @@ def main():
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('swagger.yaml', arguments={'title': 'Project Eval API'})
     app.run(port=8080)
+    app.secret_key = os.urandom(24)
 
 
 if __name__ == '__main__':
