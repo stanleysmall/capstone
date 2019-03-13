@@ -232,22 +232,18 @@ def survey_put():  # noqa: E501
     return 'success'
 
 
-def surveys_get(instructor=None):  # noqa: E501
-    """retreives a list of survey names, optionally for a given instructor
-       if 'instructor' is None, retreives all survey names
-
-    :param instructor: the instructor to which the surveys pertain
-    :type instructor: str
+def surveys_get():  # noqa: E501
+    """retreives a list of the names of the user's surveys
 
     :rtype: List[survey names]
     """
     
     surveys = []
-    if instructor:
-        cursor.execute("select value from tag, survey_to_tag, survey, instructor where type = 'name' && tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && survey.instructor_ID = instructor.ID && instructor.name = '" + instructor + "';")
-    else:
-        cursor.execute("select value from tag where type = 'name';")
-    for survey in cursor.fetchall():
+    email = 'roy.turner@maine.edu'      # TODO: use session object
+    
+    # Retrieve the survey names for a given e-mail address
+    cursor.execute("select value from tag, survey_to_tag, survey, instructor where type = 'name' && tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && survey.instructor_ID = instructor.ID && instructor.`e-mail` = '" + email + "';")
+    for survey in cursor.fetchall():    # Add query results to list of names
         surveys.append(survey[0])
     
     return surveys

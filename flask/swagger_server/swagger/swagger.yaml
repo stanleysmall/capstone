@@ -61,16 +61,10 @@ paths:
       tags:
       - "teachers"
       - "admins"
-      summary: "retreives a list of all courses"
+      summary: "retreives a list of the names of the user's surveys"
       operationId: "surveys_get"
       produces:
       - "application/json"
-      parameters:
-      - name: "instructor"
-        in: "query"
-        description: "the ID for a teacher/administrator"
-        required: false
-        type: "string"
       responses:
         200:
           description: "search results matching criteria"
@@ -78,8 +72,6 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Course"
-        400:
-          description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
   /survey:
     get:

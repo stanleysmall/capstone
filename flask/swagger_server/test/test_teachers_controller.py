@@ -200,28 +200,10 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_surveys_get_instructor(self):
+    def test_surveys_get(self):
         """Test case for surveys_get
 
-        retreives a list of survey names, optionally for a given instructor
-        test includes 'instructor' key
-        """
-        
-        query_string = [('instructor', 'Roy Turner')]
-        response = self.client.open(
-            '/teameval/Eval/1.0.0/surveys',
-            method='GET',
-            query_string=query_string)
-        
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-        self.assertEqual(json.loads(response.data), ['COS 140 001'])
-    
-    def test_surveys_get_all(self):
-        """Test case for surveys_get
-
-        retreives a list of survey names, optionally for a given instructor
-        test does not include 'instructor' key
+        retreives a list of the names of the user's surveys
         """
         
         query_string = []
