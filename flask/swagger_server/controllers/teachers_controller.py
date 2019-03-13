@@ -280,10 +280,11 @@ def login_get(key):  # noqa: E501
 
     :rtype: str
     """
-    return validate(key)
+    session['token'] = key
+    return validate()
   
-def validate(token):
-    r = requests.get('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + token)
+def validate():
+    r = requests.get('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + session['token'])
     data = r.json()
     return data['email']
 
