@@ -290,7 +290,7 @@ def validate():
         session['email'] = data['email']
         return session['email']
     else: 
-        return "INVALID LOGIN"
+        return 'INVALID LOGIN'
 
 def publish_get(name):  # noqa: E501
     """publishes the survey with a given name
