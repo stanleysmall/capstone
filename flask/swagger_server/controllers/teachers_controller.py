@@ -3,7 +3,7 @@ import six
 import mysql.connector
 import base64
 import logging
-from flask import jsonify, request
+from flask import jsonify, request, session
 
 from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.models.result import Result  # noqa: E501
