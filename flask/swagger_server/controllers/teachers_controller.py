@@ -285,8 +285,7 @@ def login_get(key):  # noqa: E501
   
 def validate():
     r = requests.get('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + session['token'])
-    return r.status_code
-    if(r.status_code != 500): 
+    if(r.status_code == 200): 
         data = r.json()
         session['email'] = data['email']
         return session['email']
