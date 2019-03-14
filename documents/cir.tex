@@ -1,0 +1,360 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{caption}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{float}
+\pdfminorversion=7
+
+\begin{document}
+\begin{titlepage}
+
+\centering
+\vspace*{2cm}
+{\Huge Code Inspection Report\par}
+\vspace{.25cm}
+{\LARGE Course Evaluation System\par}
+\vspace{1cm}
+{\Large Team EVAL\par}
+\vspace{.2cm}
+{\Large Jovon Craig, Sam Elliott, Yuanqi Guo, Robert Judkins, and Stanley Small\par}
+\vspace{1cm}
+{\Large Client: Dr. Harlan Onsrud\par}
+\vspace{1cm}
+{\Large March 14, 2019\par}
+\vspace{11cm}
+
+University of Maine - Spring 2019 - COS 497
+
+Instructor: Professor Terry Yoo
+
+\end{titlepage}
+
+\newpage
+
+\begin{center}
+{\includegraphics[scale=.2]{images/team_logo.png}} \\ 	\bigskip
+{\LARGE Course Evaluation System } \\ \medskip
+{\large Code Inspection Report } \\ \medskip
+\end{center}
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+Team EVAL is creating a system to more efficiently create and distribute post-semester teaching evaluations. We have the idea to build such a system because the current course evalution system is way to difficult to process. In order to ensure we are on the right direction, our system must be properly inspected so that it is free from all defects and meets all the functional requirements and deadline as laid out in the System Requirements Specification document.
+ 
+\subsection{Purpose of This Document}
+
+The code inspection report is a detailed overview of the walkthrough our team made to ensure that the course evaluation system works as intended. The first section of the document mentions the coding conventions that the team used as guidelines, as well as a list of defects we checked during the review. The second section details our inspection process, how it deviated from a typical inspection, and Team EVAL's reflections. The last sections describe the system components inspected and the defects we found.
+
+This document is intended for the development team, the product client, Dr. Harlan Onsrud, and potential users of the system. Team EVAL needs this document to fix the defects that we found during inspection and keep the defect checklist in mind. Dr. Onsrud needs it to confirm that Team EVAL is meeting requirements and caring about code quality. Lastly, the document helps the software's users by telling how the actual modules differ from how they were designed in the SDD.
+
+\subsection{References}
+
+Craig, J., Elliott, S., Judkins, R., \& Small, S. 29 October 2018. \textit{System Requirements Specification.}
+\vspace{3mm}\newline
+Craig, J., Elliott, S., Judkins, R., \& Small, S. 16 November 2018. \textit{System Design Document.}
+\vspace{3mm}\newline
+Van Rossum, G., Warsaw, B., \& Coghlan, N. (2001, July 5). \textit{PEP 8 -- Style Guide for Python Code.} Retrieved from https://www.python.org/dev/peps/pep-0008/
+\vspace{3mm}\newline
+Goodger, D., \& Van Rossum, G. (2001, May 29). \textit{PEP 257 -- Docstring Conventions.} Retrieved from https://www.python.org/dev/peps/pep-0257/
+\vspace{3mm}\newline
+\textit{Google JavaScript Style Guide.} (n.d.). Retrieved March 4, 2019, from https://google.github.io/styleguide/\newline jsguide.html
+
+\subsection{Coding and Commenting Conventions}
+
+Team EVAL has adopted several guidelines for proper code and commenting to have a more consistent code base. In code inspections these standards will be referenced better understand what kinds of defects may be present in the code inspected.
+
+For the Python code in the back-end API, the team is following the official Python style guide, PEP 8, and the docstring conventions in PEP 257. Available on the Python website, PEP 8 and 257 were written in 2001 by the creator of Python, Guido van Rossum, and other core developers. Both guides in turn were derived by van Rossum's original style guide for Python. PEP 8 covers topics such as indentation, line length, imports, whitespace, comments, and naming. PEP 257 has brief guidelines on documentation strings.
+
+For the JavaScript code written on the front end, Team EVAL is following the Google JavaScript Style Guide. Google uses JavaScript so much for its front-end projects that it wrote conventions on how to properly write in the language. The standards in this guide are followed by Google's developers for their own development. The style guide includes guidelines on issues like source file structure, indentation, whitespace, comments, literals, naming, and JavaScript's documentation language, JSDoc. 
+
+\subsection{Defect Checklist}
+
+The team created a list of possible defects that could be encountered during our inspection. Much of the defect list references the style guides mentioned in the previous section. Each defect falls under one of four categories: violations of coding conventions, control flow errors, flaws in the system's security, and violations of commenting standards. The list is shown in Table 1 on the next page:
+
+\vspace{2cm}
+
+\begin{center}
+\captionof{table}{Defect checklist}
+\scalebox{0.89}{
+\begin{tabular}{|p{3cm}|p{8cm}|} 
+\hline
+\textbf{Category} & \textbf{Statement} \\
+\hline
+Coding Style & Indentation is done with tabs instead of spaces\\ 
+\hline
+Coding Style & Indentation amount hurts code clarity\\ 
+\hline
+Coding Style & Multiple imports on the same line\\ 
+\hline
+Coding Style & Extraneous whitespace around punctuation\\ 
+\hline
+Coding Style & Unnecessary blank lines\\ 
+\hline
+Coding Style & Unnecessary compound statement\\ 
+\hline
+Coding Style & Too many units in a single script file\\ 
+\hline
+Coding Style & Return types in same function are inconsistent\\ 
+\hline
+Coding Style & Double quotes in string literal (JavaScript)\\ 
+\hline
+Coding Style & No braces in control structure (JavaScript)\\ 
+\hline
+Coding Style & JavaScript name is not in lower camel case \\ 
+\hline
+Coding Style & Python name is not in lowercase with underscores\\ 
+\hline
+Coding Style & Constant name is not in all-caps\\ 
+\hline
+Commenting Style & Comment is unnecessary for understanding\\ 
+\hline
+Commenting Style & Function or class has no docstring\\ 
+\hline
+Commenting Style & Function docstring does not mention parameter and return types\\ 
+\hline
+Commenting Style & Multi-line docstring has no summary line\\ 
+\hline
+Control Flow & Off-by-one error in a loop\\ 
+\hline
+Control Flow & Non-explicit exception handling\\ 
+\hline
+Control Flow & Too many paths in a control structure\\ 
+\hline
+Security & Default password used for authentication\\ 
+\hline
+Security & No authentication in code requiring security\\ 
+\hline
+Security & Unsanitized user input\\ 
+\hline
+Security & Open TCP/IP ports\\ 
+\hline
+Other & Function has no unit test(s)\\ 
+\hline
+\end{tabular}}
+\end{center}
+\vspace{.5cm}
+\section{Code Inspection Process}
+
+The code inspection was conducted with all members of Team EVAL present in a single sitting. The code was reviewed beforehand by each member, and a preliminary check was completed by each author. The following sections document the findings of our inspection.
+
+\subsection{Description}
+
+The code inspection process that Team EVAL followed was more informal than a typical Fagan inspection. Our team compared the process that we followed at the inspection meeting to a walkthrough as described by Williams in the text Intro to Software Engineering. Our process diverged from the typical inspection in an attempt to save time, allow for a more flexible meeting style, and a more casual atmosphere.
+
+Before the inspection, the team decided the time and location of the meeting and who would take each role. Next, Stan and Jovon wrote the defect checklist so that the team could use it as a reference for what defects could be found. During the inspection, Stan led the proceedings as the ``moderator'', and Sam was the ``recorder'', typing down any defects encountered. The author of a module took on the ``author'' and ``reader'' roles. All members of the team were ``inspectors'', pointing out flaws in the code. Some flaws referenced the style guides described earlier in this report.
+
+\subsection{Impressions of the Process}
+
+Our inspection process proved to be very effective. We were able to find a number of defects or simple fixes that may not have been caught without the inspection. It also helped the team focus on continuity and consistency in our code. It was very beneficial to sit down as a team and walk through every file in our growing project. As the project grows in size, it is easy for defects to fall through the cracks when trying to produce high-quality code.  Sitting down as a team and systematically going through every file in our repository caused us to double-check work that we previously may not have reviewed. Since our project has several separate components, it was useful for each of us to see files that we may have written and to have the original authors explain them.
+
+We were able to find defects and discuss possible solutions to them quickly. We did not waste time delving into exact solutions of larger issues, but many of our defects were quick fixes and it was important to discuss them as a team. The process seemed beneficial enough for a team and project of this size that it would be useful to do the exact same process several times throughout development.
+
+The best modules as determined by the team were contained in the backend files. While some of these files were generated by tools and frameworks, the code clearly followed the coding standards outlined in this document and contained more than sufficient documentation. 
+
+Many of the worst modules were contained in the front end made with the React framework. The code showed a distinct lack of understanding of the framework and deviated quite strongly from the system design document. As a consequence, the team has decided to revisit these sections of the code to better reflect decisions made early in the design process. 
+
+\subsection{Inspection Meetings}
+
+We held one inspection meeting to make our code inspection report. This meeting took place in a physical location, Boardman Hall 136. It occurred on March 6, 2019, from 3 PM to 4:15 PM. Everyone on Team EVAL (Jovon, Sam, Tom, Robert, and Stan) participated in the inspection. Stan was the moderator of the inspection, Sam was the recorder, whoever wrote a modular unit served as the author and reader, and all team members were inspectors. The meeting covered every code unit in the system that is not automatically generated, including Dockerfiles, JavaScript files, and Python scripts.
+
+\section{Modules Inspected}
+
+In our inspection meeting, we looked through any module that was integral to our course evaluation system. The team defines a module as any individual script that the system can run. Table 2 below lists each module examined, its functionality, and how it fits into the design mentioned in the SDD.
+
+\begin{center}
+\captionof{table}{List of modules inspected}
+\scalebox{0.89}{
+\begin{tabular}{|p{4cm}|p{5.5cm}|p{5.5cm}|} 
+\hline
+\textbf{Name} & \textbf{Functionality} & \textbf{Relation to System Design} \\
+\hline
+.travis.yml & Defines which tests are used in continuous integration & For testing, not in system design document\\ 
+\hline
+docker-compose.yml & Defines the docker-compose \newline command & For project building, not in system design document\\  
+\hline
+About.js & What is displayed on the About page & Part of React front end\\
+\hline
+App.js & Old file which ran the application, replaced by AppRouter.js &  Part of React front end\\  
+\hline
+AppRouter.js & Routes the application to different pages, contains the current state of the app as a whole & Part of React front end\\ 
+\hline
+CourseForm.js & Page on which users define a new evaluation form & Part of React front end\\ 
+\hline
+EditCourse.js & Page on which users edit old courses, replaced by CourseForm.js& Part of React front end\\ 
+\hline
+EnrollForm.js & Page on which users define who takes the evaluation form& Part of React front end\\ 
+\hline
+FAQ.js & What is displayed on the FAQ page & Part of React front end\\
+\hline
+Home.js & What is displayed on the Home page & Part of React front end\\ 
+\hline
+Landing.js & What is displayed on the Landing page & Part of React front end\\  
+\hline
+Login.js & What is displayed on the Login \newline page, allows users to log in & Part of React front end\\ 
+\hline
+QuestionForm.js & Page on which users enter which questions they want in the survey & Part of React front end\\ 
+\hline
+Index.js & Used in construction of JS app & Part of React front end\\  
+\hline
+insert\_mock\_data.sql & Inserts mock data into the database& For testing, not in system design document\\ 
+\hline
+test\_teachers\_controller.py & Runs tests for back-end API& For testing, not in system design document\\
+\hline
+teachers\_controller.py & Processes API calls & Part of Python API\\
+\hline
+limesurvey.py & Interfaces with LimeSurvey& Part of Python back end\\ 
+\hline
+\end{tabular}}
+\end{center}
+
+Some of the modules in the system are not yet completed. User login has not yet been completed, but will be finished after spring break. Additionally, some pages originally promised to the client have not been implemented. The team is focused on the most essential elements of the application, and has notified the client accordingly. 
+
+There are several differences between the actual design of a few of the modules and what was proposed in the System Design Document. The front end is supposed to exploit the features of the React library for user interaction, but Sam and Robert instead used only HTML for this. They are currently reworking the front end so that React.js is used properly.
+
+In the back end, the endpoint ``GET publish'' was added so that the API could create a .txt file of a survey and publish it on LimeSurvey. The ``POST results'' endpoint was removed because there seemed to be no need for it. Also, the API now retrieves a JSON object of survey results instead of a .txt file. The team did not mention using an external library (``limesurvey.py'') to interface with LimeSurvey because we did not know it would be helpful.
+
+\section{Defects}
+
+During the inspection, the team found multiple defects in the system, spread across many different components. Table 3 below gives a list of all the defects that we found. Each defects falls under one of five categories: correctness to the functional requirements, coding conventions, commenting conventions, user friendliness, security, and miscellaneous flaws.
+
+\begin{center}
+\captionof{table}{List of defects found}
+\scalebox{0.89}{
+\begin{tabular}{|p{4cm}|p{3cm}|p{6cm}|} 
+\hline
+\textbf{Module} & \textbf{Category} & \textbf{Description} \\
+\hline
+.travis.yml & Other & Lacks back-end API tests \\ 
+\hline
+.travis.yml & Commenting & Does not have enough comments\\ 
+\hline
+docker-compose.yml & Commenting & Lacks comments\\ 
+\hline
+Front-end modules & Commenting & No header comment in each file\\ 
+\hline
+Front-end modules & Commenting & No docstrings \\ 
+\hline
+Front-end modules & Coding Convention & Double quotes used in some strings\\ 
+\hline
+Front-end modules & Correctness & No input validation\\ 
+\hline
+Front-end modules & User Friendliness & No error messages\\ 
+\hline
+Front-end modules & Security & Log-in validation ignored after authentication token generated\\ 
+\hline
+Front-end modules & Other & Files are not in subdirectories\\ 
+\hline
+Front-end modules & Other & No tests\\ 
+\hline
+Front-end modules & User Friendliness & CSS buttons too big \\ 
+\hline
+About.js & Commenting & No comments\\ 
+\hline
+About.js & User Friendliness & Displayed text is outdated\\ 
+\hline
+Form.js & Coding Convention & Some names not in lower camel case\\ 
+\hline
+Form.js & Correctness & No global variable for API\\ 
+\hline
+EditCourse.js & Other & Redundant file\\ 
+\hline
+EnrollForm.js & Coding Convention & Has too little whitespace\\ 
+\hline
+QuestionForms.js & Coding Convention & Poor formatting\\ 
+\hline
+QuestionForms.js & Other & Too long to be one script\\ 
+\hline
+Results.js & Correctness & Displays mock data\\ 
+\hline
+Back-end modules & Other & Has unnecessary ``admins'' scripts\\ 
+\hline
+insert\_mock\_data.sql & Correctness & Does not insert all required survey tags\\ 
+\hline
+test\_teachers\_controller.py & Commenting & Lacks comments\\ 
+\hline
+teachers\_controller.py & Coding Convention & Has multiple imports in one line\\ 
+\hline
+teachers\_controller.py & Security & Uses default MySQL username and \newline password\\ 
+\hline
+teachers\_controller.py & Security & MySQL password exposed in repo\\ 
+\hline
+teachers\_controller.py & Commenting & Too few comments\\ 
+\hline
+teachers\_controller.py & Coding Convention & Some lines are too long\\ 
+\hline
+teachers\_controller.py & Coding Convention & Inconsistent string formatting methods \\ 
+\hline
+limesurvey.py & Commenting & Lacks comments \\ 
+\hline
+\end{tabular}}
+\end{center}
+
+\appendix
+
+\newpage
+\section{Agreement Between Customer and Contractor}
+This page shows that all members of Team EVAL and the client, Harlan Onsrud, have agreed on all the information in the code inspection report. By signing this document, Team EVAL and Dr. Onsrud approve the coding conventions used, the information about the inspection process, and the descriptions of the defects and inspected modules.
+
+The team will follow a process in the case that the document is changed after we sign it. First, the team will write a rough draft of the changes to be made to the document. Second, all team members and Harlan Onsrud will sign the document agreeing to the changes. Finally, the team will make the changes to the final copy of the document.
+
+\vspace{.7in}
+\noindent
+\begin{tabular}{ p{5cm} p{5cm} p{5cm} } 
+\textbf{\textit{Name}} & \textbf{\textit{Signature}} & \textbf{\textit{Date}} \\[.5cm]
+\textbf{Jovon Craig} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Sam Elliott} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Yuanqi Guo} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Robert Judkins} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Stanley Small} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Dr. Harlan Onsrud} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Customer Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\end{tabular}
+
+\newpage
+\section{Team Review Sign-off}
+
+This page shows that all members of Team EVAL have reviewed the code inspection report and agreed on its content. By signing this document, the team members agree that all information about Team EVAL's code inspections is accurate, and there is nothing in the document that is a source of contention.
+
+\vspace{.7in}
+\noindent
+\begin{tabular}{ p{5cm} p{5cm} p{5cm} } 
+\textbf{\textit{Name}} & \textbf{\textit{Signature}} & \textbf{\textit{Date}} \\[.5cm]
+\textbf{Jovon Craig} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\textbf{Sam Elliott} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\textbf{Yuanqi Guo} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\textbf{Robert Judkins} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\textbf{Stanley Small} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\end{tabular}
+
+
+\newpage
+\section{Document Contributions}
+
+Stanley Small discussed the status of various modules and helped to describe the outcomes of the inspection. He proofread the document for final submission. Stan contributed approximately 20 percent of the document.
+
+Jovon Craig wrote the purpose of the document, references, coding conventions sections, part of the defect checklist, the description of the inspection process, and the list of defects. He also made several revisions to the document. Jovon contributed about 45 percent of the document.
+
+Yuanqi Guo wrote more content for introduction, revised the format of document. Tom contributed about ?? percent of the document.
+
+Sam Elliott added the table of the modules that the team inspected and made several revisions to the document. Sam contributed about ?? percent of the document.
+
+Robert Judkins wrote the section stating the team's impressions of the inspection process. He contributed about ?? percent of the document.
+
+\end{document}
