@@ -223,6 +223,7 @@ There are several differences between the actual design of a few of the modules 
 
 In the back end, the endpoint ``GET publish'' was added so that the API could create a .txt file of a survey and publish it on LimeSurvey. The ``POST results'' endpoint was removed because there seemed to be no need for it. Also, the API now retrieves a JSON object of survey results instead of a .txt file. The team did not mention using an external library (``limesurvey.py'') to interface with LimeSurvey because we did not know it would be helpful.
 
+\newpage
 \section{Defects}
 
 During the inspection, the team found multiple defects in the system, spread across many different components. Table 3 on the next page gives a list of all the defects that we found. Each defects falls under one of five categories: correctness to the functional requirements, coding conventions, commenting conventions, user friendliness, security, and miscellaneous flaws.
