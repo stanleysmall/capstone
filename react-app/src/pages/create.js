@@ -16,7 +16,13 @@ class Home extends Component {
     surveyJSON = survey;
 
     //State stores if the user has completed creating an evaluation
-    state = {complete: false};
+    state = {
+        complete: false,
+        displayForm: false,
+        loadableEvals : [{id:0, name:"Select an evaluation"},                  
+                        ]
+
+    };
 
     //Stores correctly formatted data to be pushed to database
     evalTemplate = {
@@ -39,9 +45,37 @@ class Home extends Component {
         defaultThemeColors["$main-hover-color"] = "#45a049";
         Survey.StylesManager.applyTheme();
 
-        this.loadEvaluation(exampleOldEvaluation);
+        //var oldEvalNames = this.getEvalNames(); <------------------------------for when api calls work, currently just use list of example eval names
+
+        var oldEvalNames = ["test eval", "test eval 2"];
+
+        for(var i = 0; i < oldEvalNames.length; i++)
+        {
+            this.state.loadableEvals.push({id: i+1, name: oldEvalNames[i]})
+        }
 
         //console.log(this.getEval("COS 140 001"));
+    }
+
+    //Function called when the user starts making an eval,
+    //either loads an old eval or starts fresh
+    start(name)
+    {
+
+        console.log(name);
+        //if the user passes the default select an evaluation or no text at all then start blank template
+        if (name === null || name === "Select an evaluation")
+        {
+            this.setState({displayForm: true});
+        }
+        
+        //else start a template based off the old eval
+        else
+        {
+            //this.loadEvaluation(this.getEval(name)) <------------------------------for when api calls work, currently just load the one example old eval
+            this.loadEvaluation(exampleOldEvaluation);
+            this.setState({displayForm: true});
+        }
     }
 
     //Called when user completes the survey
@@ -71,6 +105,11 @@ class Home extends Component {
     getEval(name)
     {
         return fetch(APIAddress +"survey?name=" + name)
+    }
+
+    getEvalNames()
+    {
+        return fetch(APIAddress +"surveys")
     }
 
     //Loads all aspects of the passed eval into the new form
@@ -180,6 +219,7 @@ class Home extends Component {
         //Populate the surveyJSON with default values for the third page
         this.surveyJSON.pages[2].elements[1].defaultValue = evaluation.email_invite;
         this.surveyJSON.pages[2].elements[3].defaultValue = evaluation.email_reminder;
+
     }
 
     //Formats the entered information in an API friendly way
@@ -419,31 +459,66 @@ class Home extends Component {
     }
 
     render() {
-
         //If the user has completed the evaluation creation redirect to home
         if(this.state.complete)
         {
             return(<Redirect to ="/home/"/>)
         }
 
-        //Create the survey model to be displayed
-        var model = new Survey.Model(this.surveyJSON);
+        if(this.state.displayForm)
+        {
+            var model = new Survey.Model(this.surveyJSON);
 
-        return(
-        <div>
+            return(    
+                <div>
+                    <div>
+                        <h3>Wicked Easy Teaching Evaluations &emsp;
+                        <a href="/">Landing</a> &emsp;
+                        <a href = "/home/">Home</a>
+                        <hr/>
+                        </h3>
+                    </div>        
+    
+                    <div id="survey">
+                        <Survey.Survey model={model} onComplete={this.onComplete}/>
+                    </div>
+                </div>
+                )
+        }
 
-            <div>
-                <h3>Wicked Easy Teaching Evaluations &emsp;
-                <a href="/">Landing</a> &emsp;
-                <a href = "/home/">Home</a>
-                <hr/>
-                </h3>
-            </div>
-            <div>
-                <Survey.Survey model={model} onComplete={this.onComplete}/>
-            </div>
-        </div>
-        )
+        else{
+            return(
+                <div>
+                    <div>
+                        <h3>Wicked Easy Teaching Evaluations &emsp;
+                        <a href="/">Landing</a> &emsp;
+                        <a href = "/home/">Home</a>
+                        <hr/>
+                        </h3>
+                    </div>  
+
+                    Create a new evaluation from scratch
+                    <br/>
+                    <button onClick = {() => this.start(null)} > Start a new evaluation</button>
+                    <br/>
+                    <br/>
+
+                    Or create an evaluation using a past evaluation as a template
+                    <br/>
+                    <select id="evaluationSelector">
+                        {this.state.loadableEvals.map(template => {
+                            return (
+                                <option key = {template.id} value={template.name}>
+                                    {template.name}
+                                </option>
+                            );
+                        })}  
+                    </select>
+
+                    <button onClick = {() => this.start(document.getElementById("evaluationSelector").value)} > Use template</button>
+                </div>
+            )
+        }
     }
 }
 export default Home;
