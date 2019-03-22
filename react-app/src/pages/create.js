@@ -11,11 +11,6 @@ const APIAddress = "http://52.15.216.252:8080/teameval/Eval/1.0.0/";
 
 class Home extends Component {
 
-    //JSON which defines the format of the survey that 
-    //users fill out of create an evaluation.  Stores in questionTemplate.js
-    surveyJSON = survey;
-
-    //State stores if the user has completed creating an evaluation
     state = {
         complete: false,
         displayForm: false,
@@ -24,12 +19,17 @@ class Home extends Component {
 
     };
 
+    //JSON which defines the format of the survey that 
+    //users fill out of create an evaluation.  Stores in questionTemplate.js
+    surveyJSON = survey;
+
     //Stores correctly formatted data to be pushed to database
     evalTemplate = {
-
     }
 
-    //Constructor sets up the component
+    /*
+        Sets the theme of the user input survey and generates a list of the names of the past surveys which can be used as templates
+    */
     constructor(props){
         super(props);
         
@@ -57,12 +57,14 @@ class Home extends Component {
         //console.log(this.getEval("COS 140 001"));
     }
 
-    //Function called when the user starts making an eval,
-    //either loads an old eval or starts fresh
+    /*
+        Arguments:
+            name: name of the evaluation the user wants to use as a template.  null if the user wants to start fresh
+
+        Either creates a blank user input survey or populates a survey with the past evaluation that matches the passed name
+    */
     start(name)
     {
-
-        console.log(name);
         //if the user passes the default select an evaluation or no text at all then start blank template
         if (name === null || name === "Select an evaluation")
         {
@@ -78,7 +80,14 @@ class Home extends Component {
         }
     }
 
-    //Called when user completes the survey
+    /*
+        Arguments:
+            survey: completed SurveyJS object which was created using the surveyJSON
+            options: ???
+
+        Called upon completion of the survey, formats the users input to match the database endpoint
+        specs, enters the evaluation into the database then redirects the user back to the home page
+    */
     onComplete(survey, options)
     {
         //Log the results of the survey  DEBUGGING
@@ -94,6 +103,26 @@ class Home extends Component {
         this.setState({complete: true});
     }
 
+    /*
+        Arguments:
+            toStore: an evaluation object you want to store in the database in the form:
+
+            {  "URL": str,
+                "instructor": str,
+                "participants": [{"name": str,
+                                    "address": str}, ...],
+                "questions": [{"ID": int,
+                                "helpText": str,
+                                "mandatory": bool,
+                                "group": str,
+                                "type": str,
+                                "text": str}, ...],
+                "name": str,
+                tag name 2: str,
+                tag name 3: str, ...} 
+
+        Stores the passed evaluation in the database
+    */
     putEval(toStore)
     {
         return fetch(APIAddress + "/survey", {
@@ -102,18 +131,47 @@ class Home extends Component {
         });
     }
 
+    /*
+        Arguments:
+            name: a string which represents the name of the evaluation you want to fetch from the database    
+    
+        Returns: The JSON object which represents the corresponding evaluation in the database
+    */
     getEval(name)
     {
         return fetch(APIAddress +"survey?name=" + name)
     }
 
+    /*
+        Returns: A list of all the names of surveys the user has created in the past
+    */
     getEvalNames()
     {
         return fetch(APIAddress +"surveys")
     }
 
-    //Loads all aspects of the passed eval into the new form
-    //except for the semester/year, begin/end date, and class roll
+    /*
+        Arguments:
+            evaluation: an evaluation object you wish to pre populate the fields with in the form:
+        
+        {  "URL": str,
+           "instructor": str,
+           "participants": [{"name": str,
+                             "address": str}, ...],
+           "questions": [{"ID": int,
+                          "helpText": str,
+                          "mandatory": bool,
+                          "group": str,
+                          "type": str,
+                          "text": str}, ...],
+           "name": str,
+           tag name 2: str,
+           tag name 3: str, ...}
+
+
+        Loads all aspects of the passed eval into the new form
+        except for the semester/year, begin/end date, and class roll
+    */
     loadEvaluation(evaluation)
     {
         //store values to populate first page in an array
@@ -222,7 +280,27 @@ class Home extends Component {
 
     }
 
-    //Formats the entered information in an API friendly way
+    /*
+        Arguments: 
+            survey: a surveyJS object created using the surveyJSON var from vars.js which has been completed
+
+        Populates the evaltemplate object with data in an API friendly format:
+        
+        {  "URL": str,
+           "instructor": str,
+           "participants": [{"name": str,
+                             "address": str}, ...],
+           "questions": [{"ID": int,
+                          "helpText": str,
+                          "mandatory": bool,
+                          "group": str,
+                          "type": str,
+                          "text": str}, ...],
+           "name": str,
+           tag name 2: str,
+           tag name 3: str, ...}
+
+    */
     formatSurvey(survey)
     {
         //endpoint requires URL which is not used, just give a false one
@@ -276,8 +354,22 @@ class Home extends Component {
         console.log("formatted: " + JSON.stringify(this.evalTemplate,null,2));
     }
 
+    /*
+        Arguments:
+            surveyData: a JSON object of the data generated by the survey which takes user input
+
+        Returns:
+            A list of questions from the users input in the form:
+                [{"ID": int,
+                    "helpText": str,
+                    "mandatory": bool,
+                    "group": str,
+                    "type": str,
+                    "text": str}, ...]
+    */
     generateQuestions(surveyData)
     {
+        //List of questions that will be returned after parsing data from the users input
         var questions = [];
 
         var questionID = 1;
@@ -334,6 +426,23 @@ class Home extends Component {
         return questions;
     }
 
+    /*
+        Arguments:
+            currentGroup: Name of the current group of questions you are parsing
+            currentDataSet: Data set of user input that is currently being procesed
+            questions: List of questions to append new questions to
+            questionID: Int representing the ID of the current question
+
+        Parses the user input in currentDataSet and appends questions to the questions list
+        in the form:
+
+        [{"ID": int,
+        "helpText": str,
+        "mandatory": bool,
+        "group": str,
+        "type": str,
+        "text": str}, ...]
+    */
     parseQuestionSet(currentGroup, currentDataSet, questions, questionID)
     {
         var question = {
@@ -401,6 +510,17 @@ class Home extends Component {
         return questionID;
     }
 
+    /*
+        Arguments: 
+            classRoll: String of participants in the form of first,last,email seperated by new lines or commas
+
+        Returns:
+            List of participants in the form:
+            [{
+            "name" : "",
+            "address" : ""
+            }, ...]
+    */
     generateParticipants(classRoll)
     {
         //Replace new line characters with commas
