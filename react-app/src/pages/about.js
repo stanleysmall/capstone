@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-
 class Landing extends Component {
     
     render() {
@@ -16,7 +15,7 @@ class Landing extends Component {
                 </h3>
             </div>
             <div>
-                <p>landing</p>
+                <p>about</p>
             </div>
         </form>
         )

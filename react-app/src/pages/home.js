@@ -10,7 +10,6 @@ class Home extends Component {
             <form>
                 <div>
                     <h3>Wicked Easy Teaching Evaluations &emsp;
-                    <a href="/">Landing</a> &emsp;
                     <a href = "/home/">Home</a>
                     <hr/>
                     </h3>
@@ -18,6 +17,8 @@ class Home extends Component {
                 <div>
                     <p>Home</p>
                     <a href="/create/">New Evaluation Form</a>
+                    <br/>
+                    <a href="/results/">View Results</a>
                 </div>
 
             </form>

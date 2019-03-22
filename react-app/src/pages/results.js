@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-
 class Landing extends Component {
     
     render() {
@@ -8,15 +7,13 @@ class Landing extends Component {
         <form>
             <div>
                 <h3>Wicked Easy Teaching Evaluations &emsp;
-                <a href="/">Home</a> &emsp;
-                <a href="/about/">About</a> &emsp;
-                <a href="/faq/">FAQ</a> &emsp;
-                <a href = "/login/">Login</a>
+                <a href="/">Landing</a> &emsp;
+                <a href = "/home/">Home</a>
                 <hr/>
                 </h3>
             </div>
             <div>
-                <p>landing</p>
+                <p>results</p>
             </div>
         </form>
         )

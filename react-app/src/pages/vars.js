@@ -1,4 +1,6 @@
 
+export const oAuthClientID = "120537157290-mtdj0mjahrhvq284uqguu8j5hophplc5.apps.googleusercontent.com";
+
 //Questions which require a text box, all other questions will be rated 1-5
 export const openEndedQuestionList = ["What was done particularly well in the laboratory experience?",
                                     "How could the laboratory be improved?",

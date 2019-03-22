@@ -585,7 +585,6 @@ class Home extends Component {
                 <div>
                     <div>
                         <h3>Wicked Easy Teaching Evaluations &emsp;
-                        <a href="/">Landing</a> &emsp;
                         <a href = "/home/">Home</a>
                         <hr/>
                         </h3>
@@ -607,7 +606,6 @@ class Home extends Component {
                 <div>
                     <div>
                         <h3>Wicked Easy Teaching Evaluations &emsp;
-                        <a href="/">Landing</a> &emsp;
                         <a href = "/home/">Home</a>
                         <hr/>
                         </h3>
