@@ -13,7 +13,7 @@ class Home extends Component {
 
     state = {
         complete: false,
-        displayForm: false,
+        useTemplate: false,
         loadableEvals : [{id:0, name:"Select an evaluation"},                  
                         ]
 
@@ -63,21 +63,12 @@ class Home extends Component {
 
         Either creates a blank user input survey or populates a survey with the past evaluation that matches the passed name
     */
-    start(name)
+    template(name)
     {
-        //if the user passes the default select an evaluation or no text at all then start blank template
-        if (name === null || name === "Select an evaluation")
-        {
-            this.setState({displayForm: true});
-        }
-        
-        //else start a template based off the old eval
-        else
-        {
-            //this.loadEvaluation(this.getEval(name)) <------------------------------for when api calls work, currently just load the one example old eval
-            this.loadEvaluation(exampleOldEvaluation);
-            this.setState({displayForm: true});
-        }
+        //this.loadEvaluation(this.getEval(name)) <------------------------------for when api calls work, currently just load the one example old eval
+        this.loadEvaluation(exampleOldEvaluation);
+        this.setState({useTemplate: true});
+    
     }
 
     /*
@@ -585,7 +576,8 @@ class Home extends Component {
             return(<Redirect to ="/home/"/>)
         }
 
-        if(this.state.displayForm)
+        //Load a new survey with the template
+        if(this.state.useTemplate)
         {
             var model = new Survey.Model(this.surveyJSON);
 
@@ -606,7 +598,11 @@ class Home extends Component {
                 )
         }
 
+        //default to new survey
         else{
+
+            var blankModel = new Survey.Model(this.surveyJSON);
+
             return(
                 <div>
                     <div>
@@ -617,14 +613,6 @@ class Home extends Component {
                         </h3>
                     </div>  
 
-                    Create a new evaluation from scratch
-                    <br/>
-                    <button onClick = {() => this.start(null)} > Start a new evaluation</button>
-                    <br/>
-                    <br/>
-
-                    Or create an evaluation using a past evaluation as a template
-                    <br/>
                     <select id="evaluationSelector">
                         {this.state.loadableEvals.map(template => {
                             return (
@@ -634,8 +622,14 @@ class Home extends Component {
                             );
                         })}  
                     </select>
+                    <button onClick = {() => this.template(document.getElementById("evaluationSelector").value)} > Use template</button>
 
-                    <button onClick = {() => this.start(document.getElementById("evaluationSelector").value)} > Use template</button>
+                    <br/>
+                    <br/>
+
+                    <div id="survey">
+                        <Survey.Survey model={blankModel} onComplete={this.onComplete}/>
+                    </div>
                 </div>
             )
         }
