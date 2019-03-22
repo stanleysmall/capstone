@@ -65,9 +65,12 @@ class Home extends Component {
     */
     template(name)
     {
-        //this.loadEvaluation(this.getEval(name)) <------------------------------for when api calls work, currently just load the one example old eval
-        this.loadEvaluation(exampleOldEvaluation);
-        this.setState({useTemplate: true});
+        if(name !== "Select an evaluation")
+        {
+            //this.loadEvaluation(this.getEval(name)) <------------------------------for when api calls work, currently just load the one example old eval
+            this.loadEvaluation(exampleOldEvaluation);
+            this.setState({useTemplate: true});
+        }
     
     }
 
