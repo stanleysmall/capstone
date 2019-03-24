@@ -72,10 +72,10 @@ class Home extends Component {
             this.surveyJSON = loadEvaluation(exampleOldEvaluation, this.surveyJSON);
             
             //remove dates and classroll from the loaded evaluation
-            //this.surveyJSON.pages[0].elements[4].defaultValue = "";
-            //this.surveyJSON.pages[0].elements[14].defaultValue = "";
-            //this.surveyJSON.pages[0].elements[15].defaultValue = "";
-            //this.surveyJSON.pages[2].elements[0].defaultValue = "";
+            this.surveyJSON.pages[0].elements[4].defaultValue = "";
+            this.surveyJSON.pages[0].elements[14].defaultValue = "";
+            this.surveyJSON.pages[0].elements[15].defaultValue = "";
+            this.surveyJSON.pages[2].elements[0].defaultValue = "";
             
             this.setState({useTemplate: true});
         }
