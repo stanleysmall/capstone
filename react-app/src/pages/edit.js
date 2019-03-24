@@ -12,7 +12,7 @@ class Landing extends Component {
                 </h3>
             </div>
             <div>
-                <p>results</p>
+                <p>edit</p>
             </div>
         </form>
         )

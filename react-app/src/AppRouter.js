@@ -6,7 +6,8 @@ import Create from "./pages/create";
 import About from "./pages/about";
 import FAQ from "./pages/faq.js";
 import Login from "./pages/login.js";
-import Results from "./pages/login.js";
+import Results from "./pages/results.js";
+import Edit from "./pages/edit.js";
 
 const AppRouter = () => (
 
@@ -18,6 +19,7 @@ const AppRouter = () => (
         <Route path ="/faq/" component = {FAQ}/>
         <Route path ="/login/" component = {Login}/>
         <Route path ="/results/" component = {Results}/>
+        <Route path ="/edit/" component = {Edit}/>
     </Router>
 
 );
