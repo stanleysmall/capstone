@@ -1,16 +1,13 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import {LoggedInHeader} from "./pageHeaders.js";
 
 class Landing extends Component {
     
     render() {
         return(
         <form>
-            <div>
-                <h3>Wicked Easy Teaching Evaluations &emsp;
-                <a href = "/home/">Home</a>
-                <hr/>
-                </h3>
-            </div>
+                <LoggedInHeader/>
             <div>
                 <p>results</p>
             </div>

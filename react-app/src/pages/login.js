@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+
+import {LoggedOutHeader} from "./pageHeaders.js";
+
 import GoogleLogin from 'react-google-login';
 import {Redirect} from "react-router";
 import {oAuthClientID} from "./vars.js";
@@ -46,15 +49,7 @@ class Landing extends Component {
 
         return(
         <form>
-            <div>
-                <h3>Wicked Easy Teaching Evaluations &emsp;
-                <a href="/">Home</a> &emsp;
-                <a href="/about/">About</a> &emsp;
-                <a href="/faq/">FAQ</a> &emsp;
-                <a href = "/login/">Login</a>
-                <hr/>
-                </h3>
-            </div>
+            <LoggedOutHeader/>
             <div>
                 <p>login</p>
             <GoogleLogin

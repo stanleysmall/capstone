@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import * as Survey from "survey-react";
 import "survey-react/survey.css";
 import {Redirect} from "react-router";
+
+import {LoggedInHeader} from "./pageHeaders.js";
 
 import {putEval, getEval, getEvalNames} from "./endpoints.js";
 import {formatSurvey, loadEvaluation} from "./parsing.js";
@@ -117,12 +120,7 @@ class Home extends Component {
 
             return(    
                 <div>
-                    <div>
-                        <h3>Wicked Easy Teaching Evaluations &emsp;
-                        <a href = "/home/">Home</a>
-                        <hr/>
-                        </h3>
-                    </div>        
+                <LoggedInHeader/>     
     
                     <div id="survey">
                         <Survey.Survey model={model} onComplete={this.onComplete}/>
@@ -138,12 +136,7 @@ class Home extends Component {
 
             return(
                 <div>
-                    <div>
-                        <h3>Wicked Easy Teaching Evaluations &emsp;
-                        <a href = "/home/">Home</a>
-                        <hr/>
-                        </h3>
-                    </div>  
+                <LoggedInHeader/>
 
                     <select id="evaluationSelector">
                         {this.state.loadableEvals.map(template => {

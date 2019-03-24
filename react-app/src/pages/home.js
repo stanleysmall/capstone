@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import {LoggedInHeader} from "./pageHeaders.js";
 
 class Home extends Component {
 
@@ -8,20 +10,23 @@ class Home extends Component {
 
         return(
             <form>
-                <div>
-                    <h3>Wicked Easy Teaching Evaluations &emsp;
-                    <a href="/">Landing</a> &emsp;
-                    <a href = "/home/">Home</a>
-                    <hr/>
-                    </h3>
-                </div>
+                <LoggedInHeader/>
+                
                 <div>
                     <p>Home</p>
-                    <a href="/create/">New Evaluation Form</a>
+                    <Link to={"/create/"}>
+                        <button>New Evaluation Form</button>
+                    </Link>
+
                     <br/>
-                    <a href="/edit/">Edit an existing unpublished evaluation form</a>
+                    <Link to={"/edit/"}>
+                        <button>Edit</button>
+                    </Link>
+
                     <br/>
-                    <a href="/results/">View Results</a>
+                    <Link to={"/results/"}>
+                        <button>View Results</button>
+                    </Link>
                 </div>
 
             </form>
