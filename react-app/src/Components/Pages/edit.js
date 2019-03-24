@@ -1,14 +1,18 @@
 import React, { Component } from "react";
-import { LoggedOutHeader } from "./pageHeaders";
+
+import {LoggedInHeader} from "../displayComponents";
+
+import "survey-react/survey.css";
+
 
 class Landing extends Component {
     
     render() {
         return(
         <form>
-            <LoggedOutHeader/>
+            <LoggedInHeader/>
             <div>
-                <p>about</p>
+                <p>edit</p>
             </div>
         </form>
         )

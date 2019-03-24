@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import {LoggedInHeader} from "./pageHeaders.js";
+import {LoggedInHeader} from "../displayComponents";
 
 class Home extends Component {
 
     render() {
-
-
 
         return(
             <form>
@@ -19,7 +17,7 @@ class Home extends Component {
                     </Link>
 
                     <br/>
-                    <Link to={"/edit/"}>
+                    <Link to={"/edit/" + "testEval"}>
                         <button>Edit</button>
                     </Link>
 

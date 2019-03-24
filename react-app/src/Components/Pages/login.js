@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 
-import {LoggedOutHeader} from "./pageHeaders.js";
+import {LoggedOutHeader} from "../displayComponents";
 
 import GoogleLogin from 'react-google-login';
 import {Redirect} from "react-router";
-import {oAuthClientID} from "./vars.js";
+import {oAuthClientID} from "../../vars";
 
 class Landing extends Component {
     

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { LoggedOutHeader } from "./pageHeaders";
+import {LoggedInHeader} from "../displayComponents";
 
 class Landing extends Component {
     
     render() {
         return(
         <form>
-            <LoggedOutHeader/>
+                <LoggedInHeader/>
             <div>
-                <p>FAQ</p>
+                <p>results</p>
             </div>
         </form>
         )

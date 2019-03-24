@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {LoggedOutHeader} from "./pageHeaders.js";
+import {LoggedOutHeader} from "../displayComponents";
 
 
 class Landing extends Component {

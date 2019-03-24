@@ -1,13 +1,13 @@
 import React from 'react';
 import {BrowserRouter as Router, Route} from "react-router-dom";
-import Landing from "./pages/landing";
-import Home from "./pages/home";
-import Create from "./pages/create";
-import About from "./pages/about";
-import FAQ from "./pages/faq.js";
-import Login from "./pages/login.js";
-import Results from "./pages/results.js";
-import Edit from "./pages/edit.js";
+import Landing from "./Components/Pages/landing";
+import Home from "./Components/Pages/home";
+import Create from "./Components/Pages/create";
+import About from "./Components/Pages/about";
+import FAQ from "./Components/Pages/faq";
+import Login from "./Components/Pages/login";
+import Results from "./Components/Pages/results";
+import Edit from "./Components/Pages/edit";
 
 const AppRouter = () => (
 

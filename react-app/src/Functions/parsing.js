@@ -1,4 +1,4 @@
-import {openEndedQuestionList} from "./vars";
+import {openEndedQuestionList} from "../vars";
 
  /*
     Arguments: 

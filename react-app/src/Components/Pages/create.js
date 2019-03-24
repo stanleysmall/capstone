@@ -3,13 +3,13 @@ import * as Survey from "survey-react";
 import "survey-react/survey.css";
 import {Redirect} from "react-router";
 
-import {LoggedInHeader} from "./pageHeaders.js";
+import {LoggedInHeader} from "../displayComponents";
 
-import {putEval, getEval, getEvalNames} from "./endpoints.js";
-import {formatSurvey, loadEvaluation} from "./parsing.js";
+import {putEval, getEval, getEvalNames} from "../../Functions/endpoints.js";
+import {formatSurvey, loadEvaluation} from "../../Functions/parsing.js";
 
-import {survey} from "./vars";
-import {exampleOldEvaluation} from "./vars";
+import {survey} from "../../vars";
+import {exampleOldEvaluation} from "../../vars";
 
 
 
