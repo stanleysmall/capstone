@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import {LoggedInHeader} from "./pageHeaders.js";
 
 class Landing extends Component {

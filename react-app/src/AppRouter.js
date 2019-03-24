@@ -19,7 +19,7 @@ const AppRouter = () => (
         <Route path ="/faq/" component = {FAQ}/>
         <Route path ="/login/" component = {Login}/>
         <Route path ="/results/" component = {Results}/>
-        <Route path ="/edit/" component = {Edit}/>
+        <Route path ="/edit/:evalName" component = {Edit}/>
     </Router>
 
 );

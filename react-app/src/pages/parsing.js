@@ -445,7 +445,7 @@ export const loadEvaluation = (evaluation, surveyJSON) =>
 
     //Turn classroll from eval into CSV format
     var classRoll = "";
-    for(var i = 0; i < evaluation.participants.length; i ++)
+    for(i = 0; i < evaluation.participants.length; i ++)
     {
         var names = evaluation.participants[i].name.split(" ");
         classRoll = classRoll + names[0] + "," + names[1] + "," + evaluation.participants[i].address + "\n";

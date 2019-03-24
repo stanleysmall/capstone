@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import * as Survey from "survey-react";
 import "survey-react/survey.css";
 import {Redirect} from "react-router";
