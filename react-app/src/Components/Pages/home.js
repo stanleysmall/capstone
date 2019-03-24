@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
+import { getEval } from "../../Functions/endpoints";
 
 class Home extends Component {
     state = {
@@ -24,6 +25,11 @@ class Home extends Component {
     edit(value)
     {
         this.props.history.push("/edit/" + value);
+    }
+
+    componentDidMount()
+    {
+        getEval("COS 140 001")
     }
 
     render() {

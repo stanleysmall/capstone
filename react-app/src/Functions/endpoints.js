@@ -1,4 +1,4 @@
-const APIAddress = "http://52.15.216.252:8080/teameval/Eval/1.0.0/";
+const APIAddress = "https://cors-anywhere.herokuapp.com/http://52.15.216.252:8080/teameval/Eval/1.0.0/";
 
 
     /*
@@ -38,6 +38,11 @@ const APIAddress = "http://52.15.216.252:8080/teameval/Eval/1.0.0/";
    export const getEval = (name) =>
    {
        return fetch(APIAddress +"survey?name=" + name)
+                .then(response =>response.json())
+                .then((responseData) => {
+                    console.log(responseData);
+                    return responseData;
+                })
    }
 
    /*
@@ -46,4 +51,9 @@ const APIAddress = "http://52.15.216.252:8080/teameval/Eval/1.0.0/";
    export const getEvalNames = () =>
    {
        return fetch(APIAddress +"surveys")
+                .then(response =>response.json())
+                .then((responseData) => {
+                    console.log(responseData);
+                    return responseData;
+                })
    }
