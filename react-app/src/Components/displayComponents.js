@@ -2,12 +2,21 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 export class LoggedInHeader extends Component {
+    
     render() {
         return(
             <div>
                 <h3>Wicked Easy Teaching Evaluations &emsp;
                 <Link to={"/home/"}>
                     <button>Home</button>
+                </Link>
+                &emsp;
+                <Link to={"/about/l"}>
+                    <button>About</button>
+                </Link>
+                &emsp;
+                <Link to={"/faq/l"}>
+                    <button>FAQ</button>
                 </Link>
                 &emsp;
                 <Link to={"/"}>
@@ -45,4 +54,25 @@ export class LoggedOutHeader extends Component {
             </div>
         )
     }
+}
+
+
+
+
+export class DynamicSelecter extends Component {
+
+    render() {
+    return(
+        <select id={this.props.iden}>
+        {this.props.list.map(template => {
+            return (
+                <option key = {template.id} value={template.name}>
+                    {template.name}
+                </option>
+            );
+        })}  
+    </select>
+    )
+}
+
 }

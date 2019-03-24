@@ -15,8 +15,8 @@ const AppRouter = () => (
         <Route path ="/" exact component={Landing}/>
         <Route path ="/home/" component = {Home}/>
         <Route path ="/create/" component = {Create}/>
-        <Route path ="/about/" component = {About}/>
-        <Route path ="/faq/" component = {FAQ}/>
+        <Route path ="/about/:loggedIn?" component = {About}/>
+        <Route path ="/faq/:loggedIn?" component = {FAQ}/>
         <Route path ="/login/" component = {Login}/>
         <Route path ="/results/" component = {Results}/>
         <Route path ="/edit/:evalName" component = {Edit}/>

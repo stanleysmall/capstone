@@ -3,7 +3,7 @@ import * as Survey from "survey-react";
 import "survey-react/survey.css";
 import {Redirect} from "react-router";
 
-import {LoggedInHeader} from "../displayComponents";
+import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
 
 import {putEval, getEval, getEvalNames} from "../../Functions/endpoints.js";
 import {formatSurvey, loadEvaluation} from "../../Functions/parsing.js";
@@ -65,6 +65,7 @@ class Home extends Component {
     */
     template(name)
     {
+        console.log(name);
         if(name !== "Select an evaluation")
         {
             //loadEvaluation(getEval(name), this.surveyJSON) <------------------------------for when api calls work, currently just load the one example old eval
@@ -100,18 +101,12 @@ class Home extends Component {
         //Put the formatted survey into the database
         putEval(this.evalTemplate)
 
-        //Mark the evaluation creation completed 
-        this.setState({complete: true});
+        //redirect home 
+        this.props.history.push("/home/");
     }
     
 
     render() {
-        //If the user has completed the evaluation creation redirect to home
-        if(this.state.complete)
-        {
-            return(<Redirect to ="/home/"/>)
-        }
-
         //Load a new survey with the template
         if(this.state.useTemplate)
         {
@@ -135,17 +130,9 @@ class Home extends Component {
 
             return(
                 <div>
-                <LoggedInHeader/>
+                    <LoggedInHeader/>
+                    <DynamicSelecter list={this.state.loadableEvals} iden={"evaluationSelector"}/>
 
-                    <select id="evaluationSelector">
-                        {this.state.loadableEvals.map(template => {
-                            return (
-                                <option key = {template.id} value={template.name}>
-                                    {template.name}
-                                </option>
-                            );
-                        })}  
-                    </select>
                     <button onClick = {() => this.template(document.getElementById("evaluationSelector").value)} > Use template</button>
 
                     <br/>
