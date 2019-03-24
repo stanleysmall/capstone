@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
-import { getEval, getUnpublishedEvalNames, getPublishedEvalNames } from "../../Functions/endpoints";
+import { getUnpublishedEvalNames, getPublishedEvalNames } from "../../Functions/endpoints";
 
 class Home extends Component {
     state = {
@@ -29,7 +29,7 @@ class Home extends Component {
             this.state.editableEvals[i+1] = {id:i+1, name:unpublishedEvals[i]} 
         }
 
-        for(var i = 0; i < publishedEvals.length; i ++)
+        for(i = 0; i < publishedEvals.length; i ++)
         {
             this.state.inactiveEvals[i+1] = {id:i+1, name:publishedEvals[i]} 
         }

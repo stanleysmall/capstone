@@ -5,7 +5,7 @@ import {LoggedInHeader} from "../displayComponents";
 import "survey-react/survey.css";
 import * as Survey from "survey-react";
 
-import {putEval, getEval, getEvalNames} from "../../Functions/endpoints.js";
+import {putEval} from "../../Functions/endpoints.js";
 
 import {survey} from "../../vars";
 import {exampleOldEvaluation} from "../../vars";
@@ -34,6 +34,8 @@ class Edit extends Component {
 
         this.surveyJSON = loadEvaluation(exampleOldEvaluation, this.surveyJSON);
 
+
+
         //this.surveyJSON = loadEvaluation(getEval(this.props.match.params.evalName), this.surveyJSON);
         console.log(this.props)
     }
@@ -55,7 +57,7 @@ class Edit extends Component {
        this.evalTemplate = formatSurvey(survey);
 
        //Put the formatted survey into the database
-       putEval(this.evalTemplate)
+       putEval(this.evalTemplate);
 
        //redirect home 
        this.props.history.push("/home/");

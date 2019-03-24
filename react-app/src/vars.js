@@ -861,6 +861,7 @@ export const survey = {
       title: "Enroll"
      }
     ],
+    showNavigationButtons: "both",
     showQuestionNumbers: "off",
     pagePrevText: "Back",
     pageNextText: "Next",

@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import * as Survey from "survey-react";
 import "survey-react/survey.css";
-import {Redirect} from "react-router";
 
 import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
 
-import {putEval, getEval, getEvalNames} from "../../Functions/endpoints.js";
+import {putEval} from "../../Functions/endpoints.js";
 import {formatSurvey, loadEvaluation} from "../../Functions/parsing.js";
 
 import {survey} from "../../vars";
@@ -132,7 +131,7 @@ class Home extends Component {
                 <div>
                     <LoggedInHeader/>
                     <DynamicSelecter list={this.state.loadableEvals} iden={"evaluationSelector"}/>
-
+                    &emsp;
                     <button onClick = {() => this.template(document.getElementById("evaluationSelector").value)} > Use template</button>
 
                     <br/>
