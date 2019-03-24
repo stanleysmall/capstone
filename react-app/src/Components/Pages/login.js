@@ -26,7 +26,8 @@ class Landing extends Component {
     */
     login(response)
     {
-        console.log(response.Zi.access_token);      //<------------------------------------------------TODO: Capture access_token
+        global.access_token = response.Zi.access_token;
+        console.log(response.Zi.access_token);
         this.setState({loggedIn: true});
         
     }

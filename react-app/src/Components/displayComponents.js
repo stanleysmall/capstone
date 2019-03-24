@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 
 export class LoggedInHeader extends Component {
     
+    logout()
+    {
+        global.access_token = undefined;
+    }
+
     render() {
         return(
             <div>
@@ -20,7 +25,7 @@ export class LoggedInHeader extends Component {
                 </Link>
                 &emsp;
                 <Link to={"/"}>
-                    <button>Logout</button>
+                    <button onClick ={this.logout}>Logout</button>
                 </Link>
                 <hr/>
                 </h3>

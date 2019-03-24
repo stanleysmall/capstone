@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import {Redirect} from "react-router";
 import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
 import { getUnpublishedEvalNames, getPublishedEvalNames } from "../../Functions/endpoints";
 
@@ -20,7 +21,7 @@ class Home extends Component {
     constructor(props)
     {
         super(props);
-
+        console.log(global.access_token);
         var unpublishedEvals = getUnpublishedEvalNames();
         var publishedEvals = getPublishedEvalNames();
 
@@ -54,7 +55,11 @@ class Home extends Component {
 
     render() {
 
-
+        //If the user isnt logged in redirect them to the landing page
+        if(global.access_token === undefined)
+        {
+            return(<Redirect to ="/"/>);
+        }
 
         return(
             <div>
@@ -74,7 +79,7 @@ class Home extends Component {
                     <button onClick = {() => this.edit(document.getElementById("editSelector").value)}>Edit</button>
                     <br/><br/>
 
-                    3. View Inactive Course Evaluation Form
+                    3. View Old Course Evaluation Form
                     <br/>
                     <DynamicSelecter list={this.state.inactiveEvals} iden={"inactiveSelector"}/>&emsp;
                     <button onClick = {() => this.view(document.getElementById("inactiveSelector").value)}>view</button>

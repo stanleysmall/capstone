@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Redirect} from "react-router";
 import { LoggedOutHeader, LoggedInHeader } from "../displayComponents";
 
 class Landing extends Component {
@@ -7,6 +8,13 @@ class Landing extends Component {
 
         if(this.props.match.params.loggedIn)
         {
+
+            //If the user isnt logged in redirect them to the logged out faq page
+            if(global.access_token === undefined)
+            {
+                return(<Redirect to ="/faq/"/>);
+            }
+
             return(
                 <form>
                     <LoggedInHeader/>

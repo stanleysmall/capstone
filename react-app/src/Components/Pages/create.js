@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import * as Survey from "survey-react";
 import "survey-react/survey.css";
+import {Redirect} from "react-router";
+
 
 import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
 
@@ -106,6 +108,13 @@ class Home extends Component {
     
 
     render() {
+
+        //If the user isnt logged in redirect them to the landing page
+        if(global.access_token === undefined)
+        {
+            return(<Redirect to ="/"/>);
+        }
+
         //Load a new survey with the template
         if(this.state.useTemplate)
         {
