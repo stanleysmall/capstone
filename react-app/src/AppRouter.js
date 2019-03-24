@@ -8,6 +8,7 @@ import FAQ from "./Components/Pages/faq";
 import Login from "./Components/Pages/login";
 import Results from "./Components/Pages/results";
 import Edit from "./Components/Pages/edit";
+import View from "./Components/Pages/view";
 
 const AppRouter = () => (
 
@@ -20,6 +21,7 @@ const AppRouter = () => (
         <Route path ="/login/" component = {Login}/>
         <Route path ="/results/" component = {Results}/>
         <Route path ="/edit/:evalName" component = {Edit}/>
+        <Route path ="/view/:evalName" component = {View}/>
     </Router>
 
 );

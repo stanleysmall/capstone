@@ -1,19 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
-import { getEval } from "../../Functions/endpoints";
+import { getEval, getUnpublishedEvalNames, getPublishedEvalNames } from "../../Functions/endpoints";
 
 class Home extends Component {
     state = {
-        editableEvals : [{id:0, name:"Select an evaluation"},
-                         {id:1, name:"endpoints"},
-                         {id:2, name:"aren't"},
-                         {id:3, name:"working"},                  
+        editableEvals : [{id:0, name:"Select an evaluation"},                 
                         ],
-        inactiveEvals : [{id:0, name:"Select an evaluation"},
-                         {id:1, name:"endpoints"},
-                         {id:2, name:"aren't"},
-                         {id:3, name:"working"},                  
+        inactiveEvals : [{id:0, name:"Select an evaluation"},               
                         ],
         reports :       [{id:0, name:"Select a report"},
                          {id:1, name:"endpoints"},
@@ -22,14 +16,40 @@ class Home extends Component {
                         ]                         
         };
 
-    edit(value)
+
+    constructor(props)
     {
-        this.props.history.push("/edit/" + value);
+        super(props);
+
+        var unpublishedEvals = getUnpublishedEvalNames();
+        var publishedEvals = getPublishedEvalNames();
+
+        for(var i = 0; i < unpublishedEvals.length; i ++)
+        {
+            this.state.editableEvals[i+1] = {id:i+1, name:unpublishedEvals[i]} 
+        }
+
+        for(var i = 0; i < publishedEvals.length; i ++)
+        {
+            this.state.inactiveEvals[i+1] = {id:i+1, name:publishedEvals[i]} 
+        }
+
     }
 
-    componentDidMount()
+    edit(value)
     {
-        getEval("COS 140 001")
+        if(value !== "Select an evaluation")
+        {
+            this.props.history.push("/edit/" + value);
+        }
+    }
+
+    view(value)
+    {
+        if(value !== "Select an evaluation")
+        {
+            this.props.history.push("/view/" + value);
+        }
     }
 
     render() {
@@ -54,7 +74,13 @@ class Home extends Component {
                     <button onClick = {() => this.edit(document.getElementById("editSelector").value)}>Edit</button>
                     <br/><br/>
 
-                    5. View Evaluation Results
+                    3. View Inactive Course Evaluation Form
+                    <br/>
+                    <DynamicSelecter list={this.state.inactiveEvals} iden={"inactiveSelector"}/>&emsp;
+                    <button onClick = {() => this.view(document.getElementById("inactiveSelector").value)}>view</button>
+                    <br/><br/>
+
+                    4. View Evaluation Results
                     <br/>
                     <DynamicSelecter list={this.state.reports} iden={"reports"}/>&emsp;
                     <Link to={"/results/"}>
