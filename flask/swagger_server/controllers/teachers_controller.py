@@ -2,13 +2,16 @@ import connexion
 import six
 import mysql.connector
 import base64
-from flask import jsonify, request
+import logging
+import statistics
+from flask import request
 
 from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.models.result import Result  # noqa: E501
 from swagger_server import util
 from swagger_server.lime_py_api.limesurvey import Api
 
+logging.basicConfig(level=logging.INFO)
 lime = Api('http://10.5.0.5/index.php/admin/remotecontrol', 'admin', 'password')
 
 mydb = mysql.connector.connect(host='10.5.0.6',
@@ -103,7 +106,7 @@ def survey_get(name):  # noqa: E501
         for tag in cursor.fetchall():
             survey[tag[0]] = tag[1]
     
-    return jsonify(survey)
+    return survey
 
 
 def survey_put():  # noqa: E501
@@ -133,6 +136,8 @@ def survey_put():  # noqa: E501
             'email_invite', 'email_remind', 'email_register', and 'email_confirm'
     """
     
+    if 'instructor' not in request.json.keys():
+        return 'no matching instructor found'
     cursor.execute("select ID from instructor where name = '" + request.json['instructor'] + "';")
     instructor_ID = str(cursor.fetchone()[0])
     survey_ID = ''
@@ -227,22 +232,18 @@ def survey_put():  # noqa: E501
     return 'success'
 
 
-def surveys_get(name=None):  # noqa: E501
-    """retreives a list of survey names, optionally for a given instructor
-       if 'instructor' is None, retreives all survey names
-
-    :param id: the name for an instructor
-    :type id: str
+def surveys_get():  # noqa: E501
+    """retreives a list of the names of the user's surveys
 
     :rtype: List[survey names]
     """
     
     surveys = []
-    if name:
-        cursor.execute("select tag.value from tag, survey_to_tag, survey, instructor where type = 'name' && tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && survey.instructor_ID = instructor.ID && instructor.name = '" + name + "';")
-    else:
-        cursor.execute("select tag.value from tag where type = 'name';")
-    for survey in cursor.fetchall():
+    email = 'roy.turner@maine.edu'      # TODO: use session object
+    
+    # Retrieve the survey names for a given e-mail address
+    cursor.execute("select value from tag, survey_to_tag, survey, instructor where type = 'name' && tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && survey.instructor_ID = instructor.ID && instructor.`e-mail` = '" + email + "';")
+    for survey in cursor.fetchall():    # Add query results to list of names
         surveys.append(survey[0])
     
     return surveys
@@ -289,19 +290,26 @@ def publish_get(name):  # noqa: E501
     
     # Translate survey data into a .txt file
     text, survey_ID = translate_to_txt(name)
+    if not survey_ID:
+        return 'invalid survey name'
     
     # Use .txt file to put survey into LimeSurvey database
     enc_text = base64.b64encode(bytes(text, 'utf-8')).decode('utf-8')
-    lime.import_survey(enc_text, name, int(survey_ID), type='txt')
+    lime.import_survey(enc_text, name, survey_ID, type='txt')
     
     # Add participants to survey on database
     participants = []
-    cursor.execute("select name, address from participant, survey_to_participant where participant.ID = survey_to_participant.participant_ID && survey_to_participant.survey_ID = " + survey_ID + ";")
+    cursor.execute("select name, address from participant, survey_to_participant where participant.ID = survey_to_participant.participant_ID && survey_to_participant.survey_ID = " + str(survey_ID) + ";")
     for row in cursor.fetchall():
         first, last = row[0].split(' ')
         participants.append({'email': row[1], 'lastname': last, 'firstname': first})
+    lime.activate_tokens(survey_ID)
+    lime.add_participants(survey_ID, participants)
     
     # Activate survey on LimeSurvey
+    lime.set_survey_property(survey_ID, 'anonymized', 'true')
+    lime.activate_survey(survey_ID)
+    lime.invite_participants(survey_ID)
     
     return 'success'
 
@@ -333,14 +341,17 @@ def translate_to_txt(name):
     PRE: 'name' is already present in database
     """
     
+    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.value = '" + name + "';")
+    result = cursor.fetchone()
+    if not result:
+        return None, None
+    survey_ID = str(result[0])
+    value_query = "select value from tag, survey_to_tag where survey_to_tag.survey_ID = " + survey_ID + " && survey_to_tag.tag_ID = tag.ID && tag.type = '{}';"
+    
     fil = open(name + '.txt', 'w')
     template = open('template.txt', 'r')
     text = template.readline()
     lines = template.readlines()
-    
-    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.value = '" + name + "';")
-    survey_ID = str(cursor.fetchone()[0])
-    value_query = "select value from tag, survey_to_tag where survey_to_tag.survey_ID = " + survey_ID + " && survey_to_tag.tag_ID = tag.ID && tag.type = '{}';"
     
     # Retreive general survey info
     cursor.execute(value_query.format('name'))
@@ -401,44 +412,96 @@ def translate_to_txt(name):
             text += '\t'*132 + '\n'
 
     fil.write(text)
-    return text, survey_ID
+    return text, int(survey_ID)
     
-    
-def translate_responses(responses):
-    """translate the responses from JSON to data that can be
-       imported into the back end database
-          
-    :param responses: the responses for a survey
-    :type name: str
-    
-    PRE: 'responses' is in JSON format
-    """
-    
-    return 0
 
+def results_get(cat_type, cat_name):  # noqa: E501
+    """retreives a list of results for a given category of surveys
 
-def results_get(instructor=None):  # noqa: E501
-    """retreives a list of results, optionally for a given instructor
-       if 'instructor' is None, retrieves results for all surveys
-
-    :param instructor: the instructor to which the results pertain
-    :type group: str
+    :param cat_type: the type of category named 'cat_name'
+    :type cat_type: str
+    :param cat_name: the name of the category to which the surveys pertain
+    :type cat_name: str
 
     :rtype: List[results]
     
-    PRE: 'instructor' is already present in database if not None
+    PRE: 'cat_type' is either 'course_section', 'course_designator',
+         'instructor', 'unit', 'college', or 'university'
+         a tag in the database is of type 'cat_type' and value 'cat_name'
     POST: output is in the following JSON format
-          { "surveys": [ {"name": str,
-                          "questions": [{"text": str,
-                                         "response": str}, ...]}, ...] }
+          { question 1:
+              { survey 1: {"median": float,
+                           "mean": float,
+                           "std_dev": float,
+                           "n": int},
+                survey 2: ...},
+            question 2: {...}, ...}
     """
     
-    # Retrieve responses from the LimeSurvey database
-    responses = {}
+    stats = {}
     
-    # Insert responses into back-end database
-    translate_responses(responses)
+    if cat_type == 'instructor':
+        # Get the survey IDs for the given instructor
+        cursor.execute("select survey.ID from survey, instructor where \
+            survey.instructor_ID = instructor.ID && instructor.name = '"
+            + cat_name + "';")
+        
+        # Check if there are any surveys for the instructor
+        survey_IDs = cursor.fetchall()
+        if not survey_IDs:
+            return "no surveys found for instructor '{}'".format(cat_name)
+        
+        # Loop through all of the instructor's surveys
+        for survey_ID in survey_IDs[0]:
+            # Get the survey's name
+            cursor.execute("select value from tag, survey_to_tag, survey " \
+                "where type = 'name' && tag.ID = survey_to_tag.tag_ID && " \
+                "survey_to_tag.survey_ID = " + str(survey_ID) + ";")
+            survey_name = cursor.fetchone()[0]
+            
+            # Retrieve responses from the LimeSurvey database
+            responses = lime.export_responses(survey_ID, heading='full')['responses']
+            
+            for response in responses:
+                # Keys are one level deeper
+                response = response[list(response.keys())[0]]
+                
+                # Use only the question keys of a response
+                q_keys = list(set(response.keys()) - {'Response ID', 
+                    'Date submitted', 'Last page', 'Start language', 'Seed'})
+                
+                # Add q_key's response to the stats dictionary
+                for q_key in q_keys:
+                    try:
+                        q_value = int(response[q_key])  # q_key's response
+                    except ValueError:  # Only 1-5 scale questions permitted
+                        continue
+                    
+                    # Create a question key in stats if not there
+                    if q_key not in stats:
+                        stats[q_key] = {survey_name: [q_value]}
+                    # Create a survey key in stats if not there
+                    elif survey_name not in stats[q_key]:
+                        stats[q_key][survey_name] = [q_value]
+                    # Otherwise, just add q_value
+                    else:
+                        stats[q_key][survey_name].append(q_value)
+                    
+        # Loop over each set of responses per survey per question
+        for question in stats:
+            for survey in stats[question]:
+                # Replace responses with actual statistics
+                values = stats[question][survey]
+                
+                # Find appropriate statistics for values
+                stats[question][survey] = {
+                    'median': statistics.median(values),
+                    'mean': statistics.mean(values),
+                    # Standard deviation of response values
+                    'std_dev': round(statistics.stdev(values), 2),
+                    'n': len(values)    # Number of responses
+                }
+    else:
+        return 'invalid category type'
     
-    # Compute statistics and return them
-    
-    return 'do some magic!'
+    return stats
