@@ -13,7 +13,6 @@ script:
 - cd capstone
 - docker-compose up -d limesurvey
 - docker-compose up -d react
-- docker-compose up -d redis
   
 deploy:
   provider: releases
