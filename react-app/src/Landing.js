@@ -8,7 +8,7 @@ class Landing extends Component {
 
 		const responseGoogle = (response) => {
             console.log(response.Zi.access_token);
-			window.location = 'http://teachingevaluations.org/home'	}
+				}
 
         return(
 
