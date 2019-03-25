@@ -15,6 +15,7 @@ class TestTeachersController(BaseTestCase):
     
     @classmethod
     def setUpClass(cls):
+        # Connect to MySQL database
         cls.mydb = mysql.connector.connect(host='10.5.0.6',
                                            port=3306,
                                            database='mydb',
@@ -23,12 +24,14 @@ class TestTeachersController(BaseTestCase):
         cls.cursor = cls.mydb.cursor()
         
     def setUp(self):
+        # Insert mock data before every test
         with open('swagger_server/test/insert_mock_data.sql', 'r') as f:
             for line in f.readlines():
                 self.cursor.execute(line)
             self.mydb.commit()
     
     def tearDown(self):
+        # Delete mock data after every test
         with open('swagger_server/test/delete_mock_data.sql', 'r') as f:
             for line in f.readlines():
                 self.cursor.execute(line)
@@ -47,19 +50,25 @@ class TestTeachersController(BaseTestCase):
             method='DELETE',
             query_string=query_string)
         
+        # HTML 200 is the success code
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+        
+        # There must not be any rows in the database referencing the survey
         self.cursor.execute("select * from survey_to_tag where survey_ID = 1;")
         self.assertEqual(len(self.cursor.fetchall()), 0)
         self.cursor.execute("select * from response where survey_ID = 1;")
         self.assertEqual(len(self.cursor.fetchall()), 0)
-        self.cursor.execute("select * from survey_to_question where survey_ID = 1;")
+        self.cursor.execute(
+            "select * from survey_to_question where survey_ID = 1;")
         self.assertEqual(len(self.cursor.fetchall()), 0)
-        self.cursor.execute("select * from survey_to_participant where survey_ID = 1;")
+        self.cursor.execute(
+            "select * from survey_to_participant where survey_ID = 1;")
         self.assertEqual(len(self.cursor.fetchall()), 0)
         self.cursor.execute("select * from survey where ID = 1;")
         self.assertEqual(len(self.cursor.fetchall()), 0)
-        self.cursor.execute("select * from tag where type = 'name' && value = 'COS 140 001';")
+        self.cursor.execute(
+            "select * from tag where type = 'name' && value = 'COS 140 001';")
         self.assertEqual(len(self.cursor.fetchall()), 0)
     
     def test_survey_delete_invalid(self):
@@ -75,6 +84,7 @@ class TestTeachersController(BaseTestCase):
             method='DELETE',
             query_string=query_string)
         
+        # There must be the same number of rows in the tables as before
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.cursor.execute("select * from survey_to_tag;")
@@ -163,7 +173,8 @@ class TestTeachersController(BaseTestCase):
             '/teameval/Eval/1.0.0/survey',
             method='GET',
             query_string=query_string)
-        self.assert200(response,'Response body is : ' + response.data.decode('utf-8'))
+        self.assert200(response,'Response body is : '
+                       + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data),
             {
                 "description": "De",
