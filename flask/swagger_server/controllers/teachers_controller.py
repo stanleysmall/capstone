@@ -178,7 +178,18 @@ def survey_put():  # noqa: E501
     # Retrieve ID of survey instructor
     cursor.execute("select ID from instructor where name = '"
                    + request.json['instructor'] + "';")
-    instructor_ID = str(cursor.fetchone()[0])
+    instructor_ID = cursor.fetchone()
+    if instructor_ID:
+        # If instructor with name exists, use its ID
+        instructor_ID = str(instructor_ID[0])
+    else:
+        # Otherwise, make a new instructor row
+        # Row ID is 1 higher than the current maximum instructor ID
+        cursor.execute("select max(ID) from instructor;")
+        instructor_ID = str(cursor.fetchone()[0] + 1)
+        cursor.execute("insert into instructor values (" + instructor_ID
+                       + ", '" + request.json['instructor'] + "', '')")
+    
     survey_ID = ''
     
     cursor.execute("select value from tag where type = 'name' && value = '"
@@ -207,7 +218,7 @@ def survey_put():  # noqa: E501
         cursor.execute("insert into survey_to_tag values (" + survey_ID + ", "
                        + tag_ID + ");")
     
-    # List of articipants that are in the database but not in the request
+    # List of participants that are in the database but not in the request
     old_participants = []
     cursor.execute("select address from participant, " \
                    "survey_to_participant where participant.ID = " \
@@ -230,7 +241,7 @@ def survey_put():  # noqa: E501
             old_participants.remove(participant)
         else:
             # If address in request does not exist, make a new participant row
-            # Row ID is 1 higher than the current maximum ID
+            # Row ID is 1 higher than the current maximum participant ID
             cursor.execute("select max(ID) from participant;")
             participant_ID = str(cursor.fetchone()[0] + 1)
             cursor.execute("insert into participant values ("
@@ -274,7 +285,7 @@ def survey_put():  # noqa: E501
             old_questions.remove(question_ID)
         else:
             # If question ID in request doesn't exist, make a new question row
-            # Row ID is 1 higher than current maximum ID
+            # Row ID is 1 higher than current maximum question ID
             cursor.execute("select max(ID) from question;")
             question_ID = str(cursor.fetchone()[0] + 1)
             cursor.execute("insert into question values (" + question_ID
@@ -313,7 +324,7 @@ def survey_put():  # noqa: E501
             old_tags.remove([tag, value])
         else:
             # If tag type in request does not exist, make a new tag row
-            # Row ID is 1 higher than current maximum ID
+            # Row ID is 1 higher than current maximum tag ID
             cursor.execute("select max(ID) from tag;")
             tag_ID = str(cursor.fetchone()[0] + 1)
             cursor.execute("insert into tag values (" + tag_ID + ", '" + tag
@@ -339,7 +350,7 @@ def surveys_get():  # noqa: E501
     """
     
     surveys = []                        # Survey names to return
-    email = 'roy.turner@maine.edu'      # TODO: use session object
+    email = session['email']            # Use e-mail of current user
     
     # Retrieve the survey names for a given e-mail address
     cursor.execute("select value from tag, survey_to_tag, survey, " \
@@ -379,17 +390,30 @@ def login_get(key):  # noqa: E501
 
     :rtype: str
     """
+    
     session['token'] = key
     return validate()
-  
+
+
 def validate():
-    r = requests.get('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + session['token'])
-    if(r.status_code == 200): 
+    """validates the authentication token received with GET login
+    
+    POST: if log-in is successful,
+          the e-mail address of the user logging in
+          if not successful, an error message
+    """
+    
+    # Call the Google API with the authentication token
+    r = requests.get(
+        'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='
+        + session['token'])
+    if (r.status_code == 200):          # If request is successful
         data = r.json()
         session['email'] = data['email']
-        return session['email']
+        return session['email']         # Return the user's e-mail address
     else: 
-        return 'INVALID LOGIN'
+        return 'INVALID LOGIN'          # Unsuccessful log-in
+
 
 def publish_get(name):  # noqa: E501
     """publishes the survey with a given name
