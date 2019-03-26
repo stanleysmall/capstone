@@ -21,9 +21,9 @@ USE `mydb` ;
 -- Table `mydb`.`instructor`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`instructor` (
-  `ID` INT NOT NULL,
+  `ID` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NULL,
-  `token` VARCHAR(50) NULL,
+  `e-mail` VARCHAR(50) NULL,
   PRIMARY KEY (`ID`))
 ENGINE = InnoDB;
 
@@ -32,7 +32,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`survey`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`survey` (
-  `ID` INT NOT NULL,
+  `ID` INT NOT NULL AUTO_INCREMENT,
   `URL` VARCHAR(50) NULL,
   `instructor_ID` INT NOT NULL,
   PRIMARY KEY (`ID`),
@@ -46,17 +46,33 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`e-mail`
+-- Table `mydb`.`participant`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`e-mail` (
-  `ID` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `mydb`.`participant` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NULL,
   `address` VARCHAR(50) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`survey_to_participant`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`survey_to_participant` (
   `survey_ID` INT NOT NULL,
-  PRIMARY KEY (`ID`),
-  INDEX `fk_e-mail_survey_idx` (`survey_ID` ASC),
-  CONSTRAINT `fk_e-mail_survey`
+  `participant_ID` INT NOT NULL,
+  PRIMARY KEY (`survey_ID`, `participant_ID`),
+  INDEX `fk_survey_has_participant_participant1_idx` (`participant_ID` ASC),
+  INDEX `fk_survey_has_participant_survey1_idx` (`survey_ID` ASC),
+  CONSTRAINT `fk_survey_to_participant_survey1`
     FOREIGN KEY (`survey_ID`)
     REFERENCES `mydb`.`survey` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_survey_to_participant_participant1`
+    FOREIGN KEY (`participant_ID`)
+    REFERENCES `mydb`.`participant` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -66,7 +82,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`question`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`question` (
-  `ID` INT NOT NULL,
+  `ID` INT NOT NULL AUTO_INCREMENT,
   `helpText` VARCHAR(50) NULL,
   `mandatory` BIT NULL,
   `group` VARCHAR(50) NULL,
@@ -121,8 +137,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`tag` (
   `ID` INT NOT NULL,
-  `name` VARCHAR(50) NULL,
   `type` VARCHAR(50) NULL,
+  `value` VARCHAR(500) NULL,
   PRIMARY KEY (`ID`))
 ENGINE = InnoDB;
 
