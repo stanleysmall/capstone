@@ -25,7 +25,8 @@ mydb = mysql.connector.connect(host='10.5.0.6',
                                port=3306,
                                database='mydb',
                                user='root',
-                               password='root')
+                               password='root',
+                               buffered=True)
 cursor = mydb.cursor()
 
 
@@ -630,70 +631,74 @@ def results_get(cat_type, cat_name):  # noqa: E501
     
     if cat_type == 'instructor':
         # Get the survey IDs for the given instructor
-        cursor.execute("select survey.ID from survey, instructor where \
-            survey.instructor_ID = instructor.ID && instructor.name = '"
+        cursor.execute("select survey.ID from survey, instructor where " \
+            "survey.instructor_ID = instructor.ID && instructor.name = '"
             + cat_name + "';")
-        
-        # Check if there are any surveys for the instructor
-        survey_IDs = cursor.fetchall()
-        if not survey_IDs:
-            return "no surveys found for instructor '{}'".format(cat_name)
-        
-        # Loop through all of the instructor's surveys
-        for survey_ID in survey_IDs[0]:
-            # Get the survey's name
-            cursor.execute("select value from tag, survey_to_tag, survey " \
-                "where type = 'name' && tag.ID = survey_to_tag.tag_ID && " \
-                "survey_to_tag.survey_ID = " + str(survey_ID) + ";")
-            survey_name = cursor.fetchone()[0]
-            
-            # Retrieve responses from the LimeSurvey database
-            responses = lime.export_responses(survey_ID,
-                                              heading='full')['responses']
-            
-            for response in responses:
-                # Keys are one level deeper
-                response = response[list(response.keys())[0]]
-                
-                # Use only the question keys of a response
-                q_keys = list(set(response.keys()) - {'Response ID', 
-                    'Date submitted', 'Last page', 'Start language', 'Seed'})
-                
-                # Add q_key's response to the stats dictionary
-                for q_key in q_keys:
-                    try:
-                        q_value = int(response[q_key])  # q_key's response
-                    except ValueError:  # Only 1-5 scale questions permitted
-                        continue
-                    
-                    # Create a question key in stats if not there
-                    if q_key not in stats:
-                        stats[q_key] = {survey_name: [q_value]}
-                    # Create a survey key in stats if not there
-                    elif survey_name not in stats[q_key]:
-                        stats[q_key][survey_name] = [q_value]
-                    # Otherwise, just add q_value
-                    else:
-                        stats[q_key][survey_name].append(q_value)
-                    
-        # Loop over each set of responses per survey per question
-        for question in stats:
-            for survey in stats[question]:
-                # Replace responses with actual statistics
-                values = stats[question][survey]
-                
-                # Find appropriate statistics for values
-                stats[question][survey] = {
-                    'median': statistics.median(values),
-                    'mean': statistics.mean(values),
-                    # Standard deviation of response values
-                    'std_dev': round(statistics.stdev(values), 2),
-                    'n': len(values)    # Number of responses
-                }
-    # No other type of category is supported
     else:
-        return 'invalid category type'
+        # "cat_type" is a tag, so use the tags table to get the survey IDs
+        cursor.execute("select survey.ID from survey, survey_to_tag, tag " \
+            "where survey.ID = survey_to_tag.survey_ID && " \
+            "survey_to_tag.tag_ID = tag.ID && tag.type = '"
+            + cat_type + "' && tag.value = '" + cat_name + "';")
     
+    # Check if there are any surveys for "cat_name"
+    survey_IDs = cursor.fetchall()
+    if not survey_IDs:
+        return "no surveys found for category '{}'".format(cat_name)
+    
+    # Loop through all of "cat_name"'s surveys
+    for survey_ID in survey_IDs[0]:
+        # Get the survey's name
+        cursor.execute("select value from tag, survey_to_tag, survey " \
+            "where type = 'name' && tag.ID = survey_to_tag.tag_ID && " \
+            "survey_to_tag.survey_ID = " + str(survey_ID) + ";")
+        survey_name = cursor.fetchone()[0]
+        
+        try:
+            # Retrieve responses from the LimeSurvey database
+            responses = lime.export_responses(survey_ID, heading='full')
+        except TypeError:       # Survey has no responses, so try next ID
+            continue
+        
+        for response in responses['responses']:
+            # Keys are one level deeper
+            response = response[list(response.keys())[0]]
+            
+            # Use only the question keys of a response
+            q_keys = list(set(response.keys()) - {'Response ID', 
+                'Date submitted', 'Last page', 'Start language', 'Seed'})
+            
+            # Add q_key's response to the stats dictionary
+            for q_key in q_keys:
+                try:
+                    q_value = int(response[q_key])  # q_key's response
+                except ValueError:  # Only 1-5 scale questions permitted
+                    continue
+                
+                # Create a question key in stats if not there
+                if q_key not in stats:
+                    stats[q_key] = {survey_name: [q_value]}
+                # Create a survey key in stats if not there
+                elif survey_name not in stats[q_key]:
+                    stats[q_key][survey_name] = [q_value]
+                # Otherwise, just add q_value
+                else:
+                    stats[q_key][survey_name].append(q_value)
+                
+    # Loop over each set of responses per survey per question
+    for question in stats:
+        for survey in stats[question]:
+            # Replace responses with actual statistics
+            values = stats[question][survey]
+            
+            # Find appropriate statistics for values
+            stats[question][survey] = {
+                'median': statistics.median(values),
+                'mean': statistics.mean(values),
+                # Standard deviation of response values
+                'std_dev': round(statistics.stdev(values), 2),
+                'n': len(values)    # Number of responses
+            }
 
     return stats
 
