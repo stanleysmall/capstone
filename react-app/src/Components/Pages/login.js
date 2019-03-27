@@ -15,6 +15,10 @@ class Landing extends Component {
     constructor(props){
         super(props);
 
+
+        //GET RID OF THIS
+        global.access_token = "no access token";
+
         this.login = this.login.bind(this);
     }
 

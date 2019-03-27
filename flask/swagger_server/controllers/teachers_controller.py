@@ -32,8 +32,10 @@ cursor = mydb.cursor()
 
 def survey_delete(name):  # noqa: E501
     """deletes the survey with a given name
+
     :param name: the name for a survey
     :type name: str
+
     :rtype: str
     
     PRE: tag type must be called 'name'
@@ -67,6 +69,7 @@ def survey_delete(name):  # noqa: E501
 
 def survey_get(name):  # noqa: E501
     """retreives the survey with a given name
+
     :param name: the name for a survey
     :type name: str
     
@@ -146,6 +149,7 @@ def survey_get(name):  # noqa: E501
 def survey_put():  # noqa: E501
     """updates the info of a survey with a given name
        if no survey with the given name exists, then a new one is created
+
     :rtype: str
     
     PRE: input is in the following JSON format
@@ -183,7 +187,9 @@ def survey_put():  # noqa: E501
         # Otherwise, make a new instructor row
         # Row ID is 1 higher than the current maximum instructor ID
         cursor.execute("select max(ID) from instructor;")
-        instructor_ID = str(cursor.fetchone()[0] + 1)
+        instructor_ID = cursor.fetchone()[0]
+        # Use '1' if no instructor IDs are in table
+        instructor_ID = str(instructor_ID + 1) if instructor_ID else '1'
         cursor.execute("insert into instructor values (" + instructor_ID
                        + ", '" + request.json['instructor'] + "', '')")
     
@@ -205,11 +211,13 @@ def survey_put():  # noqa: E501
         # If survey with name does not exist, make new survey and tag rows
         # Survey and tag row IDs are 1 higher than the current maximum IDs
         cursor.execute("select max(ID) from survey;")
-        survey_ID = str(cursor.fetchone()[0] + 1)
+        survey_ID = cursor.fetchone()[0]
+        survey_ID = str(survey_ID + 1) if survey_ID else '1'
         cursor.execute("insert into survey values (" + survey_ID + ", '"
                        + request.json['URL'] + "', " + instructor_ID + ");")
         cursor.execute("select max(ID) from tag;")
-        tag_ID = str(cursor.fetchone()[0] + 1)
+        tag_ID = cursor.fetchone()[0]
+        tag_ID = str(tag_ID + 1) if tag_ID else '1'
         cursor.execute("insert into tag values (" + tag_ID + ", 'name', '"
                        + request.json['name'] + "');")
         cursor.execute("insert into survey_to_tag values (" + survey_ID + ", "
@@ -240,7 +248,9 @@ def survey_put():  # noqa: E501
             # If address in request does not exist, make a new participant row
             # Row ID is 1 higher than the current maximum participant ID
             cursor.execute("select max(ID) from participant;")
-            participant_ID = str(cursor.fetchone()[0] + 1)
+            participant_ID = cursor.fetchone()[0]
+            participant_ID = str(participant_ID + 1) if participant_ID \
+                             else '1'
             cursor.execute("insert into participant values ("
                            + participant_ID + ", '" + participant['name']
                            + "', '" + participant['address'] + "');")
@@ -284,7 +294,8 @@ def survey_put():  # noqa: E501
             # If question ID in request doesn't exist, make a new question row
             # Row ID is 1 higher than current maximum question ID
             cursor.execute("select max(ID) from question;")
-            question_ID = str(cursor.fetchone()[0] + 1)
+            question_ID = cursor.fetchone()[0]
+            question_ID = str(question_ID + 1) if question_ID else '1'
             cursor.execute("insert into question values (" + question_ID
                            + ", '" + question['helpText'] + "', " + bit
                            + ", '" + question['group'] + "', '"
@@ -323,7 +334,8 @@ def survey_put():  # noqa: E501
             # If tag type in request does not exist, make a new tag row
             # Row ID is 1 higher than current maximum tag ID
             cursor.execute("select max(ID) from tag;")
-            tag_ID = str(cursor.fetchone()[0] + 1)
+            tag_ID = cursor.fetchone()[0]
+            tag_ID = str(tag_ID + 1) if tag_ID else '1'
             cursor.execute("insert into tag values (" + tag_ID + ", '" + tag
                            + "', '" + value + "');")
             cursor.execute("insert into survey_to_tag values (" + survey_ID
@@ -342,6 +354,7 @@ def survey_put():  # noqa: E501
 
 def surveys_get():  # noqa: E501
     """retreives a list of the names of the user's surveys
+
     :rtype: List[survey names]
     """
     
@@ -362,8 +375,10 @@ def surveys_get():  # noqa: E501
 
 def create_user_post():  # noqa: E501
     """adds a user to the database
+
     :param key: a user with an authentication key
     :type key: str
+
     :rtype: str
     
     PRE: input is in the following JSON format
@@ -378,8 +393,10 @@ def create_user_post():  # noqa: E501
 
 def login_get(key):  # noqa: E501
     """retrieves a token for a certain authentication key
+
     :param key: an authentication key
     :type key: str
+
     :rtype: str
     """
     
@@ -409,6 +426,7 @@ def validate():
 
 def publish_get(name):  # noqa: E501
     """publishes the survey with a given name
+
     :param name: the name for a survey
     :type name: str
     
@@ -451,6 +469,7 @@ def publish_get(name):  # noqa: E501
 
 def get_template_text(name, typ):
     """returns text for use as a template
+
     :param name: the name for a survey
     :type name: str
     :param typ: the type of template to return
@@ -595,10 +614,12 @@ def translate_to_txt(name):
 
 def results_get(cat_type, cat_name):  # noqa: E501
     """retreives a list of results for a given category of surveys
+
     :param cat_type: the type of category named 'cat_name'
     :type cat_type: str
     :param cat_name: the name of the category to which the surveys pertain
     :type cat_name: str
+
     :rtype: List[results]
     
     PRE: 'cat_type' is either 'course_section', 'course_designator',
