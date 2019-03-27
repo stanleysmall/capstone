@@ -1,4 +1,4 @@
-const APIAddress = "https://cors-anywhere.herokuapp.com/http://52.15.216.252:8080/teameval/Eval/1.0.0/";
+const APIAddress = "https:/18.191.72.75:8080/teameval/Eval/1.0.0/";
 
 
 /*
@@ -23,7 +23,8 @@ const APIAddress = "https://cors-anywhere.herokuapp.com/http://52.15.216.252:808
 */
 export const putEval = (toStore) =>
 {
-    return fetch(APIAddress + "/survey", {
+    console.log("storing survey");
+    return fetch(APIAddress + "survey", {
         method: 'PUT',
         body: JSON.stringify(toStore)
     });

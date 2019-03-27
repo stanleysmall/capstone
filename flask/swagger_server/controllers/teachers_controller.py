@@ -3,6 +3,10 @@ import six
 import mysql.connector
 import base64
 import logging
+
+from flask import jsonify
+from flask import session
+import requests 
 import statistics
 from flask import request
 
@@ -12,38 +16,50 @@ from swagger_server import util
 from swagger_server.lime_py_api.limesurvey import Api
 
 logging.basicConfig(level=logging.INFO)
-lime = Api('http://10.5.0.5/index.php/admin/remotecontrol', 'admin', 'password')
+# Log into LimeSurvey with the RemoteControl API
+lime = Api('http://10.5.0.5/index.php/admin/remotecontrol', 'admin',
+           'password')
 
+# Connect to MySQL database
 mydb = mysql.connector.connect(host='10.5.0.6',
                                port=3306,
                                database='mydb',
                                user='root',
-                               password='root')
+                               password='root',
+                               buffered=True)
 cursor = mydb.cursor()
 
 
 def survey_delete(name):  # noqa: E501
     """deletes the survey with a given name
-
     :param name: the name for a survey
     :type name: str
-
     :rtype: str
     
     PRE: tag type must be called 'name'
     """
     
-    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.value = '" + name + "';")
+    # Retrieve ID of survey with "name"
+    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = " \
+                   "tag.ID && tag.type = 'name' && tag.value = '"
+                   + name + "';")
     survey_ID = cursor.fetchone()
     
+    # Delete survey only if ID is found for "name"
     if survey_ID:
         survey_ID = str(survey_ID[0])
-        cursor.execute("delete from survey_to_tag where survey_ID = " + survey_ID + ";")
-        cursor.execute("delete from response where survey_ID = " + survey_ID + ";")
-        cursor.execute("delete from survey_to_question where survey_ID = " + survey_ID + ";")
-        cursor.execute("delete from survey_to_participant where survey_ID = " + survey_ID + ";")
+        # Delete all rows in the database that reference the survey
+        cursor.execute("delete from survey_to_tag where survey_ID = "
+                       + survey_ID + ";")
+        cursor.execute("delete from response where survey_ID = "
+                       + survey_ID + ";")
+        cursor.execute("delete from survey_to_question where survey_ID = "
+                       + survey_ID + ";")
+        cursor.execute("delete from survey_to_participant where survey_ID = "
+                       + survey_ID + ";")
         cursor.execute("delete from survey where ID = " + survey_ID + ";")
-        cursor.execute("delete from tag where type = 'name' && value = '" + name + "';")
+        cursor.execute("delete from tag where type = 'name' && value = '"
+                       + name + "';")
         mydb.commit()
     
     return 'success'
@@ -51,7 +67,6 @@ def survey_delete(name):  # noqa: E501
 
 def survey_get(name):  # noqa: E501
     """retreives the survey with a given name
-
     :param name: the name for a survey
     :type name: str
     
@@ -70,29 +85,45 @@ def survey_get(name):  # noqa: E501
             tag name 2: str, ...}
     """
     
-    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.value = '" + name + "';")
+    # Retrieve ID of survey with "name"
+    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID " \
+                   "= tag.ID && tag.type = 'name' && tag.value = '"
+                   + name + "';")
     survey_ID = cursor.fetchone()
-    survey = {}
+    survey = {}     # Initialize survey dictionary to return
     
+    # Get survey only if ID is found for "name"
     if survey_ID:
         survey_ID = str(survey_ID[0])
         
+        # Add survey URL to dictionary
         cursor.execute("select url from survey where ID = " + survey_ID + ";")
         survey['url'] = cursor.fetchone()[0]
         
-        cursor.execute("select name from instructor, survey where survey.ID = " + survey_ID + " && survey.instructor_ID = instructor.ID;")
+        # Add survey instructor to dictionary
+        cursor.execute("select name from instructor, survey where " \
+                       "survey.ID = " + survey_ID + " && " \
+                       "survey.instructor_ID = instructor.ID;")
         survey['instructor'] = cursor.fetchone()[0]
         
+        # Add each participant's name and address to dictionary
         survey['participants'] = []
-        cursor.execute("select name, address from participant, survey_to_participant where participant.ID = survey_to_participant.participant_ID && survey_to_participant.survey_ID = " + survey_ID + ";")
+        cursor.execute("select name, address from participant, " \
+                       "survey_to_participant where participant.ID = " \
+                       "survey_to_participant.participant_ID && " \
+                       "survey_to_participant.survey_ID = " + survey_ID + ";")
         for participant in cursor.fetchall():
             new_part = {}
             new_part['name'] = participant[0]
             new_part['address'] = participant[1]
             survey['participants'].append(new_part)
-            
+        
+        # Add fields of each question to dictionary
         survey['questions'] = []
-        cursor.execute("select helpText, mandatory, `group`, type, text from question, survey_to_question where survey_to_question.survey_ID = " + survey_ID + " && survey_to_question.question_ID = question.ID;")
+        cursor.execute("select helpText, mandatory, `group`, type, text " \
+                       "from question, survey_to_question where " \
+                       "survey_to_question.survey_ID = " + survey_ID
+                       + " && survey_to_question.question_ID = question.ID;")
         for question in cursor.fetchall():
             new_quest = {}
             new_quest['helpText'] = question[0]
@@ -102,7 +133,10 @@ def survey_get(name):  # noqa: E501
             new_quest['text'] = question[4]
             survey['questions'].append(new_quest)
         
-        cursor.execute("select type, value from tag, survey_to_tag where survey_to_tag.survey_ID = " + survey_ID + " && survey_to_tag.tag_ID = tag.ID;")
+        # Add each tag's name and value to dictionary
+        cursor.execute("select type, value from tag, survey_to_tag where " \
+                       "survey_to_tag.survey_ID = " + survey_ID + " && " \
+                       "survey_to_tag.tag_ID = tag.ID;")
         for tag in cursor.fetchall():
             survey[tag[0]] = tag[1]
     
@@ -112,7 +146,6 @@ def survey_get(name):  # noqa: E501
 def survey_put():  # noqa: E501
     """updates the info of a survey with a given name
        if no survey with the given name exists, then a new one is created
-
     :rtype: str
     
     PRE: input is in the following JSON format
@@ -136,97 +169,172 @@ def survey_put():  # noqa: E501
             'email_invite', 'email_remind', 'email_register', and 'email_confirm'
     """
     
+    # An instructor key must be in the input
     if 'instructor' not in request.json.keys():
         return 'no matching instructor found'
-    cursor.execute("select ID from instructor where name = '" + request.json['instructor'] + "';")
-    instructor_ID = str(cursor.fetchone()[0])
+    # Retrieve ID of survey instructor
+    cursor.execute("select ID from instructor where name = '"
+                   + request.json['instructor'] + "';")
+    instructor_ID = cursor.fetchone()
+    if instructor_ID:
+        # If instructor with name exists, use its ID
+        instructor_ID = str(instructor_ID[0])
+    else:
+        # Otherwise, make a new instructor row
+        # Row ID is 1 higher than the current maximum instructor ID
+        cursor.execute("select max(ID) from instructor;")
+        instructor_ID = str(cursor.fetchone()[0] + 1)
+        cursor.execute("insert into instructor values (" + instructor_ID
+                       + ", '" + request.json['instructor'] + "', '')")
+    
     survey_ID = ''
     
-    cursor.execute("select value from tag where type = 'name' && value = '" + request.json['name'] + "';")
+    cursor.execute("select value from tag where type = 'name' && value = '"
+                   + request.json['name'] + "';")
     if cursor.fetchone():
-        # If survey with name does exist, get its survey_ID and update the survey row
-        cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.value = '" +  request.json['name'] + "';")
+        # If survey with name does exist, get its survey_ID
+        # and update the survey row
+        cursor.execute("select survey_ID from survey_to_tag, tag where " \
+                       "tag_ID = tag.ID && tag.type = 'name' && tag.value = '"
+                       + request.json['name'] + "';")
         survey_ID = str(cursor.fetchone()[0])
-        cursor.execute("update survey set URL = '" + request.json['URL'] + "', instructor_ID = " + instructor_ID + " where ID = " + survey_ID + ";")
+        cursor.execute("update survey set URL = '" + request.json['URL']
+                       + "', instructor_ID = " + instructor_ID
+                       + " where ID = " + survey_ID + ";")
     else:
-        # If survey with name does not exist, make a new survey row and get its ID, and make a new tag row
+        # If survey with name does not exist, make new survey and tag rows
+        # Survey and tag row IDs are 1 higher than the current maximum IDs
         cursor.execute("select max(ID) from survey;")
         survey_ID = str(cursor.fetchone()[0] + 1)
-        cursor.execute("insert into survey values (" + survey_ID + ", '" + request.json['URL'] + "', " + instructor_ID + ");")
+        cursor.execute("insert into survey values (" + survey_ID + ", '"
+                       + request.json['URL'] + "', " + instructor_ID + ");")
         cursor.execute("select max(ID) from tag;")
         tag_ID = str(cursor.fetchone()[0] + 1)
-        cursor.execute("insert into tag values (" + tag_ID + ", 'name', '" + request.json['name'] + "');")
-        cursor.execute("insert into survey_to_tag values (" + survey_ID + ", " + tag_ID + ");")
+        cursor.execute("insert into tag values (" + tag_ID + ", 'name', '"
+                       + request.json['name'] + "');")
+        cursor.execute("insert into survey_to_tag values (" + survey_ID + ", "
+                       + tag_ID + ");")
     
+    # List of participants that are in the database but not in the request
     old_participants = []
-    cursor.execute("select address from participant, survey_to_participant where participant.ID = survey_to_participant.participant_ID && survey_to_participant.survey_ID = " + survey_ID + ";")
+    cursor.execute("select address from participant, " \
+                   "survey_to_participant where participant.ID = " \
+                   "survey_to_participant.participant_ID && " \
+                   "survey_to_participant.survey_ID = " + survey_ID + ";")
     for row in cursor.fetchall():
         old_participants.append(str(row[0]))
+    
     for participant in request.json['participants']:
-        cursor.execute("select ID from participant where address = '" + participant['address'] + "';")
+        # Get ID of participant, if available
+        cursor.execute("select ID from participant where address = '"
+                       + participant['address'] + "';")
         participant_ID = cursor.fetchone()
         if participant_ID:
-            # If address in request exists, update the participant row and remove it from old participants
-            cursor.execute("update participant set name = '" + participant['name'] + "', address = '" + participant['address'] + "';")
+            # If address in request exists, update the participant row
+            # and remove it from old participants
+            cursor.execute("update participant set name = '"
+                           + participant['name'] + "', address = '"
+                           + participant['address'] + "';")
             old_participants.remove(participant)
         else:
-            # If address in request does not exist, make a new participant row and get its ID
+            # If address in request does not exist, make a new participant row
+            # Row ID is 1 higher than the current maximum participant ID
             cursor.execute("select max(ID) from participant;")
             participant_ID = str(cursor.fetchone()[0] + 1)
-            cursor.execute("insert into participant values (" + participant_ID + ", '" + participant['name'] + "', '" + participant['address'] + "');")
-            cursor.execute("insert into survey_to_participant values (" + survey_ID + ", " + participant_ID + ");")
+            cursor.execute("insert into participant values ("
+                           + participant_ID + ", '" + participant['name']
+                           + "', '" + participant['address'] + "');")
+            cursor.execute("insert into survey_to_participant values ("
+                           + survey_ID + ", " + participant_ID + ");")
     # Remove participants for the survey that were not in request
     for address in old_participants:
-        cursor.execute("select ID from participant where address = '" + address + "';")
+        cursor.execute("select ID from participant where address = '"
+                       + address + "';")
         participant_ID = str(cursor.fetchone()[0])
-        cursor.execute("delete from survey_to_participant where survey_ID = " + survey_ID + " &&  participant_ID = " + participant_ID + ";")
+        cursor.execute("delete from survey_to_participant where " \
+                       "survey_ID = " + survey_ID + " &&  participant_ID = "
+                       + participant_ID + ";")
     
+    # Questions that are in the database but not in the request
     old_questions = []
-    cursor.execute("select ID from question, survey_to_question where question.ID = survey_to_question.question_ID && survey_to_question.survey_ID = " + survey_ID + ";")
+    cursor.execute("select ID from question, survey_to_question where " \
+                   "question.ID = survey_to_question.question_ID && " \
+                   "survey_to_question.survey_ID = " + survey_ID + ";")
     for row in cursor.fetchall():
         old_questions.append(str(row[0]))
+    
     for question in request.json['questions']:
+        # Find string corresponding to "mandatory" value
         bit = '1' if question['mandatory'] else '0'
-        cursor.execute("select ID from question where ID = '" + str(question['ID']) + "';")
+        cursor.execute("select ID from question where ID = '"
+                       + str(question['ID']) + "';")
+        # Get ID of question, if available
         question_ID = cursor.fetchone()
         if question_ID:
-            # If question ID in request exists, update the question row and remove it from old questions
-            cursor.execute("update question set helpText = '" + question['helpText'] + "', mandatory = " + bit + ", `group` = '" + question['group'] + "', type = '" + question['type'] + "', text = '" + question['text'] + "' where ID = " + str(question_ID[0]) + ";")
+            # If question ID in request exists, update the question row
+            # and remove it from old questions
+            cursor.execute("update question set helpText = '"
+                           + question['helpText'] + "', mandatory = " + bit
+                           + ", `group` = '" + question['group']
+                           + "', type = '" + question['type'] + "', text = '"
+                           + question['text'] + "' where ID = "
+                           + str(question_ID[0]) + ";")
             old_questions.remove(question_ID)
         else:
-            # If question ID in request does not exist, make a new question row and get its ID
+            # If question ID in request doesn't exist, make a new question row
+            # Row ID is 1 higher than current maximum question ID
             cursor.execute("select max(ID) from question;")
             question_ID = str(cursor.fetchone()[0] + 1)
-            cursor.execute("insert into question values (" + question_ID + ", '" + question['helpText'] + "', " + bit + ", '" + question['group'] + "', '" + question['type'] + "', '" + question['text'] + "');")
-            cursor.execute("insert into survey_to_question values (" + survey_ID + ", " + question_ID + ");")
+            cursor.execute("insert into question values (" + question_ID
+                           + ", '" + question['helpText'] + "', " + bit
+                           + ", '" + question['group'] + "', '"
+                           + question['type'] + "', '" + question['text']
+                           + "');")
+            cursor.execute("insert into survey_to_question values ("
+                           + survey_ID + ", " + question_ID + ");")
     # Remove questions for the survey that were not in request
     for ID in old_questions:
-        cursor.execute("delete from response where survey_ID = " + survey_ID + " && question_ID = " + ID + ";")
-        cursor.execute("delete from survey_to_question where survey_ID = " + survey_ID + " && question_ID = " + ID + ";")
+        cursor.execute("delete from response where survey_ID = " + survey_ID
+                       + " && question_ID = " + ID + ";")
+        cursor.execute("delete from survey_to_question where survey_ID = "
+                       + survey_ID + " && question_ID = " + ID + ";")
     
-    tags = list(set(request.json.keys()) - {'URL', 'instructor', 'participants', 'questions'})
+    # Tags are any keys in request that are not standard for every survey
+    tags = list(set(request.json.keys()) - {'URL', 'instructor', 'participants',
+                                            'questions'})
+    # Tags that are in the database but not in the request
     old_tags = []
-    cursor.execute("select type, value from tag, survey_to_tag where tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = " + survey_ID + ";")
+    cursor.execute("select type, value from tag, survey_to_tag where tag.ID " \
+                   "= survey_to_tag.tag_ID && survey_to_tag.survey_ID = "
+                   + survey_ID + ";")
     for row in cursor.fetchall():
         old_tags.append([str(row[0]), str(row[1])])
+    
     for tag in tags:
+        # Get ID of tag, if available
         value = request.json[tag]
-        cursor.execute("select ID, type from tag where type = '" + tag + "' && value = '" + value + "';")
+        cursor.execute("select ID, type from tag where type = '" + tag
+                       + "' && value = '" + value + "';")
         tag_ID = cursor.fetchone()
         if tag_ID:
             # If tag type in request exists, remove it from old tags
             old_tags.remove([tag, value])
         else:
-            # If tag type in request does not exist, make a new tag row and get its ID
+            # If tag type in request does not exist, make a new tag row
+            # Row ID is 1 higher than current maximum tag ID
             cursor.execute("select max(ID) from tag;")
             tag_ID = str(cursor.fetchone()[0] + 1)
-            cursor.execute("insert into tag values (" + tag_ID + ", '" + tag + "', '" + value + "');")
-            cursor.execute("insert into survey_to_tag values (" + survey_ID + ", " + tag_ID + ");")
+            cursor.execute("insert into tag values (" + tag_ID + ", '" + tag
+                           + "', '" + value + "');")
+            cursor.execute("insert into survey_to_tag values (" + survey_ID
+                           + ", " + tag_ID + ");")
     # Remove tags for the survey that were not in request
     for tag in old_tags:
-        cursor.execute("select ID from tag where type = '" + tag[0] + "' && value = '" + tag[1] + "';")
+        cursor.execute("select ID from tag where type = '" + tag[0]
+                       + "' && value = '" + tag[1] + "';")
         tag_ID = str(cursor.fetchone()[0])
-        cursor.execute("delete from survey_to_tag where survey_ID = " + survey_ID + " && tag_ID = " + tag_ID + ";")
+        cursor.execute("delete from survey_to_tag where survey_ID = "
+                       + survey_ID + " && tag_ID = " + tag_ID + ";")
     
     mydb.commit()
     return 'success'
@@ -234,15 +342,18 @@ def survey_put():  # noqa: E501
 
 def surveys_get():  # noqa: E501
     """retreives a list of the names of the user's surveys
-
     :rtype: List[survey names]
     """
     
-    surveys = []
-    email = 'roy.turner@maine.edu'      # TODO: use session object
+    surveys = []                        # Survey names to return
+    email = session['email']            # Use e-mail of current user
     
     # Retrieve the survey names for a given e-mail address
-    cursor.execute("select value from tag, survey_to_tag, survey, instructor where type = 'name' && tag.ID = survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && survey.instructor_ID = instructor.ID && instructor.`e-mail` = '" + email + "';")
+    cursor.execute("select value from tag, survey_to_tag, survey, " \
+                   "instructor where type = 'name' && tag.ID = " \
+                   "survey_to_tag.tag_ID && survey_to_tag.survey_ID = " \
+                   "survey.ID && survey.instructor_ID = instructor.ID && " \
+                   "instructor.`e-mail` = '" + email + "';")
     for survey in cursor.fetchall():    # Add query results to list of names
         surveys.append(survey[0])
     
@@ -251,10 +362,8 @@ def surveys_get():  # noqa: E501
 
 def create_user_post():  # noqa: E501
     """adds a user to the database
-
     :param key: a user with an authentication key
     :type key: str
-
     :rtype: str
     
     PRE: input is in the following JSON format
@@ -269,19 +378,37 @@ def create_user_post():  # noqa: E501
 
 def login_get(key):  # noqa: E501
     """retrieves a token for a certain authentication key
-
     :param key: an authentication key
     :type key: str
-
     :rtype: str
     """
+    
+    session['token'] = key
+    return validate()
 
-    return 'do some magic!'
+
+def validate():
+    """validates the authentication token received with GET login
+    
+    POST: if log-in is successful,
+          the e-mail address of the user logging in
+          if not successful, an error message
+    """
+    
+    # Call the Google API with the authentication token
+    r = requests.get(
+        'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='
+        + session['token'])
+    if (r.status_code == 200):          # If request is successful
+        data = r.json()
+        session['email'] = data['email']
+        return session['email']         # Return the user's e-mail address
+    else: 
+        return 'INVALID LOGIN'          # Unsuccessful log-in
 
 
 def publish_get(name):  # noqa: E501
     """publishes the survey with a given name
-
     :param name: the name for a survey
     :type name: str
     
@@ -295,20 +422,28 @@ def publish_get(name):  # noqa: E501
     
     # Use .txt file to put survey into LimeSurvey database
     enc_text = base64.b64encode(bytes(text, 'utf-8')).decode('utf-8')
+    # Import survey with the encoded text
     lime.import_survey(enc_text, name, survey_ID, type='txt')
     
-    # Add participants to survey on database
+    # Add participants to survey on LimeSurvey database
     participants = []
-    cursor.execute("select name, address from participant, survey_to_participant where participant.ID = survey_to_participant.participant_ID && survey_to_participant.survey_ID = " + str(survey_ID) + ";")
+    cursor.execute("select name, address from participant, " \
+                   "survey_to_participant where participant.ID = " \
+                   "survey_to_participant.participant_ID && " \
+                   "survey_to_participant.survey_ID = " + str(survey_ID) + ";")
     for row in cursor.fetchall():
+        # Participant name must be of the form 'firstname lastname'
         first, last = row[0].split(' ')
-        participants.append({'email': row[1], 'lastname': last, 'firstname': first})
+        participants.append({'email': row[1], 'lastname': last,
+                             'firstname': first})
+    # Add participants to LimeSurvey participants table
     lime.activate_tokens(survey_ID)
     lime.add_participants(survey_ID, participants)
     
-    # Activate survey on LimeSurvey
+    # Activate anonymized survey on LimeSurvey
     lime.set_survey_property(survey_ID, 'anonymized', 'true')
     lime.activate_survey(survey_ID)
+    # Send e-mails to survey participants
     lime.invite_participants(survey_ID)
     
     return 'success'
@@ -316,7 +451,6 @@ def publish_get(name):  # noqa: E501
 
 def get_template_text(name, typ):
     """returns text for use as a template
-
     :param name: the name for a survey
     :type name: str
     :param typ: the type of template to return
@@ -325,10 +459,11 @@ def get_template_text(name, typ):
     PRE: 'typ' is a valid template name
     """
     
-    # How should administrator notifications be written?
+    # Default response notification text for administrators
     if typ.startswith('admin'):
-        return """Hello,<br /><br />A new response was submitted for your survey '{SURVEYNAME}'.<br /><br />
-                  Check the course evaluation system to see the response and its statistics."""
+        return "Hello,<br /><br />A new response was submitted for your " \
+               "survey '{SURVEYNAME}'.<br /><br />Check the course " \
+               "evaluation system to see the response and its statistics."
     
 
 def translate_to_txt(name):
@@ -341,17 +476,23 @@ def translate_to_txt(name):
     PRE: 'name' is already present in database
     """
     
-    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID = tag.ID && tag.type = 'name' && tag.value = '" + name + "';")
+    # Retrieve ID for survey with "name"
+    cursor.execute("select survey_ID from survey_to_tag, tag where tag_ID " \
+                   "= tag.ID && tag.type = 'name' && tag.value = '"
+                   + name + "';")
     result = cursor.fetchone()
-    if not result:
+    if not result:          # Return error if no survey with "name" is found
         return None, None
     survey_ID = str(result[0])
-    value_query = "select value from tag, survey_to_tag where survey_to_tag.survey_ID = " + survey_ID + " && survey_to_tag.tag_ID = tag.ID && tag.type = '{}';"
+    # Used to retreive the value for a given tag
+    value_query = "select value from tag, survey_to_tag where " \
+                  "survey_to_tag.survey_ID = " + survey_ID + " && " \
+                  "survey_to_tag.tag_ID = tag.ID && tag.type = '{}';"
     
     fil = open(name + '.txt', 'w')
     template = open('template.txt', 'r')
-    text = template.readline()
-    lines = template.readlines()
+    text = template.readline()      # Output survey text, begins with headers
+    lines = template.readlines()    # Text from survey template
     
     # Retreive general survey info
     cursor.execute(value_query.format('name'))
@@ -374,23 +515,51 @@ def translate_to_txt(name):
     email_confirm = str(cursor.fetchone()[0])
 
     # Add rows containing general info and e-mail templates
-    values = [survey_ID, '1', 'Administrator', 'your-email@example.net', 'N', '', 'G', 'N', 'fruity', 'en', '', 'N', 'N', 'N', 'Y', '0', 'N', 'N', 'N', 'N', 'N', '0', 'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N', 'your-email@example.net', '', '', '15', 'Y', 'B', 'N', 'X', 'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', title, description, welcometext, endtext, '', '', 'Invitation to participate in a survey', email_invite, 'Reminder to participate in a survey', email_remind, 'Survey registration confirmation', email_register, 'Confirmation of your participation in our survey', email_confirm, '1', 'Response submission for survey ' + name, get_template_text(name, 'admin_notification'), 'Response submission for survey ' + name, get_template_text(name, 'admin_responses'), '0']
+    values = [survey_ID, '1', 'Administrator', 'your-email@example.net', 'N',
+              '', 'G', 'N', 'fruity', 'en', '', 'N', 'N', 'N', 'Y', '0', 'N',
+              'N', 'N', 'N', 'N', '0', 'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N',
+              'N', 'your-email@example.net', '', '', '15', 'Y', 'B', 'N', 'X',
+              'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', title,
+              description, welcometext, endtext, '', '',
+              'Invitation to participate in a survey', email_invite,
+              'Reminder to participate in a survey', email_remind,
+              'Survey registration confirmation', email_register,
+              'Confirmation of your participation in our survey',
+              email_confirm, '1', 'Response submission for survey ' + name,
+              get_template_text(name, 'admin_notification'),
+              'Response submission for survey ' + name,
+              get_template_text(name, 'admin_responses'), '0']
+    # Replace template text with valid survey info
     for i in range(len(lines)):
         fields = lines[i].split('\t')
         fields[6] = values[i]
         text += '\t'.join(fields)
     
-    groups = ['The Instructor', 'The Course', 'Assessment', 'The Laboratory Experience', 'Open Ended Questions', 'The Teaching Assessment', 'Online Component Assessment']
+    # Used for determining group IDs
+    groups = ['The Instructor', 'The Course', 'Assessment',
+              'The Laboratory Experience', 'Open Ended Questions',
+              'The Teaching Assessment', 'Online Component Assessment']
+    
     questions = []
+    # Used to retrieve the field value for a given question
     question_query = "select {} from question where ID = {};"
     
     # Iterate over groups and group numbers
     for i in range(len(groups)):
-        cursor.execute("select question.ID from question, survey_to_question where survey_to_question.survey_ID = " + survey_ID + " && survey_to_question.question_ID = question.ID && question.group = '" + groups[i] + "';")
+        # Retrieve IDs for group questions, if any exist
+        cursor.execute("select question.ID from question, " \
+                       "survey_to_question where " \
+                       "survey_to_question.survey_ID = " + survey_ID
+                       + " && survey_to_question.question_ID = question.ID " \
+                       "&& question.group = '" + groups[i] + "';")
         question_IDs = [str(row[0]) for row in cursor.fetchall()]
         
+        # Add questions only if a group contains questions
         if question_IDs:
-            questions.append({'id': str(i), 'class': 'G', 'type': '1', 'name': groups[i], 'relevance': '', 'text': '', 'language': 'en', 'mandatory': ''})
+            # Add row for group header
+            questions.append({'id': str(i), 'class': 'G', 'type': '1',
+                              'name': groups[i], 'relevance': '', 'text': '',
+                              'language': 'en', 'mandatory': ''})
             
             # Iterate over questions for each group
             for ID in question_IDs:
@@ -398,31 +567,38 @@ def translate_to_txt(name):
                 typ = str(cursor.fetchone()[0])
                 cursor.execute(question_query.format('text', ID))
                 txt = str(cursor.fetchone()[0])
+                # Get string from mandatory bit
                 cursor.execute(question_query.format('mandatory', ID))
                 mandatory = str(cursor.fetchone()[0])
                 mandatory = 'Y' if int(mandatory) == 1 else 'N'
                 
-                questions.append({'id': ID, 'class': 'Q', 'type': typ, 'name': 'Q'+ID, 'relevance': '1', 'text': txt, 'language': 'en', 'mandatory': mandatory})
+                # Add row for group question
+                questions.append({'id': ID, 'class': 'Q', 'type': typ,
+                                  'name': 'Q'+ID, 'relevance': '1',
+                                  'text': txt, 'language': 'en',
+                                  'mandatory': mandatory})
 
     for q in questions:
-        text += '{}\t\t{}\t{}\t{}\t{}\t{}\t\t{}\t\t{}'.format(q['id'], q['class'], q['type'], q['name'], q['relevance'], q['text'], q['language'], q['mandatory'])
-        if q['class'] == 'Q':
+        # Add question/group info to survey text
+        text += '{}\t\t{}\t{}\t{}\t{}\t{}\t\t{}\t\t{}'.format(q['id'],
+                q['class'], q['type'], q['name'], q['relevance'], q['text'],
+                q['language'], q['mandatory'])
+        if q['class'] == 'Q':           # If row refers to a question
             text += '\tN\t\t0' + '\t'*129 + '\n'
-        else:
+        else:                           # If row refers to a group header
             text += '\t'*132 + '\n'
-
+    
+    # Write survey text to a .txt file and return the text
     fil.write(text)
     return text, int(survey_ID)
     
 
 def results_get(cat_type, cat_name):  # noqa: E501
     """retreives a list of results for a given category of surveys
-
     :param cat_type: the type of category named 'cat_name'
     :type cat_type: str
     :param cat_name: the name of the category to which the surveys pertain
     :type cat_name: str
-
     :rtype: List[results]
     
     PRE: 'cat_type' is either 'course_section', 'course_designator',
@@ -438,70 +614,77 @@ def results_get(cat_type, cat_name):  # noqa: E501
             question 2: {...}, ...}
     """
     
-    stats = {}
+    stats = {}      # The survey statistics to return
     
     if cat_type == 'instructor':
         # Get the survey IDs for the given instructor
-        cursor.execute("select survey.ID from survey, instructor where \
-            survey.instructor_ID = instructor.ID && instructor.name = '"
+        cursor.execute("select survey.ID from survey, instructor where " \
+            "survey.instructor_ID = instructor.ID && instructor.name = '"
             + cat_name + "';")
-        
-        # Check if there are any surveys for the instructor
-        survey_IDs = cursor.fetchall()
-        if not survey_IDs:
-            return "no surveys found for instructor '{}'".format(cat_name)
-        
-        # Loop through all of the instructor's surveys
-        for survey_ID in survey_IDs[0]:
-            # Get the survey's name
-            cursor.execute("select value from tag, survey_to_tag, survey " \
-                "where type = 'name' && tag.ID = survey_to_tag.tag_ID && " \
-                "survey_to_tag.survey_ID = " + str(survey_ID) + ";")
-            survey_name = cursor.fetchone()[0]
-            
-            # Retrieve responses from the LimeSurvey database
-            responses = lime.export_responses(survey_ID, heading='full')['responses']
-            
-            for response in responses:
-                # Keys are one level deeper
-                response = response[list(response.keys())[0]]
-                
-                # Use only the question keys of a response
-                q_keys = list(set(response.keys()) - {'Response ID', 
-                    'Date submitted', 'Last page', 'Start language', 'Seed'})
-                
-                # Add q_key's response to the stats dictionary
-                for q_key in q_keys:
-                    try:
-                        q_value = int(response[q_key])  # q_key's response
-                    except ValueError:  # Only 1-5 scale questions permitted
-                        continue
-                    
-                    # Create a question key in stats if not there
-                    if q_key not in stats:
-                        stats[q_key] = {survey_name: [q_value]}
-                    # Create a survey key in stats if not there
-                    elif survey_name not in stats[q_key]:
-                        stats[q_key][survey_name] = [q_value]
-                    # Otherwise, just add q_value
-                    else:
-                        stats[q_key][survey_name].append(q_value)
-                    
-        # Loop over each set of responses per survey per question
-        for question in stats:
-            for survey in stats[question]:
-                # Replace responses with actual statistics
-                values = stats[question][survey]
-                
-                # Find appropriate statistics for values
-                stats[question][survey] = {
-                    'median': statistics.median(values),
-                    'mean': statistics.mean(values),
-                    # Standard deviation of response values
-                    'std_dev': round(statistics.stdev(values), 2),
-                    'n': len(values)    # Number of responses
-                }
     else:
-        return 'invalid category type'
+        # "cat_type" is a tag, so use the tags table to get the survey IDs
+        cursor.execute("select survey.ID from survey, survey_to_tag, tag " \
+            "where survey.ID = survey_to_tag.survey_ID && " \
+            "survey_to_tag.tag_ID = tag.ID && tag.type = '"
+            + cat_type + "' && tag.value = '" + cat_name + "';")
     
+    # Check if there are any surveys for "cat_name"
+    survey_IDs = cursor.fetchall()
+    if not survey_IDs:
+        return "no surveys found for category '{}'".format(cat_name)
+    
+    # Loop through all of "cat_name"'s surveys
+    for survey_ID in survey_IDs[0]:
+        # Get the survey's name
+        cursor.execute("select value from tag, survey_to_tag, survey " \
+            "where type = 'name' && tag.ID = survey_to_tag.tag_ID && " \
+            "survey_to_tag.survey_ID = " + str(survey_ID) + ";")
+        survey_name = cursor.fetchone()[0]
+        
+        try:
+            # Retrieve responses from the LimeSurvey database
+            responses = lime.export_responses(survey_ID, heading='full')
+        except TypeError:       # Survey has no responses, so try next ID
+            continue
+        
+        for response in responses['responses']:
+            # Keys are one level deeper
+            response = response[list(response.keys())[0]]
+            
+            # Use only the question keys of a response
+            q_keys = list(set(response.keys()) - {'Response ID', 
+                'Date submitted', 'Last page', 'Start language', 'Seed'})
+            
+            # Add q_key's response to the stats dictionary
+            for q_key in q_keys:
+                try:
+                    q_value = int(response[q_key])  # q_key's response
+                except ValueError:  # Only 1-5 scale questions permitted
+                    continue
+                
+                # Create a question key in stats if not there
+                if q_key not in stats:
+                    stats[q_key] = {survey_name: [q_value]}
+                # Create a survey key in stats if not there
+                elif survey_name not in stats[q_key]:
+                    stats[q_key][survey_name] = [q_value]
+                # Otherwise, just add q_value
+                else:
+                    stats[q_key][survey_name].append(q_value)
+                
+    # Loop over each set of responses per survey per question
+    for question in stats:
+        for survey in stats[question]:
+            # Replace responses with actual statistics
+            values = stats[question][survey]
+            
+            # Find appropriate statistics for values
+            stats[question][survey] = {
+                'median': statistics.median(values),
+                'mean': statistics.mean(values),
+                # Standard deviation of response values
+                'std_dev': round(statistics.stdev(values), 2),
+                'n': len(values)    # Number of responses
+            }
+
     return stats
