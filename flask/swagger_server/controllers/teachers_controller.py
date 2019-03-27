@@ -187,7 +187,9 @@ def survey_put():  # noqa: E501
         # Otherwise, make a new instructor row
         # Row ID is 1 higher than the current maximum instructor ID
         cursor.execute("select max(ID) from instructor;")
-        instructor_ID = str(cursor.fetchone()[0] + 1)
+        instructor_ID = cursor.fetchone()[0]
+        # Use '1' if no instructor IDs are in table
+        instructor_ID = str(instructor_ID + 1) if instructor_ID else '1'
         cursor.execute("insert into instructor values (" + instructor_ID
                        + ", '" + request.json['instructor'] + "', '')")
     
@@ -209,11 +211,13 @@ def survey_put():  # noqa: E501
         # If survey with name does not exist, make new survey and tag rows
         # Survey and tag row IDs are 1 higher than the current maximum IDs
         cursor.execute("select max(ID) from survey;")
-        survey_ID = str(cursor.fetchone()[0] + 1)
+        survey_ID = cursor.fetchone()[0]
+        survey_ID = str(survey_ID + 1) if survey_ID else '1'
         cursor.execute("insert into survey values (" + survey_ID + ", '"
                        + request.json['URL'] + "', " + instructor_ID + ");")
         cursor.execute("select max(ID) from tag;")
-        tag_ID = str(cursor.fetchone()[0] + 1)
+        tag_ID = cursor.fetchone()[0]
+        tag_ID = str(tag_ID + 1) if tag_ID else '1'
         cursor.execute("insert into tag values (" + tag_ID + ", 'name', '"
                        + request.json['name'] + "');")
         cursor.execute("insert into survey_to_tag values (" + survey_ID + ", "
@@ -244,7 +248,9 @@ def survey_put():  # noqa: E501
             # If address in request does not exist, make a new participant row
             # Row ID is 1 higher than the current maximum participant ID
             cursor.execute("select max(ID) from participant;")
-            participant_ID = str(cursor.fetchone()[0] + 1)
+            participant_ID = cursor.fetchone()[0]
+            participant_ID = str(participant_ID + 1) if participant_ID \
+                             else '1'
             cursor.execute("insert into participant values ("
                            + participant_ID + ", '" + participant['name']
                            + "', '" + participant['address'] + "');")
@@ -288,7 +294,8 @@ def survey_put():  # noqa: E501
             # If question ID in request doesn't exist, make a new question row
             # Row ID is 1 higher than current maximum question ID
             cursor.execute("select max(ID) from question;")
-            question_ID = str(cursor.fetchone()[0] + 1)
+            question_ID = cursor.fetchone()[0]
+            question_ID = str(question_ID + 1) if question_ID else '1'
             cursor.execute("insert into question values (" + question_ID
                            + ", '" + question['helpText'] + "', " + bit
                            + ", '" + question['group'] + "', '"
@@ -327,7 +334,8 @@ def survey_put():  # noqa: E501
             # If tag type in request does not exist, make a new tag row
             # Row ID is 1 higher than current maximum tag ID
             cursor.execute("select max(ID) from tag;")
-            tag_ID = str(cursor.fetchone()[0] + 1)
+            tag_ID = cursor.fetchone()[0]
+            tag_ID = str(tag_ID + 1) if tag_ID else '1'
             cursor.execute("insert into tag values (" + tag_ID + ", '" + tag
                            + "', '" + value + "');")
             cursor.execute("insert into survey_to_tag values (" + survey_ID
