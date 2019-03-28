@@ -238,12 +238,12 @@ def survey_put():  # noqa: E501
                        + participant['address'] + "';")
         participant_ID = cursor.fetchone()
         if participant_ID:
-            # If address in request exists, update the participant row
-            # and remove it from old participants
-            cursor.execute("update participant set name = '"
-                           + participant['name'] + "', address = '"
-                           + participant['address'] + "';")
-            old_participants.remove(participant)
+            # If address in request exists, add to survey_to_participant
+            # and remove from old_participants
+            cursor.execute("insert ignore into survey_to_participant values ("
+                           + survey_ID + ", " + str(participant_ID[0]) + ");")
+            if participant['address'] in old_participants:
+                old_participants.remove(participant['address'])
         else:
             # If address in request does not exist, make a new participant row
             # Row ID is 1 higher than the current maximum participant ID
@@ -281,15 +281,18 @@ def survey_put():  # noqa: E501
         # Get ID of question, if available
         question_ID = cursor.fetchone()
         if question_ID:
-            # If question ID in request exists, update the question row
-            # and remove it from old questions
+            # If question ID in request exists, update the question row,
+            # add to survey_to_question, and remove from old_questions
             cursor.execute("update question set helpText = '"
                            + question['helpText'] + "', mandatory = " + bit
                            + ", `group` = '" + question['group']
                            + "', type = '" + question['type'] + "', text = '"
                            + question['text'] + "' where ID = "
                            + str(question_ID[0]) + ";")
-            old_questions.remove(question_ID)
+            cursor.execute("insert ignore into survey_to_question values ("
+                           + survey_ID + ", " + str(question_ID[0]) + ");")
+            if str(question_ID[0]) in old_questions:
+                old_questions.remove(str(question_ID[0]))
         else:
             # If question ID in request doesn't exist, make a new question row
             # Row ID is 1 higher than current maximum question ID
@@ -328,8 +331,12 @@ def survey_put():  # noqa: E501
                        + "' && value = '" + value + "';")
         tag_ID = cursor.fetchone()
         if tag_ID:
-            # If tag type in request exists, remove it from old tags
-            old_tags.remove([tag, value])
+            # If tag type in request exists, add to survey_to_tag
+            # and remove it from old tags
+            cursor.execute("insert ignore into survey_to_tag values ("
+                           + survey_ID + ", " + str(tag_ID[0]) + ");")
+            if [tag, value] in old_tags:
+                old_tags.remove([tag, value])
         else:
             # If tag type in request does not exist, make a new tag row
             # Row ID is 1 higher than current maximum tag ID
