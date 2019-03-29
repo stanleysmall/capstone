@@ -7,3 +7,11 @@ insert into survey_to_tag values (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6),
 insert into question values (1, 'Help text', 1, 'The Instructor', '5', 'Question?'), (2, 'Help text', 1, 'The Instructor', '5', 'Question 2?'), (3, 'Help text', 0, 'The Instructor', 'Y', 'Question 3?');
 insert into survey_to_question values (1, 1), (1, 2), (1, 3);
 insert into response values (1, '5', 1, 1);
+insert into tag values (9, 'name', 'COS 250 001'), (10, 'description', 'De'), (11, 'email_invite', 'Ei text'), (12, 'email_remind', 'Eremind text'), (13, 'email_register', 'Er text'), (14, 'email_confirm', 'Ec text');
+insert into instructor values (2, 'Torsten Hahmann', 'torsten.hahmann@maine.edu');
+insert into survey values (2, 'example.com', 2);
+insert into participant values (3, 'tom guo', 'tg@gmail.com');
+insert into survey_to_participant values (2, 3);
+insert into survey_to_tag values (2, 9), (2, 10), (2, 11), (2, 12), (2, 13), (2, 14), (2, 3), (2, 4);
+insert into question values (4, 'Help text', 0, 'The Instructor', 'L', 'Question 2?');
+insert into survey_to_question values (2, 1), (2, 4);

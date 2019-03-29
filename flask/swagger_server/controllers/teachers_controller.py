@@ -380,26 +380,8 @@ def surveys_get():  # noqa: E501
     return surveys
 
 
-def create_user_post():  # noqa: E501
-    """adds a user to the database
-
-    :param key: a user with an authentication key
-    :type key: str
-
-    :rtype: str
-    
-    PRE: input is in the following JSON format
-         { "name": str, "key": str }
-    """
-    
-    
-    
-    mydb.commit();
-    return 'success'
-
-
 def login_get(key):  # noqa: E501
-    """retrieves a token for a certain authentication key
+    """logs in a user with a certain authentication key
 
     :param key: an authentication key
     :type key: str
@@ -424,8 +406,21 @@ def validate():
         'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='
         + session['token'])
     if (r.status_code == 200):          # If request is successful
+        # Load user's full name and e-mail address into a session object
         data = r.json()
+        session['name'] = data['name']
         session['email'] = data['email']
+        
+        # Add the user to the instructor table if not there
+        # Instructor ID is one higher than the current maximum ID
+        cursor.execute("select max(ID) from instructor;")
+        instructor_ID = cursor.fetchone()[0]
+        # Use '1' if no instructor IDs are in table
+        instructor_ID = str(instructor_ID + 1) if instructor_ID else '1'
+        cursor.execute("insert ignore into instructor values (" + instructor_ID
+                       + ", '" + session['name'] + "', '"
+                       + session['email'] + "')")
+        
         return session['email']         # Return the user's e-mail address
     else: 
         return 'INVALID LOGIN'          # Unsuccessful log-in
