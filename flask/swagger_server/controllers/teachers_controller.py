@@ -32,10 +32,8 @@ cursor = mydb.cursor()
 
 def survey_delete(name):  # noqa: E501
     """deletes the survey with a given name
-
     :param name: the name for a survey
     :type name: str
-
     :rtype: str
     
     PRE: tag type must be called 'name'
@@ -69,7 +67,6 @@ def survey_delete(name):  # noqa: E501
 
 def survey_get(name):  # noqa: E501
     """retreives the survey with a given name
-
     :param name: the name for a survey
     :type name: str
     
@@ -149,7 +146,6 @@ def survey_get(name):  # noqa: E501
 def survey_put():  # noqa: E501
     """updates the info of a survey with a given name
        if no survey with the given name exists, then a new one is created
-
     :rtype: str
     
     PRE: input is in the following JSON format
@@ -238,12 +234,12 @@ def survey_put():  # noqa: E501
                        + participant['address'] + "';")
         participant_ID = cursor.fetchone()
         if participant_ID:
-            # If address in request exists, update the participant row
-            # and remove it from old participants
-            cursor.execute("update participant set name = '"
-                           + participant['name'] + "', address = '"
-                           + participant['address'] + "';")
-            old_participants.remove(participant)
+            # If address in request exists, add to survey_to_participant
+            # and remove from old_participants
+            cursor.execute("insert ignore into survey_to_participant values ("
+                           + survey_ID + ", " + str(participant_ID[0]) + ");")
+            if participant['address'] in old_participants:
+                old_participants.remove(participant['address'])
         else:
             # If address in request does not exist, make a new participant row
             # Row ID is 1 higher than the current maximum participant ID
@@ -281,15 +277,18 @@ def survey_put():  # noqa: E501
         # Get ID of question, if available
         question_ID = cursor.fetchone()
         if question_ID:
-            # If question ID in request exists, update the question row
-            # and remove it from old questions
+            # If question ID in request exists, update the question row,
+            # add to survey_to_question, and remove from old_questions
             cursor.execute("update question set helpText = '"
                            + question['helpText'] + "', mandatory = " + bit
                            + ", `group` = '" + question['group']
                            + "', type = '" + question['type'] + "', text = '"
                            + question['text'] + "' where ID = "
                            + str(question_ID[0]) + ";")
-            old_questions.remove(question_ID)
+            cursor.execute("insert ignore into survey_to_question values ("
+                           + survey_ID + ", " + str(question_ID[0]) + ");")
+            if str(question_ID[0]) in old_questions:
+                old_questions.remove(str(question_ID[0]))
         else:
             # If question ID in request doesn't exist, make a new question row
             # Row ID is 1 higher than current maximum question ID
@@ -328,8 +327,12 @@ def survey_put():  # noqa: E501
                        + "' && value = '" + value + "';")
         tag_ID = cursor.fetchone()
         if tag_ID:
-            # If tag type in request exists, remove it from old tags
-            old_tags.remove([tag, value])
+            # If tag type in request exists, add to survey_to_tag
+            # and remove it from old tags
+            cursor.execute("insert ignore into survey_to_tag values ("
+                           + survey_ID + ", " + str(tag_ID[0]) + ");")
+            if [tag, value] in old_tags:
+                old_tags.remove([tag, value])
         else:
             # If tag type in request does not exist, make a new tag row
             # Row ID is 1 higher than current maximum tag ID
@@ -354,7 +357,6 @@ def survey_put():  # noqa: E501
 
 def surveys_get():  # noqa: E501
     """retreives a list of the names of the user's surveys
-
     :rtype: List[survey names]
     """
     
@@ -375,10 +377,8 @@ def surveys_get():  # noqa: E501
 
 def create_user_post():  # noqa: E501
     """adds a user to the database
-
     :param key: a user with an authentication key
     :type key: str
-
     :rtype: str
     
     PRE: input is in the following JSON format
@@ -393,10 +393,8 @@ def create_user_post():  # noqa: E501
 
 def login_get(key):  # noqa: E501
     """retrieves a token for a certain authentication key
-
     :param key: an authentication key
     :type key: str
-
     :rtype: str
     """
     
@@ -426,7 +424,6 @@ def validate():
 
 def publish_get(name):  # noqa: E501
     """publishes the survey with a given name
-
     :param name: the name for a survey
     :type name: str
     
@@ -469,7 +466,6 @@ def publish_get(name):  # noqa: E501
 
 def get_template_text(name, typ):
     """returns text for use as a template
-
     :param name: the name for a survey
     :type name: str
     :param typ: the type of template to return
@@ -614,12 +610,10 @@ def translate_to_txt(name):
 
 def results_get(cat_type, cat_name):  # noqa: E501
     """retreives a list of results for a given category of surveys
-
     :param cat_type: the type of category named 'cat_name'
     :type cat_type: str
     :param cat_name: the name of the category to which the surveys pertain
     :type cat_name: str
-
     :rtype: List[results]
     
     PRE: 'cat_type' is either 'course_section', 'course_designator',

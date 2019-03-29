@@ -19,7 +19,7 @@ const AppRouter = () => (
         <Route path ="/about/:loggedIn?" component = {About}/>
         <Route path ="/faq/:loggedIn?" component = {FAQ}/>
         <Route path ="/login/" component = {Login}/>
-        <Route path ="/results/" component = {Results}/>
+        <Route path ="/results/:tagName/:tag" component = {Results}/>
         <Route path ="/edit/:evalName" component = {Edit}/>
         <Route path ="/view/:evalName" component = {View}/>
     </Router>

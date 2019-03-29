@@ -17,6 +17,11 @@ class Landing extends Component {
                 <LoggedInHeader/>
             <div>
                 <p>results</p>
+
+                {/*NOT FOR USE JUST SHOWING HOW TO ACCESS TAG PARAMETERS */}
+                TagName: {this.props.match.params.tagName}
+                <br/>
+                Tag: {this.props.match.params.tag}
             </div>
         </form>
         )

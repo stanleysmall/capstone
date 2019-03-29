@@ -14,11 +14,6 @@ class Landing extends Component {
 
     constructor(props){
         super(props);
-
-
-        //GET RID OF THIS
-        global.access_token = "ya29.GlzZBuoOcRL5_P-w7LgsQWeAgMK1sMhDKwXDvBQuejm44ldYH3kD31b5GrUTSnQ9XVk4jdplUlAq_qBloygRhd-f7xfnLFVokRAz9RT9xQW2pIA3XovCj9qYXoeyLg";
-
         this.login = this.login.bind(this);
     }
 
@@ -30,7 +25,7 @@ class Landing extends Component {
     */
     login(response)
     {
-        //global.access_token = response.Zi.access_token;
+        global.access_token = response.Zi.access_token;
         console.log(response.Zi.access_token);
         this.setState({loggedIn: true});
         

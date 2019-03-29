@@ -61,9 +61,6 @@ export class LoggedOutHeader extends Component {
     }
 }
 
-
-
-
 export class DynamicSelecter extends Component {
 
     render() {

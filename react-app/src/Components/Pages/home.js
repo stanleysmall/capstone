@@ -18,6 +18,9 @@ class Home extends Component {
         };
 
 
+    resultsTagName = "tagName";
+    resultsTag = "tag";
+
     constructor(props)
     {
         super(props);
@@ -88,7 +91,7 @@ class Home extends Component {
                     4. View Evaluation Results
                     <br/>
                     <DynamicSelecter list={this.state.reports} iden={"reports"}/>&emsp;
-                    <Link to={"/results/"}>
+                    <Link to={"/results/" + this.resultsTagName + "/" + this.resultsTag}>
                         <button>View Results</button>
                     </Link>
                 </div>

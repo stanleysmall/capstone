@@ -1,4 +1,4 @@
-const APIAddress = "https:/18.191.72.75:8080/teameval/Eval/1.0.0/";
+const APIAddress = "http://18.191.72.75:8080/teameval/Eval/1.0.0/";
 
 
 /*

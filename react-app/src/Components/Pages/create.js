@@ -139,9 +139,10 @@ class Home extends Component {
             return(
                 <div>
                     <LoggedInHeader/>
+                    If you want information on this form auto-filled from a previous submission that you may then edit, please select:
                     <DynamicSelecter list={this.state.loadableEvals} iden={"evaluationSelector"}/>
                     &emsp;
-                    <button onClick = {() => this.template(document.getElementById("evaluationSelector").value)} > Use template</button>
+                    <button onClick = {() => this.template(document.getElementById("evaluationSelector").value)} > Select </button>
 
                     <br/>
                     <br/>
