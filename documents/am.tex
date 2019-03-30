@@ -45,13 +45,13 @@ Instructor: Professor Terry Yoo
 
 \section{Introduction}
 
-Team EVAL is creating a system to more efficiently create and distribute post-semester teaching evaluations. Our client wants us to build such a system because the current one used by the University of Maine is too difficult to use. ??
+Team EVAL is creating a system to more efficiently create and distribute post-semester teaching evaluations. Our client wants us to build such a system because the current one used by the University of Maine is too difficult to use. The team must write documentation for system administrators to effectively maintain the evaluation system.
  
 \subsection{Purpose of This Document}
 
-The administrator manual is ??.
+The purpose of the administrator manual to instruct system administrators on how to properly install, maintain, and recover Team EVAL's course evaluation program. As the members of the team graduate on May 2019, there will need to be people who know how to keep the system running long afterwards. The manual includes information about the system requirements, installation of the system, administrative tasks for the system, and troubleshooting errors.
 
-This document is intended for the development team, the product client, Dr. Harlan Onsrud, and potential users of the system. ??
+This document is intended for the development team, the product client, Dr. Harlan Onsrud, and potential administrators of the system. The team needs it to know how to maintain the evaluation system during development. Dr. Onsrud needs the document to know how to install and troubleshoot the system. Finally, system administrators must follow the document to do their jobs correctly.
 
 \subsection{References}
 
@@ -61,24 +61,47 @@ Craig, J., Elliott, S., Judkins, R., \& Small, S. 16 November 2018. \textit{Syst
 
 \section{System Overview}
 
-
-
 \subsection{Background}
 
+The system administrator will be charged with overseeing the course evaluation system, from its installation to routine maintenance. The system is composed of three major parts: the front-end user interface code written in JavaScript, the back-end API written in Python, and the MySQL database that stores survey form data. OVERVIEW OF ADMINISTRATOR'S TASKS.
 
+DESCRIBE TASKS AND EXPLAIN WHY THEY ARE NEEDED.
 
 \subsection{Hardware and Software Requirements}
 
+The course evaluation system has low performance requirements, so it can run on any computer with decently fast hardware. However, the system requires multiple software dependencies to be installed so that it can work. First, the computer's operating system must be Windows (7 or later), Mac OS, or Linux. Second, the system must be installed on an Amazon Web Services server instance, so administrators need a command-line terminal such as PowerShell.
 
+After a server instance is set up, several libraries must be installed for the system's code to run. The system requires Docker to containerize the components and LimeSurvey 3 to distribute surveys. The back end needs MySQL to run the survey database and TaiSHiNet's ``lime-py-api'' library for the back end to interface with LimeSurvey. The front end needs Node.js, the Node Package Manager, and React.js for the JavaScript code to run. Most of these dependencies are installed automatically, but administrators must configure LimeSurvey in addition.
 
 \section{Administrative Procedures}
 
-
-
-
 \subsection{Installation}
 
+The procedure to fully install the course evaluation system is listed as follows:
 
+\begin{enumerate}
+    \item Create an Amazon Web Services account and go to the EC2 Dashboard. Click on "Instances", then "Launch Instance". Select the first AMI, then click "Review and Launch", then "Launch". Select "Create a new key pair". Name it "limesurvey", and download the key. Click on "Launch Instances".
+
+    \item In a terminal program, change your working directory to the folder with the key, and change the key's permissions with the command \verb|chmod 400 limesurvey.pem|.
+
+    \item In the left pane, click "Security Groups", right-click the group with its name starting with "launch-wizard", then click "Edit inbound rules". Add four new rules, with their ports being 80, 5000, 6379, and 8080 respectively, and their source being ``Anywhere''. Click on "Save".
+    
+    \item If using Windows 7 or 8, open PowerShell and install the ``chocolatey'' library, then OpenSSH.
+
+    \item In the terminal, execute \verb|ssh -i "limesurvey.pem" ec2-user@ec2-x-x-x-x.us-east-2.compute|\newline\verb|.amazonaws.com| with the x’s replaced by the fields in the instance’s IP address (see "IPv4 Public IP"). Or right-click on the instance, click ``Connect'', and copy and paste the example command.
+
+    \item Enter "yes" when prompted, then run \verb+wget -O - https://raw.githubusercontent.com/stansmall+\newline\verb+/capstone/master/aws.sh | bash+. After installation is finished, exit ssh with the command \verb|exit|, then execute the ssh command again.
+
+    \item Execute \verb|cd capstone|, then \verb|docker-compose up -d|. After installation is finished, in your web browser, enter ``teachingevaluations.org:5000''.
+
+    \item Click "Start installation", "I accept", and "Next". In the database configuration, enter ``10.5.0.6'' for the location, "root" for the username and password, and "limesurvey" for the database name. Click "Next", then "Create database", then "Populate database". Click "Next" to use the default LimeSurvey credentials.
+
+    \item Click "Administration", and log in with "admin" as the username and "password" as the password. Go to "Configuration", then "Global settings", then "Interfaces". Click on "JSON-RPC", then the toggle below. Click "Save".
+
+    \item Execute \verb|mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql|, entering "root" as the password.
+
+    \item Start Docker up again if it's stopped. Test the API by entering in the web browser ``http://\newline teachingevaluations.org:8080/teameval/Eval/1.0.0/survey?name=test'', with the x’s replaced by your instance’s IP address. The browser should output ``\{\}'', indicating there are no surveys in the database.
+\end{enumerate}
 
 \subsection{Routine Tasks}
 
@@ -90,25 +113,27 @@ Craig, J., Elliott, S., Judkins, R., \& Small, S. 16 November 2018. \textit{Syst
 
 \subsection{User Support}
 
-
+Administrators can turn to resources for help with managing the course evaluation system. The GitHub repository of the system, at https://github.com/stanleysmall/capstone, contains a README that has installation instructions, as well as commands to build the code or mount the system directory on a local machine. The code itself contains comments on how to format endpoint calls and JSON input. For human help, one can contact the team leader, Stanley Small, through e-mail at stanley.small@gmail.com.
 
 \section{Troubleshooting}
 
-
-
 \subsection{Dealing with Error Messages and Failures}
 
+Administrators will need to handle errors that occur during the system's operation. The terminal window will show error information that describes what went wrong. This is prefixed by the name of a Docker container, which lets one know which component of the system has the error. Upon an error, an administrator must first check whether he or she followed everything in the installation procedure.
 
+If the installation is fine, the problem probably lies in the system's code. Administrators must send the error information printed by the console to an experienced programmer, who will use it to fix the bug in the system. Stack Overflow is a helpful website for diagnosing error messages output by a computer program. As a last resort, administrators should message Stanley Small with the error message.
 
 \subsection{Known Bugs and Limitations}
 
+There are a few limitations of the course evaluation system's functionality, which exist because of time constraints in system development. First, the system sends only invitation e-mails to students taking an evaluation survey. It will not send e-mails confirming survey completion or subsequent reminder e-mails to non-respondents. Second, only three open-ended questions, rather than a variable number, are permitted when creating an evaluation form. Third, there is no way to allow for a non-anonymous response that is signed by a student.
 
+These limitations affect end users in that some students may forget to take an evaluation survey (due to lack of reminder e-mails), and teacher evaluations are less open-ended and permissive of feedback. Administrators must inform potential users of the evaluation system about the limitations, and users need to work around the problems when creating survey forms. Also, professors should send reminder e-mails to non-respondents by themselves. Finally, administrators should eventually command a programmer to remove the system's limitations.
 
 \appendix
 
 \newpage
 \section{Agreement Between Customer and Contractor}
-This page shows that all members of Team EVAL and the client, Harlan Onsrud, have agreed on all the information in the administrator manual. By signing this document, Team EVAL and Dr. Onsrud approve ??.
+This page shows that all members of Team EVAL and the client, Harlan Onsrud, have agreed on all the information in the administrator manual. By signing this document, Team EVAL and Dr. Onsrud approve the information given to system administrators about how to manage the course evaluation system.
 
 The team will follow a process in the case that the document is changed after we sign it. First, the team will write a rough draft of the changes to be made to the document. Second, all team members and Harlan Onsrud will sign the document agreeing to the changes. Finally, the team will make the changes to the final copy of the document.
 
