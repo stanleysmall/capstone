@@ -41,21 +41,6 @@ paths:
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
-  /create_user:
-    post:
-      tags:
-      - "teachers"
-      - "admins"
-      summary: "adds a user to the database"
-      operationId: "create_user_post"
-      responses:
-        200:
-          description: "success message"
-          schema:
-            type: "string"
-        400:
-          description: "bad input parameter"
-      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
   /surveys:
     get:
       tags:

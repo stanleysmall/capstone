@@ -25,7 +25,8 @@ mydb = mysql.connector.connect(host='10.5.0.6',
                                port=3306,
                                database='mydb',
                                user='root',
-                               password='root')
+                               password='root',
+                               buffered=True)
 cursor = mydb.cursor()
 
 
@@ -178,7 +179,20 @@ def survey_put():  # noqa: E501
     # Retrieve ID of survey instructor
     cursor.execute("select ID from instructor where name = '"
                    + request.json['instructor'] + "';")
-    instructor_ID = str(cursor.fetchone()[0])
+    instructor_ID = cursor.fetchone()
+    if instructor_ID:
+        # If instructor with name exists, use its ID
+        instructor_ID = str(instructor_ID[0])
+    else:
+        # Otherwise, make a new instructor row
+        # Row ID is 1 higher than the current maximum instructor ID
+        cursor.execute("select max(ID) from instructor;")
+        instructor_ID = cursor.fetchone()[0]
+        # Use '1' if no instructor IDs are in table
+        instructor_ID = str(instructor_ID + 1) if instructor_ID else '1'
+        cursor.execute("insert into instructor values (" + instructor_ID
+                       + ", '" + request.json['instructor'] + "', '')")
+    
     survey_ID = ''
     
     cursor.execute("select value from tag where type = 'name' && value = '"
@@ -197,17 +211,19 @@ def survey_put():  # noqa: E501
         # If survey with name does not exist, make new survey and tag rows
         # Survey and tag row IDs are 1 higher than the current maximum IDs
         cursor.execute("select max(ID) from survey;")
-        survey_ID = str(cursor.fetchone()[0] + 1)
+        survey_ID = cursor.fetchone()[0]
+        survey_ID = str(survey_ID + 1) if survey_ID else '1'
         cursor.execute("insert into survey values (" + survey_ID + ", '"
                        + request.json['URL'] + "', " + instructor_ID + ");")
         cursor.execute("select max(ID) from tag;")
-        tag_ID = str(cursor.fetchone()[0] + 1)
+        tag_ID = cursor.fetchone()[0]
+        tag_ID = str(tag_ID + 1) if tag_ID else '1'
         cursor.execute("insert into tag values (" + tag_ID + ", 'name', '"
                        + request.json['name'] + "');")
         cursor.execute("insert into survey_to_tag values (" + survey_ID + ", "
                        + tag_ID + ");")
     
-    # List of articipants that are in the database but not in the request
+    # List of participants that are in the database but not in the request
     old_participants = []
     cursor.execute("select address from participant, " \
                    "survey_to_participant where participant.ID = " \
@@ -222,17 +238,19 @@ def survey_put():  # noqa: E501
                        + participant['address'] + "';")
         participant_ID = cursor.fetchone()
         if participant_ID:
-            # If address in request exists, update the participant row
-            # and remove it from old participants
-            cursor.execute("update participant set name = '"
-                           + participant['name'] + "', address = '"
-                           + participant['address'] + "';")
-            old_participants.remove(participant)
+            # If address in request exists, add to survey_to_participant
+            # and remove from old_participants
+            cursor.execute("insert ignore into survey_to_participant values ("
+                           + survey_ID + ", " + str(participant_ID[0]) + ");")
+            if participant['address'] in old_participants:
+                old_participants.remove(participant['address'])
         else:
             # If address in request does not exist, make a new participant row
-            # Row ID is 1 higher than the current maximum ID
+            # Row ID is 1 higher than the current maximum participant ID
             cursor.execute("select max(ID) from participant;")
-            participant_ID = str(cursor.fetchone()[0] + 1)
+            participant_ID = cursor.fetchone()[0]
+            participant_ID = str(participant_ID + 1) if participant_ID \
+                             else '1'
             cursor.execute("insert into participant values ("
                            + participant_ID + ", '" + participant['name']
                            + "', '" + participant['address'] + "');")
@@ -263,20 +281,24 @@ def survey_put():  # noqa: E501
         # Get ID of question, if available
         question_ID = cursor.fetchone()
         if question_ID:
-            # If question ID in request exists, update the question row
-            # and remove it from old questions
+            # If question ID in request exists, update the question row,
+            # add to survey_to_question, and remove from old_questions
             cursor.execute("update question set helpText = '"
                            + question['helpText'] + "', mandatory = " + bit
                            + ", `group` = '" + question['group']
                            + "', type = '" + question['type'] + "', text = '"
                            + question['text'] + "' where ID = "
                            + str(question_ID[0]) + ";")
-            old_questions.remove(question_ID)
+            cursor.execute("insert ignore into survey_to_question values ("
+                           + survey_ID + ", " + str(question_ID[0]) + ");")
+            if str(question_ID[0]) in old_questions:
+                old_questions.remove(str(question_ID[0]))
         else:
             # If question ID in request doesn't exist, make a new question row
-            # Row ID is 1 higher than current maximum ID
+            # Row ID is 1 higher than current maximum question ID
             cursor.execute("select max(ID) from question;")
-            question_ID = str(cursor.fetchone()[0] + 1)
+            question_ID = cursor.fetchone()[0]
+            question_ID = str(question_ID + 1) if question_ID else '1'
             cursor.execute("insert into question values (" + question_ID
                            + ", '" + question['helpText'] + "', " + bit
                            + ", '" + question['group'] + "', '"
@@ -309,13 +331,18 @@ def survey_put():  # noqa: E501
                        + "' && value = '" + value + "';")
         tag_ID = cursor.fetchone()
         if tag_ID:
-            # If tag type in request exists, remove it from old tags
-            old_tags.remove([tag, value])
+            # If tag type in request exists, add to survey_to_tag
+            # and remove it from old tags
+            cursor.execute("insert ignore into survey_to_tag values ("
+                           + survey_ID + ", " + str(tag_ID[0]) + ");")
+            if [tag, value] in old_tags:
+                old_tags.remove([tag, value])
         else:
             # If tag type in request does not exist, make a new tag row
-            # Row ID is 1 higher than current maximum ID
+            # Row ID is 1 higher than current maximum tag ID
             cursor.execute("select max(ID) from tag;")
-            tag_ID = str(cursor.fetchone()[0] + 1)
+            tag_ID = cursor.fetchone()[0]
+            tag_ID = str(tag_ID + 1) if tag_ID else '1'
             cursor.execute("insert into tag values (" + tag_ID + ", '" + tag
                            + "', '" + value + "');")
             cursor.execute("insert into survey_to_tag values (" + survey_ID
@@ -339,7 +366,7 @@ def surveys_get():  # noqa: E501
     """
     
     surveys = []                        # Survey names to return
-    email = 'roy.turner@maine.edu'      # TODO: use session object
+    email = session['email']            # Use e-mail of current user
     
     # Retrieve the survey names for a given e-mail address
     cursor.execute("select value from tag, survey_to_tag, survey, " \
@@ -353,43 +380,51 @@ def surveys_get():  # noqa: E501
     return surveys
 
 
-def create_user_post():  # noqa: E501
-    """adds a user to the database
-
-    :param key: a user with an authentication key
-    :type key: str
-
-    :rtype: str
-    
-    PRE: input is in the following JSON format
-         { "name": str, "key": str }
-    """
-    
-    
-    
-    mydb.commit();
-    return 'success'
-
-
 def login_get(key):  # noqa: E501
-    """retrieves a token for a certain authentication key
+    """logs in a user with a certain authentication key
 
     :param key: an authentication key
     :type key: str
 
     :rtype: str
     """
+    
     session['token'] = key
     return validate()
-  
+
+
 def validate():
-    r = requests.get('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + session['token'])
-    if(r.status_code == 200): 
+    """validates the authentication token received with GET login
+    
+    POST: if log-in is successful,
+          the e-mail address of the user logging in
+          if not successful, an error message
+    """
+    
+    # Call the Google API with the authentication token
+    r = requests.get(
+        'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='
+        + session['token'])
+    if (r.status_code == 200):          # If request is successful
+        # Load user's full name and e-mail address into a session object
         data = r.json()
+        session['name'] = data['name']
         session['email'] = data['email']
-        return session['email']
+        
+        # Add the user to the instructor table if not there
+        # Instructor ID is one higher than the current maximum ID
+        cursor.execute("select max(ID) from instructor;")
+        instructor_ID = cursor.fetchone()[0]
+        # Use '1' if no instructor IDs are in table
+        instructor_ID = str(instructor_ID + 1) if instructor_ID else '1'
+        cursor.execute("insert ignore into instructor values (" + instructor_ID
+                       + ", '" + session['name'] + "', '"
+                       + session['email'] + "')")
+        
+        return session['email']         # Return the user's e-mail address
     else: 
-        return 'INVALID LOGIN'
+        return 'INVALID LOGIN'          # Unsuccessful log-in
+
 
 def publish_get(name):  # noqa: E501
     """publishes the survey with a given name
@@ -606,70 +641,74 @@ def results_get(cat_type, cat_name):  # noqa: E501
     
     if cat_type == 'instructor':
         # Get the survey IDs for the given instructor
-        cursor.execute("select survey.ID from survey, instructor where \
-            survey.instructor_ID = instructor.ID && instructor.name = '"
+        cursor.execute("select survey.ID from survey, instructor where " \
+            "survey.instructor_ID = instructor.ID && instructor.name = '"
             + cat_name + "';")
-        
-        # Check if there are any surveys for the instructor
-        survey_IDs = cursor.fetchall()
-        if not survey_IDs:
-            return "no surveys found for instructor '{}'".format(cat_name)
-        
-        # Loop through all of the instructor's surveys
-        for survey_ID in survey_IDs[0]:
-            # Get the survey's name
-            cursor.execute("select value from tag, survey_to_tag, survey " \
-                "where type = 'name' && tag.ID = survey_to_tag.tag_ID && " \
-                "survey_to_tag.survey_ID = " + str(survey_ID) + ";")
-            survey_name = cursor.fetchone()[0]
-            
-            # Retrieve responses from the LimeSurvey database
-            responses = lime.export_responses(survey_ID,
-                                              heading='full')['responses']
-            
-            for response in responses:
-                # Keys are one level deeper
-                response = response[list(response.keys())[0]]
-                
-                # Use only the question keys of a response
-                q_keys = list(set(response.keys()) - {'Response ID', 
-                    'Date submitted', 'Last page', 'Start language', 'Seed'})
-                
-                # Add q_key's response to the stats dictionary
-                for q_key in q_keys:
-                    try:
-                        q_value = int(response[q_key])  # q_key's response
-                    except ValueError:  # Only 1-5 scale questions permitted
-                        continue
-                    
-                    # Create a question key in stats if not there
-                    if q_key not in stats:
-                        stats[q_key] = {survey_name: [q_value]}
-                    # Create a survey key in stats if not there
-                    elif survey_name not in stats[q_key]:
-                        stats[q_key][survey_name] = [q_value]
-                    # Otherwise, just add q_value
-                    else:
-                        stats[q_key][survey_name].append(q_value)
-                    
-        # Loop over each set of responses per survey per question
-        for question in stats:
-            for survey in stats[question]:
-                # Replace responses with actual statistics
-                values = stats[question][survey]
-                
-                # Find appropriate statistics for values
-                stats[question][survey] = {
-                    'median': statistics.median(values),
-                    'mean': statistics.mean(values),
-                    # Standard deviation of response values
-                    'std_dev': round(statistics.stdev(values), 2),
-                    'n': len(values)    # Number of responses
-                }
-    # No other type of category is supported
     else:
-        return 'invalid category type'
+        # "cat_type" is a tag, so use the tags table to get the survey IDs
+        cursor.execute("select survey.ID from survey, survey_to_tag, tag " \
+            "where survey.ID = survey_to_tag.survey_ID && " \
+            "survey_to_tag.tag_ID = tag.ID && tag.type = '"
+            + cat_type + "' && tag.value = '" + cat_name + "';")
     
+    # Check if there are any surveys for "cat_name"
+    survey_IDs = cursor.fetchall()
+    if not survey_IDs:
+        return "no surveys found for category '{}'".format(cat_name)
+    
+    # Loop through all of "cat_name"'s surveys
+    for survey_ID in survey_IDs[0]:
+        # Get the survey's name
+        cursor.execute("select value from tag, survey_to_tag, survey " \
+            "where type = 'name' && tag.ID = survey_to_tag.tag_ID && " \
+            "survey_to_tag.survey_ID = " + str(survey_ID) + ";")
+        survey_name = cursor.fetchone()[0]
+        
+        try:
+            # Retrieve responses from the LimeSurvey database
+            responses = lime.export_responses(survey_ID, heading='full')
+        except TypeError:       # Survey has no responses, so try next ID
+            continue
+        
+        for response in responses['responses']:
+            # Keys are one level deeper
+            response = response[list(response.keys())[0]]
+            
+            # Use only the question keys of a response
+            q_keys = list(set(response.keys()) - {'Response ID', 
+                'Date submitted', 'Last page', 'Start language', 'Seed'})
+            
+            # Add q_key's response to the stats dictionary
+            for q_key in q_keys:
+                try:
+                    q_value = int(response[q_key])  # q_key's response
+                except ValueError:  # Only 1-5 scale questions permitted
+                    continue
+                
+                # Create a question key in stats if not there
+                if q_key not in stats:
+                    stats[q_key] = {survey_name: [q_value]}
+                # Create a survey key in stats if not there
+                elif survey_name not in stats[q_key]:
+                    stats[q_key][survey_name] = [q_value]
+                # Otherwise, just add q_value
+                else:
+                    stats[q_key][survey_name].append(q_value)
+                
+    # Loop over each set of responses per survey per question
+    for question in stats:
+        for survey in stats[question]:
+            # Replace responses with actual statistics
+            values = stats[question][survey]
+            
+            # Find appropriate statistics for values
+            stats[question][survey] = {
+                'median': statistics.median(values),
+                'mean': statistics.mean(values),
+                # Standard deviation of response values
+                'std_dev': round(statistics.stdev(values), 2),
+                'n': len(values)    # Number of responses
+            }
 
     return stats
 

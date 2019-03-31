@@ -13,6 +13,9 @@ from swagger_server.test import BaseTestCase
 class TestTeachersController(BaseTestCase):
     """TeachersController integration test stubs"""
     
+    # Print entire difference between expected and actual output
+    maxDiff = None
+    
     @classmethod
     def setUpClass(cls):
         # Connect to MySQL database
@@ -20,7 +23,8 @@ class TestTeachersController(BaseTestCase):
                                            port=3306,
                                            database='mydb',
                                            user='root',
-                                           password='root')
+                                           password='root',
+                                           buffered=True)
         cls.cursor = cls.mydb.cursor()
         
     def setUp(self):
@@ -88,17 +92,17 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.cursor.execute("select * from survey_to_tag;")
-        self.assertEqual(len(self.cursor.fetchall()), 8)
+        self.assertEqual(len(self.cursor.fetchall()), 16)
         self.cursor.execute("select * from response;")
         self.assertEqual(len(self.cursor.fetchall()), 1)
         self.cursor.execute("select * from survey_to_question;")
-        self.assertEqual(len(self.cursor.fetchall()), 3)
+        self.assertEqual(len(self.cursor.fetchall()), 5)
         self.cursor.execute("select * from survey_to_participant;")
-        self.assertEqual(len(self.cursor.fetchall()), 2)
+        self.assertEqual(len(self.cursor.fetchall()), 3)
         self.cursor.execute("select * from survey;")
-        self.assertEqual(len(self.cursor.fetchall()), 1)
+        self.assertEqual(len(self.cursor.fetchall()), 2)
         self.cursor.execute("select * from tag where type = 'name';")
-        self.assertEqual(len(self.cursor.fetchall()), 1)
+        self.assertEqual(len(self.cursor.fetchall()), 2)
 
     def test_survey_get_valid(self):
         """Test case for survey_get
@@ -161,7 +165,8 @@ class TestTeachersController(BaseTestCase):
                 "welcometext": "Welcome text"
             }
         )
-        def test_survey_get_valid(self):
+                    
+    def test_survey_get_valid_2(self):
         """ Another test case for survey_get
 
         retreives the survey with a given name
@@ -231,7 +236,7 @@ class TestTeachersController(BaseTestCase):
     def test_survey_put_update(self):
         """Test case for survey_put
 
-        updates the info of a survey with a given name
+        creates or updates the info of a survey with a given name
         survey with 'name' is updated with new information
         """
         
@@ -247,8 +252,8 @@ class TestTeachersController(BaseTestCase):
     def test_survey_put_create(self):
         """Test case for survey_put
 
-        updates the info of a survey with a given name
-        survey will be created while 'name' is not as same as exist survey name 
+        creates or updates the info of a survey with a given name
+        survey with new 'name' and 'instructor' is added into the database
         """
         
         query = {}
@@ -260,14 +265,18 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_surveys_get_instructor(self):
+    def test_surveys_get_valid(self):
         """Test case for surveys_get
 
-        retreives a list of survey names, optionally for a given instructor
-        test includes 'instructor' key
+        retreives a list of the names of the user's surveys
+        session user is 'Roy Turner'
         """
         
-        query_string = [('instructor', 'Roy Turner')]
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Roy Turner'
+            sess['email'] = 'roy.turner@maine.edu'
+        
+        query_string = []
         response = self.client.open(
             '/teameval/Eval/1.0.0/surveys',
             method='GET',
@@ -277,45 +286,16 @@ class TestTeachersController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), ['COS 140 001'])
      
-     def test_surveys_get_instructor(self):
+    def test_surveys_get_valid_2(self):
         """Another test case for surveys_get
-
-        retreives a list of survey names, optionally for a given instructor
-        test includes 'instructor' key
-        """
-        
-        query_string = [('instructor', 'Torsten Hahmann')]
-        response = self.client.open(
-            '/teameval/Eval/1.0.0/surveys',
-            method='GET',
-            query_string=query_string)
-        
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-        self.assertEqual(json.loads(response.data), ['COS 250 001'])
-    
-    def test_surveys_get_all(self):
-        """Test case for surveys_get
 
         retreives a list of the names of the user's surveys
+        session user is 'Torsten Hahmann'
         """
         
-        query_string = []
-        response = self.client.open(
-            '/teameval/Eval/1.0.0/surveys',
-            method='GET',
-            query_string=query_string)
-        
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-        self.assertEqual(json.loads(response.data), ['COS 140 001'])
-    
-    def test_surveys_get_all(self):
-        """Another test case for surveys_get
-
-        retreives a list of survey names, optionally for a given instructor
-        test does not include 'instructor' key
-        """
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Torsten Hahmann'
+            sess['email'] = 'torsten.hahmann@maine.edu'
         
         query_string = []
         response = self.client.open(
@@ -326,26 +306,33 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), ['COS 250 001'])
-        
-    def test_create_user_post(self):
-        """Test case for create_user_post
+    
+    def test_surveys_get_invalid(self):
+        """Another test case for surveys_get
 
-        adds a user to the database
+        retreives a list of the names of the user's surveys
+        seesion user is not in the database
         """
         
-        query = {}
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Carol Roberts'
+            sess['email'] = 'carol.roberts@maine.edu'
+        
+        query_string = []
         response = self.client.open(
-            '/teameval/Eval/1.0.0/create_user',
-            method='POST',
-            data=json.dumps(query),
-            content_type='application/json')
+            '/teameval/Eval/1.0.0/surveys',
+            method='GET',
+            query_string=query_string)
+        
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), [])
 
-    def test_login_get(self):
+    def test_login_get_invalid(self):
         """Test case for login_get
 
-        retrieves a token for a certain authentication key
+        logs in a user with a certain authentication key
+        'key' is invalid
         """
         
         query_string = [('key', 'key_example')]
@@ -355,6 +342,7 @@ class TestTeachersController(BaseTestCase):
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), 'INVALID LOGIN')
 
     def test_publish_get(self):
         """Test case for publish_get
