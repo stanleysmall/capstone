@@ -93,7 +93,7 @@ The procedure to fully install the course evaluation system is listed as follows
 
     \item In the terminal, execute \verb|ssh -i "limesurvey.pem" ec2-user@ec2-x-x-x-x.us-east-2.compute|\newline\verb|.amazonaws.com| with the x’s replaced by the fields in the instance’s IP address (see "IPv4 Public IP"). Or right-click on the instance, click ``Connect'', and copy and paste the example command.
 
-    \item Enter "yes" when prompted, then run \verb+wget -O - https://raw.githubusercontent.com/stansmall+\newline\verb+/capstone/master/aws.sh | bash+. After installation is finished, exit ssh with the command \verb|exit|, then execute the ssh command again.
+    \item Enter "yes" when prompted, then run \verb+wget -O - https://raw.githubusercontent.com+\newline\verb+/stanleysmall/capstone/master/aws.sh | bash+. After installation is finished, exit ssh with the command \verb|exit|, then execute the ssh command again.
 
     \item Execute \verb|cd capstone|, then \verb|docker-compose up -d|. After installation is finished, in your web browser, enter ``teachingevaluations.org:5000''.
 
