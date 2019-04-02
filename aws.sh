@@ -1,6 +1,6 @@
 # AWS CONFIG FILE
 # run these commands on a new EC2 instance
-# wget -O - https://raw.githubusercontent.com/stansmall/capstone/master/aws.sh | bash
+# wget -O - https://raw.githubusercontent.com/stanleysmall/capstone/master/aws.sh | bash
 
 # install required packages
 sudo yum update -y
