@@ -45,13 +45,13 @@ Instructor: Professor Terry Yoo
 
 \section{Introduction}
 
-Team EVAL is creating a system to more efficiently create and distribute post-semester teaching evaluations. Our client wants us to build such a system because the current one used by the University of Maine is too difficult to use. The team must write documentation for system administrators to effectively maintain the evaluation system.
+Team EVAL is creating a system to more efficiently create and distribute post-semester teaching evaluations. Our client wants us to build such a system because the current one used by the University of Maine is flawed and does not meet the needs of faculty. The team must write documentation for system administrators to effectively maintain the evaluation system that is delivered by Team EVAL at the end of the semester.
  
 \subsection{Purpose of This Document}
 
-The purpose of the administrator manual to instruct system administrators on how to properly install, maintain, and recover Team EVAL's course evaluation program. As the members of the team graduate on May 2019, there will need to be people who know how to keep the system running long afterwards. The manual includes information about the system requirements, installation of the system, administrative tasks for the system, and troubleshooting errors.
+The purpose of the administrator manual to instruct system administrators on how to properly install, maintain, and recover Team EVAL's course evaluation program. As the members of the team graduate on May 2019, there will need to be people who know how to implement and keep the system running after the original team members leave campus.  Documentation is key in on-boarding new members to the project and as such this administrator's manual includes information about the system requirements, installation of the system, administrative tasks for the system, and troubleshooting errors.
 
-This document is intended for the development team, the product client, Dr. Harlan Onsrud, and potential administrators of the system. The team needs it to know how to maintain the evaluation system during development. Dr. Onsrud needs the document to know how to install and troubleshoot the system. Finally, system administrators must follow the document to do their jobs correctly.
+This document is intended for the development team, the product client, Dr. Harlan Onsrud, and any potential administrators of the system. The team needs it to know how to maintain the evaluation system during development. Dr. Onsrud needs the document to understand how to the system is administered and share with any potential future administrators.
 
 \subsection{References}
 
@@ -63,13 +63,16 @@ Craig, J., Elliott, S., Judkins, R., \& Small, S. 16 November 2018. \textit{Syst
 
 \subsection{Background}
 
-The system administrator will be charged with overseeing the course evaluation system, from its installation to routine maintenance. The system is composed of three major parts: the front-end user interface code written in JavaScript, the back-end API written in Python, and the MySQL database that stores survey form data. OVERVIEW OF ADMINISTRATOR'S TASKS.
+The system administrator will be charged with overseeing the course evaluation system, from its installation to routine maintenance. The system is composed of three major parts: the front-end user interface code written in JavaScript, the back-end API written in Python, and the MySQL database that stores survey form data. 
+
+
+OVERVIEW OF ADMINISTRATOR'S TASKS.
 
 DESCRIBE TASKS AND EXPLAIN WHY THEY ARE NEEDED.
 
 \subsection{Hardware and Software Requirements}
 
-The course evaluation system has low performance requirements, so it can run on any computer with decently fast hardware. However, the system requires multiple software dependencies to be installed so that it can work. First, the computer's operating system must be Windows (7 or later), Mac OS, or Linux. Second, the system must be installed on an Amazon Web Services server instance, so administrators need a command-line terminal such as PowerShell.
+The course evaluation system has low performance requirements, the system will be hosted on a web server using Amazon Web Services and as such any computer with basic access to the internet should be able to set up and administer the course evaluation system.  First, the computer's operating system must be Windows (7 or later), Mac OS, or Linux. Second, the system will be installed on an Amazon Web Services server instance, so administrator will need a command-line terminal such as PowerShell.
 
 After a server instance is set up, several libraries must be installed for the system's code to run. The system requires Docker to containerize the components and LimeSurvey 3 to distribute surveys. The back end needs MySQL to run the survey database and TaiSHiNet's ``lime-py-api'' library for the back end to interface with LimeSurvey. The front end needs Node.js, the Node Package Manager, and React.js for the JavaScript code to run. Most of these dependencies are installed automatically, but administrators must configure LimeSurvey in addition.
 
@@ -119,9 +122,9 @@ Administrators can turn to resources for help with managing the course evaluatio
 
 \subsection{Dealing with Error Messages and Failures}
 
-Administrators will need to handle errors that occur during the system's operation. The terminal window will show error information that describes what went wrong. This is prefixed by the name of a Docker container, which lets one know which component of the system has the error. Upon an error, an administrator must first check whether he or she followed everything in the installation procedure.
+Administrators will need to handle errors that occur during the system's operation. After accessing the web server with the SSH command the terminal window will show error information that describes what went wrong. This is prefixed by the name of a Docker container, which lets one know which component of the system has the error. Upon an error, an administrator must first check whether he or she followed everything in the installation procedure.
 
-If the installation is fine, the problem probably lies in the system's code. Administrators must send the error information printed by the console to an experienced programmer, who will use it to fix the bug in the system. Stack Overflow is a helpful website for diagnosing error messages output by a computer program. As a last resort, administrators should message Stanley Small with the error message.
+If the installation procedure is followed correctly the user should first attempt restarting the system.  After accessing the web server the administrator should enter \verb|docker-compose stop| at the command line to stop the current running process.  The Administrator can then start the instance again by entering \verb|docker-compose up -d|.  If the problem persists it most likely lies in the system's code. Administrators should refer the error information printed by the console to an programmer who is able to alter the source code of the application. Stack Overflow is a helpful website for diagnosing error messages output by a computer program. As a last resort, administrators should message Stanley Small with the error message.
 
 \subsection{Known Bugs and Limitations}
 
