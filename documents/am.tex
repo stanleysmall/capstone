@@ -79,7 +79,7 @@ After a server instance is set up, several libraries must be installed for the s
 
 \subsection{Installation}
 
-The procedure to fully install the course evaluation system on an Amazon Web Services instance is listed as follows:
+The procedure to fully install the course evaluation system on an Amazon Web Services EC2 instance is listed as follows:
 
 \begin{enumerate}
     \item Create an Amazon Web Services account and go to the EC2 Dashboard. Click on ``Instances'', then ``Launch Instance''. Select the first AMI, then click ``Review and Launch'', then ``Launch''. Select ``Create a new key pair''. Name it ``limesurvey'', and download the key. Click on ``Launch Instances''.
@@ -104,6 +104,9 @@ The procedure to fully install the course evaluation system on an Amazon Web Ser
 
     \item Start Docker up again if it's stopped. Test the API by entering in the web browser ``http://\newline teachingevaluations.org:8080/teameval/Eval/1.0.0/survey?name=test''. The browser should output ``\{\}'', indicating there are no surveys in the database.
 \end{enumerate}
+
+Route 53 must be configured so \verb|teachingevaluations.org| directs to the AWS instance. One can follow the steps here: \\
+\verb|https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-ec2-instance.html|. This configuration must only be completed once. 
 
 \subsection{Routine Tasks}
 Administrators will need to ensure the billing information for the domain \verb| teachingevaluations.org| is up to date. If the domain is not successfully renewed, an attacker could buy the domain and initiate phishing attacks on users. Additionally, administrators must ensure the billing information for Amazon Web Services is up to date. Currently, the system is hosted with a "free tier" package which allows one instance of the system to exist. In order for the system to be scalable during times of peak use, a paid plan is likely required. Services which are required from AWS to run the system include Elastic Cloud Compute (EC2) and Route 53 (a domain forwarding service). 
