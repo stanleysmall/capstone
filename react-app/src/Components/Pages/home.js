@@ -18,8 +18,8 @@ class Home extends Component {
         };
 
 
-    resultsTagName = "tagName";
-    resultsTag = "tag";
+    resultsTagName = "instructor";
+    resultsTag = "Roy Turner";
 
     constructor(props)
     {

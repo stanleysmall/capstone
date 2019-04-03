@@ -49,6 +49,16 @@ export const getEval = (name) =>
             })
 }
 
+export const getResults = (cat_type, cat_name) =>
+{
+	return fetch(APIAddress + "results?cat_type=&cat_name=" +cat_type,cat_name)
+			.then(response =>response.json())
+			.then((responseData) => {
+				console.log(responseData);
+				return responseData;
+			})
+}
+
 /*
     Returns: A list of all the names of surveys the user has created in the past
 */
