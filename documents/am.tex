@@ -45,7 +45,7 @@ Instructor: Professor Terry Yoo
 
 \section{Introduction}
 
-Team EVAL is creating a system to more efficiently create and distribute post-semester teaching evaluations. Our client wants us to build such a system because the current one used by the University of Maine is flawed and does not meet the needs of faculty. The team must write documentation for system administrators to effectively maintain the evaluation system that is delivered by Team EVAL at the end of the semester.
+Team EVAL is creating a system to more efficiently create and distribute post-semester teaching evaluations. Our client wants us to build such a system because the current one used by the University of Maine is flawed and does not meet the needs of faculty. The team must write documentation for system administrators to effectively maintain the evaluation system that is delivered by Team EVAL at the end of the semester. All members of the team plan to graduate in May 2019, and no budget exists for system maintainence.
  
 \subsection{Purpose of This Document}
 
@@ -65,14 +65,14 @@ Craig, J., Elliott, S., Judkins, R., \& Small, S. 16 November 2018. \textit{Syst
 
 The system administrator will be charged with overseeing the course evaluation system, from its installation to routine maintenance. The system is composed of three major parts: the front-end user interface code written in JavaScript, the back-end API written in Python, and the MySQL database that stores survey form data. 
 
-
+Administrators have a variety of tasks required for a steady upkeep of the evaluations system. 
 OVERVIEW OF ADMINISTRATOR'S TASKS.
 
 DESCRIBE TASKS AND EXPLAIN WHY THEY ARE NEEDED.
 
 \subsection{Hardware and Software Requirements}
 
-The course evaluation system has low performance requirements, the system will be hosted on a web server using Amazon Web Services and as such any computer with basic access to the internet should be able to set up and administer the course evaluation system.  First, the computer's operating system must be Windows (7 or later), Mac OS, or Linux. Second, the system will be installed on an Amazon Web Services server instance, so administrator will need a command-line terminal such as PowerShell.
+The course evaluation system has low performance requirements, as the system will be hosted on a web server using Amazon Web Services and any computer with basic access to the internet should be able to set up and administer the course evaluation system via the console.  First, the computer's operating system must be Windows (7 or later), Mac OS, or Linux. Second, the system will be installed on an Amazon Web Services server instance, so administrator will need a command-line terminal such as PowerShell.
 
 After a server instance is set up, several libraries must be installed for the system's code to run. The system requires Docker to containerize the components and LimeSurvey 3 to distribute surveys. The back end needs MySQL to run the survey database and TaiSHiNet's ``lime-py-api'' library for the back end to interface with LimeSurvey. The front end needs Node.js, the Node Package Manager, and React.js for the JavaScript code to run. Most of these dependencies are installed automatically, but administrators must configure LimeSurvey in addition.
 
@@ -184,7 +184,7 @@ Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
 \newpage
 \section{Document Contributions}
 
-Stanley Small ??. Stan contributed about ?? percent of the document.
+Stanley Small ??. Stan contributed about 20 percent of the document.
 
 Jovon Craig ??. Jovon contributed about ?? percent of the document.
 
