@@ -65,10 +65,7 @@ Craig, J., Elliott, S., Judkins, R., \& Small, S. 16 November 2018. \textit{Syst
 
 The system administrator will be charged with overseeing the course evaluation system, from its installation to routine maintenance. The system is composed of three major parts: the front-end user interface code written in JavaScript, the back-end API written in Python, and the MySQL database that stores survey form data. 
 
-Administrators have a variety of tasks required for a steady upkeep of the evaluations system. 
-OVERVIEW OF ADMINISTRATOR'S TASKS.
-
-DESCRIBE TASKS AND EXPLAIN WHY THEY ARE NEEDED.
+Administrators have a variety of tasks required for a steady upkeep of the evaluations system. The most important tasks ensure administrators will not lose access to data or to the servers. These include keeping all billing information current. If either the domain service or Amazon cannot bill the administrator, data could be lost or access to the system could be removed. Data from both Limesurvey and the system should be backed up periodically. Backups can be stored using Amazon's Simple Storage Service (S3).  While the loss of data remains unlikely, a backup should be kept and updated after each semester. 
 
 \subsection{Hardware and Software Requirements}
 
@@ -107,10 +104,15 @@ The procedure to fully install the course evaluation system is listed as follows
 \end{enumerate}
 
 \subsection{Routine Tasks}
+Administrators will need to ensure the billing information for the domain \verb| teachingevaluations.org| is up to date. If the domain is not successfully renewed, an attacker could buy the domain and initiate phishing attacks on users. Additionally, administrators must ensure the billing information for Amazon Web Services is up to date. Currently, the system is hosted with a "free tier" package which allows one instance of the system to exist. In order for the system to be scalable during times of peak use, a paid plan is likely required. Services which are required from AWS to run the system include Elastic Cloud Compute (EC2) and Route 53 (a domain forwarding service). 
 
-
+Administrators should also monitor development blogs for the technologies used in this system to ensure no vulnerabilities are discovered. Software such as Limesurvey can be updated periodically; however, the installation script currently pulls the most recent version of Limesurvey from the official repository.  
 
 \subsection{Periodic Administration}
+Both the system database and the Limesurvey database should be backed up periodically. 
+
+INCLUDE INSTRUCTIONS FOR BACKING UP DATABASE
+
 
 
 
