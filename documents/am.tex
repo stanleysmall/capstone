@@ -86,7 +86,7 @@ The procedure to fully install the course evaluation system on an Amazon Web Ser
 
     \item In a terminal program, change your working directory to the folder with the key, and change the key's permissions with the command \verb|chmod 400 limesurvey.pem|.
 
-    \item In the left pane, click ``Security Groups'', right-click the group with its name starting with ``launch-wizard'', then click ``Edit inbound rules''. Add four new rules, with their ports being 80, 5000, 6379, and 8080 respectively, and their source being ``Anywhere''. Click on ``Save''.
+    \item In the left pane, click ``Security Groups'', right-click the group with its name starting with ``launch-wizard'', then click ``Edit inbound rules''. Add four new rules, with their ports being 80, 5000, and 8080 respectively, and their source being ``Anywhere''. Click on ``Save''.
     
     \item If using Windows 7 or 8, open PowerShell and install the ``chocolatey'' library found at \newline https://chocolatey.org/docs/installation, then OpenSSH.
 
@@ -98,7 +98,7 @@ The procedure to fully install the course evaluation system on an Amazon Web Ser
 
     \item Click ``Start installation'', ``I accept'', and ``Next''. In the database configuration, enter ``10.5.0.6'' for the location, ``root'' for the username and password, and ``limesurvey'' for the database name. Click ``Next'', then ``Create database'', then ``Populate database''. Click ``Next'' to use the default LimeSurvey credentials.
 
-    \item Click ``Administration'', and log in with ``admin'' as the username and ``password'' as the password. Go to ``Configuration'', then ``Global settings'', then ``Interfaces''. Click on ``JSON-RPC'', then the toggle below. Click ``Save''.
+    \item Click ``Administration'', and log in with a username and password of your choosing. Go to ``Configuration'', then ``Global settings'', then ``Interfaces''. Click on ``JSON-RPC'', then the toggle below. Click ``Save''.
 
     \item Execute \verb|mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql|,\newline entering ``root'' as the password.
 
