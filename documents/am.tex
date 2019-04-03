@@ -74,13 +74,13 @@ DESCRIBE TASKS AND EXPLAIN WHY THEY ARE NEEDED.
 
 The course evaluation system has low performance requirements, as the system will be hosted on a web server using Amazon Web Services and any computer with basic access to the internet should be able to set up and administer the course evaluation system via the console.  First, the computer's operating system must be Windows (7 or later), Mac OS, or Linux. Second, the system will be installed on an Amazon Web Services server instance, so administrator will need a command-line terminal such as PowerShell.
 
-After a server instance is set up, several libraries must be installed for the system's code to run. The system requires Docker to containerize the components and LimeSurvey 3 to distribute surveys. The back end needs MySQL to run the survey database and TaiSHiNet's ``lime-py-api'' library for the back end to interface with LimeSurvey. The front end needs Node.js, the Node Package Manager, and React.js for the JavaScript code to run. Most of these dependencies are installed automatically, but administrators must configure LimeSurvey in addition.
+After a server instance is set up, several libraries must be installed for the system's code to run. The system requires Docker to containerize the components and LimeSurvey 3 to distribute surveys. The back end needs MySQL to run the survey database and TaiSHiNet's ``lime-py-api'' library for the back end to interface with LimeSurvey. The front end needs Node.js, the Node Package Manager along with a series of node packages, and React.js for the JavaScript code to run. Most of these dependencies are installed automatically, but administrators must configure LimeSurvey in addition.
 
 \section{Administrative Procedures}
 
 \subsection{Installation}
 
-The procedure to fully install the course evaluation system is listed as follows:
+The procedure to fully install the course evaluation system on and Amazon Web Services instance is listed as follows:
 
 \begin{enumerate}
     \item Create an Amazon Web Services account and go to the EC2 Dashboard. Click on "Instances", then "Launch Instance". Select the first AMI, then click "Review and Launch", then "Launch". Select "Create a new key pair". Name it "limesurvey", and download the key. Click on "Launch Instances".
@@ -89,7 +89,7 @@ The procedure to fully install the course evaluation system is listed as follows
 
     \item In the left pane, click "Security Groups", right-click the group with its name starting with "launch-wizard", then click "Edit inbound rules". Add four new rules, with their ports being 80, 5000, 6379, and 8080 respectively, and their source being ``Anywhere''. Click on "Save".
     
-    \item If using Windows 7 or 8, open PowerShell and install the ``chocolatey'' library, then OpenSSH.
+    \item If using Windows 7 or 8, open PowerShell and install the ``chocolatey'' library found at \newline https://chocolatey.org/docs/installation, then OpenSSH.
 
     \item In the terminal, execute \verb|ssh -i "limesurvey.pem" ec2-user@ec2-x-x-x-x.us-east-2.compute|\newline\verb|.amazonaws.com| with the x’s replaced by the fields in the instance’s IP address (see "IPv4 Public IP"). Or right-click on the instance, click ``Connect'', and copy and paste the example command.
 
@@ -116,7 +116,7 @@ The procedure to fully install the course evaluation system is listed as follows
 
 \subsection{User Support}
 
-Administrators can turn to resources for help with managing the course evaluation system. The GitHub repository of the system, at https://github.com/stanleysmall/capstone, contains a README that has installation instructions, as well as commands to build the code or mount the system directory on a local machine. The code itself contains comments on how to format endpoint calls and JSON input. For human help, one can contact the team leader, Stanley Small, through e-mail at stanley.small@gmail.com.
+Administrators can turn to available resources for help with managing the course evaluation system. The GitHub repository of the system, at https://github.com/stanleysmall/capstone, contains a README that has installation instructions, as well as commands to build the code or mount the system directory on a local machine. The source code contains robust comments on purpose and functionality of code, how to format endpoint calls andwhat the expencted JSON input is. For human help, one can contact the team leader, Stanley Small, through e-mail at stanley.small@gmail.com.
 
 \section{Troubleshooting}
 
@@ -124,11 +124,11 @@ Administrators can turn to resources for help with managing the course evaluatio
 
 Administrators will need to handle errors that occur during the system's operation. After accessing the web server with the SSH command the terminal window will show error information that describes what went wrong. This is prefixed by the name of a Docker container, which lets one know which component of the system has the error. Upon an error, an administrator must first check whether he or she followed everything in the installation procedure.
 
-If the installation procedure is followed correctly the user should first attempt restarting the system.  After accessing the web server the administrator should enter \verb|docker-compose stop| at the command line to stop the current running process.  The Administrator can then start the instance again by entering \verb|docker-compose up -d|.  If the problem persists it most likely lies in the system's code. Administrators should refer the error information printed by the console to an programmer who is able to alter the source code of the application. Stack Overflow is a helpful website for diagnosing error messages output by a computer program. As a last resort, administrators should message Stanley Small with the error message.
+If the installation procedure is followed correctly the user should first attempt restarting the system.  After accessing the web server the administrator should enter \verb|docker-compose stop| at the command line to stop the current running process.  The Administrator can then start the instance again by entering \verb|docker-compose up -d|.  If the problem persists it most likely lies in the system's code. Administrators should refer the error information printed by the console to an programmer who is able to alter the source code of the application. Error messages state which line in a file is causing a problem, the source code comments can help with identifying what the issues. Stack Overflow is also a helpful website for diagnosing error messages output by a computer program. As a last resort, administrators should message Stanley Small with the error message.
 
 \subsection{Known Bugs and Limitations}
 
-There are a few limitations of the course evaluation system's functionality, which exist because of time constraints in system development. First, the system sends only invitation e-mails to students taking an evaluation survey. It will not send e-mails confirming survey completion or subsequent reminder e-mails to non-respondents. Second, only three open-ended questions, rather than a variable number, are permitted when creating an evaluation form. Third, there is no way to allow for a non-anonymous response that is signed by a student.
+There are a few limitations of the course evaluation system's functionality, which exist because of time constraints in system development. First, the system sends only invitation e-mails to students taking an evaluation survey. It will not send e-mails confirming survey completion or subsequent reminder e-mails to non-respondents. Second, only open ended questions or questions that are answered on a 1-5 scale are permitted when creating an evaluation form. Third, there is no way to allow for a non-anonymous response that is signed by a student.
 
 These limitations affect end users in that some students may forget to take an evaluation survey (due to lack of reminder e-mails), and teacher evaluations are less open-ended and permissive of feedback. Administrators must inform potential users of the evaluation system about the limitations, and users need to work around the problems when creating survey forms. Also, professors should send reminder e-mails to non-respondents by themselves. Finally, administrators should eventually command a programmer to remove the system's limitations.
 
