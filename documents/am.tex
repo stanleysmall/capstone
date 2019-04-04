@@ -49,9 +49,9 @@ Team EVAL is creating a system to more efficiently create and distribute post-se
  
 \subsection{Purpose of This Document}
 
-The purpose of the administrator manual to instruct system administrators on how to properly install, maintain, and recover Team EVAL's course evaluation program. As the members of the team graduate in May 2019, there will need to be people who know how to implement and keep the system running after the original team members leave campus.  Documentation is key in on-boarding new members to the project and as such this administrator's manual includes information about the system requirements, installation of the system, administrative tasks for the system, and troubleshooting errors.
+The purpose of the administrator manual to instruct system administrators on how to properly install, maintain, and recover Team EVAL's course evaluation program. As the members of the team graduate this May, there will need to be people who know how to implement and keep the system running after the original team members leave campus.  Documentation is key to onboarding new members to the project, and as such, this administrator's manual includes information about the system requirements, installation of the system, administrative tasks for the system, and troubleshooting information.
 
-This document is intended for the development team, the product client, Dr. Harlan Onsrud, and any potential administrators of the system. The team needs it to know how to maintain the evaluation system during development. Dr. Onsrud needs the document to understand how to the system is administered and share with any potential future administrators.
+This document is intended for the development team, the product client, Dr. Harlan Onsrud, and any potential administrators of the system. The team needs it to know how to maintain the evaluation system during development. Dr. Onsrud needs the document to understand how the system is administered and to share it with any potential future administrators.
 
 \subsection{References}
 
@@ -65,15 +65,15 @@ Craig, J., Elliott, S., Judkins, R., \& Small, S. 16 November 2018. \textit{Syst
 
 The system administrator will be charged with overseeing the course evaluation system, from its installation to routine maintenance. The system is composed of three major parts: the front-end user interface code written in JavaScript, the back-end API written in Python, and the MySQL database that stores survey form data. 
 
-Administrators have a variety of tasks required for a steady upkeep of the evaluations system. The most important tasks ensure administrators will not lose access to data or to the servers. These include keeping all billing information current. If either the domain service or Amazon cannot bill the administrator, data could be lost or access to the system could be removed. Data from both Limesurvey and the system should be backed up periodically. Backups can be stored using Amazon's Simple Storage Service (S3).  While the loss of data remains unlikely, a backup should be kept and updated after each semester. 
+Administrators have a variety of tasks required for a continual upkeep of the evaluations system. The most important tasks ensure that administrators will not lose access to data or to the servers. These include keeping all billing information current. If either the domain service or Amazon cannot bill the administrator, data could be lost, or access to the system could be removed. Data from both Limesurvey and the system should be backed up periodically. Backups can be stored using Amazon's Simple Storage Service (S3).  While the loss of data remains unlikely, a backup should be kept and updated after each semester. 
 
-The system administrator will be charged with overseeing the course evaluation system, from its installation to trouble shooting and routine maintenance. The system is composed of three major parts: the front-end user interface code written in JavaScript, the back-end API written in Python, and the MySQL database that stores survey form data. Once the system is installed a majority of the functionality is automated and the administrator will simply need to share the websites URL to teachers who may wish to use the software to conduct teaching evaluations.
+Once the system is installed, a majority of the functionality is automated, and the administrator will simply need to share the website's URL to teachers who may wish to use the software to conduct teaching evaluations.
 
 \subsection{Hardware and Software Requirements}
 
-The course evaluation system has low performance requirements, as the system will be hosted on a web server using Amazon Web Services and any computer with basic access to the internet should be able to set up and administer the course evaluation system via the console.  First, the computer's operating system must be Windows (7 or later), Mac OS, or Linux. Second, the system will be installed on an Amazon Web Services server instance, so administrator will need a command-line terminal such as PowerShell.
+The course evaluation system has low performance requirements, as the system will be hosted on a web server using Amazon Web Services, and any computer with Internet access should be able to set up and administer the course evaluation system via the console. As for memory, the system requires at least 2 GB of storage. The computer's operating system must be Windows (7 or later), Mac OS, or Linux. The evaluation system will be installed on an Amazon Web Services server instance, so administrators will need a command-line terminal such as PowerShell.
 
-After a server instance is set up, several libraries must be installed for the system's code to run. The system requires Docker to containerize the components and LimeSurvey 3 to distribute surveys. The back end needs MySQL to run the survey database and TaiSHiNet's ``lime-py-api'' library for the back end to interface with LimeSurvey. The front end needs Node.js, the Node Package Manager along with a series of node packages, and React.js for the JavaScript code to run. Most of these dependencies are installed automatically, but administrators must initially configure limesurvey when they install the system.
+After a server instance is set up, several libraries must be installed for the system's code to run. The system requires Docker to containerize the components and LimeSurvey 3 to distribute surveys. The back end needs MySQL to run the survey database and TaiSHiNet's ``lime-py-api'' library for the back end to interface with LimeSurvey. The front end needs Node.js, the Node Package Manager with a series of node packages, and React.js for the JavaScript code to run. Most of these dependencies are installed automatically, but administrators must initially configure LimeSurvey when they install the system.
 
 \section{Administrative Procedures}
 
@@ -84,7 +84,7 @@ The procedure to fully install the course evaluation system on an Amazon Web Ser
 \begin{enumerate}
     \item Create an Amazon Web Services account and go to the EC2 Dashboard. Click on ``Instances'', then ``Launch Instance''. Select the first AMI, then click ``Review and Launch'', then ``Launch''. Select ``Create a new key pair''. Name it ``limesurvey'', and download the key. Click on ``Launch Instances''.
 
-    \item In a terminal program, change your working directory to the folder with the key, and change the key's permissions with the command \verb|chmod 400 limesurvey.pem|. If this command not working in your console, try $path = ".\test.txt" ,icacls.exe $path /reset, icacls.exe $path /GRANT:R "$((Get-Acl-Path .\test.txt).Owner):(R)", icacls.exe $path /inheritance:r . Replace the test.txt with your .pem file, these commands will give you permission to set read-only file.  
+    \item In a terminal program, change your working directory to the folder with the key, and change the key's permissions with the command \verb|chmod 400 limesurvey.pem|. If this command does not work, try \verb|$path = ".\test.txt" ,icacls.exe $path /reset, icacls.exe $path /GRANT:R |\newline \verb|"$((Get-Acl-Path .\test.txt).Owner):(R)", icacls.exe $path /inheritance:r|, replacing \newline ``test.txt'' with the .pem file name. These commands give you permission to set the file as read-only.  
 
     \item In the left pane, click ``Security Groups'', right-click the group with its name starting with ``launch-wizard'', then click ``Edit inbound rules''. Add four new rules, with their ports being 80, 5000, and 8080 respectively, and their source being ``Anywhere''. Click on ``Save''.
     
@@ -92,7 +92,7 @@ The procedure to fully install the course evaluation system on an Amazon Web Ser
 
     \item In the terminal, execute \verb|ssh -i "limesurvey.pem" ec2-user@ec2-x-x-x-x.us-east-2.compute|\newline\verb|.amazonaws.com| with the x’s replaced by the fields in the instance’s IP address (see ``IPv4 Public IP''). Or right-click on the instance, click ``Connect'', and copy and paste the example command.
 
-    \item Enter ``yes'' when prompted, then run \verb+wget -O - https://raw.githubusercontent.com+\newline\verb+/stanleysmall/capstone/master/aws.sh | bash+. After installation is finished, exit ssh with the command \verb|exit|, then execute the ssh command again.
+    \item Enter ``yes'' when prompted, then run \verb+wget -O - https://raw.githubusercontent.com+\newline\verb+/stanleysmall/capstone/master/aws.sh | bash+. After installation is finished, exit SSH with the command \verb|exit|, then execute the SSH command again.
 
     \item Execute \verb|cd capstone|, then \verb|docker-compose up -d|. After installation is finished, in your web \newline browser, enter ``teachingevaluations.org:5000''.
 
@@ -105,36 +105,39 @@ The procedure to fully install the course evaluation system on an Amazon Web Ser
     \item Start Docker up again if it's stopped. Test the API by entering in the web browser ``http://\newline teachingevaluations.org:8080/teameval/Eval/1.0.0/survey?name=test''. The browser should output ``\{\}'', indicating there are no surveys in the database.
 \end{enumerate}
 
-Route 53 must be configured so \verb|teachingevaluations.org| directs to the AWS instance. One can follow the steps here: \\
-\verb|https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-ec2-instance.html|. This configuration must only be completed once. 
+\vspace{4mm}
+
+Route 53 must be configured so that \verb|teachingevaluations.org| directs to the AWS instance. One can follow the steps at https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-ec2-instance\newline .html. This configuration must only be completed once. 
 
 \subsection{Routine Tasks}
-Administrators will need to ensure the billing information for the domain \verb| teachingevaluations.org| is up to date. If the domain is not successfully renewed, an attacker could buy the domain and initiate phishing attacks on users. Additionally, administrators must ensure the billing information for Amazon Web Services is up to date. Currently, the system is hosted with a "free tier" package which allows one instance of the system to exist. In order for the system to be scalable during times of peak use, a paid plan is likely required. Services which are required from AWS to run the system include Elastic Cloud Compute (EC2) and Route 53 (a domain forwarding service). 
 
-Administrators should also monitor development blogs for the technologies used in this system to ensure no vulnerabilities are discovered. Software such as Limesurvey can be updated periodically; however, the installation script currently pulls the most recent version of Limesurvey from the official repository.  
+Administrators will need to ensure that the billing information for the domain ``teachingevaluations.org'' is up to date. If the domain is not successfully renewed, an attacker could buy the domain and initiate phishing attacks on users. Additionally, administrators must ensure that the billing info for Amazon Web Services is up to date. Currently, the system is hosted with a "free tier" package, which allows one instance of the system to exist. For the system to be scalable during times of peak use, a paid plan is likely required. Services that are required by AWS to run the system include Elastic Cloud Compute (EC2) and Route 53 (a domain forwarding service). 
+
+Administrators should also monitor development blogs for the technologies used in this system to ensure that no vulnerabilities are discovered. Software such as LimeSurvey can be updated periodically; however, the installation script currently pulls the most recent version of LimeSurvey from the official repository.  
 
 \subsection{Periodic Administration}
-In order to ensure that the software maintains privacy standards and limit liability for those administering the software the survey data will have to be periodically deleted from the LimeSurvey database.  The administer will need to delete this data by navigating to http://teachingevaluations.org:5000/index.php/admin/authentication/sa/login and following the on screen instructions to delete the stored data.  In the future this tasks will be automated to reduce the need for administrator interaction as much as possible. Both the system database and the Limesurvey database should be backed up periodically. Refer to the installation instructions in the installation guide for database access. 
 
-This application is self sufficient and outside of handling error messages, failures, and the periodic administration outlined bellow the administrator should not need to perform any routine tasks after installing it on their web instance.
+To make the software maintain privacy standards and to limit liability for those administering the software, the survey data will have to be periodically deleted from the LimeSurvey database.  The administer will need to delete this data by navigating to http://teachingevaluations.org:5000/index.php/admin/authentication/\newline sa/login and following the on-screen instructions to delete the stored data. In the future, this task will be automated to reduce the need for administrator interaction as much as possible. Also, both the system database and the LimeSurvey database should be backed up periodically. Refer to the installation instructions in the installation guide for database access.
+
+This application is self-sufficient and besides handling error messages, failures, and the periodic administration outlined above, the administrator should not need to perform any routine tasks after installing the application on their web instance.
 
 \subsection{User Support}
 
-Administrators can turn to available resources for help with managing the course evaluation system. The GitHub repository of the system, at https://github.com/stanleysmall/capstone, contains a README that has installation instructions, as well as commands to build the code or mount the system directory on a local machine. The source code contains robust comments on purpose and functionality of code, how to format endpoint calls and what the expected JSON input is. For personal help, one can contact the team leader, Stanley Small, through e-mail at stanley.small@gmail.com.
+Administrators can turn to available resources for help with managing the course evaluation system. The GitHub repository of the system, at https://github.com/stanleysmall/capstone, contains a README that has installation instructions, as well as commands to build the code or mount the system directory on a local machine. The source code contains comments on the purpose and functionality of the code, how to format endpoint calls, and what is the expected JSON input. For personal help, one can contact the team leader, Stanley Small, through e-mail at stanley.small@gmail.com.
 
 \section{Troubleshooting}
 
 \subsection{Dealing with Error Messages and Failures}
 
-Administrators will need to handle errors that occur during the system's operation. After accessing the web server with the SSH command the terminal window will show error information that describes what went wrong. This is prefixed by the name of a Docker container, which lets one know which component of the system has the error. Upon an error, an administrator must first check whether he or she followed everything in the installation procedure.
+Administrators will need to handle errors that occur during the system's operation. After accessing the web server with the SSH command, the terminal window will show error information that describes what went wrong. This is prefixed by the name of a Docker container, which lets one know which component of the system has the error. Upon an error, an administrator must first check whether he or she followed everything in the installation procedure.
 
-If the installation procedure is followed correctly the user should first attempt restarting the system.  After accessing the web server the administrator should enter \verb|docker-compose stop| at the command line to stop the current running process.  The Administrator can then start the instance again by entering \verb|docker-compose up -d|.  If the problem persists it most likely lies in the system's code. Administrators should refer the error information printed by the console to an programmer who is able to alter the source code of the application. Error messages state which line in a file is causing a problem, the source code comments can help with identifying what the issues. Stack Overflow is also a helpful website for diagnosing error messages output by a computer program. As a last resort, administrators should message Stanley Small with the error message.
+If the installation procedure is followed correctly, the user should first attempt restarting the system. After accessing the web server the administrator should enter \verb|docker-compose stop| at the command line to stop the current running process, then start the instance again by entering \verb|docker-compose up -d|.  If the problem persists, it most likely lies in the system's code. Administrators should refer the error information printed by the console to an programmer who is able to change the application's source code. Error messages state which line in a file is causing a problem, and the source code comments can help with identifying the issues. Also, Stack Overflow is a helpful website for diagnosing error messages displayed by a computer program. As a last resort, administrators should message Stanley Small with the error message.
 
 \subsection{Known Bugs and Limitations}
 
-There are a few limitations of the course evaluation system's functionality, which exist because of time constraints in system development. First, the system sends only invitation e-mails to students taking an evaluation survey. It will not send e-mails confirming survey completion or subsequent reminder e-mails to non-respondents. Second, only questions that are open-ended or answered on a 1-5 scale are permitted when creating an evaluation form. Third, there is no way to allow for a non-anonymous response that is signed by a student. Lastly, the data in both databases is not deleted automatically.
+Although there are no known bugs, there are a few limitations in the course evaluation system's functionality, which exist because of time constraints in system development. First, the system sends only invitation e-mails to students taking an evaluation survey. It will not send e-mails confirming survey completion or subsequent reminder e-mails to non-respondents. Second, only questions that are open-ended or answered on a 1-5 scale are permitted when creating an evaluation form. Third, there is no way to allow for a non-anonymous response that is signed by a student. Lastly, the data in both databases is not deleted automatically.
 
-These limitations affect end users in that some students may forget to take an evaluation survey (due to lack of reminder e-mails), teacher evaluation forms are less flexible, and database data must be deleted manually. Administrators must inform potential users of the evaluation system about the limitations, and users need to take these limitations into account when managing survey forms. If necessary professors should send reminder e-mails to those taking the evaluations manually. As the framework for all of these functions are in place an administrator would ideally employ a programmer to remove these limitations.
+These limitations affect end users in that some students may forget to take an evaluation survey (due to lack of reminder e-mails), teacher evaluation forms are less flexible, and database data must be deleted manually. Administrators must inform potential users of the evaluation system about the limitations, and users need to take these limitations into account when managing survey forms. If necessary professors should send reminder e-mails to those taking the evaluations manually. As the framework for all of these functions is in place, an administrator would ideally employ a programmer to remove these limitations.
 
 \appendix
 
@@ -188,14 +191,14 @@ Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
 \newpage
 \section{Document Contributions}
 
-Stanley Small contributed to the routine tasks, periodic administration, purpose of this document, and background sections as well as revising the installation section. Stan contributed about 25 percent of the document.
+Stanley Small contributed to the routine tasks section, the periodic administration section, the purpose of this document, and the background section, and he revised the installation section. Stan contributed about 25 percent of the document.
 
-Jovon Craig outlined the document and contributed to the introduction, hardware and software section, the installation section, user support section and the trouble shooting section. Jovon contributed about 50 percent of the document.
+Jovon Craig outlined the document and wrote most of the introduction, the requirements section, the installation section, the user support section, and the troubleshooting section. He also revised parts of the document. Jovon contributed about 50 percent of the document.
 
-Yuanqi Guo contributed to the installation section, . Tom contributed about 0 percent of the document.
+Yuanqi Guo added to the installation section. Tom contributed about 2.5 percent of the document.
 
-Sam Elliott contributed to the Routine Tasks, periodic administration, trouble shooting, and known bugs and limitations sections. Sam contributed about 20 percent of the document.
+Sam Elliott contributed to the routine tasks, periodic administration, troubleshooting, and bugs and limitations sections. Sam contributed about 20 percent of the document.
 
-Robert Judkins proof read the document and made changes to improve readability. Robert contributed about 5 percent of the document.
+Robert Judkins proofread the document and made changes to improve readability. Robert contributed about 2.5 percent of the document.
 
 \end{document}
