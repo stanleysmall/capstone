@@ -84,7 +84,7 @@ The procedure to fully install the course evaluation system on an Amazon Web Ser
 \begin{enumerate}
     \item Create an Amazon Web Services account and go to the EC2 Dashboard. Click on ``Instances'', then ``Launch Instance''. Select the first AMI, then click ``Review and Launch'', then ``Launch''. Select ``Create a new key pair''. Name it ``limesurvey'', and download the key. Click on ``Launch Instances''.
 
-    \item In a terminal program, change your working directory to the folder with the key, and change the key's permissions with the command \verb|chmod 400 limesurvey.pem|.
+    \item In a terminal program, change your working directory to the folder with the key, and change the key's permissions with the command \verb|chmod 400 limesurvey.pem|. If this command not working in your console, try $path = ".\test.txt" ,icacls.exe $path /reset, icacls.exe $path /GRANT:R "$((Get-Acl-Path .\test.txt).Owner):(R)", icacls.exe $path /inheritance:r . Replace the test.txt with your .pem file, these commands will give you permission to set read-only file.  
 
     \item In the left pane, click ``Security Groups'', right-click the group with its name starting with ``launch-wizard'', then click ``Edit inbound rules''. Add four new rules, with their ports being 80, 5000, and 8080 respectively, and their source being ``Anywhere''. Click on ``Save''.
     
@@ -192,7 +192,7 @@ Stanley Small contributed to the routine tasks, periodic administration, purpose
 
 Jovon Craig outlined the document and contributed to the introduction, hardware and software section, the installation section, user support section and the trouble shooting section. Jovon contributed about 50 percent of the document.
 
-Yuanqi Guo ??. Tom contributed about 0 percent of the document.
+Yuanqi Guo contributed to the installation section, . Tom contributed about 0 percent of the document.
 
 Sam Elliott contributed to the Routine Tasks, periodic administration, trouble shooting, and known bugs and limitations sections. Sam contributed about 20 percent of the document.
 
