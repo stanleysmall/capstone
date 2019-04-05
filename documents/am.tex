@@ -107,7 +107,7 @@ The procedure to fully install the course evaluation system on an Amazon Web Ser
 
 \vspace{4mm}
 
-Route 53 must be configured so that \verb|teachingevaluations.org| directs to the AWS instance. One can follow the steps at \newline \verb|https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-ec2-instance.html|. This configuration must only be completed once. 
+Route 53 must be configured so that \verb|teachingevaluations.org| directs to the AWS instance. One can follow the steps at \verb|https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/|\newline \verb|routing-to-ec2-instance.html|. This configuration must only be completed once. 
 
 \subsection{Routine Tasks}
 
@@ -117,7 +117,7 @@ Administrators should also monitor development blogs for the technologies used i
 
 \subsection{Periodic Administration}
 
-To make the software maintain privacy standards and to limit liability for those administering the software, the survey data will have to be periodically deleted from the LimeSurvey database.  The administer will need to delete this data by navigating to \newline \verb|http://teachingevaluations.org:5000/index.php/admin/authentication/login| and following the on-screen instructions to delete the stored data. In the future, this task will be automated to reduce the need for administrator interaction as much as possible. Also, both the system database and the LimeSurvey database should be backed up periodically. Refer to the installation instructions in the installation guide for database access.
+To make the software maintain privacy standards and to limit liability for those administering the software, the survey data will have to be periodically deleted from the LimeSurvey database.  The administer will need to delete this data by navigating to \verb|http://teachingevaluations.org:5000/index.php/admin/|\newline \verb|authentication/login| and following the on-screen instructions to delete the stored data. In the future, this task will be automated to reduce the need for administrator interaction as much as possible. Also, both the system database and the LimeSurvey database should be backed up periodically. Refer to the installation instructions in the installation guide for database access.
 
 This application is self-sufficient and besides handling error messages, failures, and the periodic administration outlined above, the administrator should not need to perform any routine tasks after installing the application on their web instance.
 
