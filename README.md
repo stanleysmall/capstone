@@ -54,7 +54,7 @@ below shows the scope as a dotted rectangle.
 
 7. Click "Start installation", "I accept", and "Next". In the database configuration, enter 10.5.0.6 for the location, "root" for the username and password, and "limesurvey" for the database name. Click "Next", then "Create database", then "Populate database". Click "Next" to use the default LimeSurvey credentials.
 
-8. Click "Administration", and log in "admin" and the username and "password" as the password. Go to "Configuration", then "Global settings", then "Interfaces". Click on "JSON-RPC" then the toggle below. Click "Save".
+8. Click "Administration", and log in with "admin" as the username and "password" as the password. Go to "Configuration", then "Global settings", then "Interfaces". Click on "JSON-RPC", then the toggle below. Click "Save".
 
 9. Execute `mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql`, entering "root" as the password.
 
@@ -62,6 +62,6 @@ below shows the scope as a dotted rectangle.
 
 It is recommended that you mount your instance's capstone directory on your local machine. To do this, execute `sshfs ec2-user@ec2-x.x.x.x.us-east-2.compute.amazonaws.com:./capstone [relative path to local folder] -o IdentityFile=[full path to limesurvey.pem]`, with the x's being the instance's IP address.
 
-To see your changes to the code, run `docker-compose build [react/flask]` (depending on the component), then `docker-compose up -d [react/flask]` (omit the "-d" to see debug info). Stop Docker with `docker-compose stop`. To start up MySQL, run the command `mysql -h 10.5.0.6 -u root -p` and enter the password "root". The back-end database is called  "mydb". To log in to LimeSurvey, enter http://x.x.x.x:5000/index.php/admin/ in your web browser (with the x’s being your instance’s IP address). You may need to edit "swagger.yaml" to change the API endpoint specifications.
+To see your changes to the code, run `docker-compose build [react/flask/flask-test]` (depending on the component), then `docker-compose up -d` (omit the "-d" to see debug info). Stop Docker with `docker-compose stop`. To start up MySQL, run the command `mysql -h 10.5.0.6 -u root -p` and enter the password "root". The back-end database is called  "mydb". To log in to LimeSurvey, enter http://x.x.x.x:5000/index.php/admin/ in your web browser (with the x’s being your instance’s IP address). You may need to edit "swagger.yaml" to change the API endpoint specifications.
 
 ![alt text](https://raw.githubusercontent.com/stansmall/capstone/master/documents/images/scope_diagram.png)

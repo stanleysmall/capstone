@@ -13,6 +13,9 @@ from swagger_server.test import BaseTestCase
 class TestTeachersController(BaseTestCase):
     """TeachersController integration test stubs"""
     
+    # Print entire difference between expected and actual output
+    maxDiff = None
+    
     @classmethod
     def setUpClass(cls):
         # Connect to MySQL database
@@ -20,7 +23,8 @@ class TestTeachersController(BaseTestCase):
                                            port=3306,
                                            database='mydb',
                                            user='root',
-                                           password='root')
+                                           password='root',
+                                           buffered=True)
         cls.cursor = cls.mydb.cursor()
         
     def setUp(self):
@@ -88,17 +92,17 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.cursor.execute("select * from survey_to_tag;")
-        self.assertEqual(len(self.cursor.fetchall()), 8)
+        self.assertEqual(len(self.cursor.fetchall()), 16)
         self.cursor.execute("select * from response;")
         self.assertEqual(len(self.cursor.fetchall()), 1)
         self.cursor.execute("select * from survey_to_question;")
-        self.assertEqual(len(self.cursor.fetchall()), 3)
+        self.assertEqual(len(self.cursor.fetchall()), 5)
         self.cursor.execute("select * from survey_to_participant;")
-        self.assertEqual(len(self.cursor.fetchall()), 2)
+        self.assertEqual(len(self.cursor.fetchall()), 3)
         self.cursor.execute("select * from survey;")
-        self.assertEqual(len(self.cursor.fetchall()), 1)
+        self.assertEqual(len(self.cursor.fetchall()), 2)
         self.cursor.execute("select * from tag where type = 'name';")
-        self.assertEqual(len(self.cursor.fetchall()), 1)
+        self.assertEqual(len(self.cursor.fetchall()), 2)
 
     def test_survey_get_valid(self):
         """Test case for survey_get
@@ -138,21 +142,21 @@ class TestTeachersController(BaseTestCase):
                     {
                         "group": "The Instructor",
                         "helpText": "Help text",
-                        "mandatory": 1,
+                        "mandatory": True,
                         "text": "Question?",
                         "type": "5"
                     },
                     {
                         "group": "The Instructor",
                         "helpText": "Help text",
-                        "mandatory": 1,
+                        "mandatory": True,
                         "text": "Question 2?",
                         "type": "5"
                     },
                     {
                         "group": "The Instructor",
                         "helpText": "Help text",
-                        "mandatory": 0,
+                        "mandatory": False,
                         "text": "Question 3?",
                         "type": "Y"
                     }
@@ -161,7 +165,8 @@ class TestTeachersController(BaseTestCase):
                 "welcometext": "Welcome text"
             }
         )
-        def test_survey_get_valid(self):
+                    
+    def test_survey_get_valid_2(self):
         """ Another test case for survey_get
 
         retreives the survey with a given name
@@ -195,14 +200,14 @@ class TestTeachersController(BaseTestCase):
                     {
                         "group": "The Instructor",
                         "helpText": "Help text",
-                        "mandatory": 1,
+                        "mandatory": True,
                         "text": "Question?",
                         "type": "5"
                     },
                     {
                         "group": "The Instructor",
                         "helpText": "Help text",
-                        "mandatory": 0,
+                        "mandatory": False,
                         "text": "Question 2?",
                         "type": "L"
                     }
@@ -231,11 +236,33 @@ class TestTeachersController(BaseTestCase):
     def test_survey_put_update(self):
         """Test case for survey_put
 
-        updates the info of a survey with a given name
+        creates or updates the info of a survey with a given name
         survey with 'name' is updated with new information
         """
         
-        query = {}
+        query = {
+            "URL": "example2.com",
+            "instructor": "Torsten Hahmann",
+            "participants":[{"name": "Jovon Craig", "address": "jc@gmail.com"},
+                            {"name": "Stan Small", "address": "ss@gmail.com"}],
+            "questions": [{"ID": 5,
+                           "helpText": "Help text 2",
+                           "mandatory": True,
+                           "group": "Group 2",
+                           "type": "L",
+                           "text": "New question?"}],
+            "name": "COS 140 001",
+            "description": "Description",
+            "welcometext": "wt",
+            "endtext": "et",
+            "email_invite": "invite",
+            "email_remind": "remind",
+            "email_register": "register",
+            "email_confirm": "confirm",
+            "newtag": "field",
+            "newtag2": "field2"
+        }
+        
         response = self.client.open(
             '/teameval/Eval/1.0.0/survey',
             method='PUT',
@@ -243,15 +270,72 @@ class TestTeachersController(BaseTestCase):
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+        
+        self.cursor.execute("select * from survey;")
+        # The instructor ID must be 2, referring to Torsten
+        self.assertEqual(self.cursor.fetchall()[0], (1, 'example2.com', 2))
+        self.cursor.execute("select * from participant;")
+        # The participants Jovon Craig and Stanley Small must be added
+        self.assertEqual(self.cursor.fetchall()[3:],
+                         [(4, 'Jovon Craig', 'jc@gmail.com'),
+                          (5, 'Stan Small', 'ss@gmail.com')])
+        self.cursor.execute("select * from survey_to_participant;")
+        # Survey 1 must relate to only the IDs for Jovon and Stan
+        self.assertEqual(self.cursor.fetchall()[1:], [(1, 4), (1, 5)])
+        self.cursor.execute("select * from question;")
+        # The new question must be added
+        self.assertEqual(self.cursor.fetchall()[4],
+                         (5, 'Help text 2', True,
+                          'Group 2', 'L', 'New question?'))
+        self.cursor.execute("select * from survey_to_question;")
+        # Survey 1 must relate to only the ID of the new question
+        self.assertEqual(self.cursor.fetchall()[2], (1, 5))
+        self.cursor.execute("select type, value from tag;")
+        # Only the new tags must be added
+        self.assertEqual(set(self.cursor.fetchall()[14:]),
+                         {('email_register', 'register'), ('email_invite',
+                          'invite'), ('endtext', 'et'), ('newtag', 'field'),
+                          ('email_confirm', 'confirm'), ('email_remind',
+                          'remind'), ('welcometext', 'wt'), ('newtag2',
+                          'field2')})
+        self.cursor.execute("select tag_ID from survey_to_tag where " \
+                            "survey_ID = 1;")
+        # Survey 1 must relate to the IDs of the old name, old description,
+        # and new tags
+        self.assertEqual(self.cursor.fetchall(), [(1,), (2,), (15,), (16,),
+                                                  (17,), (18,), (19,), (20,),
+                                                  (21,), (22,)])
     
     def test_survey_put_create(self):
         """Test case for survey_put
 
-        updates the info of a survey with a given name
-        survey will be created while 'name' is not as same as exist survey name 
+        creates or updates the info of a survey with a given name
+        survey with new 'name' and 'instructor' is added into the database
         """
         
-        query = {}
+        query = {
+            "URL": "example2.com",
+            "instructor": "Carol Roberts",
+            "participants":[{"name": "Jovon Craig", "address": "jc@gmail.com"},
+                            {"name": "Stan Small", "address": "ss@gmail.com"}],
+            "questions": [{"ID": 5,
+                           "helpText": "Help text 2",
+                           "mandatory": True,
+                           "group": "Group 2",
+                           "type": "L",
+                           "text": "New question?"}],
+            "name": "COS 250 002",
+            "description": "Description",
+            "welcometext": "wt",
+            "endtext": "et",
+            "email_invite": "invite",
+            "email_remind": "remind",
+            "email_register": "register",
+            "email_confirm": "confirm",
+            "newtag": "field",
+            "newtag2": "field2"
+        }
+        
         response = self.client.open(
             '/teameval/Eval/1.0.0/survey',
             method='PUT',
@@ -259,15 +343,54 @@ class TestTeachersController(BaseTestCase):
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+        
+        self.cursor.execute("select * from survey;")
+        # The new instructor ID must be 2 plus 1, referring to Carol
+        self.assertEqual(self.cursor.fetchall()[2], (3, 'example2.com', 3))
+        self.cursor.execute("select * from participant;")
+        # The participants Jovon Craig and Stanley Small must be added
+        self.assertEqual(self.cursor.fetchall()[3:],
+                         [(4, 'Jovon Craig', 'jc@gmail.com'),
+                          (5, 'Stan Small', 'ss@gmail.com')])
+        self.cursor.execute("select * from survey_to_participant;")
+        # Survey 1 must relate to the IDs for Jovon and Stan
+        self.assertEqual(self.cursor.fetchall()[3:], [(3, 4), (3, 5)])
+        self.cursor.execute("select * from question;")
+        # The new question must be added
+        self.assertEqual(self.cursor.fetchall()[4],
+                         (5, 'Help text 2', True,
+                          'Group 2', 'L', 'New question?'))
+        self.cursor.execute("select * from survey_to_question;")
+        # Survey 1 must relate to the ID of the new question
+        self.assertEqual(self.cursor.fetchall()[5], (3, 5))
+        self.cursor.execute("select type, value from tag;")
+        # Only the new tags must be added
+        self.assertEqual(set(self.cursor.fetchall()[14:]),
+                         {('name', 'COS 250 002'), ('email_register',
+                          'register'), ('email_invite', 'invite'), ('endtext',
+                          'et'), ('newtag', 'field'), ('email_confirm',
+                          'confirm'), ('email_remind', 'remind'),
+                          ('welcometext', 'wt'), ('newtag2', 'field2')})
+        self.cursor.execute("select tag_ID from survey_to_tag where " \
+                            "survey_ID = 3;")
+        # Survey 3 must relate to the IDs of the old description, new name,
+        # and new tags
+        self.assertEqual(self.cursor.fetchall(), [(2,), (15,), (16,), (17,),
+                                                  (18,), (19,), (20,), (21,),
+                                                  (22,), (23,)])
 
-    def test_surveys_get_instructor(self):
+    def test_surveys_get_valid(self):
         """Test case for surveys_get
 
-        retreives a list of survey names, optionally for a given instructor
-        test includes 'instructor' key
+        retreives a list of the names of the user's surveys
+        session user is 'Roy Turner'
         """
         
-        query_string = [('instructor', 'Roy Turner')]
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Roy Turner'
+            sess['email'] = 'roy.turner@maine.edu'
+        
+        query_string = []
         response = self.client.open(
             '/teameval/Eval/1.0.0/surveys',
             method='GET',
@@ -277,45 +400,16 @@ class TestTeachersController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), ['COS 140 001'])
      
-     def test_surveys_get_instructor(self):
+    def test_surveys_get_valid_2(self):
         """Another test case for surveys_get
-
-        retreives a list of survey names, optionally for a given instructor
-        test includes 'instructor' key
-        """
-        
-        query_string = [('instructor', 'Torsten Hahmann')]
-        response = self.client.open(
-            '/teameval/Eval/1.0.0/surveys',
-            method='GET',
-            query_string=query_string)
-        
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-        self.assertEqual(json.loads(response.data), ['COS 250 001'])
-    
-    def test_surveys_get_all(self):
-        """Test case for surveys_get
 
         retreives a list of the names of the user's surveys
+        session user is 'Torsten Hahmann'
         """
         
-        query_string = []
-        response = self.client.open(
-            '/teameval/Eval/1.0.0/surveys',
-            method='GET',
-            query_string=query_string)
-        
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-        self.assertEqual(json.loads(response.data), ['COS 140 001'])
-    
-    def test_surveys_get_all(self):
-        """Another test case for surveys_get
-
-        retreives a list of survey names, optionally for a given instructor
-        test does not include 'instructor' key
-        """
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Torsten Hahmann'
+            sess['email'] = 'torsten.hahmann@maine.edu'
         
         query_string = []
         response = self.client.open(
@@ -326,26 +420,33 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), ['COS 250 001'])
-        
-    def test_create_user_post(self):
-        """Test case for create_user_post
+    
+    def test_surveys_get_invalid(self):
+        """Another test case for surveys_get
 
-        adds a user to the database
+        retreives a list of the names of the user's surveys
+        seesion user is not in the database
         """
         
-        query = {}
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Carol Roberts'
+            sess['email'] = 'carol.roberts@maine.edu'
+        
+        query_string = []
         response = self.client.open(
-            '/teameval/Eval/1.0.0/create_user',
-            method='POST',
-            data=json.dumps(query),
-            content_type='application/json')
+            '/teameval/Eval/1.0.0/surveys',
+            method='GET',
+            query_string=query_string)
+        
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), [])
 
-    def test_login_get(self):
+    def test_login_get_invalid(self):
         """Test case for login_get
 
-        retrieves a token for a certain authentication key
+        logs in a user with a certain authentication key
+        'key' is invalid
         """
         
         query_string = [('key', 'key_example')]
@@ -355,6 +456,7 @@ class TestTeachersController(BaseTestCase):
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), 'INVALID LOGIN')
 
     def test_publish_get(self):
         """Test case for publish_get
