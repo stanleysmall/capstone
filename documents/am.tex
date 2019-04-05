@@ -102,7 +102,7 @@ The procedure to fully install the course evaluation system on an Amazon Web Ser
 
     \item Execute \verb|mysql -h 10.5.0.6 -u root -p < /home/ec2-user/capstone/sql/create_tables.sql|,\newline entering ``root'' as the password.
 
-    \item Start Docker up again if it's stopped. Test the API by entering in the web browser ``http://\newline teachingevaluations.org:8080/teameval/Eval/1.0.0/survey?name=test''. The browser should output ``\{\}'', indicating there are no surveys in the database.
+    \item Start Docker up again if it's stopped. Test the API by entering in the web browser \newline \verb|http://teachingevaluations.org:8080/teameval/Eval/1.0.0/survey?name=test|. The browser should output ``\{\}'', indicating there are no surveys in the database.
 \end{enumerate}
 
 \vspace{4mm}
@@ -111,19 +111,19 @@ Route 53 must be configured so that \verb|teachingevaluations.org| directs to th
 
 \subsection{Routine Tasks}
 
-Administrators will need to ensure that the billing information for the domain ``teachingevaluations.org'' is up to date. If the domain is not successfully renewed, an attacker could buy the domain and initiate phishing attacks on users. Additionally, administrators must ensure that the billing info for Amazon Web Services is up to date. Currently, the system is hosted with a "free tier" package, which allows one instance of the system to exist. For the system to be scalable during times of peak use, a paid plan is likely required. Services that are required by AWS to run the system include Elastic Cloud Compute (EC2) and Route 53 (a domain forwarding service). 
+Administrators will need to ensure that the billing information for the domain \verb|teachingevaluations.org'| is up to date. If the domain is not successfully renewed, an attacker could buy the domain and initiate phishing attacks on users. Additionally, administrators must ensure that the billing info for Amazon Web Services is up to date. Currently, the system is hosted with a "free tier" package, which allows one instance of the system to exist. For the system to be scalable during times of peak use, a paid plan is likely required. Services that are required by AWS to run the system include Elastic Cloud Compute (EC2) and Route 53 (a domain forwarding service). 
 
 Administrators should also monitor development blogs for the technologies used in this system to ensure that no vulnerabilities are discovered. Software such as LimeSurvey can be updated periodically; however, the installation script currently pulls the most recent version of LimeSurvey from the official repository.  
 
 \subsection{Periodic Administration}
 
-To make the software maintain privacy standards and to limit liability for those administering the software, the survey data will have to be periodically deleted from the LimeSurvey database.  The administer will need to delete this data by navigating to http://teachingevaluations.org:5000/index.php/admin/authentication/\newline sa/login and following the on-screen instructions to delete the stored data. In the future, this task will be automated to reduce the need for administrator interaction as much as possible. Also, both the system database and the LimeSurvey database should be backed up periodically. Refer to the installation instructions in the installation guide for database access.
+To make the software maintain privacy standards and to limit liability for those administering the software, the survey data will have to be periodically deleted from the LimeSurvey database.  The administer will need to delete this data by navigating to \newline \verb|http://teachingevaluations.org:5000/index.php/admin/authentication/login| and following the on-screen instructions to delete the stored data. In the future, this task will be automated to reduce the need for administrator interaction as much as possible. Also, both the system database and the LimeSurvey database should be backed up periodically. Refer to the installation instructions in the installation guide for database access.
 
 This application is self-sufficient and besides handling error messages, failures, and the periodic administration outlined above, the administrator should not need to perform any routine tasks after installing the application on their web instance.
 
 \subsection{User Support}
 
-Administrators can turn to available resources for help with managing the course evaluation system. The GitHub repository of the system, at https://github.com/stanleysmall/capstone, contains a README file that has installation instructions, as well as commands to build the code or mount the system directory on a local machine. The source code contains comments on the purpose and functionality of the code, how to format endpoint calls, and what is the expected JSON input. For personal help, one can contact the team leader, Stanley Small, through e-mail at \verb|stanley.small@gmail.com|.
+Administrators can turn to available resources for help with managing the course evaluation system. The GitHub repository of the system, at \verb|https://github.com/stanleysmall/capstone|, contains a README file that has installation instructions, as well as commands to build the code or mount the system directory on a local machine. The source code contains comments on the purpose and functionality of the code, how to format endpoint calls, and what is the expected JSON input. For personal help, one can contact the team leader, Stanley Small, through e-mail at \verb|stanley.small@gmail.com|.
 
 \section{Troubleshooting}
 
