@@ -9,6 +9,7 @@ from six import BytesIO
 from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.models.result import Result  # noqa: E501
 from swagger_server.test import BaseTestCase
+from swagger_server.lime_py_api.limesurvey import Api
 
 class TestTeachersController(BaseTestCase):
     """TeachersController integration test stubs"""
@@ -18,6 +19,10 @@ class TestTeachersController(BaseTestCase):
     
     @classmethod
     def setUpClass(cls):
+        # Log into LimeSurvey with the RemoteControl API
+        cls.lime = Api('http://10.5.0.5/index.php/admin/remotecontrol',
+                       'admin', 'password')
+        
         # Connect to MySQL database
         cls.mydb = mysql.connector.connect(host='10.5.0.6',
                                            port=3306,
@@ -458,33 +463,86 @@ class TestTeachersController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), 'INVALID LOGIN')
 
-    def test_publish_get(self):
+    def test_publish_get_valid(self):
         """Test case for publish_get
 
         publishes the survey with a given name
+        survey name is 'COS 140 001'
         """
         
-        query_string = [('name', 'name_example')]
+        query_string = [('name', 'example')]
+        # query_string = [('name', 'COS 140 001')]
         response = self.client.open(
             '/teameval/Eval/1.0.0/publish',
             method='GET',
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+        
+        # Call lime.list_surveys() to check if survey is published
+        
+        # Call lime.list_participants() to check if participants exists
+        
+        # Call lime.list_questions() to check survey question info
+    
+    def test_publish_get_invalid(self):
+        """Test case for publish_get
 
-    def test_results_get(self):
-        """Test case for results_get
-
-        retreives a list of results, optionally for a given instructor
+        publishes the survey with a given name
+        survey name does not exist in the database
         """
         
-        query_string = [('cat_type', 'instructor'), ('cat_name', 'example')]
+        query_string = [('name', 'COS 225 001')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/publish',
+            method='GET',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), 'invalid survey name')
+
+    def test_results_get_valid(self):
+        """Test case for results_get
+
+        retreives a list of results for a given category of surveys
+        category is instructor Roy Turner
+        """
+        
+        # Add a survey by Roy Turner to LimeSurvey
+        # response = self.client.open('/teameval/Eval/1.0.0/publish',
+        #     method='GET', query_string=[('name', 'COS 140 001')])
+        
+        # Call lime.add_response() with a few mock survey responses
+        
+        query_string = [('cat_type', 'example'), ('cat_name', 'example')]
+        # query_string = [('cat_type', 'instructor'),
+        #                 ('cat_name', 'Roy Turner')]
         response = self.client.open(
             '/teameval/Eval/1.0.0/results',
             method='GET',
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+        
+        # Assert that return value matches expected statistics
+    
+    def test_results_get_invalid(self):
+        """Test case for results_get
+
+        retreives a list of results for a given category of surveys
+        category name does not exist in the database
+        """
+        
+        query_string = [('cat_type', 'instructor'),
+                        ('cat_name', 'Carol Roberts')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/results',
+            method='GET',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data),
+                         "no surveys found for category 'Carol Roberts'")
 
 
 if __name__ == '__main__':
