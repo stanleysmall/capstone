@@ -481,7 +481,7 @@ class TestTeachersController(BaseTestCase):
         
         # Call lime.list_surveys() to check if survey is published
         
-        # Call lime.list_participants() to check if participants exists
+        # Call lime.list_participants() to check if participants exist
         
         # Call lime.list_questions() to check survey question info
     
