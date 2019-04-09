@@ -609,8 +609,12 @@ def translate_to_txt(name):
         else:                           # If row refers to a group header
             text += '\t'*132 + '\n'
     
-    # Write survey text to a .txt file and return the text
+    # Write survey text to a .txt file
     fil.write(text)
+    
+    # Close files and return the text and survey ID
+    fil.close()
+    template.close()
     return text, int(survey_ID)
     
 

@@ -41,7 +41,7 @@ class TestTeachersController(BaseTestCase):
     
     def tearDown(self):
         # Delete mock data after every test
-        with open('swagger_server/test/delete_mock_data.sql', 'r') as f:
+        with open('swagger_server/test/delete_data.sql', 'r') as f:
             for line in f.readlines():
                 self.cursor.execute(line)
             self.mydb.commit()
@@ -127,7 +127,10 @@ class TestTeachersController(BaseTestCase):
             {
                 "description": "Description",
                 "email_confirm": "Email confirm text",
-                "email_invite": "Survey URL: {SURVEYURL}<br/>Token: {TOKEN}",
+                "email_invite": "Dear {FIRSTNAME},<br/><br/>you have been "
+                    + "invited to participate in a survey.<br/><br/>Click "
+                    + "here to do the survey:<br/>{SURVEYURL}<br/><br/>Please "
+                    + "enter the token {TOKEN} to access the survey.",
                 "email_register": "Email register text",
                 "email_remind": "Email remind text",
                 "endtext": "End text",
@@ -198,7 +201,7 @@ class TestTeachersController(BaseTestCase):
                 "participants": [
                     {
                         "address": "tg@gmail.com",
-                        "name": "tom guo"
+                        "name": "Tom Guo"
                     }
                 ],
                 "questions": [
@@ -358,7 +361,7 @@ class TestTeachersController(BaseTestCase):
                          [(4, 'Jovon Craig', 'jc@gmail.com'),
                           (5, 'Stan Small', 'ss@gmail.com')])
         self.cursor.execute("select * from survey_to_participant;")
-        # Survey 1 must relate to the IDs for Jovon and Stan
+        # Survey 3 must relate to the IDs for Jovon and Stan
         self.assertEqual(self.cursor.fetchall()[3:], [(3, 4), (3, 5)])
         self.cursor.execute("select * from question;")
         # The new question must be added
@@ -366,7 +369,7 @@ class TestTeachersController(BaseTestCase):
                          (5, 'Help text 2', True,
                           'Group 2', 'L', 'New question?'))
         self.cursor.execute("select * from survey_to_question;")
-        # Survey 1 must relate to the ID of the new question
+        # Survey 3 must relate to the ID of the new question
         self.assertEqual(self.cursor.fetchall()[5], (3, 5))
         self.cursor.execute("select type, value from tag;")
         # Only the new tags must be added
@@ -384,7 +387,7 @@ class TestTeachersController(BaseTestCase):
                                                   (18,), (19,), (20,), (21,),
                                                   (22,), (23,)])
 
-     def test_survey_put_create2(self):
+    def test_survey_put_create_2(self):
         """Another Test case for survey_put
 
         creates or updates the info of a survey with a given name
@@ -393,7 +396,7 @@ class TestTeachersController(BaseTestCase):
         
         query = {
             "URL": "example2.com",
-            "instructor": "Sudarshan S.Chawathe",
+            "instructor": "Sudarshan Chawathe",
             "participants":[{"name": "Jovon Craig", "address": "jc@gmail.com"},
                             {"name": "Tom Guo", "address": "tg@gmail.com"}],
             "questions": [{"ID": 5,
@@ -423,24 +426,25 @@ class TestTeachersController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
         
         self.cursor.execute("select * from survey;")
-        # The new instructor ID must be 3 plus 1, referring to Chaw, instructor ID=4, survey ID=5
-        self.assertEqual(self.cursor.fetchall()[2], (5, 'example2.com', 4))
+        # The new instructor ID must be 2 plus 1, referring to Chaw,
+        # instructor ID = 3, survey ID = 3
+        self.assertEqual(self.cursor.fetchall()[2], (3, 'example2.com', 3))
         self.cursor.execute("select * from participant;")
-        # The participants Jovon Craig and Tom Guo must be added
-        self.assertEqual(self.cursor.fetchall()[5:],
-                         [(6, 'Jovon Craig', 'jc@gmail.com'),
-                          (7, 'Tom Guo', 'tg@gmail.com')])
+        # No new participants must be added
+        self.assertEqual(self.cursor.fetchall()[2:],
+                         [(3, 'Tom Guo', 'tg@gmail.com'),
+                          (4, 'Jovon Craig', 'jc@gmail.com')])
         self.cursor.execute("select * from survey_to_participant;")
-        # Survey 5 must relate to the IDs for Jovon and Tom
-        self.assertEqual(self.cursor.fetchall()[5:], [(5, 6), (5, 7)])
+        # Survey 3 must relate to the IDs for Jovon and Tom
+        self.assertEqual(self.cursor.fetchall()[3:], [(3, 3), (3, 4)])
         self.cursor.execute("select * from question;")
         # The new question must be added
         self.assertEqual(self.cursor.fetchall()[4],
                          (5, 'Help text 2', True,
                           'Group 2', 'L', 'New question?'))
         self.cursor.execute("select * from survey_to_question;")
-        # Survey 1 must relate to the ID of the new question
-        self.assertEqual(self.cursor.fetchall()[5], (5, 5))
+        # Survey 3 must relate to the ID of the new question
+        self.assertEqual(self.cursor.fetchall()[5], (3, 5))
         self.cursor.execute("select type, value from tag;")
         # Only the new tags must be added
         self.assertEqual(set(self.cursor.fetchall()[14:]),
@@ -450,12 +454,12 @@ class TestTeachersController(BaseTestCase):
                           'confirm'), ('email_remind', 'remind'),
                           ('welcometext', 'wt'), ('newtag2', 'field2')})
         self.cursor.execute("select tag_ID from survey_to_tag where " \
-                            "survey_ID = 5;")
-        # Survey 5 must relate to the IDs of the old description, new name,
+                            "survey_ID = 3;")
+        # Survey 3 must relate to the IDs of the old description, new name,
         # and new tags
-        self.assertEqual(self.cursor.fetchall(), [(15,), (16,), (17,),
+        self.assertEqual(self.cursor.fetchall(), [(2,), (15,), (16,), (17,),
                                                   (18,), (19,), (20,), (21,),
-                                                  (22,), (23,),(24,)])
+                                                  (22,), (23,)])
     
     def test_surveys_get_valid(self):
         """Test case for surveys_get
@@ -543,8 +547,7 @@ class TestTeachersController(BaseTestCase):
         survey name is 'COS 140 001'
         """
         
-        query_string = [('name', 'example')]
-        # query_string = [('name', 'COS 140 001')]
+        query_string = [('name', 'COS 140 001')]
         response = self.client.open(
             '/teameval/Eval/1.0.0/publish',
             method='GET',
@@ -552,11 +555,41 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         
-        # Call lime.list_surveys() to check if survey is published
+        # Check if survey is published
+        self.assertEqual(self.lime.list_surveys()[1], {'sid': '1',
+            'surveyls_title': 'COS 140 001', 'startdate': None,
+            'expires': None, 'active': 'Y'})
         
-        # Call lime.list_participants() to check if participants exist
+        # Check if survey participants exist
+        participants = self.lime.list_participants(1)
+        self.assertEqual(participants[0]['participant_info'],
+            {'firstname': 'Example', 'lastname': 'Person',
+             'email': 'jovon.craig@maine.edu'})
+        self.assertEqual(participants[1]['participant_info'],
+            {'firstname': 'Example2', 'lastname': 'Person',
+             'email': 'teachingevaluationstest@gmail.com'})
         
-        # Call lime.list_questions() to check survey question info
+        questions = self.lime._list_questions(1)
+        
+        # Remove question fields that are unnecessary to test
+        removedKeys = ('id', 'qid', 'parent_qid', 'preg', 'other',
+                       'question_order', 'scale_id', 'same_default',
+                       'relevance', 'modulename', 'gid')
+        for question in questions:
+            for key in removedKeys:
+                question.pop(key)
+        
+        # Check if survey question info is correct
+        self.assertEqual(questions, [{'sid': '1', 'type': 'Y', 'title': 'Q3',
+            'question': 'Question 3?', 'help': '', 'mandatory': 'N',
+            'language': 'en'}, {'sid': '1', 'type': '5', 'title': 'Q2',
+            'question': 'Question 2?', 'help': '', 'mandatory': 'Y',
+            'language': 'en'}, {'sid': '1', 'type': '5', 'title': 'Q1',
+            'question': 'Question?', 'help': '', 'mandatory': 'Y',
+            'language': 'en'}])
+        
+        # Call lime.delete_survey() to remove survey from LimeSurvey
+        self.lime.delete_survey(1)
     
     def test_publish_get_invalid(self):
         """Test case for publish_get
@@ -598,6 +631,9 @@ class TestTeachersController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
         
         # Assert that return value matches expected statistics
+        
+        # Call lime.delete_survey() to remove survey from LimeSurvey
+        # self.lime.delete_survey(1)
     
     def test_results_get_invalid(self):
         """Test case for results_get
