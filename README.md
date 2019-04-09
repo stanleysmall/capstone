@@ -1,7 +1,12 @@
 # Course Evaluation System
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-lightgrey.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![Build Status](https://travis-ci.com/stansmall/capstone.svg?branch=master)](https://travis-ci.com/stansmall/capstone)
 
-# Purpose of the Product
+## Outside Docs
+Database https://app.sqldbm.com/SQLServer/Edit/p44622
+API      https://app.swaggerhub.com/apis/teameval/Eval/1.0.0
+
+## Purpose of the Product
+>>>>>>> fd0088d371ee4a704e4e7870503cfa8c917eeaef
 The University of Maine gives out course evaluation surveys to students at the end of each course. The
 survey is filled on a bubble sheet and is then scanned. Dr. Harlan Onsrud finds it inconvenient for the school
 administrators to manually scan and compile the survey results. Current campus experiments with electronic
@@ -31,7 +36,9 @@ The product will be completed in time to administer teacher evaluations for the 
 University of Maine, whether evaluation forms are created by instructors or administrators. A UML diagram
 below shows the scope as a dotted rectangle.
 
-# Set-Up for Developers
+![alt text](https://raw.githubusercontent.com/stansmall/capstone/master/documents/images/scope.png)
+
+## Set-Up for Developers
 
 1. Go to your EC2 Dashboard in your AWS account. Click on "Instances", then "Launch Instance". Select the first AMI, then click "Review and Launch", then "Launch". Select "Create a new key pair". Name it "limesurvey", and download the key. Click on "Launch Instances".
 
