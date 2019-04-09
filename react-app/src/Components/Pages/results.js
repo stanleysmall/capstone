@@ -9,19 +9,19 @@ class Results extends Component {
 	
 	tag=this.props.match.params.tag;
 	tagName=this.props.match.params.tagName;
-	resultsJson = {"Q1": {
-						'S1':{"median": 5, "mean": 3, "std_dev": 1, "n": 43},
-						'S2':{"median": 3, "mean": 4, "std_dev": 2, "n": 59},
-						'S3':{"median": 4, "mean": 5, "std_dev": 3, "n": 38}
+	/*resultsJson = {"Question 1": {
+						'Survey 1':{"median": 5, "mean": 3, "std_dev": 1, "n": 43},
+						'Survey 2':{"median": 3, "mean": 4, "std_dev": 2, "n": 59},
+						'Survey 3':{"median": 4, "mean": 5, "std_dev": 3, "n": 38}
 						},
-					'Q2':{
-						'S1':{"median": 4, "mean": 1, "std_dev": 2, "n": 43},
-						'S2':{"median": 4, "mean": 2, "std_dev": 2, "n": 59},
-						'S3':{"median": 5, "mean": 3, "std_dev": 2, "n": 38}
+					'Question 2':{
+						'Survey 1':{"median": 4, "mean": 1, "std_dev": 2, "n": 43},
+						'Survey 2':{"median": 4, "mean": 2, "std_dev": 2, "n": 59},
+						'Survey 3':{"median": 5, "mean": 3, "std_dev": 2, "n": 38}
 						}
 		
-	};
-	//console.log(resultsJson);
+	};*/
+	resultsJson = getResults(this.tagName,this.tag);
 	
 	
 	createTable = () => {
