@@ -384,6 +384,79 @@ class TestTeachersController(BaseTestCase):
                                                   (18,), (19,), (20,), (21,),
                                                   (22,), (23,)])
 
+     def test_survey_put_create2(self):
+        """Another Test case for survey_put
+
+        creates or updates the info of a survey with a given name
+        survey with new 'name' and 'instructor' is added into the database
+        """
+        
+        query = {
+            "URL": "example2.com",
+            "instructor": "Sudarshan S.Chawathe",
+            "participants":[{"name": "Jovon Craig", "address": "jc@gmail.com"},
+                            {"name": "Tom Guo", "address": "tg@gmail.com"}],
+            "questions": [{"ID": 5,
+                           "helpText": "Help text 2",
+                           "mandatory": True,
+                           "group": "Group 2",
+                           "type": "L",
+                           "text": "New question?"}],
+            "name": "COS 226 001",
+            "description": "Description",
+            "welcometext": "wt",
+            "endtext": "et",
+            "email_invite": "invite",
+            "email_remind": "remind",
+            "email_register": "register",
+            "email_confirm": "confirm",
+            "newtag": "field",
+            "newtag2": "field2"
+        }
+        
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/survey',
+            method='PUT',
+            data=json.dumps(query),
+            content_type='application/json')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        
+        self.cursor.execute("select * from survey;")
+        # The new instructor ID must be 3 plus 1, referring to Chaw, instructor ID=4, survey ID=5
+        self.assertEqual(self.cursor.fetchall()[2], (5, 'example2.com', 4))
+        self.cursor.execute("select * from participant;")
+        # The participants Jovon Craig and Tom Guo must be added
+        self.assertEqual(self.cursor.fetchall()[5:],
+                         [(6, 'Jovon Craig', 'jc@gmail.com'),
+                          (7, 'Tom Guo', 'tg@gmail.com')])
+        self.cursor.execute("select * from survey_to_participant;")
+        # Survey 5 must relate to the IDs for Jovon and Tom
+        self.assertEqual(self.cursor.fetchall()[5:], [(5, 6), (5, 7)])
+        self.cursor.execute("select * from question;")
+        # The new question must be added
+        self.assertEqual(self.cursor.fetchall()[4],
+                         (5, 'Help text 2', True,
+                          'Group 2', 'L', 'New question?'))
+        self.cursor.execute("select * from survey_to_question;")
+        # Survey 1 must relate to the ID of the new question
+        self.assertEqual(self.cursor.fetchall()[5], (5, 5))
+        self.cursor.execute("select type, value from tag;")
+        # Only the new tags must be added
+        self.assertEqual(set(self.cursor.fetchall()[14:]),
+                         {('name', 'COS 226 001'), ('email_register',
+                          'register'), ('email_invite', 'invite'), ('endtext',
+                          'et'), ('newtag', 'field'), ('email_confirm',
+                          'confirm'), ('email_remind', 'remind'),
+                          ('welcometext', 'wt'), ('newtag2', 'field2')})
+        self.cursor.execute("select tag_ID from survey_to_tag where " \
+                            "survey_ID = 5;")
+        # Survey 5 must relate to the IDs of the old description, new name,
+        # and new tags
+        self.assertEqual(self.cursor.fetchall(), [(15,), (16,), (17,),
+                                                  (18,), (19,), (20,), (21,),
+                                                  (22,), (23,),(24,)])
+    
     def test_surveys_get_valid(self):
         """Test case for surveys_get
 
