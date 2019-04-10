@@ -52,10 +52,7 @@ export class LoggedOutHeader extends Component {
                     <button>FAQ</button>
                 </Link>
                 &emsp;
-                <Link to={"/login/"}>
-                    <button>Login</button>
-                </Link>
-                <hr/>
+				<hr/>
                 </h3>
             </div>
         )
