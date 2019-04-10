@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {Redirect} from "react-router";
 import {LoggedOutHeader, LoggedInHeader} from "../displayComponents";
+import "../../CSS/App.css";
 
 class Landing extends Component {
     

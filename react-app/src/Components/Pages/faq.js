@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {Redirect} from "react-router";
 import { LoggedOutHeader, LoggedInHeader } from "../displayComponents";
+import "../../CSS/App.css";
 
 class Landing extends Component {
     
@@ -20,6 +21,7 @@ class Landing extends Component {
                     <LoggedInHeader/>
                     <div>
                         <div class="infoScreens">
+				<h1> Frequently Asked Questions </h1>
 				<h2>Where can I find the software supporting
 					this open source platform?</h2>
 				The Wicked Easy Teaching evaluation web site is an implementation of an open source
@@ -52,6 +54,7 @@ class Landing extends Component {
                 <LoggedOutHeader/>
                 <div>
                     <div class="infoScreens">
+					<h1>Frequently Asked Questions</h1>
 				<h2>Where can I find the software supporting
 					this open source platform?</h2>
 				The Wicked Easy Teaching evaluation web site is an implementation of an open source

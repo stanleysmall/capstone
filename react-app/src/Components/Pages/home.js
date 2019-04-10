@@ -69,30 +69,26 @@ class Home extends Component {
             <div>
                 <LoggedInHeader/>
 
-                    1. Create a new course & teaching evaluation form
-                    <br/>
+                    <h3>1. Create a new course & teaching evaluation form</h3>
                     <Link to={"/create/"}>
-                        <button1>Create</button1>
+                        <button  type="homeScreenButton">Create</button>
                     </Link>
-                    <br/><br/>
+                    
 
-                    2. Edit an Existing Unpublished Course Evaluation Form
-                    <br/>
+                    <h3>2. Edit an Existing Unpublished Course Evaluation Form</h3>
                     <DynamicSelecter list={this.state.editableEvals} iden={"editSelector"}/>&emsp;
-                    <button1 onClick = {() => this.edit(document.getElementById("editSelector").value)}>Edit</button1>
-                    <br/><br/>
+                    <button  type="homeScreenButton" onClick = {() => this.edit(document.getElementById("editSelector").value)}>Edit</button>
+                    
 
-                    3. View Old Course Evaluation Form
-                    <br/>
+                    <h3>3. View Old Course Evaluation Form</h3>
                     <DynamicSelecter list={this.state.inactiveEvals} iden={"inactiveSelector"}/>&emsp;
-                    <button1 onClick = {() => this.view(document.getElementById("inactiveSelector").value)}>View</button1>
-                    <br/><br/>
-
-                    4. View Evaluation Results
-                    <br/>
+                    <button type="homeScreenButton" onClick = {() => this.view(document.getElementById("inactiveSelector").value)}>View</button>
+                    
+					
+                    <h3>4. View Evaluation Results</h3>
                     <DynamicSelecter list={this.state.reports} iden={"reports"}/>&emsp;
                     <Link to={"/results/" + this.resultsTagName + "/" + this.resultsTag}>
-                        <button1>View Results</button1>
+                        <button type="homeScreenButton">View Results</button>
                     </Link>
                 </div>
         )
