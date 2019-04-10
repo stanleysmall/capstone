@@ -7,11 +7,15 @@ import {Redirect} from "react-router";
 import {oAuthClientID} from "../../vars";
 import "../../CSS/App.css";
 
-class Landing extends Component {
+class Login extends Component {
     
     state = {
         loggedIn: false
     }
+
+    componentDidMount() {
+        document.title = 'Login Page';
+      }
 
     constructor(props){
         super(props);
@@ -65,4 +69,4 @@ class Landing extends Component {
         )
     }
 }
-export default Landing;
+export default Login;

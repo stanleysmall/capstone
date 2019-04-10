@@ -15,6 +15,10 @@ class Landing extends Component {
         this.login = this.login.bind(this);
     }
 
+    componentDidMount() {
+        document.title = 'Landing Page';
+      }
+
     /*
         Arguments:
             response: The response from google oauth

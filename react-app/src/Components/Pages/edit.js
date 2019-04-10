@@ -17,6 +17,10 @@ class Edit extends Component {
     
     surveyJSON = survey;
 
+    componentDidMount() {
+        document.title = 'Edit Page';
+      }
+
     constructor(props)
     {   
         super(props);

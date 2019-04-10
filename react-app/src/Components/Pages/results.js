@@ -24,6 +24,10 @@ class Results extends Component {
 	resultsJson = getResults(this.tagName,this.tag);
 	
 	
+	componentDidMount() {
+		document.title = 'Results Page';
+	  }
+
 	createTable = () => {
 		let table = []
 		

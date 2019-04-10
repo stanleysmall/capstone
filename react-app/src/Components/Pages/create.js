@@ -14,7 +14,7 @@ import {exampleOldEvaluation} from "../../vars";
 
 
 
-class Home extends Component {
+class Create extends Component {
 
     state = {
         complete: false,
@@ -57,6 +57,10 @@ class Home extends Component {
 
         //console.log(getEval("COS 140 001"));
     }
+
+    componentDidMount() {
+        document.title = 'Create Page';
+      }
 
     /*
         Arguments:
@@ -155,4 +159,4 @@ class Home extends Component {
         }
     }
 }
-export default Home;
+export default Create;

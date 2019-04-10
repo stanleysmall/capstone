@@ -22,6 +22,10 @@ class Home extends Component {
     resultsTagName = "instructor";
     resultsTag = "Roy Turner";
 
+    componentDidMount() {
+        document.title = 'Home Page';
+      }
+    
     constructor(props)
     {
         super(props);

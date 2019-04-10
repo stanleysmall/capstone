@@ -3,8 +3,12 @@ import {Redirect} from "react-router";
 import {LoggedOutHeader, LoggedInHeader} from "../displayComponents";
 import "../../CSS/App.css";
 
-class Landing extends Component {
-    
+class About extends Component {
+	
+	componentDidMount() {
+		document.title = 'About Page';
+	  }
+
     render() {
 
         if(this.props.match.params.loggedIn)
@@ -102,4 +106,4 @@ class Landing extends Component {
         }
     }
 }
-export default Landing;
+export default About;

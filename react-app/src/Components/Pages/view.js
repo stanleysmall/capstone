@@ -15,6 +15,10 @@ class View extends Component {
     
     surveyJSON = survey;
 
+    componentDidMount() {
+        document.title = 'View Page';
+      }
+
     constructor(props)
     {   
         super(props);

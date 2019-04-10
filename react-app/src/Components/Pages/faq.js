@@ -3,9 +3,13 @@ import {Redirect} from "react-router";
 import { LoggedOutHeader, LoggedInHeader } from "../displayComponents";
 import "../../CSS/App.css";
 
-class Landing extends Component {
-    
-    render() {
+class FAQ extends Component {
+	
+	componentDidMount() {
+		document.title = 'FAQ Page';
+	  }
+	
+	  render() {
 
         if(this.props.match.params.loggedIn)
         {
@@ -83,4 +87,4 @@ class Landing extends Component {
         }
     }
 }
-export default Landing;
+export default FAQ;
