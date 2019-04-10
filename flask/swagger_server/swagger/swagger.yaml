@@ -50,6 +50,17 @@ paths:
       operationId: "surveys_get"
       produces:
       - "application/json"
+      parameters:
+      - name: "tag_type"
+        in: "query"
+        description: "the type of a survey tag"
+        required: false
+        type: "string"
+      - name: "tag_value"
+        in: "query"
+        description: "the value of a survey tag"
+        required: false
+        type: "string"
       responses:
         200:
           description: "search results matching criteria"

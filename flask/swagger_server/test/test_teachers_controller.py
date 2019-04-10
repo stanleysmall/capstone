@@ -461,11 +461,11 @@ class TestTeachersController(BaseTestCase):
                                                   (18,), (19,), (20,), (21,),
                                                   (22,), (23,)])
     
-    def test_surveys_get_valid(self):
+    def test_surveys_get_notag_valid(self):
         """Test case for surveys_get
 
         retreives a list of the names of the user's surveys
-        session user is 'Roy Turner'
+        session user is 'Roy Turner', no tag entered
         """
         
         with self.client.session_transaction() as sess:
@@ -482,11 +482,11 @@ class TestTeachersController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), ['COS 140 001'])
      
-    def test_surveys_get_valid_2(self):
+    def test_surveys_get_notag_valid_2(self):
         """Another test case for surveys_get
 
         retreives a list of the names of the user's surveys
-        session user is 'Torsten Hahmann'
+        session user is 'Torsten Hahmann', no tag entered
         """
         
         with self.client.session_transaction() as sess:
@@ -503,11 +503,33 @@ class TestTeachersController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), ['COS 250 001'])
     
-    def test_surveys_get_invalid(self):
+    def test_surveys_get_tag_valid(self):
+        """Test case for surveys_get
+
+        retreives a list of the names of the user's surveys
+        session user is 'Roy Turner', 'email_register' tag entered
+        """
+        
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Roy Turner'
+            sess['email'] = 'roy.turner@maine.edu'
+        
+        query_string = [('tag_type', 'email_register'),
+                        ('tag_value', 'Email register text')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/surveys',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), ['COS 140 001'])
+    
+    def test_surveys_get_notag_invalid(self):
         """Another test case for surveys_get
 
         retreives a list of the names of the user's surveys
-        seesion user is not in the database
+        session user is not in the database
         """
         
         with self.client.session_transaction() as sess:
@@ -515,6 +537,50 @@ class TestTeachersController(BaseTestCase):
             sess['email'] = 'carol.roberts@maine.edu'
         
         query_string = []
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/surveys',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), [])
+    
+    def test_surveys_get_tag_invalid(self):
+        """Another test case for surveys_get
+
+        retreives a list of the names of the user's surveys
+        session user is in the database, but not the tag value
+        """
+        
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Roy Turner'
+            sess['email'] = 'roy.turner@maine.edu'
+        
+        query_string = [('tag_type', 'email_register'),
+                        ('tag_value', 'Invalid text')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/surveys',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), [])
+    
+    def test_surveys_get_tag_invalid_2(self):
+        """Another test case for surveys_get
+
+        retreives a list of the names of the user's surveys
+        tag value is in the database, but not for the session user
+        """
+        
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Roy Turner'
+            sess['email'] = 'roy.turner@maine.edu'
+        
+        query_string = [('tag_type', 'email_register'),
+                        ('tag_value', 'Er text')]
         response = self.client.open(
             '/teameval/Eval/1.0.0/surveys',
             method='GET',

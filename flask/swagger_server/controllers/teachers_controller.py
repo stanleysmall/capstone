@@ -359,25 +359,48 @@ def survey_put():  # noqa: E501
     return 'success'
 
 
-def surveys_get():  # noqa: E501
-    """retreives a list of the names of the user's surveys
+def surveys_get(tag_type=None, tag_value=None):  # noqa: E501
+    """retreives a list of the names of the user's surveys,
+       optionally for a given tag type and value
+
+    :param tag_type: the type of a survey tag (optional)
+    :type tag_type: str
+    :param tag_value: the value of a survey tag (optional)
+    :type tag_value: str
 
     :rtype: List[survey names]
     """
     
-    surveys = []                        # Survey names to return
-    email = session['email']            # Use e-mail of current user
+    survey_names = []                       # Survey names to return
+    email = session['email']                # Use e-mail of current user
     
-    # Retrieve the survey names for a given e-mail address
-    cursor.execute("select value from tag, survey_to_tag, survey, " \
-                   "instructor where type = 'name' && tag.ID = " \
-                   "survey_to_tag.tag_ID && survey_to_tag.survey_ID = " \
-                   "survey.ID && survey.instructor_ID = instructor.ID && " \
-                   "instructor.`e-mail` = '" + email + "';")
-    for survey in cursor.fetchall():    # Add query results to list of names
-        surveys.append(survey[0])
+    results = []
+    if tag_type and tag_value:
+        # Retrieve the survey IDs for a given tag value and e-mail address
+        cursor.execute("select survey.ID from survey, survey_to_tag, tag, " \
+            "instructor where survey.ID = survey_to_tag.survey_ID && " \
+            "survey_to_tag.tag_ID = tag.ID && tag.type = '" + tag_type
+            + "' && tag.value = '" + tag_value + "' && survey.instructor_ID " \
+            "= instructor.ID && instructor.`e-mail` = '" + email + "';")
+        survey_IDs = cursor.fetchall()
+        
+        # Retrieve the names of the surveys with the given IDs
+        for survey_ID in survey_IDs:
+            cursor.execute("select value from tag, survey_to_tag where type " \
+                "= 'name' && tag.ID = survey_to_tag.tag_ID && " \
+                "survey_to_tag.survey_ID = " + str(survey_ID[0]) + ";")
+            survey_names.append(cursor.fetchone())
+    else:
+        # Retrieve the survey names for a given e-mail address
+        cursor.execute("select value from tag, survey_to_tag, survey, " \
+            "instructor where type = 'name' && tag.ID = " \
+            "survey_to_tag.tag_ID && survey_to_tag.survey_ID = " \
+            "survey.ID && survey.instructor_ID = instructor.ID && " \
+            "instructor.`e-mail` = '" + email + "';")
+        survey_names = cursor.fetchall()
     
-    return surveys
+    # Return survey names
+    return [name[0] for name in survey_names]
 
 
 def login_get(key):  # noqa: E501
