@@ -5,6 +5,7 @@ import {LoggedOutHeader} from "../displayComponents";
 import GoogleLogin from 'react-google-login';
 import {Redirect} from "react-router";
 import {oAuthClientID} from "../../vars";
+import "../../CSS/App.css";
 
 class Landing extends Component {
     
@@ -51,13 +52,14 @@ class Landing extends Component {
         <form>
             <LoggedOutHeader/>
             <div>
-                <p>login</p>
-            <GoogleLogin
-                clientId= {oAuthClientID}
-                buttonText="Login Using Your Google Account"
-                onSuccess={this.login}
-                onFailure={this.loginFailure}
-            />
+			<center>
+				<GoogleLogin
+					clientId= {oAuthClientID}
+					buttonText="Login"
+					onSuccess={this.login}
+					onFailure={this.loginFailure}
+				/>
+			</center>
             </div>
         </form>
         )

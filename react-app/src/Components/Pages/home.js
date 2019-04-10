@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {Redirect} from "react-router";
 import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
 import { getUnpublishedEvalNames, getPublishedEvalNames } from "../../Functions/endpoints";
+import "../../CSS/App.css";
 
 class Home extends Component {
     state = {
@@ -67,32 +68,31 @@ class Home extends Component {
         return(
             <div>
                 <LoggedInHeader/>
-                    <p>Home</p>
 
                     1. Create a new course & teaching evaluation form
                     <br/>
                     <Link to={"/create/"}>
-                        <button>Create</button>
+                        <button1>Create</button1>
                     </Link>
                     <br/><br/>
 
                     2. Edit an Existing Unpublished Course Evaluation Form
                     <br/>
                     <DynamicSelecter list={this.state.editableEvals} iden={"editSelector"}/>&emsp;
-                    <button onClick = {() => this.edit(document.getElementById("editSelector").value)}>Edit</button>
+                    <button1 onClick = {() => this.edit(document.getElementById("editSelector").value)}>Edit</button1>
                     <br/><br/>
 
                     3. View Old Course Evaluation Form
                     <br/>
                     <DynamicSelecter list={this.state.inactiveEvals} iden={"inactiveSelector"}/>&emsp;
-                    <button onClick = {() => this.view(document.getElementById("inactiveSelector").value)}>view</button>
+                    <button1 onClick = {() => this.view(document.getElementById("inactiveSelector").value)}>View</button1>
                     <br/><br/>
 
                     4. View Evaluation Results
                     <br/>
                     <DynamicSelecter list={this.state.reports} iden={"reports"}/>&emsp;
                     <Link to={"/results/" + this.resultsTagName + "/" + this.resultsTag}>
-                        <button>View Results</button>
+                        <button1>View Results</button1>
                     </Link>
                 </div>
         )

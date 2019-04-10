@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import "../CSS/App.css";
 
 export class LoggedInHeader extends Component {
     
