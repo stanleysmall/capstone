@@ -3,6 +3,8 @@ import six
 import mysql.connector
 import base64
 import logging
+import time
+from threading import Timer
 
 from flask import jsonify
 from flask import session
@@ -15,10 +17,13 @@ from swagger_server.models.result import Result  # noqa: E501
 from swagger_server import util
 from swagger_server.lime_py_api.limesurvey import Api
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO)     # Enable logging
+
 # Log into LimeSurvey with the RemoteControl API
 lime = Api('http://10.5.0.5/index.php/admin/remotecontrol', 'admin',
            'password')
+
+timers = []                                 # Timers to stop after testing
 
 # Connect to MySQL database
 mydb = mysql.connector.connect(host='10.5.0.6',
@@ -486,10 +491,27 @@ def publish_get(name):  # noqa: E501
     # Activate anonymized survey on LimeSurvey
     lime.set_survey_property(survey_ID, 'anonymized', 'true')
     lime.activate_survey(survey_ID)
-    # Send e-mails to survey participants
+    # Send invitation e-mails to survey participants
     lime.invite_participants(survey_ID)
     
+    # Send reminder e-mails after 3, 6, and 9 days
+    for i in range(1, 4):
+        # There are 259,200 seconds in a day
+        timer = Timer(i*259200, remind_participants, (survey_ID,))
+        timer.start()
+        timers.append(timer)
+    
     return 'success'
+
+
+def remind_participants(survey_ID):
+    """sends reminder e-mails to survey participants
+    
+    :param survey_ID: the ID of the survey whose participants are reminded
+    :type survey_ID: int
+    """
+    
+    lime.remind_participants(survey_ID)
 
 
 def get_template_text(name, typ):

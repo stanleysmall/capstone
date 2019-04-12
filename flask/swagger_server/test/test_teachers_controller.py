@@ -2,6 +2,7 @@
 
 from __future__ import absolute_import
 
+import sys
 import mysql.connector
 from flask import json
 from six import BytesIO
@@ -10,6 +11,7 @@ from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.models.result import Result  # noqa: E501
 from swagger_server.test import BaseTestCase
 from swagger_server.lime_py_api.limesurvey import Api
+from swagger_server.controllers.teachers_controller import timers
 
 class TestTeachersController(BaseTestCase):
     """TeachersController integration test stubs"""
@@ -132,7 +134,10 @@ class TestTeachersController(BaseTestCase):
                     + "here to do the survey:<br/>{SURVEYURL}<br/><br/>Please "
                     + "enter the token {TOKEN} to access the survey.",
                 "email_register": "Email register text",
-                "email_remind": "Email remind text",
+                "email_remind": "Dear {FIRSTNAME},<br/><br/>we wish to remind "
+                    + "you to participate in a survey.<br/><br/>Click "
+                    + "here to do the survey:<br/>{SURVEYURL}<br/><br/>Please "
+                    + "enter the token {TOKEN} to access the survey.",
                 "endtext": "End text",
                 "instructor": "Roy Turner",
                 "name": "COS 140 001",
@@ -656,6 +661,10 @@ class TestTeachersController(BaseTestCase):
         
         # Call lime.delete_survey() to remove survey from LimeSurvey
         self.lime.delete_survey(1)
+        
+        # Stop timers to prevent waiting for their completion
+        for timer in timers:
+            timer.cancel()
     
     def test_publish_get_invalid(self):
         """Test case for publish_get

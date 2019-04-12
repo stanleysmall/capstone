@@ -255,3 +255,12 @@ class Api:
                                     "iSurveyID":  %s
                         } } """ % (self.session_key, sid)
         return self._getJSON(data)['result']
+    
+    # Sends reminder e-mails to the participants of a given survey
+    def remind_participants(self, sid):
+        data = """ {    "id" : 1,
+                        "method":"remind_participants",
+                        "params": { "sSessionKey": "%s",
+                                    "iSurveyID":  %s
+                        } } """ % (self.session_key, sid)
+        return self._getJSON(data)['result']
