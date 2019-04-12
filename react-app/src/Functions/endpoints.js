@@ -54,7 +54,7 @@ export const getResults = (cat_type, cat_name) =>
 	return fetch(APIAddress + "results?cat_type="+ cat_type + "&cat_name=" + cat_name)
 			.then(response =>response.json())
 			.then((responseData) => {
-				console.log(responseData);
+				console.log("results " + responseData);
 				return responseData;
 			})
 }

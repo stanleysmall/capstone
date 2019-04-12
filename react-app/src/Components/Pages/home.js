@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {Redirect} from "react-router";
-import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
+import {LoggedInHeader, DynamicSelecter, RadioSelecter} from "../displayComponents";
 import { getUnpublishedEvalNames, getPublishedEvalNames } from "../../Functions/endpoints";
 import "../../CSS/App.css";
 
@@ -60,6 +60,20 @@ class Home extends Component {
             this.props.history.push("/view/" + value);
         }
     }
+	
+	results(tagName, tag){
+		this.resultsTagName=tagName;
+		this.resultsTag=tag;
+		var radios = document.getElementsByName("resultTagType");
+		for (var i=0; i<radios.length; i++){
+			if(radios[i].checked){
+				tagName=radios[i].value;
+				break;
+			}
+		}
+		
+		this.props.history.push("/results/" + tagName + "/" + tag);
+	}
 
     render() {
 
@@ -90,12 +104,14 @@ class Home extends Component {
                     
 					
                     <h3>4. View Evaluation Results</h3>
+					<RadioSelecter iden={"tags"}/>
                     <DynamicSelecter list={this.state.reports} iden={"reports"}/>&emsp;
-                    <Link to={"/results/" + this.resultsTagName + "/" + this.resultsTag}>
-                        <button type="homeScreenButton">View Results</button>
-                    </Link>
+						
+                    <button type="homeScreenButton" onClick = {() => this.results(document.getElementById("tags").value, document.getElementById("reports").value)}>View Results</button>
+						
                 </div>
         )
     }
+	
 }
 export default Home;
