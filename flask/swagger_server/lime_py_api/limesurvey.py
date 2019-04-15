@@ -136,9 +136,8 @@ class Api:
                                     "aFields": "%s"
                         } } """ % (self.session_key, sid, status, heading,
                                    response, fields)
-        print(data)
-        out = b64decode(self._getJSON(data)['result']).decode('utf-8')
-        return json.loads(out)
+        return json.loads(b64decode(self._getJSON(data)['result'])
+                          .decode('utf-8'))
 
     # Returns a survey's responses given a participant's token
     def export_responses_by_token(self, sid, token):

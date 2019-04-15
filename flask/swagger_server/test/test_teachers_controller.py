@@ -12,6 +12,7 @@ from swagger_server.models.result import Result  # noqa: E501
 from swagger_server.test import BaseTestCase
 from swagger_server.lime_py_api.limesurvey import Api
 from swagger_server.controllers.teachers_controller import timers
+from swagger_server.controllers.teachers_controller import anonymize
 
 class TestTeachersController(BaseTestCase):
     """TeachersController integration test stubs"""
@@ -618,6 +619,8 @@ class TestTeachersController(BaseTestCase):
         survey name is 'COS 140 001'
         """
         
+        anonymize = True        # Make survey responses anonymous
+        
         query_string = [('name', 'COS 140 001')]
         response = self.client.open(
             '/teameval/Eval/1.0.0/publish',
@@ -659,7 +662,7 @@ class TestTeachersController(BaseTestCase):
             'question': 'Question?', 'help': '', 'mandatory': 'Y',
             'language': 'en'}])
         
-        # Call lime.delete_survey() to remove survey from LimeSurvey
+        # Remove mock survey from LimeSurvey
         self.lime.delete_survey(1)
         
         # Stop timers to prevent waiting for their completion
@@ -689,15 +692,26 @@ class TestTeachersController(BaseTestCase):
         category is instructor Roy Turner
         """
         
+        anonymize = False       # Do not make survey responses anonymous
+        
         # Add a survey by Roy Turner to LimeSurvey
-        # response = self.client.open('/teameval/Eval/1.0.0/publish',
-        #     method='GET', query_string=[('name', 'COS 140 001')])
+        response = self.client.open('/teameval/Eval/1.0.0/publish',
+            method='GET', query_string=[('name', 'COS 140 001')])
         
-        # Call lime.add_response() with a few mock survey responses
+        # Retrieve group and question IDs
+        IDs = []
+        questions = self.lime._list_questions(1)
+        for question in questions[::-1]:
+            IDs.append({'qid': question['qid'], 'gid': question['gid']})
+
+        # Add a few mock survey responses to the survey
+        self.lime._add_response(1, json.dumps({
+            '1X{}X{}'.format(IDs[0]['gid'], IDs[0]['qid']): 4,
+            '1X{}X{}'.format(IDs[1]['gid'], IDs[1]['qid']): 1,
+            '1X{}X{}'.format(IDs[2]['gid'], IDs[2]['qid']): 'Y'}))
         
-        query_string = [('cat_type', 'example'), ('cat_name', 'example')]
-        # query_string = [('cat_type', 'instructor'),
-        #                 ('cat_name', 'Roy Turner')]
+        # Get results for Roy Turner's surveys
+        query_string = [('cat_type', 'instructor'), ('cat_name', 'Roy Turner')]
         response = self.client.open(
             '/teameval/Eval/1.0.0/results',
             method='GET',
@@ -706,9 +720,14 @@ class TestTeachersController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
         
         # Assert that return value matches expected statistics
+        print(json.loads(response.data))
         
-        # Call lime.delete_survey() to remove survey from LimeSurvey
-        # self.lime.delete_survey(1)
+        # Remove mock survey from LimeSurvey
+        self.lime.delete_survey(1)
+        
+        # Stop timers to prevent waiting for their completion
+        for timer in timers:
+            timer.cancel()
     
     def test_results_get_invalid(self):
         """Test case for results_get

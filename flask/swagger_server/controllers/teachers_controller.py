@@ -23,7 +23,8 @@ logging.basicConfig(level=logging.INFO)     # Enable logging
 lime = Api('http://10.5.0.5/index.php/admin/remotecontrol', 'admin',
            'password')
 
-timers = []                                 # Timers to stop after testing
+anonymize = True                    # True iff survey responses are anonymous
+timers = []                         # Timers to stop after testing
 
 # Connect to MySQL database
 mydb = mysql.connector.connect(host='10.5.0.6',
@@ -488,8 +489,9 @@ def publish_get(name):  # noqa: E501
     lime.activate_tokens(survey_ID)
     lime.add_participants(survey_ID, participants)
     
-    # Activate anonymized survey on LimeSurvey
-    lime.set_survey_property(survey_ID, 'anonymized', 'true')
+    if anonymize:
+        # Activate anonymized survey on LimeSurvey
+        lime.set_survey_property(survey_ID, 'anonymized', 'true')
     lime.activate_survey(survey_ID)
     # Send invitation e-mails to survey participants
     lime.invite_participants(survey_ID)
@@ -623,7 +625,7 @@ def translate_to_txt(name):
         # Add questions only if a group contains questions
         if question_IDs:
             # Add row for group header
-            questions.append({'id': str(i), 'class': 'G', 'type': '1',
+            questions.append({'id': str(i+1), 'class': 'G', 'type': '1',
                               'name': groups[i], 'relevance': '', 'text': '',
                               'language': 'en', 'mandatory': ''})
             
@@ -731,7 +733,8 @@ def results_get(cat_type, cat_name):  # noqa: E501
             for q_key in q_keys:
                 try:
                     q_value = int(response[q_key])  # q_key's response
-                except ValueError:  # Only 1-5 scale questions permitted
+                # Only 1-5 scale questions permitted
+                except (ValueError, TypeError) as e:
                     continue
                 
                 # Create a question key in stats if not there
@@ -755,7 +758,9 @@ def results_get(cat_type, cat_name):  # noqa: E501
                 'median': statistics.median(values),
                 'mean': statistics.mean(values),
                 # Standard deviation of response values
-                'std_dev': round(statistics.stdev(values), 2),
+                # Cannot be found with only one response
+                'std_dev': round(statistics.stdev(values), 2)
+                           if len(values) != 1 else 'N/A',
                 'n': len(values)    # Number of responses
             }
 
