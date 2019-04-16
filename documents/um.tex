@@ -79,13 +79,13 @@ Craig, J., Elliott, S., Judkins, R., \& Small, S. 16 November 2018. \textit{Syst
 \vspace{3mm}\newline
 Craig, J., Elliott, S., Judkins, R., \& Small, S. 30 November 2018. \textit{User Interface Design Document.}
 \vspace{3mm}\newline
-Craig, J., Elliott, S., Guo, Y., Judkins, R., \& Small, S. 14 March 2019. \textit{Code Inspection Report Document.}
+Craig, J., Elliott, S., Guo, Y., Judkins, R., \& Small, S. 14 March 2019. \textit{Code Inspection Report.}
 \vspace{3mm}\newline
 Craig, J., Elliott, S., Guo, Y., Judkins, R., \& Small, S. 4 April 2019. \textit{Administrator Manual.}
 
 \subsection{Conventions}
 
-Readers of this document shall be aware of the stylistic and syntactical conventions that we use. Button names and input to text fields are closed off by quotation marks. Additionally, monospaced Courier font is used for URLs, console commands, and console output.
+Readers of this document shall be aware of the stylistic and syntactical conventions that we use. The user is often referenced by the gender-neutral pronoun ``they''. Button names and input to text fields are closed off by quotation marks. Additionally, monospaced Courier font is used for URLs, console commands, and console output.
 
 \subsection{Problem Reporting Instructions}
 
@@ -97,7 +97,7 @@ Team EVAL's course evaluation system has multiple capabilities for instructors t
 
 The first pages the user sees upon starting the system are the landing pages. They include a summary of the system, frequently asked questions, and the log-in form. The user logs in with the e-mail address and password of a Google account. The system authenticates the log-in credentials, and the user reaches the system's home page.
 
-The home screen has several options for the user to take. First, one may create a new course evaluation form. By creating a new survey, the user needs to import the course infomation such as course section, course designator, course title, course section, semester and calendar year and name of faculty unit. The second option is to edit a form that has been created but is still unpublished. Third, the user may view (but not edit) a published or inactive evaluation form. Finally, one can load a report giving statistics of the questions in course survey forms. A report applies to a particular category, such as a course section, course designator, instructor name, or university.
+The home screen has several options for the user to take. First, one may create a new course evaluation form. By creating a new survey, the user needs to import course infomation such as course section, course designator, course title, course section, semester and calendar year and name of faculty unit. The second option is to edit a form that has been created but is still unpublished. Third, the user may view (but not edit) a published or inactive evaluation form. Finally, one can load a report giving statistics of the questions in course survey forms. A report applies to a particular category, such as a course section, course designator, instructor name, or university.
 
 A major feature of the course evaluation system is editing a survey form before publishing it. If the user chose to create a new form, he or she may then select a preset form, loading the information of an existing form into the new one. While editing a form, the system allows setting the course information, including questions asking students about the course, adding custom open-ended questions, setting some questions as mandatory, listing the survey's participants, and writing e-mail templates about completing the survey to send to students.
 
@@ -108,39 +108,42 @@ An important capability of the system is to compile the responses for survey que
 \section{Instructions}
 
 \subsection{Logging In}
-To begin using the course evaluation system a user first needs to log in. The initial screen, known as the landing page, has a login button featured on it. The only requirement to login to the system is a valid Gmail account. Once logged in a user will be directed to the home page where they will have access to the evaluation system. 
 
-On the home page there are four operations a user can perform at any time. These include `Create Evaluation', `Edit Evaluation', `View Evaluation', and `View Results'.
+To begin using the course evaluation system, a user first needs to log in. The initial screen, known as the landing page, has a ``Login'' button featured on it. The only requirement to log in to the system is a valid Gmail account. Once logged in, a user will be directed to the home page, where they will have access to the functions of the evaluation system. On this page, there are four operations a user can perform at any time: ``Create Evaluation'', ``Edit Evaluation'', ``View Evaluation'', and ``View Results''.
 
 \subsection{Create Evaluation}
-When a user selects the `Create Evaluation' button they will be directed to a new screen to begin creating a new evaluation form. This operation is used to develop a survey that will eventually be published and sent out to a list of participants. The user can either create a new form from scratch or re-use an existing evaluation previously created.
 
-If the user wants to create a new survey from scratch, they will have to first fill out the information about the course they are instructing or administering. This information includes the course designator, course title, year the course was held, instructors name and email, and other details about the course and its instructor. Each field must be filled out before the user can continue. Once they are satisfied with their course details they can continue onto the next portion of the survey creation process.
+When a user selects the ``Create Evaluation'' button, they will be directed to a new screen to begin creating a new evaluation form. This operation is used to develop a survey that will eventually be published and sent out to a list of participants. The user can either create a new form from scratch or re-use an existing form that was previously created.
 
-Once the course details have been filled out the user is now tasked with choosing what questions to include on their survey. There are several defaults questions that are customary in most course evaluation surveys, but the user also has the ability to create their own custom questions. For each question that appears the user has a choice to either include it, make it mandatory for the survey taker, or to exclude the question entirely.
+If the user wants to create a new survey from scratch, they will have to first fill out the information about the course they are instructing or administering. This information includes the course designator, course title, year that the course was held, instructor's name and e-mail address, and other details about the course and its instructor. Every field must be filled out before the user can continue. Once they are satisfied with the course details, the user can continue onto the next portion of the survey creation process.
 
-The questions are split up into categories and some categories may not be applicable for some courses. The categories are: Course, Instructor, Assessment, Teaching Assistant, Laboratory, Online, and Open Ended. Some of these may not be relevant for every course. For example, if the course did not have a teaching assistant then the user could disregard these questions entirely. Once the user has picked and created the survey questions to their liking they are able to continue to the final page of creating an evaluation.
+Once the course details have been filled out, the user is now tasked with choosing what questions to include on their survey. There are several default questions that are customary in most course evaluation surveys, but the user can also create their own custom questions. For each question that appears, the user has a choice to either include it, make it mandatory for survey respondents, or exclude the question entirely.
 
-The final page required to create a survey form is an administrative one. The user is asked to list everyone enrolled in the course followed by this order : first name, last name and email address.The information for each student should appear in a separate row and be separated by commas. (e.g Mary, Smith, marysmith@gmail.com). This is how the survey will be distributed once it is published. The user can also edit the email these students will receive as well as opt-in or opt-out of reminder emails to be sent to the students. These emails will be sent to the students enrolled in the course 9, 6, and 3 days before the surveys must be completed.
+The questions are typically split into the following categories: ``Course'', ``Instructor'', ``Assessment'', ``Teaching Assistant'', ``Laboratory'', ``Online'', and ``Open Ended''. Some of these categories may not be relevant for a course. For example, if the course did not have a teaching assistant, then the user could disregard the ``Teaching Assistant'' questions entirely. Once the user has picked and created the survey questions to their liking, they can continue to the final page of creating an evaluation form.
 
-Once the user is done with this page they are able to submit the survey. Once submitted they can choose to either save the survey to be published later or publish it right away. They will be routed back to the home page and they have successfully created an evaluation form.
+The final page required to create a survey form is related to administration. The user is asked to list everyone enrolled in the course. The information for each student should appear in a separate row, with each row formatted as formatted as ``[first name], [last name], [e-mail address]'' (e.g ``Mary, Smith, marysmith@gmail.com''). This section determines how the survey will be distributed once it is published. The user can also edit the e-mails these students will receive, as well as opt in or opt out of reminder e-mails to be sent to the students. Reminder e-mails are sent to the students enrolled in the course 3, 6, and 9 days after the survey is published.
+
+Once the user is done with that page, they can finally submit the survey. Once submitted, they can choose to either save the survey to be published later or publish it right away. They will be directed back to the home page, having successfully created an evaluation form.
 
 \subsection{Edit Evaluation}
-The edit evaluation operation is used if a user has previously created a survey form but has yet to publish it. The user has the ability to select their existing surveys from a drop-down menu and then can choose to edit one as they please.
 
-Once a survey is selected it will bring the user to a similar page as when they created a survey from scratch. In this situation, however, all of the fields have already been filled out with what they previously entered. The user is then able to go through each page and edit the course information, the questions they've selected, and the enrollment list for the selected course. Once done the survey can either be saved again for further editing later or published and sent out to the participants.
+The ``Edit Evaluation'' operation is used if a user has previously created a survey form but has yet to publish it. The user has the ability to select one of their existing surveys from a drop-down menu and can then choose to edit one as they please.
 
+Once a survey is selected, the system will bring the user to a page similar to the one for creating a survey from scratch. In this situation, however, all of the fields have already been filled with what they previously entered. The user is then able to go through each page and edit the course information, the questions they have selected, and the enrollment list for the selected course. Once done, the survey can either be saved again for further editing later, or published and sent out to the participants.
 
 \subsection{View Evaluation}
-The view evaluation operation is used to view an older inactive survey form that has already gone through its lifetime. These surveys have already been distributed and taken by the participants in a previous year or semester. Once again the user can select the desired survey from a drop-down menu and choose which one they would like to view.
 
-Once an evaluation has been selected, the user is directed to a page where they can view the information from this previous course. They are unable to edit this course as it has already been made inactive. The purpose of this is to simply view a past form and see what the course information was or which questions were included. At any point the user can return to the homepage when they are done viewing.
+The ``View Evaluation'' operation is used to view an older inactive survey form that has already expired. These surveys have already been distributed and taken by the participants in a previous year or semester. Once again, the user can select the desired survey from a drop-down menu and choose which one they would like to view.
+
+Once an evaluation form has been selected, the user is directed to a page where they can view the information from this previous course. They are unable to edit this course, as it has already been made inactive. The purpose of this function is to see the form's course information or which questions were included. At any point, the user can return to the homepage when they are done viewing.
+
 \subsection{View Results}
-The view results operation is used to view the statistical results of a completed survey after it has run its course. It cannot be used for older surveys from past years or semesters, however. This only applies for the courses that have recently been completed and had their surveys taken.
 
-To choose which course evaluation results are viewed, the user needs to first select what category they would like to sort the courses. The choices are as follows: Instructor, Course Section, Course Designator, Unit, College, and University. Once the user selects which category type they would like to sort by, they can choose the more specific category next. For example, if they select `instructor' the drop-down list would then consist of a list of instructors with surveys on their account. 
+The ``View Results'' operation displays the statistical results of a completed surveys after they have run their course. It cannot be used for older surveys from past years or semesters. Rather, the operation only applies to courses that have recently been completed and have had their surveys taken.
 
-Once the user has selected the category type and specific category they would like to view, they can procede to the results screen. This screen will display the results for each question in each survey under the designated category. It will display statistics such as the median, mean, standard deviation, and number of participants for each question. This will allow the user to compare results across courses, and schools.
+To choose which course evaluation results are viewed, the user needs to first select which category they would like to filter the courses: ``Instructor'', ``Course Section'', ``Course Designator'', ``Unit'', ``College'', and ``University''. Once the user selects the category type, they can then choose a more specific category. For example, if they select ``Instructor'', the drop-down list would consist of a list of instructors with surveys on the user's account. 
+
+Once the user has selected the category type and specific category they would like to view, they can proceed to the results screen. This screen will display the results for each question in the surveys under the designated category. It will display statistics such as the median, mean, standard deviation, and number of participants for each question. This will allow the user to compare results across courses and schools.
 
 \section{Reference Section}
 
@@ -155,25 +158,17 @@ Once the user has selected the category type and specific category they would li
 
 \section{Glossary}
 
-Evaluation - The form that a user will create to distribute amongst enrolled students to rate the 
-
-Survey - The quetionnaire that students enrolled in a given course will take to evaluate the course and other related entities.
-
-Instructor - The teacher of the class or course that the evaluation form is being created for. Not necessarily the same as the user.
-
-Course - The class in which an evaluation form is being created for.
-
-LimeSurvey - An opensource software that allows the creation and publishing of surveys.
-
 \begin{itemize}
+ \item \textit{Survey/evaluation} -- The questionnaire that students enrolled in a given course will take to evaluate the course and other related entities.
+ \item \textit{Instructor} -- The teacher of the class or course that the evaluation form is being created for. Not necessarily the same as the user.
+ \item \textit{Course} -- The class for which an evaluation form is created.
  \item \textit{Published} -- A survey that has been sent to its participants so that responses may be collected.
  \item \textit{Unpublished} -- A survey that is not yet viewable by its participants and is still editable.
  \item \textit{Active} -- A survey that its users can view and for which they can make responses.
  \item \textit{Inactive} -- A survey that is expired and no longer viewable by its participants.
+ \item \textit{LimeSurvey} -- An open-source software that allows the creation and publishing of surveys.
  \item \textit{Back end} -- The component of the system that manages survey form data and interfaces with LimeSurvey.
- \item \textit{} -- 
 \end{itemize}
-
 
 \newpage
 \section{Agreement Between Customer and Contractor}
