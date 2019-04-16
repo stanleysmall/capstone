@@ -698,24 +698,25 @@ class TestTeachersController(BaseTestCase):
         response = self.client.open('/teameval/Eval/1.0.0/publish',
             method='GET', query_string=[('name', 'COS 140 001')])
         
-        # Retrieve group and question IDs
-        IDs = []
+        # Retrieve group and question IDs to make question codes
+        codes = []
         questions = self.lime._list_questions(1)
         for question in questions[::-1]:
-            IDs.append({'qid': question['qid'], 'gid': question['gid']})
+            codes.append('1X{}X{}'.format(question['gid'], question['qid']))
 
-        # Add a few mock survey responses to the survey
+        # Add some mock survey responses to the survey
         self.lime._add_response(1, json.dumps({
-            '1X{}X{}'.format(IDs[0]['gid'], IDs[0]['qid']): 4,
-            '1X{}X{}'.format(IDs[1]['gid'], IDs[1]['qid']): 1,
-            '1X{}X{}'.format(IDs[2]['gid'], IDs[2]['qid']): 'Y'}))
+            codes[0]: 4, codes[1]: 1, codes[2]: 'Y'}))
+        self.lime._add_response(1, json.dumps({
+            codes[0]: 5, codes[1]: 2, codes[2]: 'N'}))
+        self.lime._add_response(1, json.dumps({
+            codes[0]: 2, codes[1]: 2, codes[2]: 'Y'}))
         
         # Get results for Roy Turner's surveys
         query_string = [('cat_type', 'instructor'), ('cat_name', 'Roy Turner')]
         response = self.client.open(
             '/teameval/Eval/1.0.0/results',
-            method='GET',
-            query_string=query_string)
+            method='GET', query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         

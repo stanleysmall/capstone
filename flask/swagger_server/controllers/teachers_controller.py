@@ -756,7 +756,7 @@ def results_get(cat_type, cat_name):  # noqa: E501
             # Find appropriate statistics for values
             stats[question][survey] = {
                 'median': statistics.median(values),
-                'mean': statistics.mean(values),
+                'mean': round(statistics.mean(values), 2),
                 # Standard deviation of response values
                 # Cannot be found with only one response
                 'std_dev': round(statistics.stdev(values), 2)
