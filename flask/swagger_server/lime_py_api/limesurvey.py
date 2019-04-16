@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# NOTICE: This script has been changed from its original version to make compatible with the evaluation system.
-#         Modifications were made from February to March 2019.
+# NOTICE: This script has been changed from its original version to make
+#         compatible with the evaluation system. Modifications were made
+#         from February to March 2019.
 
 from base64 import b64decode
 import json
@@ -12,6 +13,7 @@ from time import sleep
 
 
 class Api:
+    # Initializes a LimeSurvey session with log-in credentials
     def __init__(self, url, user, key):
         self.url = url
         self._user = user
@@ -34,6 +36,7 @@ class Api:
             e = sys.exc_info()[0]
             print ("<p>Error: %s</p>" % e)
 
+    # Deletes a survey given an ID
     def delete_survey(self, sid):
         data = """{ "id": 1,
                     "method": "delete_survey",
@@ -42,6 +45,7 @@ class Api:
                                                           sid)
         return self._getJSON(data)['result']
 
+    # Sets a survey's property
     def set_survey_property(self, sid, prop, value):
         data = """{ "id": 1,
                     "method": "set_survey_properties",
@@ -51,6 +55,7 @@ class Api:
             } }""" % (self.session_key, sid, prop, value)
         return self._getJSON(data)['result']
 
+    # Gets a survey's properties given an ID
     def get_survey_properties(self, sid, settings=None):
 
         if settings is None:
@@ -79,6 +84,7 @@ class Api:
             } }""" % (self.session_key, sid, settings)
         return self._getJSON(data)['result']
 
+    # Gets a survey's statistics and token info given an ID
     def get_summary(self, sid):
         data = """{ "id": 1,
                     "method": "get_summary",
@@ -88,6 +94,7 @@ class Api:
                                                              sid)
         return self._getJSON(data)['result']
 
+    # Makes a survey available for participants given an ID
     def activate_survey(self, sid):
         data = """{ "id": 1,
                     "method": "activate_survey",
@@ -95,6 +102,7 @@ class Api:
                                 "SurveyID": %s } }""" % (self.session_key, sid)
         return self._getJSON(data)['result']
 
+    # Adds a survey given a file of its info
     def import_survey(self, idata, title, sid, type='lss'):
         data = """{ "id": 1,
                     "method": "import_survey",
@@ -106,13 +114,16 @@ class Api:
                % (self.session_key, idata, type, title, sid)
         return self._getJSON(data)['result']
 
+    # Closes a previously opened session
     def release_session_key(self):
         data = """ { "method": "release_session_key",
                      "params": { "sSessionKey" : "%s"},
                      "id":1}' }""" % (self.session_key)
         return self._getJSON(data)['result']
 
-    def export_responses(self, sid, status='all', heading='code', response='short', fields=''):
+    # Returns a JSON object of a survey's responses given an ID
+    def export_responses(self, sid, status='all', heading='code',
+                         response='short', fields=''):
         data = """ {    "id" : 1,
                         "method":"export_responses",
                         "params": { "sSessionKey": "%s",
@@ -123,11 +134,12 @@ class Api:
                                     "sHeadingType": "%s",
                                     "sResponseType": "%s",
                                     "aFields": "%s"
-                        } } """ % (self.session_key, sid, status, heading, response, fields)
-        print(data)
-        out = b64decode(self._getJSON(data)['result']).decode('utf-8')
-        return json.loads(out)
+                        } } """ % (self.session_key, sid, status, heading,
+                                   response, fields)
+        return json.loads(b64decode(self._getJSON(data)['result'])
+                          .decode('utf-8'))
 
+    # Returns a survey's responses given a participant's token
     def export_responses_by_token(self, sid, token):
         data = """ {    "id" : 1,
                         "method":"export_responses_by_token",
@@ -142,6 +154,7 @@ class Api:
                         } } """ % (self.session_key, sid, token)
         return self._getJSON(data)['result']
 
+    # Add a response to a survey given a survey ID
     def _add_response(self, sid, rdata):
         data = """ {          "id": 1,
                               "method":"add_response",
@@ -151,21 +164,7 @@ class Api:
                     } """ % (self.session_key, sid, rdata)
         return self._getJSON(data)['result']
 
-    def importar_desde_archivo(self, sid, archivo):
-        """Esto no funciona!"""
-
-        with open(archivo) as csv:
-            datos = []
-            for linea in csv.readlines():
-                datos.append(linea.rstrip().split('\t'))
-
-        columnas = datos[1]
-        for d in datos[2:]:
-            r = dict(zip(columnas, d))
-            r['id'] = ""
-            self._add_response(sid, json.dumps(r))
-            sleep(1)
-
+    # Helper function for _list_groups
     def _list_groups(self, sid):
         data = """ {          "method":"list_groups",
                               "params": { "sSessionKey": "%s",
@@ -173,6 +172,7 @@ class Api:
                             "id": 1 } """ % (self.session_key, sid)
         return self._getJSON(data)['result']
 
+    # Returns the info of a survey's groups given an ID
     def list_groups(self, sid):
         json_list_groups = self._list_groups(sid)
 
@@ -183,7 +183,8 @@ class Api:
 
         return groups
 
-    def _list_questions(self, sid, gid):
+    # Helper function for _list_questions
+    def _list_questions(self, sid, gid='null'):
         data = """ {          "method":"list_questions",
                               "params": { "sSessionKey": "%s",
                                           "iSurveyID": %s,
@@ -191,7 +192,8 @@ class Api:
                             "id": 1 } """ % (self.session_key, sid, gid)
         return self._getJSON(data)['result']
 
-    def list_questions(self, sid, gid):
+    # Returns the info of a survey's questions given an ID
+    def list_questions(self, sid, gid='null'):
         json_list_questions = self._list_questions(sid, gid)
 
         questions = []
@@ -200,6 +202,7 @@ class Api:
             questions.append(question)
         return questions
 
+    # Returns the info of all of a user's surveys
     def list_surveys(self, sUser=''):
         data = """ { "id" : 1,
                      "method":"list_surveys",
@@ -207,7 +210,9 @@ class Api:
                      } """ % (self.session_key, sUser)
         return self._getJSON(data)['result']
 
-    def list_participants(self, sid, iStart=0, iLimit=1000000, bUnused='true', aAttributes='true', aConditions='array()'):
+    # Returns the participants of a survey given an ID
+    def list_participants(self, sid, iStart=0, iLimit=1000000, bUnused='true',
+                          aAttributes='true', aConditions='array()'):
         data = """ {    "id" : 1,
                         "method":"list_participants",
                         "params": { "sSessionKey": "%s",
@@ -217,9 +222,11 @@ class Api:
                                     "bUnused": "%s",
                                     "aAttributes": "%s",
                                     "aConditions": "%s"
-                        } } """ % (self.session_key, sid, iStart, iLimit, bUnused, aAttributes, aConditions)
+                        } } """ % (self.session_key, sid, iStart, iLimit,
+                                   bUnused, aAttributes, aConditions)
         return self._getJSON(data)['result']
     
+    # Activates a survey's participants list given an ID
     def activate_tokens(self, sid):
         data = """ {    "id" : 1,
                         "method":"activate_tokens",
@@ -228,18 +235,30 @@ class Api:
                         } } """ % (self.session_key, sid)
         return self._getJSON(data)['result']
     
+    # Add a given list of participants to a survey
     def add_participants(self, sid, participants):
         data = """ {    "id" : 1,
                         "method":"add_participants",
                         "params": { "sSessionKey": "%s",
                                     "iSurveyID":  %s,
                                     "aParticipantData": %s
-                        } } """ % (self.session_key, sid, json.dumps(participants))
+                        } } """ % (self.session_key, sid,
+                                   json.dumps(participants))
         return self._getJSON(data)['result']
     
+    # Sends invitation e-mails to the participants of a given survey
     def invite_participants(self, sid):
         data = """ {    "id" : 1,
                         "method":"invite_participants",
+                        "params": { "sSessionKey": "%s",
+                                    "iSurveyID":  %s
+                        } } """ % (self.session_key, sid)
+        return self._getJSON(data)['result']
+    
+    # Sends reminder e-mails to the participants of a given survey
+    def remind_participants(self, sid):
+        data = """ {    "id" : 1,
+                        "method":"remind_participants",
                         "params": { "sSessionKey": "%s",
                                     "iSurveyID":  %s
                         } } """ % (self.session_key, sid)

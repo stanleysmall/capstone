@@ -41,21 +41,6 @@ paths:
         400:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
-  /create_user:
-    post:
-      tags:
-      - "teachers"
-      - "admins"
-      summary: "adds a user to the database"
-      operationId: "create_user_post"
-      responses:
-        200:
-          description: "success message"
-          schema:
-            type: "string"
-        400:
-          description: "bad input parameter"
-      x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
   /surveys:
     get:
       tags:
@@ -65,6 +50,17 @@ paths:
       operationId: "surveys_get"
       produces:
       - "application/json"
+      parameters:
+      - name: "tag_type"
+        in: "query"
+        description: "the type of a survey tag"
+        required: false
+        type: "string"
+      - name: "tag_value"
+        in: "query"
+        description: "the value of a survey tag"
+        required: false
+        type: "string"
       responses:
         200:
           description: "search results matching criteria"
