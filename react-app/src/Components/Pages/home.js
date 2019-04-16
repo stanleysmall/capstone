@@ -87,7 +87,7 @@ class Home extends Component {
             <div>
                 <LoggedInHeader/>
 
-                    <h3>1. Create a new course & teaching evaluation form</h3>
+                    <h3>1. Create a New Course Evaluation Form</h3>
                     <Link to={"/create/"}>
                         <button  id = "create" type="homeScreenButton">Create</button>
                     </Link>

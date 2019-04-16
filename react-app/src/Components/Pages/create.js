@@ -149,8 +149,8 @@ class Create extends Component {
             return(
                 <div>
                     <LoggedInHeader/>
-                    If you want information on this form auto-filled from a previous submission that you may then edit, please select:
-                    <DynamicSelecter list={this.state.loadableEvals} iden={"evaluationSelector"}/>
+                    If you want information on this form auto-filled from a previous submission that you may then edit, please select a past evaluation to copy:   
+                    &emsp;<DynamicSelecter list={this.state.loadableEvals} iden={"evaluationSelector"}/>
                     &emsp;
                     <button onClick = {() => this.template(document.getElementById("evaluationSelector").value)} > Select </button>
 
