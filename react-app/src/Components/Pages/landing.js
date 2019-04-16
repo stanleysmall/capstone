@@ -67,13 +67,15 @@ class Landing extends Component {
 					The software and databases are designed to ensure anonymity for student respondents. The<br/>
 					system ensures that only validated class members may respond and each student may respond<br/>
 					only with a single submission.<br/><br/>
-				
+				<div id='login'>
 				<GoogleLogin
 					clientId= {oAuthClientID}
 					buttonText="Login"
 					onSuccess={this.login}
-					onFailure={this.loginFailure}
+                    onFailure={this.loginFailure}
+                    
 				/>
+                </div>
 				</center>
             </div>
         </form>

@@ -75,7 +75,7 @@ class Home extends Component {
 
                     <h3>1. Create a new course & teaching evaluation form</h3>
                     <Link to={"/create/"}>
-                        <button  type="homeScreenButton">Create</button>
+                        <button  id = "create" type="homeScreenButton">Create</button>
                     </Link>
                     
 

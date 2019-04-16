@@ -27,7 +27,8 @@ class Create extends Component {
     //JSON which defines the format of the survey that 
     //users fill out of create an evaluation.  Stores in questionTemplate.js
     surveyJSON = survey;
-
+    evaltemplate = exampleOldEvaluation;
+    testData = JSON.stringify(this.evaltemplate,null,2)
     /*
         Sets the theme of the user input survey and generates a list of the names of the past surveys which can be used as templates
     */
@@ -128,10 +129,15 @@ class Create extends Component {
                 <div>
                 <LoggedInHeader/>     
     
-                    <div id="survey">
-                        <Survey.Survey model={model} onComplete={this.onComplete}/>
-                    </div>
+                <div id="survey">
+                    <Survey.Survey model={model} onComplete={this.onComplete}/>
                 </div>
+
+                <script id="testingData" object={JSON.stringify(this.evalTemplate,null,2)}/>
+
+                </div>
+
+                
                 )
         }
 
@@ -154,6 +160,8 @@ class Create extends Component {
                     <div id="survey">
                         <Survey.Survey model={blankModel} onComplete={this.onComplete}/>
                     </div>
+
+                    <script id="testingData" object={this.testData}/>
                 </div>
             )
         }

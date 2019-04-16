@@ -41,15 +41,15 @@ export class LoggedOutHeader extends Component {
             <div>
                 <h3>Wicked Easy Teaching Evaluations &emsp;
                 <Link to={"/"}>
-                    <button>Home</button>
+                    <button id='landing'>Landing</button>
                 </Link>
                 &emsp;
                 <Link to={"/about/"}>
-                    <button>About</button>
+                    <button id='about'>About</button>
                 </Link>
                 &emsp;
                 <Link to={"/faq/"}>
-                    <button>FAQ</button>
+                    <button id='faq'>FAQ</button>
                 </Link>
                 &emsp;
 				<hr/>
