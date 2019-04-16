@@ -18,10 +18,6 @@ class Home extends Component {
                         ]                         
         };
 
-
-    resultsTagName = "instructor";
-    resultsTag = "Roy Turner";
-
     componentDidMount() {
         document.title = 'Home Page';
       }
@@ -71,8 +67,10 @@ class Home extends Component {
 				break;
 			}
 		}
-		
-		this.props.history.push("/results/" + tagName + "/" + tag);
+        if(this.resultsTag != 'Select a report')
+        {
+            this.props.history.push("/results/" + tagName + "/" + tag);
+        }
 	}
 
     render() {
