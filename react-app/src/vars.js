@@ -238,94 +238,94 @@ export const survey = {
       title: "Course Information",
       items: [
        {
-        name: "Course Designator",
+        name: "courseDesignator",
         isRequired: true,
         title: "Course Designator (e.g. MUS)"
        },
        {
-        name: "Course Number",
+        name: "courseNumber",
         isRequired: true,
         title: "Course Number (e.g. 200)"
        },
        {
-        name: "Course Section",
+        name: "courseSection",
         isRequired: true,
         title: "Course Section (e.g. 001)"
        },
        {
-        name: "Course Title",
+        name: "courseTitle",
         isRequired: true,
         title: "Course Title (e.g. Ballroom Dance)"
        },
        {
-        name: "Is this a graduate course?",
+        name: "graduateCourse",
         isRequired: true,
-        title: "Is this a graduate course? (Y/N)",
+        title: "Is this a graduate course? (Y/N)"
        },
        {
-        name: "Semester and Calendar Year",
+        name: "semesterYear",
         isRequired: true,
         title: "Semester and Calendar Year (e.g Fall 2019)"
        },
        {
-        name: "Name of Faculty Unit",
+        name: "facultyUnit",
         isRequired: true,
         title: "Name of Faculty Unit ( e.g. School of Music)"
        },
        {
-        name: "Name of College",
+        name: "college",
         isRequired: true,
         title: "Name of College ( e.g. Liberal Arts)"
        },
        {
-        name: "Name of University",
+        name: "university",
         isRequired: true,
         title: "Name of University ( e.g. University of Maine)"
        },
        {
-        name: "First Name of Instructor",
+        name: "instructorFirst",
         isRequired: true,
         title: "First Name of Instructor"
        },
        {
-        name: "Last Name of Instructor",
+        name: "instructorLast",
         isRequired: true,
         title: "Last Name of Instructor"
        },
        {
-        name: "Instructor Email",
+        name: "instructorEmail",
         isRequired: true,
         title: "Instructor Email"
        },
        {
-        name: "Instructor Phone",
+        name: "instructorPhone",
         isRequired: true,
         title: "Instructor Phone"
        },
        {
-        name: "Full Name of Course Evaluation Administrator",
+        name: "adminName",
         isRequired: true,
         title: "Full Name of Course Evaluation Administrator"
        },
        {
-        name: "Email of Course Evaluation Administrator",
+        name: "adminEmail",
         isRequired: true,
         title: "Email of Course Evaluation Administrator"
        },
        {
-        name: "Beginning Date of Assessments",
+        name: "beginDate",
         isRequired: true,
         inputType: "date",
         title: "Beginning Date of Assessments"
        },
        {
-        name: "Time of Day to send reminder emails",
+        name: "reminderTime",
         isRequired: true,
         inputType: "time",
         title: "Time of Day to send reminder emails"
        },
        {
-        name: "Closing Date of Assessments",
+        name: "closeDate",
         isRequired: true,
         inputType: "date",
         title: "Closing Date of Assessments"
@@ -345,7 +345,6 @@ export const survey = {
         type: "matrixdropdown",
         name: "Instructor Default Questions",
         title: "Please select which, if any, of the provided questions you wish to include in in your course evaluation. ",
-        commentText: "comment text",
         defaultValue: {
          "How prepared was the instructor for class?": {
           "1": "often unprepared",
@@ -402,7 +401,7 @@ export const survey = {
           enableIf: "false"
          },
          {
-          name: "Include Question?",
+          name: "include",
           title: "Include Question?",
           cellType: "checkbox",
           choices: [
@@ -413,7 +412,7 @@ export const survey = {
           ]
          },
          {
-          name: "Make response mandatory?",
+          name: "mandatory",
           title: "Make response mandatory?",
           cellType: "checkbox",
           choices: [
@@ -423,13 +422,6 @@ export const survey = {
            }
           ]
          }
-        ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
         ],
         rows: [
          "How prepared was the instructor for class?",
@@ -494,13 +486,6 @@ export const survey = {
           ]
          }
         ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
-        ],
         rowCount: 0,
         confirmDelete: true,
         confirmDeleteText: "Are you sure you want to remove this question?",
@@ -518,48 +503,7 @@ export const survey = {
         type: "matrixdropdown",
         name: "Course Default Questions",
         title: "Please select which, if any, of the provided questions you wish to include in in your course evaluation. ",
-        commentText: "comment text",
         defaultValue: {
-         "How prepared was the instructor for class?": {
-          "1": "often unprepared",
-          "5": "well prepared"
-         },
-         "How clearly were the objectives of the course presented?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "How enthusiastic was the instructor about the subject?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How clearly did the instructor present concepts, principles and theories?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "How much were you encouraged to think for yourselves?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How concerned was the instructor for the quality of student learning?": {
-          "1": "unconcerned",
-          "5": "very concerned"
-         },
-         "Did the instructor show respect for the questions and opinions of the students?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "Did the instructor ensure an environment of respect for all groups of people in the classroom?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "Did the instructor inspire confidence in his/her knowledge?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "Overall, how would you rate the instructor?": {
-          "1": "poor",
-          "5": "excellent"
-         },
          "Were class meetings profitable and worth attending?": {
           "1": "rarely",
           "5": "always"
@@ -595,7 +539,7 @@ export const survey = {
           enableIf: "false"
          },
          {
-          name: "Include Question?",
+          name: "include",
           title: "Include Question?",
           cellType: "checkbox",
           choices: [
@@ -606,7 +550,7 @@ export const survey = {
           ]
          },
          {
-          name: "Make response mandatory?",
+          name: "mandatory",
           title: "Make response mandatory?",
           cellType: "checkbox",
           choices: [
@@ -616,13 +560,6 @@ export const survey = {
            }
           ]
          }
-        ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
         ],
         rows: [
          "Were class meetings profitable and worth attending?",
@@ -682,13 +619,6 @@ export const survey = {
           ]
          }
         ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
-        ],
         rowCount: 0,
         confirmDelete: true,
         confirmDeleteText: "Are you sure you want to remove this question?",
@@ -706,73 +636,16 @@ export const survey = {
         type: "matrixdropdown",
         name: "Assessment Default Questions",
         title: "Please select which, if any, of the provided questions you wish to include in in your course evaluation. ",
-        commentText: "comment text",
         defaultValue: {
-         "How prepared was the instructor for class?": {
-          "1": "often unprepared",
-          "5": "well prepared"
-         },
-         "How clearly were the objectives of the course presented?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "How enthusiastic was the instructor about the subject?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How clearly did the instructor present concepts, principles and theories?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "How much were you encouraged to think for yourselves?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How concerned was the instructor for the quality of student learning?": {
-          "1": "unconcerned",
-          "5": "very concerned"
-         },
-         "Did the instructor show respect for the questions and opinions of the students?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "Did the instructor ensure an environment of respect for all groups of people in the classroom?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "Did the instructor inspire confidence in his/her knowledge?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "Overall, how would you rate the instructor?": {
-          "1": "poor",
-          "5": "excellent"
-         },
-         "Were class meetings profitable and worth attending?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "What is you overall rating of the primary readings?": {
-          "1": "poor",
-          "5": "excellent"
-         },
-         "How much did this course challenge you intellectually?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How much did you learn from this course?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "What is your overall rating of this course?": {
-          "1": "poor",
-          "5": "excellent"
-         },
          "Did the instructor let you know what was expected on the assessments (exams, assignments, projects, papers, etc.)?": {
           "1": "unclear",
           "5": "very clear"
          },
          "Did the assessments reflect the important aspects of the course?": {
+          "1": "rarely",
+          "5": "always"
+         },
+         "How fair were the grading procedures?": {
           "1": "unfair",
           "5": "completely"
          },
@@ -795,7 +668,7 @@ export const survey = {
           enableIf: "false"
          },
          {
-          name: "Include Question?",
+          name: "include",
           title: "Include Question?",
           cellType: "checkbox",
           choices: [
@@ -806,7 +679,7 @@ export const survey = {
           ]
          },
          {
-          name: "Make response mandatory?",
+          name: "mandatory",
           title: "Make response mandatory?",
           cellType: "checkbox",
           choices: [
@@ -817,17 +690,10 @@ export const survey = {
           ]
          }
         ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
-        ],
         rows: [
          "Did the instructor let you know what was expected on the assessments (exams, assignments, projects, papers, etc.)?",
          "Did the assessments reflect the important aspects of the course?",
-         "Did the assessments reflect the important aspects of the course?",
+         "How fair were the grading procedures?",
          "Overall, how would you rate the assessment process (exams, assignments, projects, papers, etc.)? "
         ]
        },
@@ -878,13 +744,6 @@ export const survey = {
           ]
          }
         ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
-        ],
         rowCount: 0,
         confirmDelete: true,
         confirmDeleteText: "Are you sure you want to remove this question?",
@@ -900,110 +759,11 @@ export const survey = {
       elements: [
        {
         type: "matrixdropdown",
-        name: "Assessment Default Questions1",
-        title: "Please select which, if any, of the provided questions you wish to include in in your course evaluation. ",
-        commentText: "comment text",
-        defaultValue: {
-         "How prepared was the instructor for class?": {
-          "1": "often unprepared",
-          "5": "well prepared"
-         },
-         "How clearly were the objectives of the course presented?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "How enthusiastic was the instructor about the subject?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How clearly did the instructor present concepts, principles and theories?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "How much were you encouraged to think for yourselves?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How concerned was the instructor for the quality of student learning?": {
-          "1": "unconcerned",
-          "5": "very concerned"
-         },
-         "Did the instructor show respect for the questions and opinions of the students?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "Did the instructor ensure an environment of respect for all groups of people in the classroom?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "Did the instructor inspire confidence in his/her knowledge?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "Overall, how would you rate the instructor?": {
-          "1": "poor",
-          "5": "excellent"
-         },
-         "Were class meetings profitable and worth attending?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "What is you overall rating of the primary readings?": {
-          "1": "poor",
-          "5": "excellent"
-         },
-         "How much did this course challenge you intellectually?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How much did you learn from this course?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "What is your overall rating of this course?": {
-          "1": "poor",
-          "5": "excellent"
-         },
-         "Did the instructor let you know what was expected on the assessments (exams, assignments, projects, papers, etc.)?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "Did the assessments reflect the important aspects of the course?": {
-          "1": "unfair",
-          "5": "completely"
-         },
-         "Overall, how would you rate the assessment process (exams, assignments, projects, papers, etc.)? ": {
-          "1": "poor",
-          "5": "excellent"
-         },
-         "Please identify the aspects of this course that were of most value to you.": {
-          "1": "--",
-          "5": "--"
-         },
-         "Please mention at least one additional topic or component that you would like to see included in this course.": {
-          "1": "--",
-          "5": "--"
-         },
-         "Please make any additional comments that you desire to make about the course instructor, materials or pedagogy.": {
-          "1": "--",
-          "5": "--"
-         }
-        },
+        name: "Open Ended Questions",
+        title: "Please select which, if any, of the provided open ended questions you wish to include in in your course evaluation. ",
         columns: [
          {
-          name: "1",
-          title: "1 =",
-          cellType: "text",
-          enableIf: "false"
-         },
-         {
-          name: "5",
-          title: "5 =",
-          cellType: "text",
-          enableIf: "false"
-         },
-         {
-          name: "Include Question?",
+          name: "include",
           title: "Include Question?",
           cellType: "checkbox",
           choices: [
@@ -1014,7 +774,7 @@ export const survey = {
           ]
          },
          {
-          name: "Make response mandatory?",
+          name: "mandatory",
           title: "Make response mandatory?",
           cellType: "checkbox",
           choices: [
@@ -1025,13 +785,6 @@ export const survey = {
           ]
          }
         ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
-        ],
         rows: [
          "Please identify the aspects of this course that were of most value to you.",
          "Please mention at least one additional topic or component that you would like to see included in this course.",
@@ -1040,7 +793,7 @@ export const survey = {
        },
        {
         type: "matrixdynamic",
-        name: "Assessment Custom Questions",
+        name: "Open Ended Custom Questions",
         title: "Please list further open ended questions to be added, if any, by clicking the \"Add Question\" button and indicating a 1-5 rating scale (i.e 5 is best)",
         columns: [
          {
@@ -1049,18 +802,6 @@ export const survey = {
           cellType: "comment",
           isRequired: true,
           rows: 0
-         },
-         {
-          name: "1",
-          title: "1 =",
-          cellType: "text",
-          isRequired: true
-         },
-         {
-          name: "5",
-          title: "5 =",
-          cellType: "text",
-          isRequired: true
          },
          {
           name: "include",
@@ -1084,13 +825,6 @@ export const survey = {
            }
           ]
          }
-        ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
         ],
         rowCount: 0,
         confirmDelete: true,
@@ -1121,68 +855,7 @@ export const survey = {
         name: "Lab Default Questions",
         visibleIf: "{Include Lab} = [\"IncludeLab\"]",
         title: "Please select which, if any, of the provided questions you wish to include in in your course evaluation. ",
-        commentText: "comment text",
         defaultValue: {
-         "How prepared was the instructor for class?": {
-          "1": "often unprepared",
-          "5": "well prepared"
-         },
-         "How clearly were the objectives of the course presented?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "How enthusiastic was the instructor about the subject?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How clearly did the instructor present concepts, principles and theories?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "How much were you encouraged to think for yourselves?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How concerned was the instructor for the quality of student learning?": {
-          "1": "unconcerned",
-          "5": "very concerned"
-         },
-         "Did the instructor show respect for the questions and opinions of the students?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "Did the instructor ensure an environment of respect for all groups of people in the classroom?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "Did the instructor inspire confidence in his/her knowledge?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "Overall, how would you rate the instructor?": {
-          "1": "poor",
-          "5": "excellent"
-         },
-         "Were class meetings profitable and worth attending?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "What is you overall rating of the primary readings?": {
-          "1": "poor",
-          "5": "excellent"
-         },
-         "How much did this course challenge you intellectually?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How much did you learn from this course?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "What is your overall rating of this course?": {
-          "1": "poor",
-          "5": "excellent"
-         },
          "How much did the laboratory experience contribute to your learning in this course?": {
           "1": "very little",
           "5": "very much"
@@ -1214,7 +887,7 @@ export const survey = {
           enableIf: "false"
          },
          {
-          name: "Include Question?",
+          name: "include",
           title: "Include Question?",
           cellType: "checkbox",
           choices: [
@@ -1225,7 +898,7 @@ export const survey = {
           ]
          },
          {
-          name: "Make response mandatory?",
+          name: "mandatory",
           title: "Make response mandatory?",
           cellType: "checkbox",
           choices: [
@@ -1235,13 +908,6 @@ export const survey = {
            }
           ]
          }
-        ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
         ],
         rows: [
          "How much did the laboratory experience contribute to your learning in this course?",
@@ -1254,7 +920,7 @@ export const survey = {
         type: "matrixdynamic",
         name: "Lab Custom Questions",
         visibleIf: "{Include Lab} = [\"IncludeLab\"]",
-        title: "Please list further questions to be added regarding the laboratory experience, if any, by clicking the \"Add Question\" button and indicating a 1-5 rating scale (i.e 5 is best)",
+        title: "Please list further questions to be added regarding the laboratory experience, if any, by clicking the \"Add Question\" button and indicating a 1-5 rating scale (i.e 5 is best).  If you would like the question to be open ended enter two dashes (--) for the 1 and 5 value.",
         columns: [
          {
           name: "question",
@@ -1298,13 +964,6 @@ export const survey = {
           ]
          }
         ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
-        ],
         rowCount: 0,
         confirmDelete: true,
         confirmDeleteText: "Are you sure you want to remove this question?",
@@ -1324,84 +983,20 @@ export const survey = {
         title: "Was there a teaching assistant supporting this course?",
         choices: [
          {
-          value: "IncludeLab",
+          value: "Include",
           text: "Yes"
          }
         ]
        },
        {
         type: "matrixdropdown",
-        name: "Lab Default Questions1",
-        visibleIf: "{Include TA} = [\"IncludeLab\"]",
+        name: "TA Default Questions",
+        visibleIf: "{Include TA} = [\"Include\"]",
         title: "Please select which, if any, of the provided questions you wish to include in in your course evaluation. ",
-        commentText: "comment text",
         defaultValue: {
-         "How prepared was the instructor for class?": {
-          "1": "often unprepared",
-          "5": "well prepared"
-         },
-         "How clearly were the objectives of the course presented?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "How enthusiastic was the instructor about the subject?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How clearly did the instructor present concepts, principles and theories?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "How much were you encouraged to think for yourselves?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How concerned was the instructor for the quality of student learning?": {
-          "1": "unconcerned",
-          "5": "very concerned"
-         },
-         "Did the instructor show respect for the questions and opinions of the students?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "Did the instructor ensure an environment of respect for all groups of people in the classroom?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "Did the instructor inspire confidence in his/her knowledge?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "Overall, how would you rate the instructor?": {
-          "1": "poor",
-          "5": "excellent"
-         },
-         "Were class meetings profitable and worth attending?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "What is you overall rating of the primary readings?": {
-          "1": "poor",
-          "5": "excellent"
-         },
-         "How much did this course challenge you intellectually?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How much did you learn from this course?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "What is your overall rating of this course?": {
-          "1": "poor",
-          "5": "excellent"
-         },
          "How much did the teaching assistant contribute to your learning in this course?": {
           "1": "very little",
-          "5": "very much",
-          "Include Question?": [
-           "include"
-          ]
+          "5": "very much"
          },
          "How concerned was the teaching assistant for the quality of student learning?": {
           "1": "unconcerned",
@@ -1450,7 +1045,7 @@ export const survey = {
           enableIf: "false"
          },
          {
-          name: "Include Question?",
+          name: "include",
           title: "Include Question?",
           cellType: "checkbox",
           choices: [
@@ -1461,7 +1056,7 @@ export const survey = {
           ]
          },
          {
-          name: "Make response mandatory?",
+          name: "mandatory",
           title: "Make response mandatory?",
           cellType: "checkbox",
           choices: [
@@ -1471,13 +1066,6 @@ export const survey = {
            }
           ]
          }
-        ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
         ],
         rows: [
          "How much did the teaching assistant contribute to your learning in this course?",
@@ -1493,9 +1081,9 @@ export const survey = {
        },
        {
         type: "matrixdynamic",
-        name: "Lab Custom Questions1",
-        visibleIf: "{Include TA} = [\"IncludeLab\"]",
-        title: "Please list further questions to be added regarding the laboratory experience, if any, by clicking the \"Add Question\" button and indicating a 1-5 rating scale (i.e 5 is best)",
+        name: "TA Custom Questions",
+        visibleIf: "{Include TA} = [\"Include\"]",
+        title: "Please list further questions to be added regarding the Teaching Assistant, if any, by clicking the \"Add Question\" button and indicating a 1-5 rating scale (i.e 5 is best).   If you would like the question to be open ended enter two dashes (--) for the 1 and 5 value.",
         columns: [
          {
           name: "question",
@@ -1539,13 +1127,6 @@ export const survey = {
           ]
          }
         ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
-        ],
         rowCount: 0,
         confirmDelete: true,
         confirmDeleteText: "Are you sure you want to remove this question?",
@@ -1561,82 +1142,21 @@ export const survey = {
       elements: [
        {
         type: "checkbox",
-        name: "Include Lab",
+        name: "Include Online",
         title: "Did this course have a distance learning aspect?",
         choices: [
          {
-          value: "IncludeLab",
+          value: "Include",
           text: "Yes"
          }
         ]
        },
        {
         type: "matrixdropdown",
-        name: "Lab Default Questions2",
-        visibleIf: "{Include Lab} = [\"IncludeLab\"]",
+        name: "Online Default Questions",
+        visibleIf: "{Include Online} = [\"Include\"]",
         title: "Please select which, if any, of the provided questions you wish to include in in your course evaluation. ",
-        commentText: "comment text",
         defaultValue: {
-         "How prepared was the instructor for class?": {
-          "1": "often unprepared",
-          "5": "well prepared"
-         },
-         "How clearly were the objectives of the course presented?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "How enthusiastic was the instructor about the subject?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How clearly did the instructor present concepts, principles and theories?": {
-          "1": "unclear",
-          "5": "very clear"
-         },
-         "How much were you encouraged to think for yourselves?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How concerned was the instructor for the quality of student learning?": {
-          "1": "unconcerned",
-          "5": "very concerned"
-         },
-         "Did the instructor show respect for the questions and opinions of the students?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "Did the instructor ensure an environment of respect for all groups of people in the classroom?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "Did the instructor inspire confidence in his/her knowledge?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "Overall, how would you rate the instructor?": {
-          "1": "poor",
-          "5": "excellent"
-         },
-         "Were class meetings profitable and worth attending?": {
-          "1": "rarely",
-          "5": "always"
-         },
-         "What is you overall rating of the primary readings?": {
-          "1": "poor",
-          "5": "excellent"
-         },
-         "How much did this course challenge you intellectually?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "How much did you learn from this course?": {
-          "1": "very little",
-          "5": "very much"
-         },
-         "What is your overall rating of this course?": {
-          "1": "poor",
-          "5": "excellent"
-         },
          "Please indicate the primary online modality used with the course.": {
           "1": "--",
           "5": "--"
@@ -1647,27 +1167,27 @@ export const survey = {
          },
          "There was adequate opportunity for me to interact with the instructor.": {
           "1": "strongly disagree",
-          "5": "strongly "
+          "5": "strongly agree"
          },
          "There was adequate opportunity for me to interact with other students.": {
           "1": "strongly disagree",
-          "5": "strongly "
+          "5": "strongly agree"
          },
          "The online technologies used in this course worked the way they were supposed to.": {
           "1": "strongly disagree",
-          "5": "strongly "
+          "5": "strongly agree"
          },
          "The communication tools were easy to use (email, assignment delivery, exam delivery or proctoring, chat, web, etc.).": {
           "1": "strongly disagree",
-          "5": "strongly "
+          "5": "strongly agree"
          },
          "Technology support was there if I needed it.": {
           "1": "strongly disagree",
-          "5": "strongly "
+          "5": "strongly agree"
          },
          "The online experience was well-suited to the way I like to learn.": {
           "1": "strongly disagree",
-          "5": "strongly "
+          "5": "strongly agree"
          },
          "Please identify an e-learning aspect of the course that you found particularly valuable or beneficial": {
           "1": "--",
@@ -1690,15 +1210,17 @@ export const survey = {
          {
           name: "1",
           title: "1 =",
-          cellType: "text"
+          cellType: "text",
+          enableIf: "false"
          },
          {
           name: "5",
           title: "5 =",
-          cellType: "text"
+          cellType: "text",
+          enableIf: "false"
          },
          {
-          name: "Include Question?",
+          name: "include",
           title: "Include Question?",
           cellType: "checkbox",
           choices: [
@@ -1709,7 +1231,7 @@ export const survey = {
           ]
          },
          {
-          name: "Make response mandatory?",
+          name: "mandatory",
           title: "Make response mandatory?",
           cellType: "checkbox",
           choices: [
@@ -1719,13 +1241,6 @@ export const survey = {
            }
           ]
          }
-        ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
         ],
         rows: [
          "Please indicate the primary online modality used with the course.",
@@ -1744,9 +1259,9 @@ export const survey = {
        },
        {
         type: "matrixdynamic",
-        name: "Lab Custom Questions",
-        visibleIf: "{Include Lab} = [\"IncludeLab\"]",
-        title: "Please list further questions to be added regarding the online component, if any, by clicking the \"Add Question\" button and indicating a 1-5 rating scale (i.e 5 is best)",
+        name: "Online Custom Questions",
+        visibleIf: "{Include Online} = [\"Include\"]",
+        title: "Please list further questions to be added regarding the online component, if any, by clicking the \"Add Question\" button and indicating a 1-5 rating scale (i.e 5 is best).   If you would like the question to be open ended enter two dashes (--) for the 1 and 5 value.",
         columns: [
          {
           name: "question",
@@ -1789,13 +1304,6 @@ export const survey = {
            }
           ]
          }
-        ],
-        choices: [
-         1,
-         2,
-         3,
-         4,
-         5
         ],
         rowCount: 0,
         confirmDelete: true,
@@ -1828,7 +1336,7 @@ export const survey = {
        {
         type: "file",
         name: "csv",
-        title: " Alternatively, upload a cvs file with the content in the first row of the file being firstname, lastname, email.",
+        title: " Alternatively, upload a comma seperated (.cvs) file with the content being in the format of firstname, lastname, email.",
         maxSize: 0
        }
       ],
@@ -1845,7 +1353,7 @@ export const survey = {
        },
        {
         type: "comment",
-        name: "question1",
+        name: "initialEmail",
         defaultValue: "Subject: Invitation to Complete Evaluation for {COURSEDESIGNATOR} {COURSENUMBER} {COURSETITLE}\nDear {FIRSTNAME},\nPlease complete the teaching and course evaluation for {COURSEDESIGNATOR} {COURSENUMBER}\n{COURSETITLE}.\n\nThis student evaluation of teaching is completely anonymous unless you purposefully identify yourself in response to one\nof the questions. The software system will send you automatic reminders every few days until you complete the\nevaluation.\nTo respond, simply click the link at the end of this message.\nSincerely,\n{ADMINNAME}\n----------------------------------------------\nClick here to complete the teaching and course evaluation:\n{SURVEYURL}\n{ADMINNAME} ({ADMINEMAIL})",
         titleLocation: "hidden"
        },
@@ -1862,7 +1370,7 @@ export const survey = {
        },
        {
         type: "comment",
-        name: "reminder email",
+        name: "reminderEmail",
         visibleIf: "{Include Reminder} = [\"item1\"]",
         title: "Reminder Emails",
         defaultValue: "Subject: Reminder to Complete Evaluation for {COURSEDESIGNATOR} {COURSENUMBER} {COURSETITLE}\nDear {FIRSTNAME},\nRecently we invited you to complete a teaching evaluation for “{COURSEDESIGNATOR} {COURSENUMBER}\n{COURSETITLE}”. We note that you have not yet completed the evaluation, and wish to remind you that it is still\navailable should you wish to take part.\nTo participate, please click on the link below.\nThe deadline for completing the evaluation is {CLOSINGDATE} at {TIME}.\nYour participation is extremely important to the improvement of teaching and courses at the {UNIVERSITYNAME}\nSincerely,\n{ADMINNAME}\n----------------------------------------------\nClick here to complete the teaching and course evaluation:\n{SURVEYURL}",
@@ -1874,7 +1382,6 @@ export const survey = {
     ]
    }
   ],
-  sendResultOnPageNext: false,
   showNavigationButtons: "both",
   showCompletedPage: false,
   showQuestionNumbers: "off",

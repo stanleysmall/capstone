@@ -99,16 +99,16 @@ class Create extends Component {
     onComplete(survey, options)
     {
         //Log the results of the survey  DEBUGGING
-        //console.log("Results: " + JSON.stringify(survey.data,null,2));
+        console.log("Results: " + JSON.stringify(survey.data,null,2));
 
         //Format the results of the survey in a way that can be sent to the put enpoint
         this.evalTemplate = formatSurvey(survey);
 
         //Put the formatted survey into the database
-        putEval(this.evalTemplate)
+        //putEval(this.evalTemplate)
 
         //redirect home 
-        this.props.history.push("/home/");
+        //this.props.history.push("/home/");
     }
     
 

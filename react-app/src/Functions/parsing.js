@@ -1,5 +1,3 @@
-import {openEndedQuestionList} from "../vars";
-
  /*
     Arguments: 
         survey: a surveyJS object created using the surveyJSON var from vars.js which has been completed
@@ -32,7 +30,7 @@ export const formatSurvey = (survey) =>
     evalTemplate.URL = "blank.com"
 
     //Generate instructor full name
-    evalTemplate.instructor = survey.data.instructorFirst + " " + survey.data.instructorLast
+    evalTemplate.instructor = survey.data.CourseInformation.instructorFirst + " " + survey.data.CourseInformation.instructorLast
 
     //Parse participants CSV
     evalTemplate.participants = generateParticipants(survey.data.classRoll);
@@ -41,27 +39,37 @@ export const formatSurvey = (survey) =>
     evalTemplate.questions = generateQuestions(survey.data);
 
     //Generate Evaluation Name
-    evalTemplate.name = survey.data.courseDesignator + "" + survey.data.courseNumber +
-    ":" + survey.data.courseSection + " " + survey.data.semesterYear;
+    evalTemplate.name = survey.data.CourseInformation.courseDesignator + "" + survey.data.CourseInformation.courseNumber +
+    ":" + survey.data.CourseInformation.courseSection + " " + survey.data.CourseInformation.semesterYear;
 
     //Grab all the tags from the survey as they correspond 1 to 1 with the formatted eval template
-    evalTemplate.courseDesignator = survey.data.courseDesignator;
-    evalTemplate.courseNumber = survey.data.courseNumber;
-    evalTemplate.courseSection = survey.data.courseSection;
-    evalTemplate.courseTitle = survey.data.courseTitle;
-    evalTemplate.semesterYear = survey.data.semesterYear;
-    evalTemplate.facultyUnit = survey.data.facultyUnit;
-    evalTemplate.college = survey.data.college;
-    evalTemplate.university = survey.data.university;
-    evalTemplate.instructorFirst = survey.data.instructorFirst;
-    evalTemplate.instructorLast = survey.data.instructorLast;
-    evalTemplate.instructorEmail = survey.data.instructorEmail;
-    evalTemplate.instructorPhone = survey.data.instructorPhone;
-    evalTemplate.adminName = survey.data.adminName;
-    evalTemplate.adminEmail = survey.data.adminEmail;
-    evalTemplate.beginDate = survey.data.beginDate;
-    evalTemplate.closeDate = survey.data.closeDate;
-    evalTemplate.reminderTime = survey.data.reminderTime;
+    evalTemplate.courseDesignator = survey.data.CourseInformation.courseDesignator;
+    evalTemplate.courseNumber = survey.data.CourseInformation.courseNumber;
+    evalTemplate.courseSection = survey.data.CourseInformation.courseSection;
+    evalTemplate.courseTitle = survey.data.CourseInformation.courseTitle;
+    evalTemplate.semesterYear = survey.data.CourseInformation.semesterYear;
+    evalTemplate.facultyUnit = survey.data.CourseInformation.facultyUnit;
+    evalTemplate.college = survey.data.CourseInformation.college;
+    evalTemplate.university = survey.data.CourseInformation.university;
+    evalTemplate.instructorFirst = survey.data.CourseInformation.instructorFirst;
+    evalTemplate.instructorLast = survey.data.CourseInformation.instructorLast;
+    evalTemplate.instructorEmail = survey.data.CourseInformation.instructorEmail;
+    evalTemplate.instructorPhone = survey.data.CourseInformation.instructorPhone;
+    evalTemplate.adminName = survey.data.CourseInformation.adminName;
+    evalTemplate.adminEmail = survey.data.CourseInformation.adminEmail;
+    evalTemplate.beginDate = survey.data.CourseInformation.beginDate;
+    evalTemplate.closeDate = survey.data.CourseInformation.closeDate;
+    evalTemplate.reminderTime = survey.data.CourseInformation.reminderTime;
+
+    if(survey.data.CourseInformation.graduateCourse === 'Y' || survey.data.CourseInformation.graduateCourse === 'Yes' || survey.data.CourseInformation.graduateCourse === 'yes')
+    {
+        evalTemplate.graduateCourse = true;
+    }
+    else
+    {
+        evalTemplate.graduateCourse = false;
+    }
+
 
     //email_invite          <------------------------------------------ breaks naming convention, required tag name by API
     evalTemplate.email_invite = survey.data.initialEmail;
@@ -99,80 +107,8 @@ const generateQuestions = (surveyData) =>
 {
     //List of questions that will be returned after parsing data from the users input
     var questions = [];
-
     var questionID = 1;
-    var currentGroup = "";
-    var currentDataSet;
 
-    //parse course questions
-    currentGroup = "Course Questions"
-    currentDataSet = surveyData.courseQuestions;
-    questionID = parseQuestionSet(currentGroup, currentDataSet, questions, questionID)
-
-    //parse assesment questions
-    currentGroup = "Assesment Questions"
-    currentDataSet = surveyData.assesmentQuestions;
-    questionID = parseQuestionSet(currentGroup, currentDataSet, questions, questionID)
-
-    //parse instructor questions
-    currentGroup = "Instructor Questions"
-    currentDataSet = surveyData.instructorQuestions;
-    questionID = parseQuestionSet(currentGroup, currentDataSet, questions, questionID)
-
-    //parse lab questions
-    if(surveyData.includeLabQuestions === "true")
-    {
-        currentGroup = "Lab Questions"
-        currentDataSet = surveyData.labQuestions;
-        questionID = parseQuestionSet(currentGroup, currentDataSet, questions, questionID) 
-    }
-
-    //parse online questsions
-    if(surveyData.includeOnlineQuestions === "true")
-    {
-        currentGroup = "Online Questions"
-        currentDataSet = surveyData.onlineQuestions;
-        questionID = parseQuestionSet(currentGroup, currentDataSet, questions, questionID) 
-    }
-    
-    //parse teaching assitant questions
-    if(surveyData.includeTeachingAssistantQuestions === "true")
-    {
-        currentGroup = "Teaching Assistant Questions"
-        currentDataSet = surveyData.teachingAssitantQuestions;
-        questionID = parseQuestionSet(currentGroup, currentDataSet, questions, questionID) 
-    }
-
-    //parse open ended questions
-    currentGroup = "Open Ended Questions"
-    currentDataSet = surveyData.openEndedQuestions;
-    parseQuestionSet(currentGroup, currentDataSet, questions, questionID) 
-
-    //parse additional questions
-    //--------------------------------TODO-----------------------------
-    
-    return questions;
-}
-
-/*
-    Arguments:
-        currentGroup: Name of the current group of questions you are parsing
-        currentDataSet: Data set of user input that is currently being procesed
-        questions: List of questions to append new questions to
-        questionID: Int representing the ID of the current question
-
-    Parses the user input in currentDataSet and appends questions to the questions list
-    in the form:
-
-    [{"ID": int,
-    "helpText": str,
-    "mandatory": bool,
-    "group": str,
-    "type": str,
-    "text": str}, ...]
-*/
-const parseQuestionSet = (currentGroup, currentDataSet, questions, questionID) =>
-{
     var question = {
         "ID" : "",
         "helpText" : "",
@@ -182,61 +118,47 @@ const parseQuestionSet = (currentGroup, currentDataSet, questions, questionID) =
         "text" : ""
     }
 
-    for(var property in currentDataSet)
-    {
-        if(currentDataSet.hasOwnProperty(property))
-        {   
-            //If the question is included
-            if(currentDataSet[property].Inclusion !== "Do not include")
+    var currentData = surveyData["Instructor Default Questions"];
+    var currentGroup = "The Instructor";
+
+    for (var key in currentData) {
+        if (currentData.hasOwnProperty(key)) {
+            var currentQuestion = currentData[key];
+            
+            if(currentQuestion.hasOwnProperty("include"))
             {
-                //parse if the question is mandatory
-                if(currentDataSet[property].Inclusion === "Include")
-                {
-                    question.mandatory = false;
-                }
-                else if (currentDataSet[property].Inclusion === "Mandatory")
+                question.ID = questionID;
+                questionID++;
+                
+                question.helpText = "1=" +  currentQuestion["1"] + ", 5=" + currentQuestion["5"];
+
+                if(currentQuestion.hasOwnProperty("mandatory"))
                 {
                     question.mandatory = true;
                 }
-
-                question.ID = questionID;
-                question.group = currentGroup;
-                
-                //question type 5 = 5 point choice, T = text question
-                //check if it is on the list of open ended questions included in vars.js
-                if(openEndedQuestionList.indexOf(property) >= 0)
-                {
-                    question.type = "T";
-                }
-                else
-                {
-                    question.type = "5";
-                }
-
-                //Help text if it is a 5 poing question, no help text if it is open ended.
-                if(question.type === "5")
-                {
-                    question.helpText = "1 is low, 5 is high";
-                }
                 else{
-                    question.helpText = "";
+                    question.mandatory = false;
                 }
-                
-                //The question text is the preoprty in the JSON we are itterating over
-                question.text = property;
 
-                //Deep copy the question
+                question.group = currentGroup;
+
+                question.type = "5";
+
+                question.text = key;
+
                 var temp = JSON.parse(JSON.stringify(question));
-
-                //Push the deep copy to the list of questions
                 questions.push(temp);
 
-                questionID++;
             }
         }
     }
-    return questionID;
+
+    console.log(questions);
+    
+    return questions;
 }
+
+
 
     /*
     Arguments: 
@@ -251,6 +173,10 @@ const parseQuestionSet = (currentGroup, currentDataSet, questions, questionID) =
 */
 const generateParticipants = (classRoll) =>
 {
+    if(classRoll === undefined)
+    {
+        return [];
+    }
     //Replace new line characters with commas
     classRoll = classRoll.replace(/\n/g,",");
     
@@ -262,7 +188,8 @@ const generateParticipants = (classRoll) =>
     var fullname = "";
 
     //template for how participants need to be formatted
-    //used when building participants to appent to the participants list
+    //used when building participants to append to the participants list
+    //Format that the API requires, should ideally keep first and last seperate
     var participant = {
         "name" : "",
         "address" : ""
