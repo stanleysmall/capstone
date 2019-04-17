@@ -753,9 +753,10 @@ def results_get(cat_type, cat_name):  # noqa: E501
             # Replace responses with actual statistics
             values = stats[question][survey]
             
-            # Find appropriate statistics for values
+            # Compute appropriate statistics for values
+            # Non-integral values are rounded to 2 places
             stats[question][survey] = {
-                'median': statistics.median(values),
+                'median': round(statistics.median(values), 2),
                 'mean': round(statistics.mean(values), 2),
                 # Standard deviation of response values
                 # Cannot be found with only one response
