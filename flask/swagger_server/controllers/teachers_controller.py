@@ -409,6 +409,26 @@ def surveys_get(tag_type=None, tag_value=None):  # noqa: E501
     return [name[0] for name in survey_names]
 
 
+def tag_values_get(tag_type):
+    """retreives a list of values for a given tag type of the user's surveys
+
+    :param tag_type: the type of a survey tag
+    :type tag_type: str
+
+    :rtype: List[tag values]
+    """
+    
+    email = session['email']                # Use e-mail of current user
+    
+    cursor.execute("select value from tag, survey_to_tag, survey, " \
+        "instructor where tag.type = '" + tag_type + "' && tag.ID = " \
+        "survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && " \
+        "survey.instructor_ID = instructor.ID && instructor.`e-mail` = '"
+        + email + "';")
+    
+    return [value[0] for value in cursor.fetchall()]
+
+
 def login_get(key):  # noqa: E501
     """logs in a user with a certain authentication key
 

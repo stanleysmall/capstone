@@ -595,6 +595,92 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), [])
+        
+    def test_tag_values_get_valid(self):
+        """Test case for tag_values_get
+
+        retreives a list of values for a given tag type of the user's surveys
+        session user is 'Roy Turner', tag type is valid for user
+        """
+        
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Roy Turner'
+            sess['email'] = 'roy.turner@maine.edu'
+        
+        query_string = [('tag_type', 'email_register')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/tag_values',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        # The response must have only the tag value for Roy Turner's surveys
+        self.assertEqual(json.loads(response.data), ['Email register text'])
+    
+    def test_tag_values_get_valid_2(self):
+        """Another test case for tag_values_get
+
+        retreives a list of values for a given tag type of the user's surveys
+        session user is 'Torsten Hahmann', tag type is valid for user
+        """
+        
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Torsten Hahmann'
+            sess['email'] = 'torsten.hahmann@maine.edu'
+        
+        query_string = [('tag_type', 'email_register')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/tag_values',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        # The response must have only the tag value for Roy Turner's surveys
+        self.assertEqual(json.loads(response.data), ['Er text'])
+    
+    def test_tag_values_get_invalid(self):
+        """Another test case for tag_values_get
+
+        retreives a list of values for a given tag type of the user's surveys
+        tag type is not in the database
+        """
+        
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Roy Turner'
+            sess['email'] = 'roy.turner@maine.edu'
+        
+        query_string = [('tag_type', 'newtag')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/tag_values',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), [])
+    
+    def test_tag_values_get_invalid_2(self):
+        """Another test case for tag_values_get
+
+        retreives a list of values for a given tag type of the user's surveys
+        tag type is in the database, but not for the user
+        """
+        
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Carol Roberts'
+            sess['email'] = 'carol.roberts@maine.edu'
+        
+        query_string = [('tag_type', 'newtag')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/tag_values',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), [])
 
     def test_login_get_invalid(self):
         """Test case for login_get
