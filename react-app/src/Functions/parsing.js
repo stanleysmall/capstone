@@ -109,6 +109,7 @@ const generateQuestions = (surveyData) =>
     var questions = [];
     var questionID = 1;
 
+    //template for question object
     var question = {
         "ID" : "",
         "helpText" : "",
@@ -118,9 +119,196 @@ const generateQuestions = (surveyData) =>
         "text" : ""
     }
 
-    var currentData = surveyData["Instructor Default Questions"];
+    //Instructor Questions
     var currentGroup = "The Instructor";
+    var currentData = surveyData["Instructor Default Questions"];
+    questionID = parsePresetQuestions(currentData, questionID, questions, currentGroup);
 
+    //Custom instructor questions
+    currentData = surveyData["Instructor Custom Questions"];
+    questionID = parseCustomQuestions(currentData, questionID, questions, currentGroup);
+    
+    //Course Questions
+    currentGroup = "The Course";
+    currentData = surveyData["Course Default Questions"]
+    questionID = parsePresetQuestions(currentData, questionID, questions, currentGroup);
+
+    //Custom Course questions
+    currentData = surveyData["Course Custom Questions"];
+    questionID = parseCustomQuestions(currentData, questionID, questions, currentGroup);
+
+    //Assessment Questions
+    currentGroup = "The Assesments";
+    currentData = surveyData["Assessment Default Questions"]
+    questionID = parsePresetQuestions(currentData, questionID, questions, currentGroup);
+
+    //Custom Assessment questions
+    currentData = surveyData["Assessment Custom Questions"];
+    questionID = parseCustomQuestions(currentData, questionID, questions, currentGroup);
+
+    currentGroup = "Open Ended Questions"
+    if(surveyData.hasOwnProperty("Open Ended Questions"))
+    {
+        currentData = surveyData["Open Ended Questions"];
+        //Itterate through all the questions
+        for (var key in currentData) {
+            if (currentData.hasOwnProperty(key)) {
+                var currentQuestion = currentData[key];
+                
+                if(currentQuestion.hasOwnProperty("include"))
+                {
+                    question.ID = questionID;
+                    questionID++;
+                    question.type = "T";
+                    question.helpText = "";
+                    question.group = currentGroup;
+                    question.text = key;
+
+                    if(currentQuestion.hasOwnProperty("mandatory"))
+                    {
+                        question.mandatory = true;
+                    }
+                    else{
+                        question.mandatory = false;
+                    }
+
+                    //Deep copy
+                    var temp = JSON.parse(JSON.stringify(question));
+                    questions.push(temp);
+
+                }
+            }
+        }
+    }
+
+    if(surveyData.hasOwnProperty("Open Ended Custom Questions"))
+    {
+        currentData = surveyData["Open Ended Custom Questions"];
+        for(var currentQuestion in currentData)
+        {
+            if(currentData[currentQuestion].hasOwnProperty("include"))
+            {
+                question.ID = questionID;
+                questionID++;
+                question.type = "T";
+                question.helpText = "";
+                question.group = currentGroup;
+                question.text = currentData[currentQuestion].question;
+                
+                if(currentData[currentQuestion].hasOwnProperty("mandatory"))
+                {
+                    question.mandatory = true;
+                }
+                else
+                {
+                    question.mandatory = false;
+                }
+
+    
+                //Deep copy
+                var temp = JSON.parse(JSON.stringify(question));
+                questions.push(temp);
+            }
+        }
+    }
+
+
+    if(surveyData.hasOwnProperty("Include Lab"))
+    {
+        currentGroup = "The Lab";
+        currentData = surveyData["Lab Default Questions"];
+        questionID = parsePresetQuestions(currentData, questionID, questions, currentGroup);
+
+        currentData = surveyData["Lab Custom Questions"];
+        questionID = parseCustomQuestions(currentData, questionID, questions, currentGroup);
+    }
+    if(surveyData.hasOwnProperty("Include TA"))
+    {
+        currentGroup = "The Teaching Assistant";
+        currentData = surveyData["TA Default Questions"];
+        questionID = parsePresetQuestions(currentData, questionID, questions, currentGroup);
+
+        currentData = surveyData["TA Custom Questions"];
+        questionID = parseCustomQuestions(currentData, questionID, questions, currentGroup);
+    }
+    if(surveyData.hasOwnProperty("Include Online"))
+    {
+        currentGroup = "The Online Component";
+        currentData = surveyData["Online Default Questions"];
+        questionID = parsePresetQuestions(currentData, questionID, questions, currentGroup);
+
+        currentData = surveyData["Online Custom Questions"];
+        questionID = parseCustomQuestions(currentData, questionID, questions, currentGroup);
+    }
+    
+    
+    return questions;
+}
+
+const parseCustomQuestions = (currentData, questionID, questions, currentGroup) =>
+{
+    //template for question object
+    var question = {
+        "ID" : "",
+        "helpText" : "",
+        "mandatory" : "",
+        "group" : "",
+        "type" : "",
+        "text" : ""
+    }
+
+    for(var currentQuestion in currentData)
+    {
+        if(currentData[currentQuestion].hasOwnProperty("include"))
+        {
+            question.ID = questionID;
+            questionID++;
+
+            if(currentData[currentQuestion].hasOwnProperty("mandatory"))
+            {
+                question.mandatory = true;
+            }
+            else
+            {
+                question.mandatory = false;
+            }
+
+            if(currentData[currentQuestion]["1"] === "--")
+            {
+                question.type = "T";
+                question.helpText = "";
+            }
+            else
+            {
+                question.type = "5";
+                question.helpText = "1 = " +  currentData[currentQuestion]["1"] + ", 5 = " + currentData[currentQuestion]["5"];
+            }
+            
+            question.group = currentGroup;
+            question.text = currentData[currentQuestion].question;
+
+            //Deep copy
+            var temp = JSON.parse(JSON.stringify(question));
+            questions.push(temp);
+        }
+    }
+
+    return questionID;
+}
+
+const parsePresetQuestions = (currentData, questionID, questions, currentGroup) =>
+{
+    //template for question object
+    var question = {
+        "ID" : "",
+        "helpText" : "",
+        "mandatory" : "",
+        "group" : "",
+        "type" : "",
+        "text" : ""
+    }
+
+    //Itterate through all the questions
     for (var key in currentData) {
         if (currentData.hasOwnProperty(key)) {
             var currentQuestion = currentData[key];
@@ -130,7 +318,17 @@ const generateQuestions = (surveyData) =>
                 question.ID = questionID;
                 questionID++;
                 
-                question.helpText = "1=" +  currentQuestion["1"] + ", 5=" + currentQuestion["5"];
+
+                if(currentQuestion["1"] === "--")
+                {
+                    question.type = "T";
+                    question.helpText = "";
+                }
+                else{
+                    question.type = "5";
+                    question.helpText = "1 = " +  currentQuestion["1"] + ", 5 = " + currentQuestion["5"];
+                }
+
 
                 if(currentQuestion.hasOwnProperty("mandatory"))
                 {
@@ -141,23 +339,17 @@ const generateQuestions = (surveyData) =>
                 }
 
                 question.group = currentGroup;
-
-                question.type = "5";
-
                 question.text = key;
 
+                //Deep copy
                 var temp = JSON.parse(JSON.stringify(question));
                 questions.push(temp);
 
             }
         }
     }
-
-    console.log(questions);
-    
-    return questions;
+    return questionID;
 }
-
 
 
     /*

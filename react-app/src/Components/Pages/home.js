@@ -25,7 +25,7 @@ class Home extends Component {
     constructor(props)
     {
         super(props);
-        console.log(global.access_token);
+        //console.log(global.access_token);
         var unpublishedEvals = getUnpublishedEvalNames();
         var publishedEvals = getPublishedEvalNames();
 
