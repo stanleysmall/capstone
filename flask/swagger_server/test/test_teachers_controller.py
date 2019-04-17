@@ -595,6 +595,92 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), [])
+        
+    def test_tag_values_get_valid(self):
+        """Test case for tag_values_get
+
+        retreives a list of values for a given tag type of the user's surveys
+        session user is 'Roy Turner', tag type is valid for user
+        """
+        
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Roy Turner'
+            sess['email'] = 'roy.turner@maine.edu'
+        
+        query_string = [('tag_type', 'email_register')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/tag_values',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        # The response must have only the tag value for Roy Turner's surveys
+        self.assertEqual(json.loads(response.data), ['Email register text'])
+    
+    def test_tag_values_get_valid_2(self):
+        """Another test case for tag_values_get
+
+        retreives a list of values for a given tag type of the user's surveys
+        session user is 'Torsten Hahmann', tag type is valid for user
+        """
+        
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Torsten Hahmann'
+            sess['email'] = 'torsten.hahmann@maine.edu'
+        
+        query_string = [('tag_type', 'email_register')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/tag_values',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        # The response must have only the tag value for Roy Turner's surveys
+        self.assertEqual(json.loads(response.data), ['Er text'])
+    
+    def test_tag_values_get_invalid(self):
+        """Another test case for tag_values_get
+
+        retreives a list of values for a given tag type of the user's surveys
+        tag type is not in the database
+        """
+        
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Roy Turner'
+            sess['email'] = 'roy.turner@maine.edu'
+        
+        query_string = [('tag_type', 'newtag')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/tag_values',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), [])
+    
+    def test_tag_values_get_invalid_2(self):
+        """Another test case for tag_values_get
+
+        retreives a list of values for a given tag type of the user's surveys
+        tag type is in the database, but not for the user
+        """
+        
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Carol Roberts'
+            sess['email'] = 'carol.roberts@maine.edu'
+        
+        query_string = [('tag_type', 'newtag')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/tag_values',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), [])
 
     def test_login_get_invalid(self):
         """Test case for login_get
@@ -654,12 +740,12 @@ class TestTeachersController(BaseTestCase):
                 question.pop(key)
         
         # Check if survey question info is correct
-        self.assertEqual(questions, [{'sid': '1', 'type': 'Y', 'title': 'Q3',
-            'question': 'Question 3?', 'help': '', 'mandatory': 'N',
+        self.assertCountEqual(questions, [{'sid': '1', 'type': '5', 'title': 'Q1',
+            'question': 'Question?', 'help': '', 'mandatory': 'Y',
             'language': 'en'}, {'sid': '1', 'type': '5', 'title': 'Q2',
             'question': 'Question 2?', 'help': '', 'mandatory': 'Y',
-            'language': 'en'}, {'sid': '1', 'type': '5', 'title': 'Q1',
-            'question': 'Question?', 'help': '', 'mandatory': 'Y',
+            'language': 'en'}, {'sid': '1', 'type': 'Y', 'title': 'Q3',
+            'question': 'Question 3?', 'help': '', 'mandatory': 'N',
             'language': 'en'}])
         
         # Remove mock survey from LimeSurvey
@@ -698,19 +784,23 @@ class TestTeachersController(BaseTestCase):
         response = self.client.open('/teameval/Eval/1.0.0/publish',
             method='GET', query_string=[('name', 'COS 140 001')])
         
+        codes = []              # Represent questions in the survey
+        # Sort questions by their ID
+        questions = sorted(self.lime._list_questions(1),
+                           key = lambda q: q['qid'])
         # Retrieve group and question IDs to make question codes
-        codes = []
-        questions = self.lime._list_questions(1)
-        for question in questions[::-1]:
+        for question in questions:
             codes.append('1X{}X{}'.format(question['gid'], question['qid']))
 
         # Add some mock survey responses to the survey
         self.lime._add_response(1, json.dumps({
             codes[0]: 4, codes[1]: 1, codes[2]: 'Y'}))
         self.lime._add_response(1, json.dumps({
-            codes[0]: 5, codes[1]: 2, codes[2]: 'N'}))
+            codes[0]: 5, codes[1]: 1, codes[2]: 'N'}))
         self.lime._add_response(1, json.dumps({
-            codes[0]: 2, codes[1]: 2, codes[2]: 'Y'}))
+            codes[0]: 2, codes[1]: 2, codes[2]: 'N'}))
+        self.lime._add_response(1, json.dumps({
+            codes[0]: 5, codes[1]: 3, codes[2]: 'Y'}))
         
         # Get results for Roy Turner's surveys
         query_string = [('cat_type', 'instructor'), ('cat_name', 'Roy Turner')]
@@ -721,7 +811,11 @@ class TestTeachersController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
         
         # Assert that return value matches expected statistics
-        print(json.loads(response.data))
+        self.assertEqual(json.loads(response.data),
+            {'Question 2?': {'COS 140 001':
+                {'mean': 1.75, 'median': 1.5, 'n': 4, 'std_dev': 0.96}},
+             'Question?': {'COS 140 001':
+                {'mean': 4, 'median': 4.5, 'n': 4, 'std_dev': 1.41}}})
         
         # Remove mock survey from LimeSurvey
         self.lime.delete_survey(1)
