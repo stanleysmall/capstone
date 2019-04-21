@@ -136,9 +136,8 @@ class Api:
                                     "aFields": "%s"
                         } } """ % (self.session_key, sid, status, heading,
                                    response, fields)
-        print(data)
-        out = b64decode(self._getJSON(data)['result']).decode('utf-8')
-        return json.loads(out)
+        return json.loads(b64decode(self._getJSON(data)['result'])
+                          .decode('utf-8'))
 
     # Returns a survey's responses given a participant's token
     def export_responses_by_token(self, sid, token):
@@ -165,7 +164,7 @@ class Api:
                     } """ % (self.session_key, sid, rdata)
         return self._getJSON(data)['result']
 
-    # Returns the info of a survey's groups given an ID
+    # Helper function for _list_groups
     def _list_groups(self, sid):
         data = """ {          "method":"list_groups",
                               "params": { "sSessionKey": "%s",
@@ -173,7 +172,7 @@ class Api:
                             "id": 1 } """ % (self.session_key, sid)
         return self._getJSON(data)['result']
 
-    # Helper function for _list_groups
+    # Returns the info of a survey's groups given an ID
     def list_groups(self, sid):
         json_list_groups = self._list_groups(sid)
 
@@ -184,8 +183,8 @@ class Api:
 
         return groups
 
-    # Returns the info of a survey's questions given an ID
-    def _list_questions(self, sid, gid):
+    # Helper function for _list_questions
+    def _list_questions(self, sid, gid='null'):
         data = """ {          "method":"list_questions",
                               "params": { "sSessionKey": "%s",
                                           "iSurveyID": %s,
@@ -193,8 +192,8 @@ class Api:
                             "id": 1 } """ % (self.session_key, sid, gid)
         return self._getJSON(data)['result']
 
-    # Helper function for _list_questions
-    def list_questions(self, sid, gid):
+    # Returns the info of a survey's questions given an ID
+    def list_questions(self, sid, gid='null'):
         json_list_questions = self._list_questions(sid, gid)
 
         questions = []
@@ -251,6 +250,15 @@ class Api:
     def invite_participants(self, sid):
         data = """ {    "id" : 1,
                         "method":"invite_participants",
+                        "params": { "sSessionKey": "%s",
+                                    "iSurveyID":  %s
+                        } } """ % (self.session_key, sid)
+        return self._getJSON(data)['result']
+    
+    # Sends reminder e-mails to the participants of a given survey
+    def remind_participants(self, sid):
+        data = """ {    "id" : 1,
+                        "method":"remind_participants",
                         "params": { "sSessionKey": "%s",
                                     "iSurveyID":  %s
                         } } """ % (self.session_key, sid)
