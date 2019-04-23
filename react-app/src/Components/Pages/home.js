@@ -100,8 +100,12 @@ class Home extends Component {
                     <DynamicSelecter list={this.state.inactiveEvals} iden={"inactiveSelector"}/>&emsp;
                     <button type="homeScreenButton" onClick = {() => this.view(document.getElementById("inactiveSelector").value)}>View</button>
                     
+                    <h3>4. Publish an Unpublished Evaluation Form</h3>
+                    <DynamicSelecter list={this.state.editableEvals} iden={"publishSelector"}/>&emsp;
+                    <button type="homeScreenButton" onClick = {() => this.view(document.getElementById("publishSelector").value)}>Publish</button>
+                    
 					
-                    <h3>4. View Evaluation Results</h3>
+                    <h3>5. View Evaluation Results</h3>
 					<RadioSelecter iden={"tags"}/>
                     <DynamicSelecter list={this.state.reports} iden={"reports"}/>&emsp;
 						
