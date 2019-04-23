@@ -1,0 +1,253 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{caption}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{float}
+\pdfminorversion=7
+
+\begin{document}
+\begin{titlepage}
+
+\centering
+\vspace*{2cm}
+{\Huge User Manual\par}
+\vspace{.25cm}
+{\LARGE Course Evaluation System\par}
+\vspace{1cm}
+{\Large Team EVAL\par}
+\vspace{.2cm}
+{\Large Jovon Craig, Sam Elliott, Yuanqi Guo, Robert Judkins, and Stanley Small\par}
+\vspace{1cm}
+{\Large Client: Dr. Harlan Onsrud\par}
+\vspace{1cm}
+{\Large April 18, 2019\par}
+\vspace{11cm}
+
+University of Maine - Spring 2019 - COS 497
+
+Instructor: Professor Terry Yoo
+
+\end{titlepage}
+
+\newpage
+
+\begin{center}
+{\includegraphics[scale=.2]{images/team_logo.png}} \\ 	\bigskip
+{\LARGE Course Evaluation System } \\ \medskip
+{\large User Manual } \\ \medskip
+\end{center}
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+Team EVAL is creating a system to more efficiently create and distribute post-semester teaching evaluations. Our client, Dr. Harlan Onsrud, a professor at the University of Maine, wants us to build such a system. In his opinion, the current system used by UMaine does not optimally meet the needs of the faculty.
+
+The old system relies on using physical bubble sheets as evaluation surveys. Our system will allow instructors to create an evaluation form online and distribute it via e-mail to their students. They can include whatever questions they desire and even add custom ones. Once a survey is completed, the instructor can view the results digitally, rounding off an entirely electronic process.
+  
+\subsection{Intended Readership}
+
+This document is intended for the development team, the product client Dr. Harlan Onsrud, and any potential users and administrators of the system. The users are intended to be primarily instructors or course administrators at any university. Other users may include anyone teaching a class outside a university setting who is interested in creating a course evaluation form and implementing one or many course evaluations.
+
+The developers and Dr. Onsrud are most familiar with the system, so the information for administrators in the ``References'' section is most relevant to them. Most university faculty members should be experienced with a standard format course evaluation form and will need little to no guidance to use the software. Other users should also be able to quickly pick up the software and make an evaluation form despite their unfamiliarity with its format. University faculty and administrative users may refer to the ``Overview'' section for a quick look at the system, and other users may refer to the ``Instructions'' section to learn the system's basic functionality.
+
+\subsection{Applicability Statement}
+
+This user manual specifically applies to the original release of the course evaluation system, version 1.0. The document may also be applicable to future releases but will not account for the newest features.
+
+\subsection{Purpose}
+
+The purpose of our system is to demonstrate how a university might upgrade their current system of processing course evaluation forms and expressing the results in a more useful form for instructors and administrators at all levels. Many universities, including the University of Maine, have traditionally used Scantron sheets for course evaluation forms. It is tedious for students to fill in bubbles with pencil and paper. Also, school administrators must scan the forms for every student in every course, and the survey data must be collected in a form that is readable for instructors. Any university should keep up with technology by adopting a fully online solution, such as the one from Team EVAL.
+
+This user manual is meant to provide essential information for operating our course evaluation system. It describes every function that a user can make, as well as useful procedures, warnings, and errors pertaining to the system. Overall, the software allows the process of creating, modifying, publishing, and viewing the statistics of a class evaluation form. With the user guide, one will know how to understand this process and execute it correctly and easily.
+
+\subsection{How to Use This Document}
+
+There are four main sections in this user manual. The first is the ``Introduction'' section, which introduces the readers to the system. It tells readers the target audience of the document, the purpose of Team EVAL's system, and why the user manual was written. The second section is the ``Overview'' section, a general description of what the course evaluation system does. It is meant to provide a quick guide to the software. Third, there is the ``Instructions'' section, intended for users less familiar with the system. It details every operation possible in the system, including warnings, procedures, input, results, and possible errors for each. Finally, the ``Reference'' section is for any user who wants more information about the system.
+
+The document contains some appendices to supplement the main sections. Appendix A is the ``Error Messages and Recovery Procedures'' section, which describes errors that a user may experience and how to resolve them. Next, Appendix B is a glossary, defining the more obscure terms mentioned in the document.
+
+Some sections of the manual relate to each other. The ``Overview'' section could be considered a more abstract version of the ``Instructions'' section. The ``Error Messages and Recovery Procedures'' section is similar to the ``Errors and Warnings'' part of the ``Instructions'' section. 
+
+\subsection{Related Documents}
+
+Craig, J., Elliott, S., Judkins, R., \& Small, S. 29 October 2018. \textit{System Requirements Specification.}
+\vspace{3mm}\newline
+Craig, J., Elliott, S., Judkins, R., \& Small, S. 16 November 2018. \textit{System Design Document.}
+\vspace{3mm}\newline
+Craig, J., Elliott, S., Judkins, R., \& Small, S. 30 November 2018. \textit{User Interface Design Document.}
+\vspace{3mm}\newline
+Craig, J., Elliott, S., Guo, Y., Judkins, R., \& Small, S. 14 March 2019. \textit{Code Inspection Report.}
+\vspace{3mm}\newline
+Craig, J., Elliott, S., Guo, Y., Judkins, R., \& Small, S. 4 April 2019. \textit{Administrator Manual.}
+
+\subsection{Conventions}
+
+Readers of this document shall be aware of the stylistic and syntactical conventions that we use. The user is often referenced by the gender-neutral pronoun ``they''. Button names and input to text fields are closed off by quotation marks. Additionally, monospaced Courier font is used for webpage URLs.
+
+\subsection{Problem Reporting Instructions}
+
+Users may encounter errors in the evaluation system that cannot be easily resolved. To report any product defects or to ask questions about the software, please e-mail the project manager, Stanley Small, at stanley.small@maine.edu.
+
+\section{Overview}
+
+Team EVAL's course evaluation system has multiple capabilities for instructors to efficiently manage evaluation surveys. With the software, a user may create an online survey form, use a previously created form, edit a survey form, publish a form to students, or view statistics about a survey's responses.
+
+The first pages the user sees upon starting the system are the landing pages. They include a summary of the system, frequently asked questions, and the log-in form. The user logs in with the e-mail address and password of a Google account. The system authenticates the log-in credentials, and the user reaches the system's home page.
+
+The home screen has several options for the user to take. First, one may create a new course evaluation form. By creating a new survey, the user needs to import course infomation such as course section, course designator, course title, course section, semester and calendar year and name of faculty unit. The second option is to edit a form that has been created but is still unpublished. Third, the user may view (but not edit) a published or inactive evaluation form, which can be used as a preset for a new survey. Finally, one can load a report giving statistics of the questions in course survey forms. A report applies to a particular category, such as a course section, course designator, instructor name, or university.
+
+A major feature of the course evaluation system is editing a survey form before publishing it. If the user chose to create a new form, he or she may then select a preset form, loading the information of an existing form into the new one. While editing a form, the system allows setting the course information, including questions asking students about the course, adding custom open-ended questions, setting some questions as mandatory, listing the survey's participants, and writing e-mail templates about completing the survey to send to students.
+
+After editing an evaluation form to what is desired, the user may then publish the survey, look at it later, and view its statistics. Upon publishing a survey, the system imports it into a survey creation software called LimeSurvey and sends invitation e-mails to the survey's participants. The user cannot edit a form that has been previously published. The system automatically sends reminder e-mails to the participants in case some students have not completed the survey.
+
+An important capability of the system is to compile the responses for survey questions and output statistics of the responses. The user can view an evaluation report for a certain course section or designator, instructor last name, faculty unit, college, or university. The report gives the median, mean, standard deviation, and number of responses for 1-to-5 scale survey questions. The statistics are shown for each applicable course section, all sections of a course during that evaluation period (e.g. 001, 002, etc.), all courses by the same instructor during that evaluation period (e.g. Harlan Onsrud), all courses with the same designator (e.g. COS), university department, and the whole university. The user may download the report as a file.
+
+\section{Instructions}
+
+\subsection{Logging In}
+
+To begin using the course evaluation system, a user first needs to log in. The initial screen, known as the landing page, has a ``Login'' button featured on it. The only requirement to log in to the system is a valid Gmail account. Once logged in, a user will be directed to the home page, where they will have access to the functions of the evaluation system. On this page, there are four operations a user can perform at any time: ``Create Evaluation'', ``Edit Evaluation'', ``View Evaluation'', and ``View Results''.
+
+\subsection{Create Evaluation}
+
+When a user selects the ``Create Evaluation'' button, they will be directed to a new screen to begin creating a new evaluation form. This operation is used to develop a survey that will eventually be published and sent out to a list of participants. The user can either create a new form from scratch or re-use an existing form that was previously created.
+
+If the user wants to create a new survey from scratch, they will have to first fill out the information about the course they are instructing or administering. This information includes the course designator, course title, year that the course was held, instructor's name and e-mail address, and other details about the course and its instructor. Every field must be filled out before the user can continue. Once they are satisfied with the course details, the user can continue onto the next portion of the survey creation process.
+
+Once the course details have been filled out, the user is now tasked with choosing what questions to include on their survey. There are several default questions that are customary in most course evaluation surveys, but the user can also create their own custom questions. For each question that appears, the user has a choice to either include it, make it mandatory for survey respondents, or exclude the question entirely.
+
+The questions are typically split into the following categories: ``Course'', ``Instructor'', ``Assessment'', ``Teaching Assistant'', ``Laboratory'', ``Online'', and ``Open Ended''. Some of these categories may not be relevant for a course. For example, if the course did not have a teaching assistant, then the user could disregard the ``Teaching Assistant'' questions entirely. Once the user has picked and created the survey questions to their liking, they can continue to the final page of creating an evaluation form.
+
+The final page required to create a survey form is related to administration. The user is asked to list everyone enrolled in the course. The information for each student should appear in a separate row, with each row formatted as formatted as ``[first name], [last name], [e-mail address]'' (e.g ``Mary, Smith, marysmith@gmail.com''). This section determines how the survey will be distributed once it is published. The user can also edit the e-mails these students will receive, as well as opt in or opt out of reminder e-mails to be sent to the students. Reminder e-mails are sent to students who have not taken the survey 3, 6, and 9 days after it is published.
+
+Once the user is done with that page, they can finally submit the survey. Once submitted, they can choose to either save the survey to be published later or publish it right away. They will be directed back to the home page, having successfully created an evaluation form.
+
+\subsection{Edit Evaluation}
+
+The ``Edit Evaluation'' operation is used if a user has previously created a survey form but has yet to publish it. The user has the ability to select one of their existing surveys from a drop-down menu and can then choose to edit one as they please.
+
+Once a survey is selected, the system will bring the user to a page similar to the one for creating a survey from scratch. In this situation, however, all of the fields have already been filled with what they previously entered. The user is then able to go through each page and edit the course information, the questions they have selected, and the enrollment list for the selected course. Once done, the survey can either be saved again for further editing later, or published and sent out to the participants.
+
+\subsection{Publish Evaluation}
+
+The ''Publish Evaluation'' operation is used if the user has previously created an evaulation form but has yet to publish it. The user can select one of their existing evaluations from a drop-down menu and can then choose to publish the evaluation, creating a form on LimeSurvey that will be sent to all of the survey's participants.
+
+Once a survey is published, it can not be recalled and as such users should ensure that all information in the evaluation is accurate before publishing it.  The user can view the evaluation using the ''Edit Evaluation'' operation listed above to ensure that they have the correct information.
+
+\subsection{View Evaluation}
+
+The ``View Evaluation'' operation is used to view an older inactive survey form that has already expired. These surveys have already been distributed and taken by the participants in a previous year or semester. Once again, the user can select the desired survey from a drop-down menu and choose which one they would like to view.
+
+Once an evaluation form has been selected, the user is directed to a page where they can view the information from this previous course. They are unable to edit this course, as it has already been made inactive. The purpose of this function is to see the form's course information or which questions were included. At any point, the user can return to the homepage when they are done viewing.
+
+\subsection{View Results}
+
+The ``View Results'' operation displays the statistical results of a completed surveys after they have run their course. It cannot be used for older surveys from past years or semesters. Rather, the operation only applies to courses that have recently been completed and have had their surveys taken.
+
+To choose which course evaluation results are viewed, the user needs to first select which category they would like to filter the courses: ``Instructor'', ``Course Section'', ``Course Designator'', ``Unit'', ``College'', and ``University''. Once the user selects the category type, they can then choose a more specific category. For example, if they select ``Instructor'', the drop-down list would consist of a list of instructors with surveys on the user's account. 
+
+Once the user has selected the category type and specific category they would like to view, they can proceed to the results screen. This screen will display the results for each question in the surveys under the designated category. It will display statistics such as the median, mean, standard deviation, and number of participants for each question. This will allow the user to compare results across courses and schools.
+
+\subsection{Errors and Warnings}
+
+There are two instances in which the user will be presented with an error or warning. When the user is creating or editing an evaluation form and they attempt to move on to the next page or save the form without completing all required fields, they will be prevented from doing so and presented with a red error box. This error tells the user that at least one required field in the form has not been entered. The user can recover from this by completing the required field and attempting to move on to the next page, or saving the evaluation again.
+
+The user may encounter a warning when removing a custom question that they had previously entered. Upon pressing the ``Remove'' button on a custom question, the user will be prompted to confirm that they wish to remove the question. The user can either confirm the action by clicking ``OK'', which will cause the custom question to be removed, or select ``Cancel'', which does not remove the question.
+
+\section{Reference Section}
+
+Users have more resources that they can consult for additional information about the system. If they are concerned about the privacy and storage of their survey results, they can refer to LimeSurvey's response on the matter, found at \verb|https://limesurvey.org/about-us/blog/2065-what-you-need-to-know-about-| \verb|data-security-in-limesurvey| and the LimeSurvey privacy policy at \verb|https://www.limesurvey.org/| \verb|policies/privacy-policy|. Information regarding the security of data storage in the cloud with Amazon Web Services can be found at \verb|https://aws.amazon.com/security|. The system's software license can be found at \verb|https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html|.
+
+If the user wishes to learn more about the system requirements, he or she should consult the System Requirements Specification. Should the user wish to learn more about the design of the system, he or she should read the System Design Document. Any questions regarding the user interface will likely be answered in the User Interface Design Document. 
+
+For users who are system administrators, information about the installation and administration of the system is found in the Administrator Manual. 
+
+\appendix
+
+\newpage
+
+\section{Error Messages and Recovery Procedures}
+
+There is one possible error message given by the course evaluation system. If the user does not enter all required fields in a survey form, the system gives the message ``Please fill out the required field.'' This error is described in the ``Errors and Warnings'' subsection above. The user can recover from this by completing the required field(s) and attempting to move on to the next page, or simply saving the evaluation again.
+
+\section{Glossary}
+
+\begin{itemize}
+ \item \textit{Survey/evaluation} -- The questionnaire that students enrolled in a given course will take to evaluate the course and other related entities.
+ \item \textit{Instructor} -- The teacher of the class or course that the evaluation form is being created for. Not necessarily the same as the user.
+ \item \textit{Course} -- The class for which an evaluation form is created.
+ \item \textit{Published} -- A survey that has been sent to its participants so that responses may be collected.
+ \item \textit{Unpublished} -- A survey that is not yet viewable by its participants and is still editable.
+ \item \textit{Active} -- A survey that its users can view and for which they can make responses.
+ \item \textit{Inactive} -- A survey that is expired and no longer viewable by its participants.
+ \item \textit{LimeSurvey} -- An open-source software that allows the creation and publishing of surveys.
+ \item \textit{Back end} -- The component of the system that manages survey form data and interfaces with LimeSurvey.
+\end{itemize}
+
+\newpage
+\section{Agreement Between Customer and Contractor}
+
+This page shows that all members of Team EVAL and the client, Harlan Onsrud, have agreed on all the information in the user manual. By signing this document, Team EVAL and Dr. Onsrud approve the information given to end-users about how to operate the course evaluation system correctly.
+
+The team will follow a process in the case that the document is changed after we sign it. First, the team will write a rough draft of the changes to be made to the document. Second, all team members and Harlan Onsrud will sign the document agreeing to the changes. Finally, the team will make the changes to the final copy of the document.
+
+\vspace{.7in}
+\noindent
+\begin{tabular}{ p{5cm} p{5cm} p{5cm} } 
+\textbf{\textit{Name}} & \textbf{\textit{Signature}} & \textbf{\textit{Date}} \\[.5cm]
+\textbf{Jovon Craig} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Sam Elliott} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Yuanqi Guo} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Robert Judkins} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Stanley Small} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+\textbf{Dr. Harlan Onsrud} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Customer Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\end{tabular}
+
+\newpage
+\section{Team Review Sign-off}
+
+This page shows that all members of Team EVAL have reviewed the user manual and agreed on its content. By signing this document, the team members agree that all information for the users of the course evaluation system is accurate, and there is nothing in the document that is a source of contention.
+
+\vspace{.7in}
+\noindent
+\begin{tabular}{ p{5cm} p{5cm} p{5cm} } 
+\textbf{\textit{Name}} & \textbf{\textit{Signature}} & \textbf{\textit{Date}} \\[.5cm]
+\textbf{Jovon Craig} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\textbf{Sam Elliott} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\textbf{Yuanqi Guo} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\textbf{Robert Judkins} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\textbf{Stanley Small} & $\rule{5cm}{.1mm}$ & $\rule{5cm}{.1mm}$\\[.5cm]
+Comments: & \multicolumn{2}{ l }{ $\rule{10.45cm}{.1mm}$ }\\[.5cm]
+\multicolumn{3}{ l }{ $\rule{15.9cm}{.1mm}$ }\\[.5cm]
+\end{tabular}
+
+
+\newpage
+\section{Document Contributions}
+
+Stanley Small contributed to the ``References'' section of the user manual. Stan contributed about 15 percent of the document.
+
+Jovon Craig wrote part of the introduction and the whole ``Overview'' section. He also added the user manual template and revised much of the manual. Jovon contributed about 35 percent of the document.
+
+Yuanqi Guo made some edits to the ``Instructions'' section and added a reference to another document. Tom contributed about 10 percent of the document.
+
+Sam Elliott added to the ``Instructions'' section, and he documented the errors and warnings pertaining to the system. Sam contributed about 10 percent of the document.
+
+Robert Judkins wrote the ``Instructions'' section, and he revised and expanded other sections. Robert contributed about 30 percent of the document.
+
+\end{document}

@@ -129,7 +129,10 @@ class TestTeachersController(BaseTestCase):
         self.assertEqual(json.loads(response.data),
             {
                 "description": "Description",
-                "email_confirm": "Email confirm text",
+                "email_confirm": "Dear {FIRSTNAME},<br /><br />this email is "
+                    + "to confirm that you have completed the survey titled "
+                    + "{SURVEYNAME} and your response has been saved. Thank "
+                    + "you for participating.",
                 "email_invite": "Dear {FIRSTNAME},<br/><br/>you have been "
                     + "invited to participate in a survey.<br/><br/>Click "
                     + "here to do the survey:<br/>{SURVEYURL}<br/><br/>Please "
