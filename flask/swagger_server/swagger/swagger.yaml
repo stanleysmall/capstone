@@ -42,6 +42,8 @@ paths:
           description: "bad input parameter"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
   /surveys:
+<<<<<<< HEAD
+=======
     get:
       tags:
       - "teachers"
@@ -70,6 +72,7 @@ paths:
               $ref: "#/definitions/Course"
       x-swagger-router-controller: "swagger_server.controllers.teachers_controller"
   /tag_values:
+>>>>>>> master
     get:
       tags:
       - "teachers"
@@ -82,7 +85,16 @@ paths:
       - name: "tag_type"
         in: "query"
         description: "the type of a survey tag"
+<<<<<<< HEAD
+        required: false
+        type: "string"
+      - name: "tag_value"
+        in: "query"
+        description: "the value of a survey tag"
+        required: false
+=======
         required: true
+>>>>>>> master
         type: "string"
       responses:
         200:

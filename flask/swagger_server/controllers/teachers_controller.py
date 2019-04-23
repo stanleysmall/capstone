@@ -409,6 +409,20 @@ def surveys_get(tag_type=None, tag_value=None):  # noqa: E501
     return [name[0] for name in survey_names]
 
 
+<<<<<<< HEAD
+def login_get(key):  # noqa: E501
+    """logs in a user with a certain authentication key
+
+    :param key: an authentication key
+    :type key: str
+
+    :rtype: str
+    """
+    
+    session['token'] = key
+    return validate()
+
+=======
 def tag_values_get(tag_type):
     """retreives a list of values for a given tag type of the user's surveys
 
@@ -434,10 +448,18 @@ def login_get(key):  # noqa: E501
 
     :param key: an authentication key
     :type key: str
+>>>>>>> master
 
-    :rtype: str
+def validate():
+    """validates the authentication token received with GET login
+    
+    POST: if log-in is successful,
+          the e-mail address of the user logging in
+          if not successful, an error message
     """
     
+<<<<<<< HEAD
+=======
     session['token'] = key
     return validate()
 
@@ -450,6 +472,7 @@ def validate():
           if not successful, an error message
     """
     
+>>>>>>> master
     # Call the Google API with the authentication token
     r = requests.get(
         'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='
@@ -756,6 +779,7 @@ def results_get(cat_type, cat_name):  # noqa: E501
                 # Only 1-5 scale questions permitted
                 except (ValueError, TypeError) as e:
                     continue
+<<<<<<< HEAD
                 
                 # Create a question key in stats if not there
                 if q_key not in stats:
@@ -767,16 +791,35 @@ def results_get(cat_type, cat_name):  # noqa: E501
                 else:
                     stats[q_key][survey_name].append(q_value)
                 
+=======
+                
+                # Create a question key in stats if not there
+                if q_key not in stats:
+                    stats[q_key] = {survey_name: [q_value]}
+                # Create a survey key in stats if not there
+                elif survey_name not in stats[q_key]:
+                    stats[q_key][survey_name] = [q_value]
+                # Otherwise, just add q_value
+                else:
+                    stats[q_key][survey_name].append(q_value)
+                
+>>>>>>> master
     # Loop over each set of responses per survey per question
     for question in stats:
         for survey in stats[question]:
             # Replace responses with actual statistics
             values = stats[question][survey]
             
+<<<<<<< HEAD
+            # Find appropriate statistics for values
+            stats[question][survey] = {
+                'median': statistics.median(values),
+=======
             # Compute appropriate statistics for values
             # Non-integral values are rounded to 2 places
             stats[question][survey] = {
                 'median': round(statistics.median(values), 2),
+>>>>>>> master
                 'mean': round(statistics.mean(values), 2),
                 # Standard deviation of response values
                 # Cannot be found with only one response
