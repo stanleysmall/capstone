@@ -96,6 +96,7 @@ class Results extends Component {
                 <LoggedInHeader/>
             <div>
 				<CSVLink data={this.createTableForCSV()}>Download Results</CSVLink>
+				<h3>Displaying Results for {this.tag}</h3>
 				<table>
 				{this.createTable()}
 				</table>

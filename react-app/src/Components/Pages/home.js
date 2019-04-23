@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {Redirect} from "react-router";
 import {LoggedInHeader, DynamicSelecter, RadioSelecter} from "../displayComponents";
-import { getUnpublishedEvalNames, getPublishedEvalNames } from "../../Functions/endpoints";
+import { getUnpublishedEvalNames, getPublishedEvalNames, getTagValues } from "../../Functions/endpoints";
 import "../../CSS/App.css";
 
 class Home extends Component {
@@ -11,14 +11,19 @@ class Home extends Component {
                         ],
         inactiveEvals : [{id:0, name:"Select an evaluation"},               
                         ],
-        reports :       [{id:0, name:"Select a report"},
-                         {id:1, name:"endpoints"},
-                         {id:2, name:"aren't"},
-                         {id:3, name:"working"},                   
-                        ]                         
+		reports : [{id:0, name: "Roy Turner"},
+					{id:1, name: "Terry Yoo"},],
+       
         };
-
-    componentDidMount() {
+		
+		reportsInstructor=getTagValues('instructor');
+		reportsCourseSec=getTagValues('course_section');
+		reportsCourseDes=getTagValues('course_designator');
+		reportsUnit=getTagValues('unit');
+		reportsCollege=getTagValues('college');
+		reportsUniversity=getTagValues('university');
+		
+		componentDidMount() {
         document.title = 'Home Page';
       }
     
