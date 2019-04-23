@@ -105,7 +105,7 @@ class Create extends Component {
         this.evalTemplate = formatSurvey(survey);
 
         //Put the formatted survey into the database
-        //putEval(this.evalTemplate)
+        putEval(this.evalTemplate)
 
         //redirect home 
         //this.props.history.push("/home/");
@@ -115,10 +115,11 @@ class Create extends Component {
     render() {
 
         //If the user isnt logged in redirect them to the landing page
-        if(global.access_token === undefined)
+        /*if(global.access_token === undefined)
         {
             return(<Redirect to ="/"/>);
         }
+        */
 
         //Load a new survey with the template
         if(this.state.useTemplate)
