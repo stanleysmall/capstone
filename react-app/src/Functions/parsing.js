@@ -63,11 +63,11 @@ export const formatSurvey = (survey) =>
 
     if(survey.data.CourseInformation.graduateCourse === 'Y' || survey.data.CourseInformation.graduateCourse === 'Yes' || survey.data.CourseInformation.graduateCourse === 'yes')
     {
-        evalTemplate.graduateCourse = true;
+        evalTemplate.graduateCourse = "Y";
     }
     else
     {
-        evalTemplate.graduateCourse = false;
+        evalTemplate.graduateCourse = "N";
     }
 
 
@@ -456,122 +456,52 @@ const generateParticipants = (classRoll) =>
 */
 export const loadEvaluation = (evaluation, surveyJSON) =>
 {
-    //store values to populate first page in an array
-    var newValues = [
-                    evaluation.courseDesignator,
-                    evaluation.courseNumber,
-                    evaluation.courseSection,
-                    evaluation.courseTitle,
-                    evaluation.semesterYear,                             //Don't populate the semester/year
-                    evaluation.facultyUnit,
-                    evaluation.college,
-                    evaluation.university,
-                    evaluation.instructorFirst,
-                    evaluation.instructorLast,
-                    evaluation.instructorEmail,
-                    evaluation.instructorPhone,
-                    evaluation.adminName,
-                    evaluation.adminEmail,
-                    evaluation.beginDate,                             //Don't populate the being/end date
-                    evaluation.closeDate,
-                    evaluation.reminderTime      
-    ]
+    var defaultValues = {};
+    defaultValues.courseDesignator = evaluation.courseDesignator;
+    defaultValues.courseNumber = evaluation.courseNumber;
+    defaultValues.courseSection = evaluation.courseSection;
+    defaultValues.courseTitle = evaluation.courseTitle;
+    defaultValues.semesterYear = evaluation.semesterYear;
+    defaultValues.facultyUnit = evaluation.facultyUnit;
+    defaultValues.college = evaluation.college;
+    defaultValues.university = evaluation.university;
+    defaultValues.instructorFirst = evaluation.instructorFirst;
+    defaultValues.instructorLast = evaluation.instructorLast;
+    defaultValues.instructorEmail = evaluation.instructorEmail;
+    defaultValues.instructorPhone = evaluation.instructorPhone;
+    defaultValues.adminName = evaluation.adminName;
+    defaultValues.adminEmail = evaluation.adminEmail;
+    defaultValues.beginDate = evaluation.beginDate;
+    defaultValues.closeDate = evaluation.closeDate;
+    defaultValues.reminderTime = evaluation.reminderTime;
+    defaultValues.graduateCourse = evaluation.graduateCourse;
 
     //Populate the surveyJSON with default values for the first page
-    for(var i = 0; i < newValues.length; i++)
-    {
-        surveyJSON.pages[0].elements[i].defaultValue = newValues[i];
-    }
+    surveyJSON.pages[0].elements[1].defaultValue = defaultValues;
 
-    //Indices of question sets in the second page elements
-    var questionSets = [0,1,2,4,6,8,9];
+    /*
+    "defaultValue": {
+        "How prepared was the instructor for class?": {
+         "1": "often unprepared",
+         "5": "well prepared",
+         "include": [
+          "include"
+         ]
+        },
+        "How clearly were the objectives of the course presented?": {
+         "1": "unclear",
+         "5": "very clear"
+        },
+        
+        */
 
-    //Set default values of all questions on page 2 to do not include
-    for(i = 0; i < questionSets.length; i++)
-    {
-        //Store the currentDataSet, for readability
-        var currentDataSet = surveyJSON.pages[1].elements[questionSets[i]].defaultValue;
 
-        //For every property set it to not include
-        for(var property in currentDataSet)
-        {
-            if(currentDataSet.hasOwnProperty(property))
-            { 
-                currentDataSet[property].Inclusion = "Do not include";
-            }
-        }
-    }
+       surveyJSON.pages[2].elements[1].elements[1].defaultValue = evaluation.email_invite;
+       surveyJSON.pages[2].elements[1].elements[4].defaultValue = evaluation.email_reminder;
 
-    //Used for indexing into the surveyJSON
-    var questionSet = 0;
-    var currentQuestion;
 
-    //Populate the surveyJSON with default values for the second page
-    for(i = 0; i < evaluation.questions.length; i++)
-    {
-        //store the text of the question
-        currentQuestion = evaluation.questions[i].text;
+    
 
-        //Get the set of questions that the current question we are looking at is from
-        switch(evaluation.questions[i].group)
-        {
-            case "Instructor Questions": 
-                questionSet = 0;
-                break;
-            case "Course Questions": 
-                questionSet = 1;
-                break;
-            case "Assesment Questions": 
-                questionSet = 2;
-                break;
-            case "Lab Questions": 
-                questionSet = 4;
-                //If a lab question exists than set the value of was there a lab component to true
-                surveyJSON.pages[1].elements[3].defaultValue = "true";
-                break;
-            case "Teaching Assistant Questions":
-                questionSet = 6;
-                //If a teaching assistant question exists than set the value of was there a teaching assistent to true
-                surveyJSON.pages[1].elements[5].defaultValue = "true";
-                break;
-            case "Online Questions":
-                questionSet = 8;
-                //if an online question exists than set the value of was there an online component to true
-                surveyJSON.pages[1].elements[7].defaultValue = "true";
-                break;
-            case "Open Ended Questions":
-                questionSet = 9;
-                break;
-            default:
-                questionSet = -1
-                break;
-        }
-
-        //If the question was mandatory set its corresponding default value to manditory
-        if(evaluation.questions[i].mandatory)
-        {
-            surveyJSON.pages[1].elements[questionSet].defaultValue[currentQuestion].Inclusion = "Mandatory"
-        }
-        //Else set default value to Include
-        else
-        {
-            surveyJSON.pages[1].elements[questionSet].defaultValue[currentQuestion].Inclusion = "Include"
-        }
-    }
-
-    //Populate the surveyJSON with default values for the third page
-    surveyJSON.pages[2].elements[1].defaultValue = evaluation.email_invite;
-    surveyJSON.pages[2].elements[3].defaultValue = evaluation.email_reminder;
-
-    //Turn classroll from eval into CSV format
-    var classRoll = "";
-    for(i = 0; i < evaluation.participants.length; i ++)
-    {
-        var names = evaluation.participants[i].name.split(" ");
-        classRoll = classRoll + names[0] + "," + names[1] + "," + evaluation.participants[i].address + "\n";
-    }
-
-    surveyJSON.pages[2].elements[0].defaultValue = classRoll;
 
     return surveyJSON;
 }
