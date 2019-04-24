@@ -462,7 +462,7 @@ def validate():
         'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='
         + session['token'])
     logging.info(r.status_code)
-	if (r.status_code == 200):          # If request is successful
+    if (r.status_code == 200):          # If request is successful
         # Load user's full name and e-mail address into a session object
         data = r.json()
         session['email'] = data['email']
