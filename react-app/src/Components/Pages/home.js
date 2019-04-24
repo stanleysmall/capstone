@@ -21,19 +21,13 @@ class Home extends Component {
 		
 		componentDidMount() {
         document.title = 'Home Page';
-        /*this.reportsInstructor=getTagValues('instructor');
+        this.reportsInstructor=getTagValues('instructor');
 		this.reportsCourseSec=getTagValues('courseSection');
 		this.reportsCourseDes=getTagValues('courseDesignator');
 		this.reportsUnit=getTagValues('facultyUnit');
 		this.reportsCollege=getTagValues('college');
         this.reportsUniversity=getTagValues('university');
-        */
-      }
-    
-    constructor(props)
-    {
-        super(props);
-        //console.log(global.access_token);
+        
         var unpublishedEvals = getUnpublishedEvalNames();
         var publishedEvals = getPublishedEvalNames();
 
@@ -46,6 +40,13 @@ class Home extends Component {
         {
             this.state.inactiveEvals[i+1] = {id:i+1, name:publishedEvals[i]} 
         }
+        }
+    
+    constructor(props)
+    {
+        super(props);
+        //console.log(global.access_token);
+
 
     }
 

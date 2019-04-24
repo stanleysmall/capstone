@@ -74,15 +74,16 @@ export const formatSurvey = (survey) =>
     //email_invite          <------------------------------------------ breaks naming convention, required tag name by API
     evalTemplate.email_invite = survey.data.initialEmail;
     //email_reminder        <------------------------------------------ breaks naming convention, required tag name by API
-    evalTemplate.email_reminder = survey.data.reminderEmail;
+    evalTemplate.email_remind = "";
+    evalTemplate.email_remind = survey.data.reminderEmail;
 
-    evalTemplate.published = false;
+    evalTemplate.published = "F";
     //-------------------------------------------------TODO-------------------------------------------------------
-    //description
-    //welcometext
-    //endtext
-    //email_register
-    //email_confirm
+    evalTemplate.description = "This is a teaching evaluation for " + evalTemplate.name;
+    evalTemplate.welcometext = "Please complete the evaluation for " + evalTemplate.name;
+    evalTemplate.endtext = "Thank you for taking this evaluation";
+    evalTemplate.email_register = ""
+    evalTemplate.email_confirm = "";
 
     
     console.log("formatted: " + JSON.stringify(evalTemplate,null,2));

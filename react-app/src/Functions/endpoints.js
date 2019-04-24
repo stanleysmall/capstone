@@ -99,7 +99,7 @@ export const getEvalNames = () =>
 
 export const loginEndpoint = (key) =>
 {
-    return fetch(APIAddress +"login?key=" + {key})
+    return fetch(APIAddress +"login?key=" + key)
             .then(response => response.json())
             .then((responseData) => {
                 console.log("logged In");
@@ -112,7 +112,7 @@ export const loginEndpoint = (key) =>
 */
 export const getUnpublishedEvalNames = () =>
 {
-    return fetch(APIAddress +"surveys?tag_type=published&tag_value=false")
+    return fetch(APIAddress +"surveys?tag_type=published&tag_value=F")
     .then(response =>response.json())
     .then((responseData) => {
         console.log(responseData);
@@ -125,7 +125,7 @@ export const getUnpublishedEvalNames = () =>
 */
 export const getPublishedEvalNames = () =>
 {
-    return fetch(APIAddress +"surveys?tag_type=published&tag_value=true")
+    return fetch(APIAddress +"surveys?tag_type=published&tag_value=T")
     .then(response =>response.json())
     .then((responseData) => {
         console.log(responseData);
