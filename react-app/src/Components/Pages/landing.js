@@ -3,6 +3,7 @@ import {LoggedOutHeader} from "../displayComponents";
 import GoogleLogin from 'react-google-login';
 import {Redirect} from "react-router";
 import {oAuthClientID} from "../../vars";
+import { publishEval, getUnpublishedEvalNames, getPublishedEvalNames, getTagValues } from "../../Functions/endpoints";
 
 class Landing extends Component {
     
@@ -29,6 +30,7 @@ class Landing extends Component {
     {
         global.access_token = response.Zi.access_token;
         console.log(response.Zi.access_token);
+        loginEndpoint(response.Zi.access_token);
         this.setState({loggedIn: true});
         
     }

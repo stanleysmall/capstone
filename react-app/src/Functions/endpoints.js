@@ -97,6 +97,15 @@ export const getEvalNames = () =>
             })
 }
 
+export const loginEndpoint = (key) =>
+{
+    return fetch(APIAdress +"login?key=" + {key})
+            .then(response => response.json())
+            .then((responseData) => {
+                return responseData;
+            })
+}
+
 /*
     Returns: A list of all the names of surveys the user has created that have not been published yet
 */
