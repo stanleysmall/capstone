@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {Redirect} from "react-router";
 import {LoggedInHeader, DynamicSelecter, RadioSelecter} from "../displayComponents";
-import { getUnpublishedEvalNames, getPublishedEvalNames } from "../../Functions/endpoints";
+import { publishEval, getUnpublishedEvalNames, getPublishedEvalNames } from "../../Functions/endpoints";
 import "../../CSS/App.css";
 
 class Home extends Component {
@@ -56,6 +56,14 @@ class Home extends Component {
             this.props.history.push("/view/" + value);
         }
     }
+
+    publish(value)
+    {
+        if(value !== "Select an evaluation")
+        {
+            publishEval(value);
+        }
+    }
 	
 	results(tagName, tag){
 		this.resultsTagName=tagName;
@@ -102,7 +110,7 @@ class Home extends Component {
                     
                     <h3>4. Publish an Unpublished Evaluation Form</h3>
                     <DynamicSelecter list={this.state.editableEvals} iden={"publishSelector"}/>&emsp;
-                    <button type="homeScreenButton" onClick = {() => this.view(document.getElementById("publishSelector").value)}>Publish</button>
+                    <button type="homeScreenButton" onClick = {() => this.publish(document.getElementById("publishSelector").value)}>Publish</button>
                     
 					
                     <h3>5. View Evaluation Results</h3>

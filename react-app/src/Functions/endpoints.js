@@ -59,49 +59,45 @@ export const getResults = (cat_type, cat_name) =>
 			})
 }
 
+export const publishEval = (evalName) =>
+{
+    console.log("publish " + evalName)
+}
+
 /*
     Returns: A list of all the names of surveys the user has created in the past
 */
 export const getEvalNames = () =>
 {
-    return["endpoints","arent","working"]
     return fetch(APIAddress +"surveys")
             .then(response =>response.json())
             .then((responseData) => {
-                console.log(responseData);
                 return responseData;
             })
 }
 
+/*
+    Returns: A list of all the names of surveys the user has created that have not been published yet
+*/
 export const getUnpublishedEvalNames = () =>
 {
-    var toReturn = [];
-    var currentDate = new Date()
-    var publishDate = new Date("2019-04-25");
-
-    currentDate.setHours(currentDate.getHours());
-    currentDate.setMinutes(currentDate.getMinutes());
-    currentDate.setSeconds(currentDate.getSeconds());
-    currentDate.setMilliseconds(currentDate.getMilliseconds());
-
-    var evalNames = getEvalNames()
-    var evalTemplates = [];
-
-    for(var i = 0; i < evalNames.length; i++)
-    {
-        //evalTemplates[i] = getEval(evalNames[i]);
-    }
-
-    if(+publishDate > +currentDate);
-
-    toReturn = getEvalNames();
-    return toReturn;
+    return fetch(APIAddress +"surveys?tag_type=published&tage_value=false")
+    .then(response =>response.json())
+    .then((responseData) => {
+        console.log(responseData);
+        return responseData;
+    })
 }
 
+/*
+    Returns: A list of all the names of surveys the user has created that have been published
+*/
 export const getPublishedEvalNames = () =>
 {
-    var surveys = [];
-    var currentDate = new Date()
-
-    return(getEvalNames());
+    return fetch(APIAddress +"surveys?tag_type=published&tage_value=true")
+    .then(response =>response.json())
+    .then((responseData) => {
+        console.log(responseData);
+        return responseData;
+    })
 }
