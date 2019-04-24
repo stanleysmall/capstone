@@ -102,7 +102,7 @@ export const getEvalNames = () =>
 */
 export const getUnpublishedEvalNames = () =>
 {
-    return fetch(APIAddress +"surveys?tag_type=published&tage_value=false")
+    return fetch(APIAddress +"surveys?tag_type=published&tag_value=false")
     .then(response =>response.json())
     .then((responseData) => {
         console.log(responseData);
@@ -115,7 +115,7 @@ export const getUnpublishedEvalNames = () =>
 */
 export const getPublishedEvalNames = () =>
 {
-    return fetch(APIAddress +"surveys?tag_type=published&tage_value=true")
+    return fetch(APIAddress +"surveys?tag_type=published&tag_value=true")
     .then(response =>response.json())
     .then((responseData) => {
         console.log(responseData);
