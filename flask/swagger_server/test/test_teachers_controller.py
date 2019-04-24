@@ -166,7 +166,7 @@ class TestTeachersController(BaseTestCase):
                     {
                         "group": "The Instructor",
                         "helpText": "Help text",
-                        " mandatory": True,
+                        "mandatory": True,
                         "text": "Question 2?",
                         "type": "5"
                     },
@@ -534,7 +534,7 @@ class TestTeachersController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), ['COS 140 001'])
    
-    def test_surveys_get_tag_valid2(self):
+    def test_surveys_get_tag_valid_2(self):
         """Another test case for surveys_get
 
         retreives a list of the names of the user's surveys
@@ -546,7 +546,7 @@ class TestTeachersController(BaseTestCase):
             sess['email'] = 'torsten.hahmann@maine.edu'
         
         query_string = [('tag_type', 'email_register'),
-                        ('tag_value', 'Email register text')]
+                        ('tag_value', 'Er text')]
         response = self.client.open(
             '/teameval/Eval/1.0.0/surveys',
             method='GET',
