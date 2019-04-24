@@ -29,17 +29,35 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `mydb`.`user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`user` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NULL,
+  `e-mail` VARCHAR(50) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `mydb`.`survey`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`survey` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `URL` VARCHAR(50) NULL,
   `instructor_ID` INT NOT NULL,
+  `user_ID` INT NOT NULL,
   PRIMARY KEY (`ID`),
   INDEX `fk_survey_instructor1_idx` (`instructor_ID` ASC),
+  INDEX `fk_survey_user1_idx` (`user_ID` ASC),
   CONSTRAINT `fk_survey_instructor1`
     FOREIGN KEY (`instructor_ID`)
     REFERENCES `mydb`.`instructor` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_survey_user1`
+    FOREIGN KEY (`user_ID`)
+    REFERENCES `mydb`.`user` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

@@ -179,6 +179,11 @@ def survey_put():  # noqa: E501
             'email_invite', 'email_remind', 'email_register', and 'email_confirm'
     """
     
+    # Retrieve the ID of the current user
+    cursor.execute("select ID from user where `e-mail` = '"
+                   + session['email'] + "';")
+    user_ID = str(cursor.fetchone()[0])
+    
     # An instructor key must be in the input
     if 'instructor' not in request.json.keys():
         return 'no matching instructor found'
@@ -212,7 +217,8 @@ def survey_put():  # noqa: E501
         survey_ID = str(cursor.fetchone()[0])
         cursor.execute("update survey set URL = '" + request.json['URL']
                        + "', instructor_ID = " + instructor_ID
-                       + " where ID = " + survey_ID + ";")
+                       + ", user_ID = " + user_ID + " where ID = "
+                       + survey_ID + ";")
     else:
         # If survey with name does not exist, make new survey and tag rows
         # Survey and tag row IDs are 1 higher than the current maximum IDs
@@ -220,7 +226,8 @@ def survey_put():  # noqa: E501
         survey_ID = cursor.fetchone()[0]
         survey_ID = str(survey_ID + 1) if survey_ID else '1'
         cursor.execute("insert into survey values (" + survey_ID + ", '"
-                       + request.json['URL'] + "', " + instructor_ID + ");")
+                       + request.json['URL'] + "', " + instructor_ID + ", "
+                       + user_ID + ");")
         cursor.execute("select max(ID) from tag;")
         tag_ID = cursor.fetchone()[0]
         tag_ID = str(tag_ID + 1) if tag_ID else '1'
@@ -384,10 +391,10 @@ def surveys_get(tag_type=None, tag_value=None):  # noqa: E501
     if tag_type and tag_value:
         # Retrieve the survey IDs for a given tag value and e-mail address
         cursor.execute("select survey.ID from survey, survey_to_tag, tag, " \
-            "instructor where survey.ID = survey_to_tag.survey_ID && " \
+            "user where survey.ID = survey_to_tag.survey_ID && " \
             "survey_to_tag.tag_ID = tag.ID && tag.type = '" + tag_type
-            + "' && tag.value = '" + tag_value + "' && survey.instructor_ID " \
-            "= instructor.ID && instructor.`e-mail` = '" + email + "';")
+            + "' && tag.value = '" + tag_value + "' && survey.user_ID " \
+            "= user.ID && user.`e-mail` = '" + email + "';")
         survey_IDs = cursor.fetchall()
         
         # Retrieve the names of the surveys with the given IDs
@@ -399,10 +406,10 @@ def surveys_get(tag_type=None, tag_value=None):  # noqa: E501
     else:
         # Retrieve the survey names for a given e-mail address
         cursor.execute("select value from tag, survey_to_tag, survey, " \
-            "instructor where type = 'name' && tag.ID = " \
+            "user where type = 'name' && tag.ID = " \
             "survey_to_tag.tag_ID && survey_to_tag.survey_ID = " \
-            "survey.ID && survey.instructor_ID = instructor.ID && " \
-            "instructor.`e-mail` = '" + email + "';")
+            "survey.ID && survey.user_ID = user.ID && " \
+            "user.`e-mail` = '" + email + "';")
         survey_names = cursor.fetchall()
     
     # Return survey names
@@ -421,9 +428,9 @@ def tag_values_get(tag_type):
     email = session['email']                # Use e-mail of current user
     
     cursor.execute("select value from tag, survey_to_tag, survey, " \
-        "instructor where tag.type = '" + tag_type + "' && tag.ID = " \
+        "user where tag.type = '" + tag_type + "' && tag.ID = " \
         "survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && " \
-        "survey.instructor_ID = instructor.ID && instructor.`e-mail` = '"
+        "survey.user_ID = user.ID && user.`e-mail` = '"
         + email + "';")
     
     return [value[0] for value in cursor.fetchall()]
@@ -457,18 +464,16 @@ def validate():
     if (r.status_code == 200):          # If request is successful
         # Load user's full name and e-mail address into a session object
         data = r.json()
-        session['name'] = data['name']
         session['email'] = data['email']
         
         # Add the user to the instructor table if not there
-        # Instructor ID is one higher than the current maximum ID
-        cursor.execute("select max(ID) from instructor;")
-        instructor_ID = cursor.fetchone()[0]
-        # Use '1' if no instructor IDs are in table
-        instructor_ID = str(instructor_ID + 1) if instructor_ID else '1'
-        cursor.execute("insert ignore into instructor values (" + instructor_ID
-                       + ", '" + session['name'] + "', '"
-                       + session['email'] + "')")
+        # User ID is one higher than the current maximum ID
+        cursor.execute("select max(ID) from user;")
+        user_ID = cursor.fetchone()[0]
+        # Use '1' if no user IDs are in table
+        user_ID = str(user_ID + 1) if user_ID else '1'
+        cursor.execute("insert ignore into user values (" + user_ID
+                       + ", '', '" + session['email'] + "')")
         
         return session['email']         # Return the user's e-mail address
     else: 
