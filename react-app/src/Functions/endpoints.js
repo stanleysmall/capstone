@@ -59,9 +59,18 @@ export const getResults = (cat_type, cat_name) =>
 			})
 }
 
-export const publishEval = (evalName) =>
+export const publishEval = (name) =>
 {
-    console.log("publish " + evalName)
+    eval = getEval(name);
+    eval.published = true;
+    putEval(eval);
+    
+    return fetch(APIAddress +"publish?name=" + name)
+    .then(response =>response.json())
+    .then((responseData) => {
+        console.log(responseData);
+        return responseData;
+    })
 }
 
 export const getTagValues = (cat_type) =>

@@ -76,6 +76,7 @@ export const formatSurvey = (survey) =>
     //email_reminder        <------------------------------------------ breaks naming convention, required tag name by API
     evalTemplate.email_reminder = survey.data.reminderEmail;
 
+    evalTemplate.published = false;
     //-------------------------------------------------TODO-------------------------------------------------------
     //description
     //welcometext
