@@ -185,7 +185,7 @@ const generateQuestions = (surveyData) =>
     if(surveyData.hasOwnProperty("Open Ended Custom Questions"))
     {
         currentData = surveyData["Open Ended Custom Questions"];
-        for(var currentQuestion in currentData)
+        for(currentQuestion in currentData)
         {
             if(currentData[currentQuestion].hasOwnProperty("include"))
             {
@@ -207,7 +207,7 @@ const generateQuestions = (surveyData) =>
 
     
                 //Deep copy
-                var temp = JSON.parse(JSON.stringify(question));
+                temp = JSON.parse(JSON.stringify(question));
                 questions.push(temp);
             }
         }

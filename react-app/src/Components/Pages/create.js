@@ -6,7 +6,7 @@ import {Redirect} from "react-router";
 
 import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
 
-import {putEval, getEvalNames} from "../../Functions/endpoints.js";
+import {putEval, getEvalNames, publishEval} from "../../Functions/endpoints.js";
 import {formatSurvey, loadEvaluation} from "../../Functions/parsing.js";
 
 import {survey} from "../../vars";
@@ -19,6 +19,7 @@ class Create extends Component {
     state = {
         complete: false,
         useTemplate: false,
+        savedEval: false,
         loadableEvals : [{id:0, name:"Select an evaluation"},                  
                         ]
 
@@ -99,8 +100,9 @@ class Create extends Component {
         //Put the formatted survey into the database
         putEval(this.evalTemplate)
 
-        //redirect home 
-        //this.props.history.push("/home/");
+        this.setState({savedEval: true});
+        this.setState({evalName: this.evalTemplate.name})
+
     }
     
 
@@ -132,6 +134,22 @@ class Create extends Component {
 
                 
                 )
+        }
+
+        if(this.state.savedEval)
+        {
+            return(
+                <div>
+                    <LoggedInHeader/>
+                    <center>
+                    Your evaluation <b>{this.state.evalName}</b> has been saved but not published.  You can publish it now by pressing the publish button bellow or wait to publish it at a later date.  
+                    <br/>
+                    <button onClick = {() => {publishEval(this.state.evalName); this.props.history.push("/home/")}}> Publish </button>&emsp;
+                    <button onClick = {() => this.props.history.push("/home/")}> Home </button>
+                    </center>
+
+                </div>
+            )
         }
 
         //default to new survey

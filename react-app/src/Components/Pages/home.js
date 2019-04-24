@@ -80,7 +80,7 @@ class Home extends Component {
 				break;
 			}
 		}
-        if(this.resultsTag != 'Select a report')
+        if(this.resultsTag !== 'Select a report')
         {
             this.props.history.push("/results/" + tagName + "/" + tag);
         }
