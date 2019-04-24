@@ -99,7 +99,7 @@ export const getEvalNames = () =>
 
 export const loginEndpoint = (key) =>
 {
-    return fetch(APIAdress +"login?key=" + {key})
+    return fetch(APIAddress +"login?key=" + {key})
             .then(response => response.json())
             .then((responseData) => {
                 return responseData;

@@ -3,7 +3,7 @@ import {LoggedOutHeader} from "../displayComponents";
 import GoogleLogin from 'react-google-login';
 import {Redirect} from "react-router";
 import {oAuthClientID} from "../../vars";
-import { publishEval, getUnpublishedEvalNames, getPublishedEvalNames, getTagValues } from "../../Functions/endpoints";
+import { loginEndpoint } from "../../Functions/endpoints";
 
 class Landing extends Component {
     
