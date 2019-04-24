@@ -490,7 +490,7 @@ def publish_get(name):  # noqa: E501
     """
     
     # Translate survey data into a .txt file
-    text, survey_ID = translate_to_txt(name)
+    text, survey_ID, remind = translate_to_txt(name)
     if not survey_ID:
         return 'invalid survey name'
     
@@ -517,16 +517,18 @@ def publish_get(name):  # noqa: E501
     if anonymize:
         # Activate anonymized survey on LimeSurvey
         lime.set_survey_property(survey_ID, 'anonymized', 'true')
+    
     lime.activate_survey(survey_ID)
     # Send invitation e-mails to survey participants
     lime.invite_participants(survey_ID)
     
-    # Send reminder e-mails after 3, 6, and 9 days
-    for i in range(1, 4):
-        # There are 259,200 seconds in a day
-        timer = Timer(i*259200, remind_participants, (survey_ID,))
-        timer.start()
-        timers.append(timer)
+    if remind:
+        # Send reminder e-mails after 3, 6, and 9 days
+        for i in range(1, 4):
+            # There are 259,200 seconds in a day
+            timer = Timer(i*259200, remind_participants, (survey_ID,))
+            timer.start()
+            timers.append(timer)
     
     return 'success'
 
@@ -602,6 +604,8 @@ def translate_to_txt(name):
     email_invite = str(cursor.fetchone()[0])
     cursor.execute(value_query.format('email_remind'))
     email_remind = str(cursor.fetchone()[0])
+    # Do not remind students if email_remind is empty
+    remind = email_remind != ''
     cursor.execute(value_query.format('email_register'))
     email_register = str(cursor.fetchone()[0])
     cursor.execute(value_query.format('email_confirm'))
@@ -687,7 +691,7 @@ def translate_to_txt(name):
     # Close files and return the text and survey ID
     fil.close()
     template.close()
-    return text, int(survey_ID)
+    return text, int(survey_ID), remind
     
 
 def results_get(cat_type, cat_name):  # noqa: E501
