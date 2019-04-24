@@ -28,10 +28,11 @@ class Landing extends Component {
     */
     login(response)
     {
+        var login = loginEndpoint(response.Zi.access_token).then(() =>{
         global.access_token = response.Zi.access_token;
         console.log(response.Zi.access_token);
-        loginEndpoint(response.Zi.access_token);
         this.setState({loggedIn: true});
+        })
         
     }
 

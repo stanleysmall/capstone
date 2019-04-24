@@ -123,11 +123,11 @@ class Create extends Component {
     render() {
 
         //If the user isnt logged in redirect them to the landing page
-        /*if(global.access_token === undefined)
+        if(global.access_token === undefined)
         {
             return(<Redirect to ="/"/>);
         }
-        */
+        
 
 
 

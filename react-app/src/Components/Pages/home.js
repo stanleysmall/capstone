@@ -16,15 +16,17 @@ class Home extends Component {
        
         };
 		
-		reportsInstructor=getTagValues('instructor');
-		reportsCourseSec=getTagValues('course_section');
-		reportsCourseDes=getTagValues('course_designator');
-		reportsUnit=getTagValues('unit');
-		reportsCollege=getTagValues('college');
-		reportsUniversity=getTagValues('university');
+
+        
 		
 		componentDidMount() {
         document.title = 'Home Page';
+        this.reportsInstructor=getTagValues('instructor');
+		this.reportsCourseSec=getTagValues('courseSection');
+		this.reportsCourseDes=getTagValues('courseDesignator');
+		this.reportsUnit=getTagValues('facultyUnit');
+		this.reportsCollege=getTagValues('college');
+        this.reportsUniversity=getTagValues('university');
       }
     
     constructor(props)

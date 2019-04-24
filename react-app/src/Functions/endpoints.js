@@ -77,7 +77,7 @@ export const publishEval = (name) =>
 export const getTagValues = (cat_type) =>
 {
 
-	return fetch(APIAddress + "tag?cat_type=" + cat_type)
+	return fetch(APIAddress + "tag_values?tag_type=" + cat_type)
 			.then(response =>response.json())
 			.then((responseData) => {
 				console.log("Tags " + responseData);
@@ -102,7 +102,8 @@ export const loginEndpoint = (key) =>
     return fetch(APIAddress +"login?key=" + {key})
             .then(response => response.json())
             .then((responseData) => {
-                return responseData;
+                console.log("logged In");
+                return "logged In";
             })
 }
 
