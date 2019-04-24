@@ -257,6 +257,11 @@ class TestTeachersController(BaseTestCase):
         survey with 'name' is updated with new information
         """
         
+        # Assume Torsten Hahmann is the user
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Torsten Hahmann'
+            sess['email'] = 'torsten.hahmann@maine.edu'
+        
         query = {
             "URL": "example2.com",
             "instructor": "Torsten Hahmann",
@@ -290,7 +295,7 @@ class TestTeachersController(BaseTestCase):
         
         self.cursor.execute("select * from survey;")
         # The instructor ID must be 2, referring to Torsten
-        self.assertEqual(self.cursor.fetchall()[0], (1, 'example2.com', 2))
+        self.assertEqual(self.cursor.fetchall()[0], (1, 'example2.com', 2, 2))
         self.cursor.execute("select * from participant;")
         # The participants Jovon Craig and Stanley Small must be added
         self.assertEqual(self.cursor.fetchall()[3:],
@@ -330,6 +335,10 @@ class TestTeachersController(BaseTestCase):
         survey with new 'name' and 'instructor' is added into the database
         """
         
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Roy Turner'
+            sess['email'] = 'roy.turner@maine.edu'
+        
         query = {
             "URL": "example2.com",
             "instructor": "Carol Roberts",
@@ -363,7 +372,7 @@ class TestTeachersController(BaseTestCase):
         
         self.cursor.execute("select * from survey;")
         # The new instructor ID must be 2 plus 1, referring to Carol
-        self.assertEqual(self.cursor.fetchall()[2], (3, 'example2.com', 3))
+        self.assertEqual(self.cursor.fetchall()[2], (3, 'example2.com', 3, 1))
         self.cursor.execute("select * from participant;")
         # The participants Jovon Craig and Stanley Small must be added
         self.assertEqual(self.cursor.fetchall()[3:],
@@ -403,6 +412,10 @@ class TestTeachersController(BaseTestCase):
         survey with new 'name' and 'instructor' is added into the database
         """
         
+        with self.client.session_transaction() as sess:
+            sess['name'] = 'Roy Turner'
+            sess['email'] = 'roy.turner@maine.edu'
+        
         query = {
             "URL": "example2.com",
             "instructor": "Sudarshan Chawathe",
@@ -437,7 +450,7 @@ class TestTeachersController(BaseTestCase):
         self.cursor.execute("select * from survey;")
         # The new instructor ID must be 2 plus 1, referring to Chaw,
         # instructor ID = 3, survey ID = 3
-        self.assertEqual(self.cursor.fetchall()[2], (3, 'example2.com', 3))
+        self.assertEqual(self.cursor.fetchall()[2], (3, 'example2.com', 3, 1))
         self.cursor.execute("select * from participant;")
         # No new participants must be added
         self.assertEqual(self.cursor.fetchall()[2:],
