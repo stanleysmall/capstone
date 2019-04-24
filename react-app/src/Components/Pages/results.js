@@ -3,6 +3,7 @@ import {Redirect} from "react-router";
 import {LoggedInHeader} from "../displayComponents";
 import {getResults} from "../../Functions/endpoints.js";
 import "../../CSS/App.css";
+import {CSVLink, CSVDownload} from 'react-csv';
 
 
 class Results extends Component {
@@ -21,6 +22,7 @@ class Results extends Component {
 						}
 		
 	};*/
+	
 	resultsJson = getResults(this.tagName,this.tag);
 	
 	
@@ -30,7 +32,7 @@ class Results extends Component {
 
 	createTable = () => {
 		let table = []
-		
+
 		for(var question in this.resultsJson){
 			let children = []
 			table.push(<h2>{question}</h2>)
@@ -58,6 +60,26 @@ class Results extends Component {
 		
 	}
 	
+	createTableForCSV = () => {
+		let table= [['Question','Survey','Median','Mean','Standard Deviation','n']]
+		
+		for(var question in this.resultsJson){
+			var Q = this.resultsJson[question]
+			for (var survey in Q) {
+				var S = Q[survey]
+				let newItem = [question,survey]
+				for(var item in S){
+					var value = this.resultsJson[question][survey][item]
+					newItem.push(value)
+				}
+				table.push(newItem)
+
+			}
+			
+		}
+		return table;
+	}
+	
 	
 	
     render() {
@@ -70,9 +92,11 @@ class Results extends Component {
 		
         return(
 		
-        <form>
+        <form>	
                 <LoggedInHeader/>
             <div>
+				<CSVLink data={this.createTableForCSV()}>Download Results</CSVLink>
+				<h3>Displaying Results for {this.tag}</h3>
 				<table>
 				{this.createTable()}
 				</table>

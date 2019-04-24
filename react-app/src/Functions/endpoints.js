@@ -64,6 +64,17 @@ export const publishEval = (evalName) =>
     console.log("publish " + evalName)
 }
 
+export const getTagValues = (cat_type) =>
+{
+
+	return fetch(APIAddress + "tag?cat_type=" + cat_type)
+			.then(response =>response.json())
+			.then((responseData) => {
+				console.log("Tags " + responseData);
+				return responseData;
+			})
+}
+
 /*
     Returns: A list of all the names of surveys the user has created in the past
 */
