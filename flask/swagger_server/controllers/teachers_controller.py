@@ -446,6 +446,7 @@ def login_get(key):  # noqa: E501
     """
     
     session['token'] = key
+    logging.info(key)
     return validate()
 
 
