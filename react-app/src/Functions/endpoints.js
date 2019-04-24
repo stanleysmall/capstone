@@ -61,10 +61,11 @@ export const getResults = (cat_type, cat_name) =>
 
 export const publishEval = (name) =>
 {
-    eval = getEval(name);
+    /*eval = getEval(name);
     eval.published = true;
     putEval(eval);
-    
+    */
+
     return fetch(APIAddress +"publish?name=" + name)
     .then(response =>response.json())
     .then((responseData) => {

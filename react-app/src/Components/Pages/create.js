@@ -6,7 +6,7 @@ import {Redirect} from "react-router";
 
 import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
 
-import {putEval} from "../../Functions/endpoints.js";
+import {putEval, getEvalNames} from "../../Functions/endpoints.js";
 import {formatSurvey, loadEvaluation} from "../../Functions/parsing.js";
 
 import {survey} from "../../vars";
@@ -47,16 +47,12 @@ class Create extends Component {
         defaultThemeColors["$main-hover-color"] = "#45a049";
         Survey.StylesManager.applyTheme();
 
-        //var oldEvalNames = getEvalNames(); <------------------------------for when api calls work, currently just use list of example eval names
+        var evalNames = getEvalNames();
 
-        var oldEvalNames = ["test eval", "test eval 2"];
-
-        for(var i = 0; i < oldEvalNames.length; i++)
+        for(var i = 0; i < evalNames.length; i ++)
         {
-            this.state.loadableEvals.push({id: i+1, name: oldEvalNames[i]})
+            this.state.loadableEvals[i+1] = {id:i+1, name:evalNames[i]} 
         }
-
-        //console.log(getEval("COS 140 001"));
     }
 
     componentDidMount() {

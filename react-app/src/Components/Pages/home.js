@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {Redirect} from "react-router";
 import {LoggedInHeader, DynamicSelecter, RadioSelecter} from "../displayComponents";
-import { publishEval, getUnpublishedEvalNames, getPublishedEvalNames } from "../../Functions/endpoints";
-import { getUnpublishedEvalNames, getPublishedEvalNames, getTagValues } from "../../Functions/endpoints";
+import { publishEval, getUnpublishedEvalNames, getPublishedEvalNames, getTagValues } from "../../Functions/endpoints";
 import "../../CSS/App.css";
 
 class Home extends Component {
