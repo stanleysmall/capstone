@@ -21,12 +21,13 @@ class Home extends Component {
 		
 		componentDidMount() {
         document.title = 'Home Page';
-        this.reportsInstructor=getTagValues('instructor');
+        /*this.reportsInstructor=getTagValues('instructor');
 		this.reportsCourseSec=getTagValues('courseSection');
 		this.reportsCourseDes=getTagValues('courseDesignator');
 		this.reportsUnit=getTagValues('facultyUnit');
 		this.reportsCollege=getTagValues('college');
         this.reportsUniversity=getTagValues('university');
+        */
       }
     
     constructor(props)
