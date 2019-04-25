@@ -562,7 +562,7 @@ def get_template_text(name, typ):
     
 
 def translate_to_txt(name):
-    """translate the survey with a given name to a text file that can be
+    """translate the survey with a given name to text that can be
        imported into the LimeSurvey database
     
     :param name: the name for a survey
@@ -577,14 +577,13 @@ def translate_to_txt(name):
                    + name + "';")
     result = cursor.fetchone()
     if not result:          # Return error if no survey with "name" is found
-        return None, None
+        return None, None, None
     survey_ID = str(result[0])
     # Used to retreive the value for a given tag
     value_query = "select value from tag, survey_to_tag where " \
                   "survey_to_tag.survey_ID = " + survey_ID + " && " \
                   "survey_to_tag.tag_ID = tag.ID && tag.type = '{}';"
     
-    fil = open(name + '.txt', 'w')
     template = open('template.txt', 'r')
     text = template.readline()      # Output survey text, begins with headers
     lines = template.readlines()    # Text from survey template
@@ -612,11 +611,12 @@ def translate_to_txt(name):
     email_confirm = str(cursor.fetchone()[0])
 
     # Add rows containing general info and e-mail templates
-    values = [survey_ID, '1', 'Administrator', 'your-email@example.net', 'N',
-              '', 'G', 'N', 'fruity', 'en', '', 'N', 'N', 'N', 'Y', '0', 'N',
-              'N', 'N', 'N', 'N', '0', 'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N',
-              'N', 'your-email@example.net', '', '', '15', 'Y', 'B', 'N', 'X',
-              'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', title,
+    values = [survey_ID, '1', 'Administrator',
+              'admin@teachingevaluations.org', 'N', '', 'G', 'N', 'fruity',
+              'en', '', 'N', 'N', 'N', 'Y', '0', 'N', 'N', 'N', 'N', 'N', '0',
+              'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N',
+              'admin@teachingevaluations.org', '', '', '15', 'Y', 'B', 'N',
+              'X', 'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', title,
               description, welcometext, endtext, '', '',
               'Invitation to participate in a survey', email_invite,
               'Reminder to participate in a survey', email_remind,
@@ -654,7 +654,7 @@ def translate_to_txt(name):
         # Add questions only if a group contains questions
         if question_IDs:
             # Add row for group header
-            questions.append({'id': str(i+1), 'class': 'G', 'type': '1',
+            questions.append({'id': str(i+1), 'class': 'G', 'type': str(i+1),
                               'name': groups[i], 'relevance': '', 'text': '',
                               'language': 'en', 'mandatory': ''})
             
@@ -684,12 +684,8 @@ def translate_to_txt(name):
             text += '\tN\t\t0' + '\t'*129 + '\n'
         else:                           # If row refers to a group header
             text += '\t'*132 + '\n'
-    
-    # Write survey text to a .txt file
-    fil.write(text)
-    
-    # Close files and return the text and survey ID
-    fil.close()
+
+    # Close template and return the text, survey ID, and remind flag
     template.close()
     return text, int(survey_ID), remind
     
