@@ -1,5 +1,5 @@
 
-export const oAuthClientID = "120537157290-mtdj0mjahrhvq284uqguu8j5hophplc5.apps.googleusercontent.com";
+export const oAuthClientID = "410688583447-dashcvq6bs4t85lujq542hegi8jf9gmn.apps.googleusercontent.com";
 
 
 //Questions which require a text box, all other questions will be rated 1-5
