@@ -75,10 +75,10 @@ export const formatSurvey = (survey) =>
     evalTemplate.email_invite = survey.data.initialEmail;
     //email_reminder        <------------------------------------------ breaks naming convention, required tag name by API
     evalTemplate.email_remind = "";
-    evalTemplate.email_remind = survey.data.reminderEmail;
+    if(survey.data.reminderEmail != null)
+        evalTemplate.email_remind = survey.data.reminderEmail;
 
     evalTemplate.published = "F";
-    //-------------------------------------------------TODO-------------------------------------------------------
     evalTemplate.description = "This is a teaching evaluation for " + evalTemplate.name;
     evalTemplate.welcometext = "Please complete the evaluation for " + evalTemplate.name;
     evalTemplate.endtext = "Thank you for taking this evaluation";

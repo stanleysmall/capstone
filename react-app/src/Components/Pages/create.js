@@ -6,7 +6,7 @@ import {Redirect} from "react-router";
 
 import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
 
-import {putEval, getEvalNames, publishEval} from "../../Functions/endpoints.js";
+import {getEval,putEval, getEvalNames, publishEval} from "../../Functions/endpoints.js";
 import {formatSurvey, loadEvaluation} from "../../Functions/parsing.js";
 
 import {survey} from "../../vars";
@@ -18,18 +18,16 @@ class Create extends Component {
 
     state = {
         complete: false,
-        useTemplate: false,
         savedEval: false,
-        loadableEvals : [{id:0, name:"Select an evaluation"}, 
-                        {id:1, name:"asfd"}                 
-                        ]
+        loadableEvals : [{id:0, name:"Select an evaluation"},                  
+                        ],
+        model:new Survey.Model(this.surveyJSON)
 
     };
 
     //JSON which defines the format of the survey that 
     //users fill out of create an evaluation.  Stores in questionTemplate.js
     surveyJSON = survey;
-    model = new Survey.Model(this.surveyJSON);
     evaltemplate = exampleOldEvaluation;
     testData = JSON.stringify(this.evaltemplate,null,2)
     /*
@@ -38,8 +36,6 @@ class Create extends Component {
     constructor(props){
         super(props);
         
-
-
         //Bind this in the onComplete function so we can access state and other functions through it
         this.onComplete = this.onComplete.bind(this);
 
@@ -51,17 +47,18 @@ class Create extends Component {
         defaultThemeColors["$main-color"] = "#4CAF50";
         defaultThemeColors["$main-hover-color"] = "#45a049";
         Survey.StylesManager.applyTheme();
-
-        var evalNames = getEvalNames();
-
-        for(var i = 0; i < evalNames.length; i ++)
-        {
-            this.state.loadableEvals[i+1] = {id:i+1, name:evalNames[i]} 
-        }
     }
 
     componentDidMount() {
         document.title = 'Create Page';
+        getEvalNames().then((responseData)=>{
+            for(var i = 0; i < responseData.length; i ++)
+            {
+                this.setState({loadableEvals: this.state.loadableEvals.concat([{id:i+1, name:responseData[i]}])});
+            }
+        })
+        this.surveyJSON = loadEvaluation(survey, this.surveyJSON)
+        this.setState({useTemplate: false});
     }
 
     /*
@@ -75,8 +72,8 @@ class Create extends Component {
         console.log(name);
         if(name !== "Select an evaluation")
         {
-            //loadEvaluation(getEval(name), this.surveyJSON) <------------------------------for when api calls work, currently just load the one example old eval
-            this.surveyJSON = loadEvaluation(exampleOldEvaluation, this.surveyJSON);
+            getEval(name).then((response)=>{
+                this.surveyJSON = loadEvaluation(response, this.surveyJSON)
             
             /*
             this.surveyJSON.pages[0].elements[1].defaultValue.semesterYear = "";
@@ -84,9 +81,13 @@ class Create extends Component {
             this.surveyJSON.pages[0].elements[1].defaultValue.closeDate = "";
             this.surveyJSON.pages[0].elements[1].defaultValue.reminderTime = "";
             */
-
             
             this.setState({useTemplate: true});
+            })
+
+            //this.surveyJSON = loadEvaluation(exampleOldEvaluation, this.surveyJSON);
+            
+
         }
     
     }
@@ -115,7 +116,7 @@ class Create extends Component {
 
         //Fresh survey JSON
         this.surveyJSON = survey;
-        this.model = new Survey.Model(this.surveyJSON);
+        this.setState({model : new Survey.Model(this.surveyJSON)});
 
     }
     
@@ -128,9 +129,6 @@ class Create extends Component {
             return(<Redirect to ="/"/>);
         }
         
-
-
-
         if(this.state.savedEval)
         {
             return(
@@ -151,29 +149,10 @@ class Create extends Component {
             )
         }
 
-        //Load a new survey with the template
-        else if(this.state.useTemplate)
-        {
-            this.model = new Survey.Model(this.surveyJSON);
-
-            return(    
-                <div>
-                <LoggedInHeader/>     
-    
-                <div id="survey">
-                    <Survey.Survey model={this.model} onComplete={this.onComplete}/>
-                </div>
-
-                </div>
-
-                
-                )
-        }
-
         //default to new survey
         else{
 
-            this.model = new Survey.Model(this.surveyJSON);
+            this.state.model = new Survey.Model(this.surveyJSON);
 
             return(
                 <div>
@@ -187,7 +166,7 @@ class Create extends Component {
                     <br/>
 
                     <div id="survey">
-                        <Survey.Survey model={this.model} onComplete={this.onComplete}/>
+                        <Survey.Survey model={this.state.model} onComplete={this.onComplete}/>
                     </div>
 
                     <script id="testingData" object={this.testData}/>

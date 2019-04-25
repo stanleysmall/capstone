@@ -44,7 +44,6 @@ export const getEval = (name) =>
     return fetch(APIAddress +"survey?name=" + name)
             .then(response =>response.json())
             .then((responseData) => {
-                console.log(responseData);
                 return responseData;
             })
 }
@@ -54,22 +53,29 @@ export const getResults = (cat_type, cat_name) =>
 	return fetch(APIAddress + "results?cat_type="+ cat_type + "&cat_name=" + cat_name)
 			.then(response =>response.json())
 			.then((responseData) => {
-				console.log("results " + responseData);
 				return responseData;
 			})
 }
 
-export const publishEval = (name) =>
+export const markPublished = (name) =>
 {
-    /*eval = getEval(name);
-    eval.published = true;
-    putEval(eval);
-    */
+    return getEval(name)
+    .then((response) => {
+        console.log(response);
+        response.published = "T";
+        putEval(response);
+    })
+}
 
+export const publishEval = (name) =>
+{   
+    /*        getEval(name).then((response)=>{
+            response.published = "T";
+            putEval(response);
+        });*/
     return fetch(APIAddress +"publish?name=" + name)
     .then(response =>response.json())
     .then((responseData) => {
-        console.log(responseData);
         return responseData;
     })
 }
@@ -80,7 +86,6 @@ export const getTagValues = (cat_type) =>
 	return fetch(APIAddress + "tag_values?tag_type=" + cat_type)
 			.then(response =>response.json())
 			.then((responseData) => {
-				console.log("Tags " + responseData);
 				return responseData;
 			})
 }
@@ -115,7 +120,6 @@ export const getUnpublishedEvalNames = () =>
     return fetch(APIAddress +"surveys?tag_type=published&tag_value=F")
     .then(response =>response.json())
     .then((responseData) => {
-        console.log(responseData);
         return responseData;
     })
 }
@@ -128,7 +132,6 @@ export const getPublishedEvalNames = () =>
     return fetch(APIAddress +"surveys?tag_type=published&tag_value=T")
     .then(response =>response.json())
     .then((responseData) => {
-        console.log(responseData);
         return responseData;
     })
 }

@@ -82,7 +82,6 @@ export class RadioSelecter extends Component {
 		return(
 			<fieldset id = {this.props.iden}>
 				<input type="radio" name="resultTagType" value="instructor" defaultChecked /> Instructor<br/>
-				<input type="radio" name="resultTagType" value="course_section"/> Course Section<br/>
 				<input type="radio" name="resultTagType" value="course_designator"/> Course Designator<br/>
 				<input type="radio" name="resultTagType" value="unit"/> Unit<br/>
 				<input type="radio" name="resultTagType" value="college"/> College<br/>

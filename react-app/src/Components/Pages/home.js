@@ -2,52 +2,49 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {Redirect} from "react-router";
 import {LoggedInHeader, DynamicSelecter, RadioSelecter} from "../displayComponents";
-import { publishEval, getUnpublishedEvalNames, getPublishedEvalNames, getTagValues } from "../../Functions/endpoints";
+import {getEvalNames, publishEval, getUnpublishedEvalNames, getPublishedEvalNames, getTagValues } from "../../Functions/endpoints";
 import "../../CSS/App.css";
 
 class Home extends Component {
     state = {
         editableEvals : [{id:0, name:"Select an evaluation"},                 
                         ],
-        inactiveEvals : [{id:0, name:"Select an evaluation"},               
+        allEvals : [{id:0, name:"Select an evaluation"},               
                         ],
-		reports : [{id:0, name: "Roy Turner"},
-					{id:1, name: "Terry Yoo"},],
-       
-        };
-		
+		reports : [ {id:0, name: "Roy Turner"},
+				    {id:1, name: "Terry Yoo"},],
+        boolThing : false
+    };
+    
 
-        
-		
-		componentDidMount() {
+    
+    
+    componentDidMount() {
+    
         document.title = 'Home Page';
         this.reportsInstructor=getTagValues('instructor');
-		this.reportsCourseSec=getTagValues('courseSection');
-		this.reportsCourseDes=getTagValues('courseDesignator');
-		this.reportsUnit=getTagValues('facultyUnit');
-		this.reportsCollege=getTagValues('college');
+        this.reportsCourseSec=getTagValues('courseSection');
+        this.reportsCourseDes=getTagValues('courseDesignator');
+        this.reportsUnit=getTagValues('facultyUnit');
+        this.reportsCollege=getTagValues('college');
         this.reportsUniversity=getTagValues('university');
-        
-        var unpublishedEvals = getUnpublishedEvalNames();
-        var publishedEvals = getPublishedEvalNames();
 
-        for(var i = 0; i < unpublishedEvals.length; i ++)
-        {
-            this.state.editableEvals[i+1] = {id:i+1, name:unpublishedEvals[i]} 
-        }
+        getUnpublishedEvalNames().then((responseData)=>{
+            for(var i = 0; i < responseData.length; i ++)
+            {
+                this.setState({editableEvals: this.state.editableEvals.concat([{id:i+1, name:responseData[i]}])});
+            }
+        })
 
-        for(i = 0; i < publishedEvals.length; i ++)
-        {
-            this.state.inactiveEvals[i+1] = {id:i+1, name:publishedEvals[i]} 
-        }
-        }
-    
-    constructor(props)
-    {
-        super(props);
-        //console.log(global.access_token);
+        getEvalNames().then((responseData) =>{
+            
+            for(var i = 0; i < responseData.length; i ++)
+            {
+                this.setState({allEvals: this.state.allEvals.concat([{id:i+1, name:responseData[i]}])});
+            }
+            })
 
-
+            console.log("COMPONENT DID MOUNT");
     }
 
     edit(value)
@@ -97,7 +94,6 @@ class Home extends Component {
         {
             return(<Redirect to ="/"/>);
         }
-
         return(
             <div>
                 <LoggedInHeader/>
@@ -107,14 +103,14 @@ class Home extends Component {
                         <button  id = "create" type="homeScreenButton">Create</button>
                     </Link>
                     
-
+                    
                     <h3>2. Edit an Existing Unpublished Course Evaluation Form</h3>
                     <DynamicSelecter list={this.state.editableEvals} iden={"editSelector"}/>&emsp;
                     <button  type="homeScreenButton" onClick = {() => this.edit(document.getElementById("editSelector").value)}>Edit</button>
                     
 
                     <h3>3. View Old Course Evaluation Form</h3>
-                    <DynamicSelecter list={this.state.inactiveEvals} iden={"inactiveSelector"}/>&emsp;
+                    <DynamicSelecter list={this.state.allEvals} iden={"inactiveSelector"}/>&emsp;
                     <button type="homeScreenButton" onClick = {() => this.view(document.getElementById("inactiveSelector").value)}>View</button>
                     
                     <h3>4. Publish an Unpublished Evaluation Form</h3>
@@ -127,8 +123,7 @@ class Home extends Component {
                     <DynamicSelecter list={this.state.reports} iden={"reports"}/>&emsp;
 						
                     <button type="homeScreenButton" onClick = {() => this.results(document.getElementById("tags").value, document.getElementById("reports").value)}>View Results</button>
-						
-                </div>
+            </div>
         )
     }
 	
