@@ -5,6 +5,7 @@ import base64
 import logging
 import time
 from threading import Timer
+from datetime import datetime
 
 from flask import jsonify
 from flask import session
@@ -23,7 +24,6 @@ logging.basicConfig(level=logging.INFO)     # Enable logging
 lime = Api('http://10.5.0.5/index.php/admin/remotecontrol', 'admin',
            'password')
 
-anonymize = True                    # True iff survey responses are anonymous
 timers = []                         # Timers to stop after testing
 
 # Connect to MySQL database
@@ -58,8 +58,6 @@ def survey_delete(name):  # noqa: E501
         survey_ID = str(survey_ID[0])
         # Delete all rows in the database that reference the survey
         cursor.execute("delete from survey_to_tag where survey_ID = "
-                       + survey_ID + ";")
-        cursor.execute("delete from response where survey_ID = "
                        + survey_ID + ";")
         cursor.execute("delete from survey_to_question where survey_ID = "
                        + survey_ID + ";")
@@ -321,8 +319,6 @@ def survey_put():  # noqa: E501
                            + survey_ID + ", " + question_ID + ");")
     # Remove questions for the survey that were not in request
     for ID in old_questions:
-        cursor.execute("delete from response where survey_ID = " + survey_ID
-                       + " && question_ID = " + ID + ";")
         cursor.execute("delete from survey_to_question where survey_ID = "
                        + survey_ID + " && question_ID = " + ID + ";")
     
@@ -490,7 +486,7 @@ def publish_get(name):  # noqa: E501
     """
     
     # Translate survey data into a .txt file
-    text, survey_ID, remind = translate_to_txt(name)
+    text, survey_ID, startdate, remind = translate_to_txt(name)
     if not survey_ID:
         return 'invalid survey name'
     
@@ -513,10 +509,78 @@ def publish_get(name):  # noqa: E501
     # Add participants to LimeSurvey participants table
     lime.activate_tokens(survey_ID)
     lime.add_participants(survey_ID, participants)
+    # Make survey responses anonymous
+    lime.set_survey_property(survey_ID, 'anonymized', 'true')
     
-    if anonymize:
-        # Activate anonymized survey on LimeSurvey
-        lime.set_survey_property(survey_ID, 'anonymized', 'true')
+    time_diff = 0           # Default if delay_start is false
+    
+    if delay_start:
+        startdate_obj = datetime.strptime(startdate, '%Y-%m-%d %H:%M:%S')
+        # Find the difference between the start time and current time
+        time_diff = round((startdate_obj - datetime.now()).total_seconds())
+    
+        # Set timer to activate survey
+        timer = Timer(time_diff, activate_survey, (survey_ID, remind))
+        timer.start()
+        timers.append(timer)
+    else:
+        # If not delayed, activate survey immediately
+        activate_survey(survey_ID, remind)
+    
+    return 'success'
+
+
+def test_publish_get(name):  # noqa: E501
+    """publishes the survey with a given name
+       used for testing purposes
+
+    :param name: the name for a survey
+    :type name: str
+    
+    PRE: 'name' is already present in database
+    """
+    
+    # Translate survey data into a .txt file
+    text, survey_ID, startdate, remind = translate_to_txt(name)
+    if not survey_ID:
+        return 'invalid survey name'
+    
+    # Use .txt file to put survey into LimeSurvey database
+    enc_text = base64.b64encode(bytes(text, 'utf-8')).decode('utf-8')
+    # Import survey with the encoded text
+    lime.import_survey(enc_text, name, survey_ID, type='txt')
+    
+    # Add participants to survey on LimeSurvey database
+    participants = []
+    cursor.execute("select name, address from participant, " \
+                   "survey_to_participant where participant.ID = " \
+                   "survey_to_participant.participant_ID && " \
+                   "survey_to_participant.survey_ID = " + str(survey_ID) + ";")
+    for row in cursor.fetchall():
+        # Participant name must be of the form 'firstname lastname'
+        first, last = row[0].split(' ')
+        participants.append({'email': row[1], 'lastname': last,
+                             'firstname': first})
+    # Add participants to LimeSurvey participants table
+    lime.activate_tokens(survey_ID)
+    lime.add_participants(survey_ID, participants)
+    # Make survey responses anonymous
+    lime.set_survey_property(survey_ID, 'anonymized', 'true')
+    
+    # Activate survey immediately
+    activate_survey(survey_ID, remind)
+    
+    return 'success'
+
+
+def activate_survey(survey_ID, remind):
+    """activates the survey with the given ID
+    
+    :param survey_ID: the ID of the survey being published
+    :type survey_ID: str
+    :param remind: true iff reminder e-mails are sent
+    :type remind: bool
+    """
     
     lime.activate_survey(survey_ID)
     # Send invitation e-mails to survey participants
@@ -529,15 +593,13 @@ def publish_get(name):  # noqa: E501
             timer = Timer(i*259200, remind_participants, (survey_ID,))
             timer.start()
             timers.append(timer)
-    
-    return 'success'
 
 
 def remind_participants(survey_ID):
     """sends reminder e-mails to survey participants
     
     :param survey_ID: the ID of the survey whose participants are reminded
-    :type survey_ID: int
+    :type survey_ID: str
     """
     
     lime.remind_participants(survey_ID)
@@ -577,7 +639,7 @@ def translate_to_txt(name):
                    + name + "';")
     result = cursor.fetchone()
     if not result:          # Return error if no survey with "name" is found
-        return None, None, None
+        return None, None, None, None
     survey_ID = str(result[0])
     # Used to retreive the value for a given tag
     value_query = "select value from tag, survey_to_tag where " \
@@ -587,6 +649,16 @@ def translate_to_txt(name):
     template = open('template.txt', 'r')
     text = template.readline()      # Output survey text, begins with headers
     lines = template.readlines()    # Text from survey template
+    
+    # Retrieve optional data info
+    cursor.execute(value_query.format('reminderTime'))
+    reminderTime = str(cursor.fetchone()[0])
+    cursor.execute(value_query.format('startdate'))
+    startdate = '{} {}:00'.format(str(cursor.fetchone()[0]),
+                                  reminderTime, ':00')
+    cursor.execute(value_query.format('expires'))
+    expires = '{} {}:00'.format(str(cursor.fetchone()[0]),
+                                reminderTime, ':00')
     
     # Retreive general survey info
     cursor.execute(value_query.format('name'))
@@ -611,13 +683,13 @@ def translate_to_txt(name):
     email_confirm = str(cursor.fetchone()[0])
 
     # Add rows containing general info and e-mail templates
-    values = [survey_ID, '1', 'Administrator',
-              'admin@teachingevaluations.org', 'N', '', 'G', 'N', 'fruity',
-              'en', '', 'N', 'N', 'N', 'Y', '0', 'N', 'N', 'N', 'N', 'N', '0',
-              'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N',
-              'admin@teachingevaluations.org', '', '', '15', 'Y', 'B', 'N',
-              'X', 'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', title,
-              description, welcometext, endtext, '', '',
+    values = [survey_ID, '1', 'Administrator', "\"{}\"".format(expires),
+              "\"{}\"".format(startdate), 'admin@teachingevaluations.org', 'N',
+              '', 'G', 'N', 'fruity', 'en', '', 'N', 'N', 'N', 'Y', '0', 'N',
+              'N', 'N', 'N', 'N', '0', 'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N',
+              'N', 'admin@teachingevaluations.org', '', '', '15', 'Y', 'B',
+              'N', 'X', 'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en',
+              title, description, welcometext, endtext, '', '',
               'Invitation to participate in a survey', email_invite,
               'Reminder to participate in a survey', email_remind,
               'Survey registration confirmation', email_register,
@@ -685,9 +757,9 @@ def translate_to_txt(name):
         else:                           # If row refers to a group header
             text += '\t'*132 + '\n'
 
-    # Close template and return the text, survey ID, and remind flag
+    # Close template and return values needed for activating the survey
     template.close()
-    return text, int(survey_ID), remind
+    return text, int(survey_ID), startdate, remind
     
 
 def results_get(cat_type, cat_name):  # noqa: E501
@@ -764,23 +836,29 @@ def results_get(cat_type, cat_name):  # noqa: E501
                 
                 # Create a question key in stats if not there
                 if q_key not in stats:
-                    stats[q_key] = {survey_name: [q_value]}
-                # Create a survey key in stats if not there
-                elif survey_name not in stats[q_key]:
+                    stats[q_key] = {survey_name: [q_value]} \
+                                   if cat_type == 'instructor' else \
+                                   {cat_name: [q_value]}
+                # If applicable, create a survey key in stats if not there
+                elif cat_type == 'instructor' and \
+                     survey_name not in stats[q_key]:
                     stats[q_key][survey_name] = [q_value]
                 # Otherwise, just add q_value
                 else:
-                    stats[q_key][survey_name].append(q_value)
+                    if cat_type == 'instructor':
+                        stats[q_key][survey_name].append(q_value)
+                    else:
+                        stats[q_key][cat_name].append(q_value)
                 
-    # Loop over each set of responses per survey per question
+    # Loop over each set of responses per category per question
     for question in stats:
-        for survey in stats[question]:
+        for category in stats[question]:
             # Replace responses with actual statistics
-            values = stats[question][survey]
+            values = stats[question][category]
             
             # Compute appropriate statistics for values
             # Non-integral values are rounded to 2 places
-            stats[question][survey] = {
+            stats[question][category] = {
                 'median': round(statistics.median(values), 2),
                 'mean': round(statistics.mean(values), 2),
                 # Standard deviation of response values
