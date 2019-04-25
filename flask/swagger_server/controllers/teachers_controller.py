@@ -179,6 +179,11 @@ def survey_put():  # noqa: E501
             'email_invite', 'email_remind', 'email_register', and 'email_confirm'
     """
     
+    # Retrieve the ID of the current user
+    cursor.execute("select ID from user where `e-mail` = '"
+                   + session['email'] + "';")
+    user_ID = str(cursor.fetchone()[0])
+    
     # An instructor key must be in the input
     if 'instructor' not in request.json.keys():
         return 'no matching instructor found'
@@ -212,7 +217,8 @@ def survey_put():  # noqa: E501
         survey_ID = str(cursor.fetchone()[0])
         cursor.execute("update survey set URL = '" + request.json['URL']
                        + "', instructor_ID = " + instructor_ID
-                       + " where ID = " + survey_ID + ";")
+                       + ", user_ID = " + user_ID + " where ID = "
+                       + survey_ID + ";")
     else:
         # If survey with name does not exist, make new survey and tag rows
         # Survey and tag row IDs are 1 higher than the current maximum IDs
@@ -220,7 +226,8 @@ def survey_put():  # noqa: E501
         survey_ID = cursor.fetchone()[0]
         survey_ID = str(survey_ID + 1) if survey_ID else '1'
         cursor.execute("insert into survey values (" + survey_ID + ", '"
-                       + request.json['URL'] + "', " + instructor_ID + ");")
+                       + request.json['URL'] + "', " + instructor_ID + ", "
+                       + user_ID + ");")
         cursor.execute("select max(ID) from tag;")
         tag_ID = cursor.fetchone()[0]
         tag_ID = str(tag_ID + 1) if tag_ID else '1'
@@ -384,10 +391,10 @@ def surveys_get(tag_type=None, tag_value=None):  # noqa: E501
     if tag_type and tag_value:
         # Retrieve the survey IDs for a given tag value and e-mail address
         cursor.execute("select survey.ID from survey, survey_to_tag, tag, " \
-            "instructor where survey.ID = survey_to_tag.survey_ID && " \
+            "user where survey.ID = survey_to_tag.survey_ID && " \
             "survey_to_tag.tag_ID = tag.ID && tag.type = '" + tag_type
-            + "' && tag.value = '" + tag_value + "' && survey.instructor_ID " \
-            "= instructor.ID && instructor.`e-mail` = '" + email + "';")
+            + "' && tag.value = '" + tag_value + "' && survey.user_ID " \
+            "= user.ID && user.`e-mail` = '" + email + "';")
         survey_IDs = cursor.fetchall()
         
         # Retrieve the names of the surveys with the given IDs
@@ -399,10 +406,10 @@ def surveys_get(tag_type=None, tag_value=None):  # noqa: E501
     else:
         # Retrieve the survey names for a given e-mail address
         cursor.execute("select value from tag, survey_to_tag, survey, " \
-            "instructor where type = 'name' && tag.ID = " \
+            "user where type = 'name' && tag.ID = " \
             "survey_to_tag.tag_ID && survey_to_tag.survey_ID = " \
-            "survey.ID && survey.instructor_ID = instructor.ID && " \
-            "instructor.`e-mail` = '" + email + "';")
+            "survey.ID && survey.user_ID = user.ID && " \
+            "user.`e-mail` = '" + email + "';")
         survey_names = cursor.fetchall()
     
     # Return survey names
@@ -421,9 +428,9 @@ def tag_values_get(tag_type):
     email = session['email']                # Use e-mail of current user
     
     cursor.execute("select value from tag, survey_to_tag, survey, " \
-        "instructor where tag.type = '" + tag_type + "' && tag.ID = " \
+        "user where tag.type = '" + tag_type + "' && tag.ID = " \
         "survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && " \
-        "survey.instructor_ID = instructor.ID && instructor.`e-mail` = '"
+        "survey.user_ID = user.ID && user.`e-mail` = '"
         + email + "';")
     
     return [value[0] for value in cursor.fetchall()]
@@ -457,18 +464,16 @@ def validate():
     if (r.status_code == 200):          # If request is successful
         # Load user's full name and e-mail address into a session object
         data = r.json()
-        session['name'] = data['name']
         session['email'] = data['email']
         
         # Add the user to the instructor table if not there
-        # Instructor ID is one higher than the current maximum ID
-        cursor.execute("select max(ID) from instructor;")
-        instructor_ID = cursor.fetchone()[0]
-        # Use '1' if no instructor IDs are in table
-        instructor_ID = str(instructor_ID + 1) if instructor_ID else '1'
-        cursor.execute("insert ignore into instructor values (" + instructor_ID
-                       + ", '" + session['name'] + "', '"
-                       + session['email'] + "')")
+        # User ID is one higher than the current maximum ID
+        cursor.execute("select max(ID) from user;")
+        user_ID = cursor.fetchone()[0]
+        # Use '1' if no user IDs are in table
+        user_ID = str(user_ID + 1) if user_ID else '1'
+        cursor.execute("insert ignore into user values (" + user_ID
+                       + ", '', '" + session['email'] + "')")
         
         return session['email']         # Return the user's e-mail address
     else: 
@@ -485,7 +490,7 @@ def publish_get(name):  # noqa: E501
     """
     
     # Translate survey data into a .txt file
-    text, survey_ID = translate_to_txt(name)
+    text, survey_ID, remind = translate_to_txt(name)
     if not survey_ID:
         return 'invalid survey name'
     
@@ -512,16 +517,18 @@ def publish_get(name):  # noqa: E501
     if anonymize:
         # Activate anonymized survey on LimeSurvey
         lime.set_survey_property(survey_ID, 'anonymized', 'true')
+    
     lime.activate_survey(survey_ID)
     # Send invitation e-mails to survey participants
     lime.invite_participants(survey_ID)
     
-    # Send reminder e-mails after 3, 6, and 9 days
-    for i in range(1, 4):
-        # There are 259,200 seconds in a day
-        timer = Timer(i*259200, remind_participants, (survey_ID,))
-        timer.start()
-        timers.append(timer)
+    if remind:
+        # Send reminder e-mails after 3, 6, and 9 days
+        for i in range(1, 4):
+            # There are 259,200 seconds in a day
+            timer = Timer(i*259200, remind_participants, (survey_ID,))
+            timer.start()
+            timers.append(timer)
     
     return 'success'
 
@@ -555,7 +562,7 @@ def get_template_text(name, typ):
     
 
 def translate_to_txt(name):
-    """translate the survey with a given name to a text file that can be
+    """translate the survey with a given name to text that can be
        imported into the LimeSurvey database
     
     :param name: the name for a survey
@@ -570,14 +577,13 @@ def translate_to_txt(name):
                    + name + "';")
     result = cursor.fetchone()
     if not result:          # Return error if no survey with "name" is found
-        return None, None
+        return None, None, None
     survey_ID = str(result[0])
     # Used to retreive the value for a given tag
     value_query = "select value from tag, survey_to_tag where " \
                   "survey_to_tag.survey_ID = " + survey_ID + " && " \
                   "survey_to_tag.tag_ID = tag.ID && tag.type = '{}';"
     
-    fil = open(name + '.txt', 'w')
     template = open('template.txt', 'r')
     text = template.readline()      # Output survey text, begins with headers
     lines = template.readlines()    # Text from survey template
@@ -597,17 +603,20 @@ def translate_to_txt(name):
     email_invite = str(cursor.fetchone()[0])
     cursor.execute(value_query.format('email_remind'))
     email_remind = str(cursor.fetchone()[0])
+    # Do not remind students if email_remind is empty
+    remind = email_remind != ''
     cursor.execute(value_query.format('email_register'))
     email_register = str(cursor.fetchone()[0])
     cursor.execute(value_query.format('email_confirm'))
     email_confirm = str(cursor.fetchone()[0])
 
     # Add rows containing general info and e-mail templates
-    values = [survey_ID, '1', 'Administrator', 'your-email@example.net', 'N',
-              '', 'G', 'N', 'fruity', 'en', '', 'N', 'N', 'N', 'Y', '0', 'N',
-              'N', 'N', 'N', 'N', '0', 'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N',
-              'N', 'your-email@example.net', '', '', '15', 'Y', 'B', 'N', 'X',
-              'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', title,
+    values = [survey_ID, '1', 'Administrator',
+              'admin@teachingevaluations.org', 'N', '', 'G', 'N', 'fruity',
+              'en', '', 'N', 'N', 'N', 'Y', '0', 'N', 'N', 'N', 'N', 'N', '0',
+              'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N',
+              'admin@teachingevaluations.org', '', '', '15', 'Y', 'B', 'N',
+              'X', 'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', title,
               description, welcometext, endtext, '', '',
               'Invitation to participate in a survey', email_invite,
               'Reminder to participate in a survey', email_remind,
@@ -645,7 +654,7 @@ def translate_to_txt(name):
         # Add questions only if a group contains questions
         if question_IDs:
             # Add row for group header
-            questions.append({'id': str(i+1), 'class': 'G', 'type': '1',
+            questions.append({'id': str(i+1), 'class': 'G', 'type': str(i+1),
                               'name': groups[i], 'relevance': '', 'text': '',
                               'language': 'en', 'mandatory': ''})
             
@@ -675,14 +684,10 @@ def translate_to_txt(name):
             text += '\tN\t\t0' + '\t'*129 + '\n'
         else:                           # If row refers to a group header
             text += '\t'*132 + '\n'
-    
-    # Write survey text to a .txt file
-    fil.write(text)
-    
-    # Close files and return the text and survey ID
-    fil.close()
+
+    # Close template and return the text, survey ID, and remind flag
     template.close()
-    return text, int(survey_ID)
+    return text, int(survey_ID), remind
     
 
 def results_get(cat_type, cat_name):  # noqa: E501

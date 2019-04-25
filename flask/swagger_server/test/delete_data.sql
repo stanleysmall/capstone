@@ -6,4 +6,5 @@ delete from survey_to_participant;
 delete from participant;
 delete from survey;
 delete from instructor;
+delete from user;
 delete from tag;
