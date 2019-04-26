@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import {Redirect} from "react-router";
 import {LoggedInHeader} from "../displayComponents";
-import {getResults} from "../../Functions/endpoints.js";
+import {getResults, getEval} from "../../Functions/endpoints.js";
 import "../../CSS/App.css";
-import {CSVLink, CSVDownload} from 'react-csv';
+import {CSVLink} from 'react-csv';
 
 
 class Results extends Component {
@@ -26,10 +26,56 @@ class Results extends Component {
 	resultsJson = getResults(this.tagName,this.tag);
 	
 	
+	getAggregatedResults = () =>{
+		
+	
+	
+	var courseDesignators = [];
+	var facultyUnits = [];
+	var colleges = [];
+	var universities = [];
+	var resultObjectsUnder = [];
+		
+
+		
+		if(this.tagName === "instructor"){
+			var question1 = this.resultsJson[0];
+			for(var survey in question1){
+				var surveyJson = getEval(survey);
+				if(!this.containsObject(surveyJson.courseDesignator, courseDesignators))
+					courseDesignators.push(surveyJson.courseDesignator);
+				if(!this.containsObject(surveyJson.facultyUnit, facultyUnits))
+					facultyUnits.push(surveyJson.facultyUnit);
+				if(!this.containsObject(surveyJson.college, colleges))
+					colleges.push(surveyJson.college);
+				if(!this.containsObject(surveyJson.university, universities))
+					universities.push(surveyJson.university);
+			}
+			for(var des in courseDesignators)
+				resultObjectsUnder.push(getResults('course_designator', des));
+			for(var fac in facultyUnits)
+				resultObjectsUnder.push(getResults('unit', fac));
+			for(var col in colleges)
+				resultObjectsUnder.push(getResults('college', col));
+			for(var uni in universities)
+				resultObjectsUnder.push(getResults('university', uni));
+		}
+	}
+	
 	componentDidMount() {
 		document.title = 'Results Page';
 	  }
-
+	containsObject(obj, list){
+		var i;
+		for(i = 0; i< list.length; i++){
+			if(list[i]===obj){
+				return true;
+			}
+		}
+		return false;
+	}
+	  
+	
 	createTable = () => {
 		let table = []
 
@@ -51,9 +97,25 @@ class Results extends Component {
 					var value = this.resultsJson[question][survey][item]
 					children.push(<td>{value}</td>)
 				}
+				
+				
 				table.push(<tr>{children}</tr>)
+				
 				children = []
 			}
+			
+			if(this.tagName==='instructor'){
+					for(var object in this.resultObjectsUnder){
+						var surv = object[question][0];
+						children.push(<td>{surv}</td>)
+						for (var item in surv){
+							var value = object[question][0][item]
+							children.push(<td>{value}</td>)
+						}
+						table.push(<tr>{children}</tr>)
+						children = []
+					}
+				}
 			
 		}
 		return table;
@@ -65,9 +127,11 @@ class Results extends Component {
 		
 		for(var question in this.resultsJson){
 			var Q = this.resultsJson[question]
+			table.push([question])
 			for (var survey in Q) {
 				var S = Q[survey]
-				let newItem = [question,survey]
+				
+				let newItem = [survey]
 				for(var item in S){
 					var value = this.resultsJson[question][survey][item]
 					newItem.push(value)

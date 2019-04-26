@@ -90,7 +90,6 @@ export const publishEval = (name) =>
 
 export const getTagValues = (cat_type) =>
 {
-
 	return fetch(APIAddress + "tag_values?tag_type=" + cat_type)
 			.then(response =>response.json())
 			.then((responseData) => {
