@@ -6,6 +6,8 @@ import logging
 import time
 from threading import Timer
 from datetime import datetime
+import pytz
+from pytz import timezone
 
 from flask import jsonify
 from flask import session
@@ -179,9 +181,10 @@ def survey_put():  # noqa: E501
     """
     
     # Retrieve the ID of the current user
-    cursor.execute("select ID from user where `e-mail` = '"
-                   + session['email'] + "';")
-    user_ID = str(cursor.fetchone()[0])
+    #cursor.execute("select ID from user where `e-mail` = '"
+     #              + session['email'] + "';")
+    #user_ID = str(cursor.fetchone()[0])
+    user_ID = '1'
     
     # An instructor key must be in the input
     if 'instructor' not in request.json.keys():
@@ -517,8 +520,16 @@ def publish_get(name):  # noqa: E501
     
     if delay_start != []:   # If activation is delayed (default)
         startdate_obj = datetime.strptime(startdate, '%Y-%m-%d %H:%M:%S')
+        startdate_obj = timezone('US/Eastern').localize(startdate_obj)
+        
+        # Convert the current time to the correct time zone
+        now_time = datetime.now(timezone('US/Eastern'))
+        logging.info(startdate_obj)
+        logging.info(now_time)
+        
         # Find the difference between the start time and current time
-        time_diff = round((startdate_obj - datetime.now()).total_seconds())
+        time_diff = round((startdate_obj - now_time).total_seconds())
+        logging.info(time_diff)
     
         # Set timer to activate survey
         timer = Timer(time_diff, activate_survey, (survey_ID, remind))
