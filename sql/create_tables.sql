@@ -133,24 +133,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`response`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`response` (
-  `ID` INT NOT NULL,
-  `text` VARCHAR(150) NULL,
-  `survey_ID` INT NOT NULL,
-  `question_ID` INT NOT NULL,
-  PRIMARY KEY (`ID`, `survey_ID`, `question_ID`),
-  INDEX `fk_response_survey_to_question1_idx` (`survey_ID` ASC, `question_ID` ASC),
-  CONSTRAINT `fk_response_survey_to_question1`
-    FOREIGN KEY (`survey_ID` , `question_ID`)
-    REFERENCES `mydb`.`survey_to_question` (`survey_ID` , `question_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `mydb`.`tag`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`tag` (

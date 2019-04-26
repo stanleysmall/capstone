@@ -48,6 +48,14 @@ export const getEval = (name) =>
             })
 }
 
+export const deleteSurvey = (name) =>
+{
+    console.log("deleting survey");
+    return fetch(APIAddress +"survey?name=" + name, {
+        method: 'DELETE'
+    });
+}
+
 export const getResults = (cat_type, cat_name) =>
 {
 	return fetch(APIAddress + "results?cat_type="+ cat_type + "&cat_name=" + cat_name)
@@ -58,12 +66,11 @@ export const getResults = (cat_type, cat_name) =>
 }
 
 export const markPublished = (name) =>
-{
-    return getEval(name)
-    .then((response) => {
+{   
+    getEval(name)
+    .then((response)=>{
+        response.published = "T"
         console.log(response);
-        response.published = "T";
-        putEval(response);
     })
 }
 
@@ -73,6 +80,7 @@ export const publishEval = (name) =>
             response.published = "T";
             putEval(response);
         });*/
+    markPublished(name);
     return fetch(APIAddress +"publish?name=" + name)
     .then(response =>response.json())
     .then((responseData) => {

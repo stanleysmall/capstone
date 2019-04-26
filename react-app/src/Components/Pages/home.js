@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {Redirect} from "react-router";
 import {LoggedInHeader, DynamicSelecter, RadioSelecter} from "../displayComponents";
-import {getEvalNames, publishEval, getUnpublishedEvalNames, getPublishedEvalNames, getTagValues } from "../../Functions/endpoints";
+import {getEvalNames, publishEval, getUnpublishedEvalNames, deleteSurvey, getPublishedEvalNames, getTagValues } from "../../Functions/endpoints";
 import "../../CSS/App.css";
 
 class Home extends Component {
@@ -42,9 +42,8 @@ class Home extends Component {
             {
                 this.setState({allEvals: this.state.allEvals.concat([{id:i+1, name:responseData[i]}])});
             }
-            })
-
-            console.log("COMPONENT DID MOUNT");
+            
+        })
     }
 
     edit(value)
