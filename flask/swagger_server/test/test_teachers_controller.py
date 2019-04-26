@@ -12,6 +12,7 @@ from swagger_server.models.result import Result  # noqa: E501
 from swagger_server.test import BaseTestCase
 from swagger_server.lime_py_api.limesurvey import Api
 from swagger_server.controllers.teachers_controller import timers
+from swagger_server.controllers.teachers_controller import delay_start
 
 class TestTeachersController(BaseTestCase):
     """TeachersController integration test stubs"""
@@ -744,9 +745,11 @@ class TestTeachersController(BaseTestCase):
         survey name is 'COS 140 001'
         """
         
+        delay_start.clear()         # Do not delay activating the survey
+        
         query_string = [('name', 'COS 140 001')]
         response = self.client.open(
-            '/teameval/Eval/1.0.0/test_publish',
+            '/teameval/Eval/1.0.0/publish',
             method='GET',
             query_string=query_string)
         self.assert200(response,
@@ -801,7 +804,7 @@ class TestTeachersController(BaseTestCase):
         
         query_string = [('name', 'COS 225 001')]
         response = self.client.open(
-            '/teameval/Eval/1.0.0/test_publish',
+            '/teameval/Eval/1.0.0/publish',
             method='GET',
             query_string=query_string)
         self.assert200(response,
@@ -815,8 +818,10 @@ class TestTeachersController(BaseTestCase):
         category is instructor Roy Turner
         """
         
+        delay_start.clear()
+        
         # Add a survey by Roy Turner to LimeSurvey
-        response = self.client.open('/teameval/Eval/1.0.0/test_publish',
+        response = self.client.open('/teameval/Eval/1.0.0/publish',
             method='GET', query_string=[('name', 'COS 140 001')])
         
         codes = []              # Represent questions in the survey
@@ -866,8 +871,10 @@ class TestTeachersController(BaseTestCase):
         category is 'Email register text' instead of an instructor
         """
         
+        delay_start.clear()
+        
         # Add a survey by Roy Turner to LimeSurvey
-        response = self.client.open('/teameval/Eval/1.0.0/test_publish',
+        response = self.client.open('/teameval/Eval/1.0.0/publish',
             method='GET', query_string=[('name', 'COS 140 001')])
         
         codes = []              # Represent questions in the survey
