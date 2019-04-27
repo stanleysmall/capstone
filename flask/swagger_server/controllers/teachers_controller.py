@@ -444,7 +444,8 @@ def login_get(key):  # noqa: E501
     :rtype: str
     """
     
-    session['token'] = key
+    resp = make_response(render_template('readcookie.html'))
+    resp.set_cookie('token', key)
     return validate()
 
 
@@ -459,11 +460,12 @@ def validate():
     # Call the Google API with the authentication token
     r = requests.get(
         'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='
-        + session['token'])
+        + request.cookies.get('token'))
     if (r.status_code == 200):          # If request is successful
         # Load user's full name and e-mail address into a session object
         data = r.json()
-        session['email'] = data['email']
+        resp = make_response(render_template('readcookie.html'))
+        resp.set_cookie('email', data['email'])
         
         # Add the user to the instructor table if not there
         # User ID is one higher than the current maximum ID
@@ -473,11 +475,11 @@ def validate():
         user_ID = str(user_ID + 1) if user_ID else '1'
         
         cursor.execute("select * from user where `e-mail` = '"
-                       + session['email'] + "';")
+                       + request.cookies.get('email') + "';")
         if not cursor.fetchone():
             # If the user doesn't already exist, insert it
             cursor.execute("insert ignore into user values (" + user_ID
-                           + ", '', '" + session['email'] + "')")
+                           + ", '', '" + request.cookies.get('email') + "')")
         mydb.commit()
         
         return session['email']         # Return the user's e-mail address
