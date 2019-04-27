@@ -471,8 +471,14 @@ def validate():
         user_ID = cursor.fetchone()[0]
         # Use '1' if no user IDs are in table
         user_ID = str(user_ID + 1) if user_ID else '1'
-        cursor.execute("insert ignore into user values (" + user_ID
-                       + ", '', '" + session['email'] + "')")
+        
+        cursor.execute("select * from user where `e-mail` = '"
+                       + session['email'] + "';")
+        if not cursor.fetchone():
+            # If the user doesn't already exist, insert it
+            cursor.execute("insert ignore into user values (" + user_ID
+                           + ", '', '" + session['email'] + "')")
+        mydb.commit()
         
         return session['email']         # Return the user's e-mail address
     else: 
