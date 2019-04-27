@@ -182,7 +182,7 @@ def survey_put():  # noqa: E501
     
     # Retrieve the ID of the current user
     cursor.execute("select ID from user where `e-mail` = '"
-                   + session.get('email') + "';")
+                   + session['email'] + "';")
     user_ID = str(cursor.fetchone()[0])
     
     # An instructor key must be in the input
@@ -384,7 +384,7 @@ def surveys_get(tag_type=None, tag_value=None):  # noqa: E501
     """
     
     survey_names = []                       # Survey names to return
-    email = session.get('email')                # Use e-mail of current user
+    email = session['email']                # Use e-mail of current user
     
     results = []
     if tag_type and tag_value:
@@ -424,7 +424,7 @@ def tag_values_get(tag_type):
     :rtype: List[tag values]
     """
     
-    email = session.get('email')                # Use e-mail of current user
+    email = session['email']                # Use e-mail of current user
     
     cursor.execute("select value from tag, survey_to_tag, survey, " \
         "user where tag.type = '" + tag_type + "' && tag.ID = " \
@@ -459,7 +459,7 @@ def validate():
     # Call the Google API with the authentication token
     r = requests.get(
         'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='
-        + session.get('token'))
+        + session['token'])
     if (r.status_code == 200):          # If request is successful
         # Load user's full name and e-mail address into a session object
         data = r.json()
@@ -473,14 +473,14 @@ def validate():
         user_ID = str(user_ID + 1) if user_ID else '1'
         
         cursor.execute("select * from user where `e-mail` = '"
-                       + session.get('email') + "';")
+                       + session['email'] + "';")
         if not cursor.fetchone():
             # If the user doesn't already exist, insert it
             cursor.execute("insert ignore into user values (" + user_ID
-                           + ", '', '" + session.get('email') + "')")
+                           + ", '', '" + session['email'] + "')")
         mydb.commit()
         
-        return session.get('email')         # Return the user's e-mail address
+        return session['email']         # Return the user's e-mail address
     else: 
         return 'INVALID LOGIN'          # Unsuccessful log-in
 
