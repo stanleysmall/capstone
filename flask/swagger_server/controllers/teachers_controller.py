@@ -616,10 +616,10 @@ def translate_to_txt(name):
     # Retrieve optional data info
     cursor.execute(value_query.format('reminderTime'))
     reminderTime = str(cursor.fetchone()[0])
-    cursor.execute(value_query.format('startdate'))
+    cursor.execute(value_query.format('beginDate'))
     startdate = '{} {}:00'.format(str(cursor.fetchone()[0]),
                                   reminderTime, ':00')
-    cursor.execute(value_query.format('expires'))
+    cursor.execute(value_query.format('closeDate'))
     expires = '{} {}:00'.format(str(cursor.fetchone()[0]),
                                 reminderTime, ':00')
     
