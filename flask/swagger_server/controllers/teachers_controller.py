@@ -10,10 +10,10 @@ import pytz
 from pytz import timezone
 
 from flask import jsonify
-from flask import session
 import requests 
 import statistics
 from flask import request
+from flask import make_response
 
 from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.models.result import Result  # noqa: E501
@@ -21,6 +21,8 @@ from swagger_server import util
 from swagger_server.lime_py_api.limesurvey import Api
 
 logging.basicConfig(level=logging.INFO)     # Enable logging
+
+session = {}                    # Session object
 
 # Log into LimeSurvey with the RemoteControl API
 lime = Api('http://10.5.0.5/index.php/admin/remotecontrol', 'admin',
@@ -476,7 +478,7 @@ def validate():
                        + session['email'] + "';")
         if not cursor.fetchone():
             # If the user doesn't already exist, insert it
-            cursor.execute("insert ignore into user values (" + user_ID
+            cursor.execute("insert into user values (" + user_ID
                            + ", '', '" + session['email'] + "')")
         mydb.commit()
         
