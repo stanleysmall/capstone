@@ -478,7 +478,7 @@ def validate():
                        + session['email'] + "';")
         if not cursor.fetchone():
             # If the user doesn't already exist, insert it
-            cursor.execute("insert ignore into user values (" + user_ID
+            cursor.execute("insert into user values (" + user_ID
                            + ", '', '" + session['email'] + "')")
         mydb.commit()
         
