@@ -480,7 +480,7 @@ def validate():
                            + ", '', '" + session['email'] + "')")
         mydb.commit()
         
-        return session['email']         # Return the user's e-mail address
+        return session.get('email')         # Return the user's e-mail address
     else: 
         return 'INVALID LOGIN'          # Unsuccessful log-in
 
