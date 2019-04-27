@@ -11,6 +11,7 @@ from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.models.result import Result  # noqa: E501
 from swagger_server.test import BaseTestCase
 from swagger_server.lime_py_api.limesurvey import Api
+from swagger_server.controllers.teachers_controller import session
 from swagger_server.controllers.teachers_controller import timers
 from swagger_server.controllers.teachers_controller import anonymize
 
@@ -477,9 +478,7 @@ class TestTeachersController(BaseTestCase):
         session user is 'Roy Turner', no tag entered
         """
         
-        with self.client.session_transaction() as sess:
-            sess['name'] = 'Roy Turner'
-            sess['email'] = 'roy.turner@maine.edu'
+        session['email'] = 'roy.turner@maine.edu'
         
         query_string = []
         response = self.client.open(
@@ -498,9 +497,7 @@ class TestTeachersController(BaseTestCase):
         session user is 'Torsten Hahmann', no tag entered
         """
         
-        with self.client.session_transaction() as sess:
-            sess['name'] = 'Torsten Hahmann'
-            sess['email'] = 'torsten.hahmann@maine.edu'
+        session['email'] = 'torsten.hahmann@maine.edu'
         
         query_string = []
         response = self.client.open(
@@ -519,9 +516,7 @@ class TestTeachersController(BaseTestCase):
         session user is 'Roy Turner', 'email_register' tag entered
         """
         
-        with self.client.session_transaction() as sess:
-            sess['name'] = 'Roy Turner'
-            sess['email'] = 'roy.turner@maine.edu'
+        session['email'] = 'roy.turner@maine.edu'
         
         query_string = [('tag_type', 'email_register'),
                         ('tag_value', 'Email register text')]
@@ -541,9 +536,7 @@ class TestTeachersController(BaseTestCase):
         session user is not in the database
         """
         
-        with self.client.session_transaction() as sess:
-            sess['name'] = 'Carol Roberts'
-            sess['email'] = 'carol.roberts@maine.edu'
+        session['email'] = 'carol.roberts@maine.edu'
         
         query_string = []
         response = self.client.open(
@@ -562,9 +555,7 @@ class TestTeachersController(BaseTestCase):
         session user is in the database, but not the tag value
         """
         
-        with self.client.session_transaction() as sess:
-            sess['name'] = 'Roy Turner'
-            sess['email'] = 'roy.turner@maine.edu'
+        session['email'] = 'roy.turner@maine.edu'
         
         query_string = [('tag_type', 'email_register'),
                         ('tag_value', 'Invalid text')]
@@ -584,9 +575,7 @@ class TestTeachersController(BaseTestCase):
         tag value is in the database, but not for the session user
         """
         
-        with self.client.session_transaction() as sess:
-            sess['name'] = 'Roy Turner'
-            sess['email'] = 'roy.turner@maine.edu'
+        session['email'] = 'roy.turner@maine.edu'
         
         query_string = [('tag_type', 'email_register'),
                         ('tag_value', 'Er text')]
@@ -606,9 +595,7 @@ class TestTeachersController(BaseTestCase):
         session user is 'Roy Turner', tag type is valid for user
         """
         
-        with self.client.session_transaction() as sess:
-            sess['name'] = 'Roy Turner'
-            sess['email'] = 'roy.turner@maine.edu'
+        session['email'] = 'roy.turner@maine.edu'
         
         query_string = [('tag_type', 'email_register')]
         response = self.client.open(
@@ -628,9 +615,7 @@ class TestTeachersController(BaseTestCase):
         session user is 'Torsten Hahmann', tag type is valid for user
         """
         
-        with self.client.session_transaction() as sess:
-            sess['name'] = 'Torsten Hahmann'
-            sess['email'] = 'torsten.hahmann@maine.edu'
+        session['email'] = 'torsten.hahmann@maine.edu'
         
         query_string = [('tag_type', 'email_register')]
         response = self.client.open(
@@ -650,9 +635,7 @@ class TestTeachersController(BaseTestCase):
         tag type is not in the database
         """
         
-        with self.client.session_transaction() as sess:
-            sess['name'] = 'Roy Turner'
-            sess['email'] = 'roy.turner@maine.edu'
+        session['email'] = 'roy.turner@maine.edu'
         
         query_string = [('tag_type', 'newtag')]
         response = self.client.open(
@@ -671,9 +654,7 @@ class TestTeachersController(BaseTestCase):
         tag type is in the database, but not for the user
         """
         
-        with self.client.session_transaction() as sess:
-            sess['name'] = 'Carol Roberts'
-            sess['email'] = 'carol.roberts@maine.edu'
+        session['email'] = 'carol.roberts@maine.edu'
         
         query_string = [('tag_type', 'newtag')]
         response = self.client.open(
