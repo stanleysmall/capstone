@@ -139,7 +139,7 @@ class TestTeachersController(BaseTestCase):
                     + "here to do the survey:<br/>{SURVEYURL}<br/><br/>Please "
                     + "enter the token {TOKEN} to access the survey.",
                 "endtext": "Thank you for completing this survey.",
-                "expires": "2050-01-02",
+                "closeDate": "2050-01-02",
                 "instructor": "Roy Turner",
                 "name": "COS 140 001",
                 "participants": [
@@ -176,7 +176,7 @@ class TestTeachersController(BaseTestCase):
                     }
                 ],
                 "reminderTime": "12:00",
-                "startdate": "2050-01-01",
+                "beginDate": "2050-01-01",
                 "url": "example.com",
                 "welcometext": "Welcome to the survey."
             }
@@ -204,7 +204,7 @@ class TestTeachersController(BaseTestCase):
                 "email_register": "Er text",
                 "email_remind": "Eremind text",
                 "endtext": "Thank you for completing this survey.",
-                "expires": "2050-01-02",
+                "closeDate": "2050-01-02",
                 "instructor": "Torsten Hahmann",
                 "name": "COS 250 001",
                 "participants": [
@@ -230,7 +230,7 @@ class TestTeachersController(BaseTestCase):
                     }
                 ],
                 "reminderTime": "12:00",
-                "startdate": "2050-01-01",
+                "beginDate": "2050-01-01",
                 "url": "example.com",
                 "welcometext": "Welcome to the survey."
             }
