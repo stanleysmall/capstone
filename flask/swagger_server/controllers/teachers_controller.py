@@ -384,7 +384,7 @@ def surveys_get(tag_type=None, tag_value=None):  # noqa: E501
     """
     
     survey_names = []                       # Survey names to return
-    email = session['email']                # Use e-mail of current user
+    email = session.get('email')                # Use e-mail of current user
     
     results = []
     if tag_type and tag_value:
@@ -424,7 +424,7 @@ def tag_values_get(tag_type):
     :rtype: List[tag values]
     """
     
-    email = session['email']                # Use e-mail of current user
+    email = session.get('email')                # Use e-mail of current user
     
     cursor.execute("select value from tag, survey_to_tag, survey, " \
         "user where tag.type = '" + tag_type + "' && tag.ID = " \
