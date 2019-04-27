@@ -6,6 +6,8 @@ import logging
 import time
 from threading import Timer
 from datetime import datetime
+import pytz
+from pytz import timezone
 
 from flask import jsonify
 from flask import session
@@ -24,7 +26,8 @@ logging.basicConfig(level=logging.INFO)     # Enable logging
 lime = Api('http://10.5.0.5/index.php/admin/remotecontrol', 'admin',
            'password')
 
-timers = []                         # Timers to stop after testing
+timers = []                     # Timers to stop after testing
+delay_start = [True]            # If empty, survey does not delay activation
 
 # Connect to MySQL database
 mydb = mysql.connector.connect(host='10.5.0.6',
@@ -514,10 +517,13 @@ def publish_get(name):  # noqa: E501
     
     time_diff = 0           # Default if delay_start is false
     
-    if delay_start:
+    if delay_start != []:   # If activation is delayed (default)
         startdate_obj = datetime.strptime(startdate, '%Y-%m-%d %H:%M:%S')
+        startdate_obj = timezone('US/Eastern').localize(startdate_obj)
+        # Convert the current time to the correct time zone
+        now_time = datetime.now(timezone('US/Eastern'))
         # Find the difference between the start time and current time
-        time_diff = round((startdate_obj - datetime.now()).total_seconds())
+        time_diff = round((startdate_obj - now_time).total_seconds())
     
         # Set timer to activate survey
         timer = Timer(time_diff, activate_survey, (survey_ID, remind))
@@ -526,49 +532,6 @@ def publish_get(name):  # noqa: E501
     else:
         # If not delayed, activate survey immediately
         activate_survey(survey_ID, remind)
-    
-    return 'success'
-
-
-def test_publish_get(name):  # noqa: E501
-    """publishes the survey with a given name
-       used for testing purposes
-
-    :param name: the name for a survey
-    :type name: str
-    
-    PRE: 'name' is already present in database
-    """
-    
-    # Translate survey data into a .txt file
-    text, survey_ID, startdate, remind = translate_to_txt(name)
-    if not survey_ID:
-        return 'invalid survey name'
-    
-    # Use .txt file to put survey into LimeSurvey database
-    enc_text = base64.b64encode(bytes(text, 'utf-8')).decode('utf-8')
-    # Import survey with the encoded text
-    lime.import_survey(enc_text, name, survey_ID, type='txt')
-    
-    # Add participants to survey on LimeSurvey database
-    participants = []
-    cursor.execute("select name, address from participant, " \
-                   "survey_to_participant where participant.ID = " \
-                   "survey_to_participant.participant_ID && " \
-                   "survey_to_participant.survey_ID = " + str(survey_ID) + ";")
-    for row in cursor.fetchall():
-        # Participant name must be of the form 'firstname lastname'
-        first, last = row[0].split(' ')
-        participants.append({'email': row[1], 'lastname': last,
-                             'firstname': first})
-    # Add participants to LimeSurvey participants table
-    lime.activate_tokens(survey_ID)
-    lime.add_participants(survey_ID, participants)
-    # Make survey responses anonymous
-    lime.set_survey_property(survey_ID, 'anonymized', 'true')
-    
-    # Activate survey immediately
-    activate_survey(survey_ID, remind)
     
     return 'success'
 
