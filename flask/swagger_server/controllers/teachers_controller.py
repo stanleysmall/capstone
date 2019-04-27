@@ -182,7 +182,7 @@ def survey_put():  # noqa: E501
     
     # Retrieve the ID of the current user
     cursor.execute("select ID from user where `e-mail` = '"
-                   + session['email'] + "';")
+                   + session.get('email') + "';")
     user_ID = str(cursor.fetchone()[0])
     
     # An instructor key must be in the input
