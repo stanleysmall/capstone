@@ -465,6 +465,8 @@ def validate():
         data = r.json()
         session['email'] = data['email']
         
+        session.modified = True
+           
         # Add the user to the instructor table if not there
         # User ID is one higher than the current maximum ID
         cursor.execute("select max(ID) from user;")
