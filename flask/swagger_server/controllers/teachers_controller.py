@@ -444,7 +444,7 @@ def login_get(key):  # noqa: E501
     :rtype: str
     """
     
- #   session['token'] = key
+    session['token'] = key
     return validate()
 
 
@@ -463,7 +463,7 @@ def validate():
     if (r.status_code == 200):          # If request is successful
         # Load user's full name and e-mail address into a session object
         data = r.json()
-    #    session['email'] = data['email']
+        session['email'] = data['email']
         
         # Add the user to the instructor table if not there
         # User ID is one higher than the current maximum ID
