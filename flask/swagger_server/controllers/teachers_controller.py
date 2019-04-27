@@ -459,7 +459,7 @@ def validate():
     # Call the Google API with the authentication token
     r = requests.get(
         'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='
-        + session['token'])
+        + session.get('token'))
     if (r.status_code == 200):          # If request is successful
         # Load user's full name and e-mail address into a session object
         data = r.json()
