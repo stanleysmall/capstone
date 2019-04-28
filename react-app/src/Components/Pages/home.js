@@ -43,46 +43,38 @@ class Home extends Component {
 
         getTagValues('courseDesignator')
         .then((response) => {
-            console.log(response);
             var names = [...new Set(response)];
             for(var i = 0; i < names.length; i++)
             {
                 this.setState({reportsCourseDes: this.state.reportsCourseDes.concat([{id:i+1, name:names[i]}])});
             }
-            console.log(this.state.reportsCourseDes);
         })
 
         getTagValues('facultyUnit')
         .then((response) => {
-            console.log(response);
             var names = [...new Set(response)];
             for(var i = 0; i < names.length; i++)
             {
                 this.setState({reportsUnit: this.state.reportsUnit.concat([{id:i+1, name:names[i]}])});
             }
-            console.log(this.state.reportsUnit);
         })
 
         getTagValues('college')
         .then((response) => {
-            console.log(response);
             var names = [...new Set(response)];
             for(var i = 0; i < names.length; i++)
             {
                 this.setState({reportsCollege: this.state.reportsCollege.concat([{id:i+1, name:names[i]}])});
             }
-            console.log(this.state.reportsCollege);
         })
 
         getTagValues('university')
         .then((response) => {
-            console.log(response);
             var names = [...new Set(response)];
             for(var i = 0; i < names.length; i++)
             {
                 this.setState({reportsUniversity: this.state.reportsUniversity.concat([{id:i+1, name:names[i]}])});
             }
-            console.log(this.state.reportsUniversity);
         })
 
         getUnpublishedEvalNames().then((responseData)=>{
@@ -182,7 +174,7 @@ class Home extends Component {
                     
 					
                     <h3>5. View Evaluation Results</h3>
-					<RadioSelecter iden={"tagType"} state = {this.state} onChange = {(value) => {this.setState({selectedTag:value})}}/>
+					<RadioSelecter iden={"tags"} state = {this.state} onChange = {(value) => {this.setState({selectedTag:value})}}/>
                     <DynamicSelecter list={this.state.reports} iden={"reports"}/>&emsp;
 						
                     <button type="homeScreenButton" onClick = {() => this.results(document.getElementById("tags").value, document.getElementById("reports").value)}>View Results</button>
