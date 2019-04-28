@@ -471,12 +471,15 @@ def validate():
         # User ID is one higher than the current maximum ID
         cursor.execute("select max(ID) from user;")
         user_ID = cursor.fetchone()[0]
+        logging.info(user_ID)
         # Use '1' if no user IDs are in table
         user_ID = str(user_ID + 1) if user_ID else '1'
+        logging.info(user_ID)
         
         cursor.execute("select * from user where `e-mail` = '"
                        + session['email'] + "';")
         if not cursor.fetchone():
+            logging.info('insert')
             # If the user doesn't already exist, insert it
             cursor.execute("insert into user values (" + user_ID
                            + ", '', '" + session['email'] + "')")
@@ -644,10 +647,18 @@ def translate_to_txt(name):
     # Retrieve e-mail templates
     cursor.execute(value_query.format('email_invite'))
     email_invite = str(cursor.fetchone()[0])
+    # Construct the URL to the survey
+    email_invite = email_invite.replace('{SURVEYURL}',
+        'http://teachingevaluations.org:5000/index.php/{}?token={}&lang=en' \
+        .format(survey_ID, '{TOKEN}'))
     cursor.execute(value_query.format('email_remind'))
     email_remind = str(cursor.fetchone()[0])
+    email_remind = email_remind.replace('{SURVEYURL}',
+        'http://teachingevaluations.org:5000/index.php/{}?token={}&lang=en' \
+        .format(survey_ID, '{TOKEN}'))
     # Do not remind students if email_remind is empty
     remind = email_remind != ''
+    
     cursor.execute(value_query.format('email_register'))
     email_register = str(cursor.fetchone()[0])
     cursor.execute(value_query.format('email_confirm'))
