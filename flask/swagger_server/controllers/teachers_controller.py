@@ -651,12 +651,12 @@ def translate_to_txt(name):
     cursor.execute(value_query.format('email_invite'))
     email_invite = str(cursor.fetchone()[0])
     # Construct the URL to the survey
-    email_invite = email_invite.replace('{SURVEYURL}',
+    email_invite = email_invite.replace('\n', '<br/>').replace('{SURVEYURL}',
         'http://teachingevaluations.org:5000/index.php/{}?token={}&lang=en' \
         .format(survey_ID, '{TOKEN}'))
     cursor.execute(value_query.format('email_remind'))
     email_remind = str(cursor.fetchone()[0])
-    email_remind = email_remind.replace('{SURVEYURL}',
+    email_remind = email_remind.replace('\n', '<br/>').replace('{SURVEYURL}',
         'http://teachingevaluations.org:5000/index.php/{}?token={}&lang=en' \
         .format(survey_ID, '{TOKEN}'))
     # Do not remind students if email_remind is empty
