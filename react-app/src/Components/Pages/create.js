@@ -10,7 +10,6 @@ import {getEval,putEval, getEvalNames, publishEval} from "../../Functions/endpoi
 import {formatSurvey, loadEvaluation} from "../../Functions/parsing.js";
 
 import {survey} from "../../vars";
-import {exampleOldEvaluation} from "../../vars";
 
 
 
@@ -28,16 +27,12 @@ class Create extends Component {
     //JSON which defines the format of the survey that 
     //users fill out of create an evaluation.  Stores in questionTemplate.js
     surveyJSON = survey;
-    evaltemplate = exampleOldEvaluation;
     testData = JSON.stringify(this.evaltemplate,null,2)
     /*
         Sets the theme of the user input survey and generates a list of the names of the past surveys which can be used as templates
     */
     constructor(props){
         super(props);
-
-        putEval(exampleOldEvaluation);
-        putEval(exampleOldEvaluation);
 
         //Bind this in the onComplete function so we can access state and other functions through it
         this.onComplete = this.onComplete.bind(this);

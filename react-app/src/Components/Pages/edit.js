@@ -9,7 +9,6 @@ import * as Survey from "survey-react";
 import {putEval} from "../../Functions/endpoints.js";
 
 import {survey} from "../../vars";
-import {exampleOldEvaluation} from "../../vars";
 import { loadEvaluation, formatSurvey } from "../../Functions/parsing";
 
 
@@ -36,8 +35,6 @@ class Edit extends Component {
         defaultThemeColors["$main-color"] = "#4CAF50";
         defaultThemeColors["$main-hover-color"] = "#45a049";
         Survey.StylesManager.applyTheme();
-
-        this.surveyJSON = loadEvaluation(exampleOldEvaluation, this.surveyJSON);
 
 
 
