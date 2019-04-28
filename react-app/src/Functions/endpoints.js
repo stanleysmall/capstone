@@ -80,10 +80,11 @@ export const publishEval = (name) =>
             response.published = "T";
             putEval(response);
         });*/
-    markPublished(name);
+    //markPublished(name);
     return fetch(APIAddress +"publish?name=" + name)
     .then(response =>response.json())
     .then((responseData) => {
+        console.log("published" + name)
         return responseData;
     })
 }

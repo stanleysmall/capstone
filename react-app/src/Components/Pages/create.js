@@ -35,7 +35,10 @@ class Create extends Component {
     */
     constructor(props){
         super(props);
-        
+
+        putEval(exampleOldEvaluation);
+        putEval(exampleOldEvaluation);
+
         //Bind this in the onComplete function so we can access state and other functions through it
         this.onComplete = this.onComplete.bind(this);
 
@@ -57,7 +60,7 @@ class Create extends Component {
                 this.setState({loadableEvals: this.state.loadableEvals.concat([{id:i+1, name:responseData[i]}])});
             }
         })
-        this.surveyJSON = loadEvaluation(survey, this.surveyJSON)
+        this.surveyJSON = survey;
         this.setState({useTemplate: false});
     }
 
