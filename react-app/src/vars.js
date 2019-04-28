@@ -1474,7 +1474,7 @@ export const survey = {
        {
         "type": "comment",
         "name": "initialEmail",
-        "defaultValue": "Subject: Invitation to Complete Evaluation for {COURSEDESIGNATOR} {COURSENUMBER} {COURSETITLE}\nDear {FIRSTNAME},\nPlease complete the teaching and course evaluation for {COURSEDESIGNATOR} {COURSENUMBER}\n{COURSETITLE}.\n\nThis student evaluation of teaching is completely anonymous unless you purposefully identify yourself in response to one\nof the questions. The software system will send you automatic reminders every few days until you complete the\nevaluation.\nTo respond, simply click the link at the end of this message.\nSincerely,\n{ADMINNAME}\n----------------------------------------------\nClick here to complete the teaching and course evaluation:\n{SURVEYURL}\n{ADMINNAME} ({ADMINEMAIL})",
+        "defaultValue": "Dear {FIRSTNAME},\nPlease complete the teaching and course evaluation for {SURVEYNAME}.\n\nThis student evaluation of teaching is completely anonymous unless you purposefully identify yourself in response to one\nof the questions. The software system will send you automatic reminders every few days until you complete the\nevaluation.\nTo respond, simply click the link at the end of this message.\nSincerely,\n{ADMINNAME}\n----------------------------------------------\nClick here to complete the teaching and course evaluation:\n{SURVEYURL}\n{ADMINNAME} ({ADMINEMAIL})",
         "titleLocation": "hidden"
        },
        {
@@ -1499,7 +1499,7 @@ export const survey = {
         "name": "reminderEmail",
         "visibleIf": "{Include Reminder} = [\"item1\"]",
         "title": "Reminder Emails",
-        "defaultValue": "Subject: Reminder to Complete Evaluation for {COURSEDESIGNATOR} {COURSENUMBER} {COURSETITLE}\nDear {FIRSTNAME},\nRecently we invited you to complete a teaching evaluation for “{COURSEDESIGNATOR} {COURSENUMBER}\n{COURSETITLE}”. We note that you have not yet completed the evaluation, and wish to remind you that it is still\navailable should you wish to take part.\nTo participate, please click on the link below.\nThe deadline for completing the evaluation is {CLOSINGDATE} at {TIME}.\nYour participation is extremely important to the improvement of teaching and courses at the {UNIVERSITYNAME}\nSincerely,\n{ADMINNAME}\n----------------------------------------------\nClick here to complete the teaching and course evaluation:\n{SURVEYURL}",
+        "defaultValue": "Dear {FIRSTNAME},\nRecently we invited you to complete a teaching evaluation for “{SURVEYNAME}”. We note that you have not yet completed the evaluation, and wish to remind you that it is still\navailable should you wish to take part.\nTo participate, please click on the link below.\nThe deadline for completing the evaluation is {VALIDUNTIL}.\nYour participation is extremely important to the improvement of teaching and courses at the university. \nSincerely,\n{ADMINNAME}\n----------------------------------------------\nClick here to complete the teaching and course evaluation:\n{SURVEYURL}",
         "titleLocation": "hidden"
        }
       ],
