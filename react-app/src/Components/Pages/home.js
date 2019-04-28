@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {Redirect} from "react-router";
 import {LoggedInHeader, DynamicSelecter, RadioSelecter} from "../displayComponents";
-import {getEvalNames, publishEval, getUnpublishedEvalNames, deleteSurvey, getPublishedEvalNames, getTagValues } from "../../Functions/endpoints";
+import {getEvalNames, publishEval, getUnpublishedEvalNames, deleteSurvey, getPublishedEvalNames, getTagValues, putEval } from "../../Functions/endpoints";
 import "../../CSS/App.css";
+import {exampleOldEvaluation} from "../../vars";
 
 class Home extends Component {
     state = {
@@ -20,7 +21,7 @@ class Home extends Component {
     
     
     componentDidMount() {
-    
+
         document.title = 'Home Page';
         this.reportsInstructor=getTagValues('instructor');
         this.reportsCourseSec=getTagValues('courseSection');
