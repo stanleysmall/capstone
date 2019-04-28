@@ -471,15 +471,12 @@ def validate():
         # User ID is one higher than the current maximum ID
         cursor.execute("select max(ID) from user;")
         user_ID = cursor.fetchone()[0]
-        logging.info(user_ID)
         # Use '1' if no user IDs are in table
         user_ID = str(user_ID + 1) if user_ID else '1'
-        logging.info(user_ID)
         
         cursor.execute("select * from user where `e-mail` = '"
                        + session['email'] + "';")
         if not cursor.fetchone():
-            logging.info('insert')
             # If the user doesn't already exist, insert it
             cursor.execute("insert into user values (" + user_ID
                            + ", '', '" + session['email'] + "')")
