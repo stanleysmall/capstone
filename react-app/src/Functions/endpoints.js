@@ -1,4 +1,4 @@
-const APIAddress = "http://3.16.152.189:8080/teameval/Eval/1.0.0/";
+const APIAddress = "http://teachingevaluations.org:8080/teameval/Eval/1.0.0/";
 
 
 /*
@@ -91,7 +91,6 @@ export const publishEval = (name) =>
 
 export const getTagValues = (cat_type) =>
 {
-
 	return fetch(APIAddress + "tag_values?tag_type=" + cat_type)
 			.then(response =>response.json())
 			.then((responseData) => {
