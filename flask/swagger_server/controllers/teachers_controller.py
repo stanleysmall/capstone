@@ -428,11 +428,17 @@ def tag_values_get(tag_type):
     
     email = session['email']                # Use e-mail of current user
     
-    cursor.execute("select value from tag, survey_to_tag, survey, " \
-        "user where tag.type = '" + tag_type + "' && tag.ID = " \
-        "survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && " \
-        "survey.user_ID = user.ID && user.`e-mail` = '"
-        + email + "';")
+    if tag_type == 'instructor':
+        # Use the instructor table if the type is 'instructor'
+        cursor.execute("select instructor.name from instructor, survey, " \
+            "user where instructor.ID = survey.instructor_ID && " \
+            "survey.user_ID = user.ID && user.`e-mail` = '" + email + "';")
+    else:
+        cursor.execute("select value from tag, survey_to_tag, survey, " \
+            "user where tag.type = '" + tag_type + "' && tag.ID = " \
+            "survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && " \
+            "survey.user_ID = user.ID && user.`e-mail` = '"
+            + email + "';")
     
     return [value[0] for value in cursor.fetchall()]
 
