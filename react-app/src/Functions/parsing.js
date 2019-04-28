@@ -481,6 +481,7 @@ export const loadEvaluation = (evaluation, surveyJSON) =>
     surveyJSON.pages[0].elements[1].defaultValue = defaultValues;
 
     /*
+    FOR NON DYNMAIC QUESTIONS
     "defaultValue": {
         "How prepared was the instructor for class?": {
          "1": "often unprepared",
@@ -494,7 +495,42 @@ export const loadEvaluation = (evaluation, surveyJSON) =>
          "5": "very clear"
         },
         
-        */
+        
+        FOR DYNAMIC QUESTIONS
+       "defaultValue": [
+        {
+         "1": "one",
+         "5": "five",
+         "question": "This is a question",
+         "include": [
+          "include"
+         ],
+         "mandatory": [
+          "mandatory"
+         ]
+        },
+        {
+         "1": "one",
+         "5": "five",
+         "question": "This is a second question",
+         "include": [
+          "include"
+         ],
+         "mandatory": [
+          "mandatory"
+         ]
+        }
+
+        "rowCount": 2,
+       "confirmDelete": true,
+       "confirmDeleteText": "Are you sure you want to remove this question?",
+       "addRowText": "Add Question",
+       "removeRowText": "Remove"
+       ]
+
+       */
+
+
 
 
        surveyJSON.pages[2].elements[1].elements[1].defaultValue = evaluation.email_invite;

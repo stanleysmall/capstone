@@ -78,14 +78,22 @@ export class DynamicSelecter extends Component {
 }
 
 export class RadioSelecter extends Component {
-	render(){
+    
+    state = {forceReload:false}
+
+    radioChange(value)
+    {
+        this.props.onChange(value);
+    }
+    
+    render(){
 		return(
 			<fieldset id = {this.props.iden}>
-				<input type="radio" name="resultTagType" value="instructor" defaultChecked /> Instructor<br/>
-				<input type="radio" name="resultTagType" value="course_designator"/> Course Designator<br/>
-				<input type="radio" name="resultTagType" value="unit"/> Unit<br/>
-				<input type="radio" name="resultTagType" value="college"/> College<br/>
-				<input type="radio" name="resultTagType" value="university"/> University<br/><br/>	
+				<input type="radio" name="resultTagType" value="instructor" onClick={() => {this.radioChange("reportsInstructor")}} defaultChecked /> Instructor<br/>
+				<input type="radio" name="resultTagType" value="course_designator" onClick={() => {this.radioChange("reportsCourseDes")}}/> Course Designator<br/>
+				<input type="radio" name="resultTagType" value="unit" onClick={() => {this.radioChange("reportsUnit")}}/> Unit<br/>
+				<input type="radio" name="resultTagType" value="college" onClick={() => {this.radioChange("reportsCollege")}}/> College<br/>
+				<input type="radio" name="resultTagType" value="university" onClick={() => {this.radioChange("reportsUniversity")}}/> University<br/><br/>	
 			</fieldset>
 		)
 	}
