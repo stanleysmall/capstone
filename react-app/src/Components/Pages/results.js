@@ -68,7 +68,7 @@ class Results extends Component {
 		//If it is, need aggregated results
 		if(this.tagName === "instructor"){
 			//Assumes all surveys have the same first question
-			var question1 = this.resultsJson[0];
+			var question1 = this.resultsJson["How clearly were the objectives of the course presented?"];
 			console.log("JSON: " + JSON.stringify(this.resultsJson,null,2));
 			//Loops through all the surveys for the given instructor
 			for(var survey in question1){
