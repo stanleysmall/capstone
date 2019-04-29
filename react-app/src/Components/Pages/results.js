@@ -10,12 +10,12 @@ class Results extends Component {
 	
 	tag=this.props.match.params.tag;
 	tagName=this.props.match.params.tagName;
-	/*resultsJson = {"Question 1": {
-						'Survey 1':{"median": 5, "mean": 3, "std_dev": 1, "n": 43},
-						'Survey 2':{"median": 3, "mean": 4, "std_dev": 2, "n": 59},
+	/*resultsJson = {"How prepared was the instructor for class?": {
+						'COS 420 001':{"median": 5, "mean": 3, "std_dev": 1, "n": 43},
+						'COS 225 002 ':{"median": 3, "mean": 4, "std_dev": 2, "n": 59},
 						'Survey 3':{"median": 4, "mean": 5, "std_dev": 3, "n": 38}
 						},
-					'Question 2':{
+					'How clearly were the objectives of the course presented?':{
 						'Survey 1':{"median": 4, "mean": 1, "std_dev": 2, "n": 43},
 						'Survey 2':{"median": 4, "mean": 2, "std_dev": 2, "n": 59},
 						'Survey 3':{"median": 5, "mean": 3, "std_dev": 2, "n": 38}
@@ -36,8 +36,8 @@ class Results extends Component {
 
 		getResults(this.tagName, this.tag)
 		.then((response) => {this.resultsJson = response;});
-		
-		this.getAggregatedResults();
+		if(this.resultJson!=null)	
+			this.getAggregatedResults();
 	}
 	
 	
@@ -55,7 +55,7 @@ class Results extends Component {
 		
 		//Checks if the tag is instructor
 		//If it is, need aggregated results
-		if(this.tagName === "instructor"){
+		if(this.tagName === "instructor"&&){
 			//Assumes all surveys have the same first question
 			var question1 = this.resultsJson[0];
 			//Loops through all the surveys for the given instructor
@@ -126,64 +126,67 @@ class Results extends Component {
 		//Creates the HTML table for display on the screen
 		
 		let table = []
-
-		for(var question in this.resultsJson){
-			//Loops through every question in the results object
-			
-			//children will be a row
-			let children = []
-			//Creates a header stating the question
-			table.push(<h2>{question}</h2>)
-			//Creates headers for each of the 
-			table.push(<tr>
-			<th></th>
-			<th>Median</th>
-			<th>Mean</th>
-			<th>Std. Dev</th>
-			<th>n</th>
-			</tr>)
-			
-			//Q is in the form {Survey 1: {'median': 5 ,'mean': 3, 'std. dev': 2, 'n': 39}, Survey 2....}
-			var Q = this.resultsJson[question]
-			//Loops through all the surveys for each question
-			for (var survey in Q) {
-				//S is in the form {Median: 3, Mean: 2, Std. Dev 3, n: 23}
-				var S = Q[survey]
-				//Add the name of the survey to the table
-				children.push(<td>{survey}</td>)
-				for(var item in S){
-					//Loop through each item in the survey
-					var value = this.resultsJson[question][survey][item]
-					//Add the value to the table
-					children.push(<td>{value}</td>)
-				}
+		if(this.resultsJson===null){
+			table.push(<h2>{"There are currently no results for this category. Please check back later."}</h2>)
+		}else{
+			for(var question in this.resultsJson){
+				//Loops through every question in the results object
 				
-				//Add the row to the table 
-				table.push(<tr>{children}</tr>)
+				//children will be a row
+				let children = []
+				//Creates a header stating the question
+				table.push(<h2>{question}</h2>)
+				//Creates headers for each of the 
+				table.push(<tr>
+				<th></th>
+				<th>Median</th>
+				<th>Mean</th>
+				<th>Std. Dev</th>
+				<th>n</th>
+				</tr>)
 				
-				children = []
-			}
-			
-			
-			//If the tag is instructor, need all aggregated results
-			if(this.tagName==='instructor'){
-					//Loop through each object 
-					for(var object in this.resultObjectsUnder){
-						//Assumes every survey has the same first question
-						var surv = object[question][0];
-						//surv has will be COS or SCIS.. etc
-						children.push(<td>{surv}</td>)
-						for (var item in surv){
-							//adds each value to the table
-							var value = object[question][0][item]
-							children.push(<td>{value}</td>)
-						}
-						//adds the row to the table
-						table.push(<tr>{children}</tr>)
-						children = []
+				//Q is in the form {Survey 1: {'median': 5 ,'mean': 3, 'std. dev': 2, 'n': 39}, Survey 2....}
+				var Q = this.resultsJson[question]
+				//Loops through all the surveys for each question
+				for (var survey in Q) {
+					//S is in the form {Median: 3, Mean: 2, Std. Dev 3, n: 23}
+					var S = Q[survey]
+					//Add the name of the survey to the table
+					children.push(<td>{survey}</td>)
+					for(var item in S){
+						//Loop through each item in the survey
+						var value = this.resultsJson[question][survey][item]
+						//Add the value to the table
+						children.push(<td>{value}</td>)
 					}
+					
+					//Add the row to the table 
+					table.push(<tr>{children}</tr>)
+					
+					children = []
 				}
-			
+				
+				
+				//If the tag is instructor, need all aggregated results
+				if(this.tagName==='instructor'){
+						//Loop through each object 
+						for(var object in this.resultObjectsUnder){
+							//Assumes every survey has the same first question
+							var surv = object[question][0];
+							//surv has will be COS or SCIS.. etc
+							children.push(<td>{surv}</td>)
+							for (var item in surv){
+								//adds each value to the table
+								var value = object[question][0][item]
+								children.push(<td>{value}</td>)
+							}
+							//adds the row to the table
+							table.push(<tr>{children}</tr>)
+							children = []
+						}
+					}
+				
+			}
 		}
 		return table;
 		
