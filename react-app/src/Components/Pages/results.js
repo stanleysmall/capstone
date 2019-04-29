@@ -204,13 +204,13 @@ class Results extends Component {
 							//surv has will be COS or SCIS.. etc
 							children.push(<td>{surv}</td>)
 								//adds each value to the table
-								var value = object[question][surv]['median']
+								var value = this.resultObjectsUnder[i][question][surv]['median']
 								children.push(<td>{value}</td>)
-								var value = object[question][surv]['mean']
+								var value = this.resultObjectsUnder[i][question][surv]['mean']
 								children.push(<td>{value}</td>)
-								var value = object[question][surv]['std_dev']
+								var value = this.resultObjectsUnder[i][question][surv]['std_dev']
 								children.push(<td>{value}</td>)
-								var value = object[question][surv]['n']
+								var value = this.resultObjectsUnder[i][question][surv]['n']
 								children.push(<td>{value}</td>)
 
 							//adds the row to the table
