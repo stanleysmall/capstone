@@ -23,20 +23,26 @@ class Results extends Component {
 		
 	};*/
 	
-	resultsJson = getResults(this.tagName,this.tag);
+	state = {a:1};
+
+	resultsJson = null;
+
+	componentDidMount(){
+	
+		document.title = 'Results Page';
+
+		getResults(this.tagName, this.tag)
+		.then((response) => {this.resultsJson = response;});
+	}
 	
 	
 	getAggregatedResults = () =>{
 		
-	
-	
 	var courseDesignators = [];
 	var facultyUnits = [];
 	var colleges = [];
 	var universities = [];
 	var resultObjectsUnder = [];
-		
-
 		
 		if(this.tagName === "instructor"){
 			var question1 = this.resultsJson[0];
@@ -52,24 +58,40 @@ class Results extends Component {
 					universities.push(surveyJson.university);
 			}
 
+			//CHANGE EEVERYTHING TO USE .THEN
 			for(var des in courseDesignators)
 			{
-				getResults('course_designator', des)
-				.then((response) => { resultObjectsUnder.push(response)});
+				getResults('courseDesignator', des)
+				.then((response) => { resultObjectsUnder.push(response)
+				this.setState({a:this.state.a + 1});
+				})
 			}
 
 			for(var fac in facultyUnits)
-				resultObjectsUnder.push(getResults('unit', fac));
+			{
+				getResults('facultyUnit', fac)
+				.then((response) => {resultObjectsUnder.push(response);
+				this.setState({a:this.state.a + 1})
+				})
+			}
+				
 			for(var col in colleges)
-				resultObjectsUnder.push(getResults('college', col));
+			{
+				getResults('college', col)
+				.then((response) => {resultObjectsUnder.push(response);
+				this.setState({a:this.state.a + 1});
+				})
+			}
+
 			for(var uni in universities)
-				resultObjectsUnder.push(getResults('university', uni));
+				getResults('university', uni)
+				.then((response) => {resultObjectsUnder.push(response);
+				this.setState({a:this.state.a + 1})
+				})
+				
 		}
 	}
 	
-	componentDidMount() {
-		document.title = 'Results Page';
-	  }
 	containsObject(obj, list){
 		var i;
 		for(i = 0; i< list.length; i++){
@@ -80,7 +102,6 @@ class Results extends Component {
 		return false;
 	}
 	  
-	
 	createTable = () => {
 		let table = []
 
