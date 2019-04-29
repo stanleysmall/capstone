@@ -43,9 +43,10 @@ class Results extends Component {
 		document.title = 'Results Page';
 
 		getResults(this.tagName, this.tag)
-		.then((response) => {this.resultsJson = response;
-		if(this.resultsJson!==null)	
-			this.getAggregatedResults();
+		.then((response) => {
+			this.resultsJson = response;
+			if(this.resultsJson!==null)	
+				this.getAggregatedResults();
 			this.setState({a:this.state.a + 1});
 		});
 	}
