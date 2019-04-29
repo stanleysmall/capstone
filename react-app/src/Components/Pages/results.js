@@ -54,7 +54,6 @@ class Results extends Component {
 	
 	getAggregatedResults = () =>{
 	
-	console.log("getting that booty");
 	//List of course designators, i.e [COS, MUS, NMD]
 	var courseDesignators = [];
 	//List of faculty units, i.e [SCIS]
@@ -70,7 +69,7 @@ class Results extends Component {
 		if(this.tagName === "instructor"){
 			//Assumes all surveys have the same first question
 			var question1 = this.resultsJson[0];
-			console.log("QUESTION: " + question1);
+			console.log("JSON: " + JSON.stringify(this.resultsJson,null,2));
 			//Loops through all the surveys for the given instructor
 			for(var survey in question1){
 				console.log("Survey: " + survey);
