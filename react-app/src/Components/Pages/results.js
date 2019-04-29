@@ -75,7 +75,8 @@ class Results extends Component {
 				//For each survey, retrieve its information
 				var surveyJson = null;
 				getEval(survey)
-				.then((response) =>{surveyJson = response;
+				.then((response) =>{
+					surveyJson = response;
 				
 				//For each survey, check to see if its details are in the above lists
 				//if not, add them
@@ -163,16 +164,22 @@ class Results extends Component {
 				var Q = this.resultsJson[question]
 				//Loops through all the surveys for each question
 				for (var survey in Q) {
-					//S is in the form {Median: 3, Mean: 2, Std. Dev 3, n: 23}
-					var S = Q[survey]
 					//Add the name of the survey to the table
 					children.push(<td>{survey}</td>)
-					for(var item in S){
 						//Loop through each item in the survey
-						var value = this.resultsJson[question][survey][item]
+						var value = this.resultsJson[question][survey]['median']
 						//Add the value to the table
 						children.push(<td>{value}</td>)
-					}
+						var value = this.resultsJson[question][survey]['mean']
+						//Add the value to the table
+						children.push(<td>{value}</td>)
+						var value = this.resultsJson[question][survey]['std_dev']
+						//Add the value to the table
+						children.push(<td>{value}</td>)
+						var value = this.resultsJson[question][survey]['n']
+						//Add the value to the table
+						children.push(<td>{value}</td>)
+					
 					
 					//Add the row to the table 
 					table.push(<tr>{children}</tr>)
@@ -189,11 +196,16 @@ class Results extends Component {
 							var surv = object[question][0];
 							//surv has will be COS or SCIS.. etc
 							children.push(<td>{surv}</td>)
-							for (var item in surv){
 								//adds each value to the table
-								var value = object[question][0][item]
+								var value = object[question][0]['median']
 								children.push(<td>{value}</td>)
-							}
+								var value = object[question][0]['mean']
+								children.push(<td>{value}</td>)
+								var value = object[question][0]['std_dev']
+								children.push(<td>{value}</td>)
+								var value = object[question][0]['n']
+								children.push(<td>{value}</td>)
+
 							//adds the row to the table
 							table.push(<tr>{children}</tr>)
 							children = []
@@ -217,10 +229,15 @@ class Results extends Component {
 				var S = Q[survey]
 				
 				let newItem = [survey]
-				for(var item in S){
-					var value = this.resultsJson[question][survey][item]
+					var value = this.resultsJson[question][survey]['median']
 					newItem.push(value)
-				}
+					var value = this.resultsJson[question][survey]['mean']
+					newItem.push(value)
+					var value = this.resultsJson[question][survey]['std_dev']
+					newItem.push(value)
+					var value = this.resultsJson[question][survey]['n']
+					newItem.push(value)
+				
 				table.push(newItem)
 
 			}
@@ -228,10 +245,16 @@ class Results extends Component {
 			for (var survey in Q) {
 				var S = Q[survey]
 				let newItem = [survey]
-				for(var item in S){
-					var value = this.resultsJson[question][survey][item]
-					newItem.push(value)
-				}
+				
+				var value = this.resultsJson[question][survey]['median']
+				newItem.push(value)
+				var value = this.resultsJson[question][survey]['mean']
+				newItem.push(value)
+				var value = this.resultsJson[question][survey]['std_dev']
+				newItem.push(value)
+				var value = this.resultsJson[question][survey]['n']
+				newItem.push(value)
+				
 				
 				
 				table.push(newItem)
