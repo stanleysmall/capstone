@@ -197,7 +197,7 @@ class Results extends Component {
 				//If the tag is instructor, need all aggregated results
 				if(this.tagName==='instructor'){
 						//Loop through each object 
-						for(var i=0; i++; i<this.resultObjectsUnder.length){
+						for(var i=0; i<this.resultObjectsUnder.length; i++){
 							//Assumes every survey has the same first question
 							console.log("OBJECT?? ? ?? " + this.resultObjectsUnder[i]);
 							var surv = this.resultObjectsUnder[i][question];
@@ -250,7 +250,7 @@ class Results extends Component {
 			}
 			
 			if(this.tagName==='intsructor'){
-				for (var i=0; i++; i< this.resultObjectsUnder.length) {
+				for (var i=0; i< this.resultObjectsUnder.length;  i++) {
 				var survey = this.resultObjectsUnder[i][question];
 				let newItem = [survey]
 				
