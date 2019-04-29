@@ -72,9 +72,9 @@ class Results extends Component {
 			//Loops through all the surveys for the given instructor
 			for(var survey in question1){
 				//For each survey, retrieve its information
-				var surveyJson'
+				var surveyJson = null;
 				getEval(survey)
-				.then((response) =>{surveyJson = response;});
+				.then((response) =>{surveyJson = response;
 				
 				//For each survey, check to see if its details are in the above lists
 				//if not, add them
@@ -85,7 +85,7 @@ class Results extends Component {
 				if(!this.containsObject(surveyJson.college, colleges))
 					colleges.push(surveyJson.college);
 				if(!this.containsObject(surveyJson.university, universities))
-					universities.push(surveyJson.university);
+				universities.push(surveyJson.university);});
 			}
 			
 			//Gets the result JSONS for each object in each list
