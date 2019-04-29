@@ -101,6 +101,7 @@ class Results extends Component {
 				this.setState({a:this.state.a + 1});
 				})
 			}
+			/*
 		
 			for(var fac in facultyUnits)
 			{
@@ -125,6 +126,7 @@ class Results extends Component {
 				})
 				
 			}
+			*/
 		
 		}
 	}
