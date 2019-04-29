@@ -247,8 +247,8 @@ class Results extends Component {
 			}
 			
 			if(this.tagName==='intsructor'){
-				for (var object in this.resultObjectsUnder) {
-				var survey = this.resultObjectsUnder[object][question][Object.keys(object)[0]];
+				for (var i=0; i++; i< this.resultObjectsUnder.length) {
+				var survey = this.resultObjectsUnder[i][question];
 				let newItem = [survey]
 				
 				var value = this.resultsJson[question][survey]['median']
