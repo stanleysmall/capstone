@@ -97,7 +97,7 @@ class Results extends Component {
 			//Gets the result JSONS for each object in each list
 			for(var des in courseDesignators)
 			{
-				getResults('courseDesignator', des)
+				getResults('courseDesignator', courseDesignators[des])
 				.then((response) => { this.resultObjectsUnder.push(response)
 				this.setState({a:this.state.a + 1});
 				})
@@ -105,7 +105,7 @@ class Results extends Component {
 
 			for(var fac in facultyUnits)
 			{
-				getResults('facultyUnit', fac)
+				getResults('facultyUnit', facultyUnits[fac])
 				.then((response) => {this.resultObjectsUnder.push(response);
 				this.setState({a:this.state.a + 1});
 				})
@@ -113,14 +113,14 @@ class Results extends Component {
 				
 			for(var col in colleges)
 			{
-				getResults('college', col)
+				getResults('college', colleges[col])
 				.then((response) => {this.resultObjectsUnder.push(response);
 				this.setState({a:this.state.a + 1});
 				})
 			}
 
 			for(var uni in universities)
-				getResults('university', uni)
+				getResults('university', universities[uni])
 				.then((response) => {this.resultObjectsUnder.push(response);
 				this.setState({a:this.state.a + 1});
 				})
