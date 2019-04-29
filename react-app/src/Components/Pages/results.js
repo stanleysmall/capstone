@@ -246,7 +246,8 @@ class Results extends Component {
 
 			}
 			
-			for (var survey in Q) {
+			if(this.tag==='intsructor'){
+				for (var object in this.resultObjectsUnder) {
 				var S = Q[survey]
 				let newItem = [survey]
 				
@@ -263,7 +264,8 @@ class Results extends Component {
 				
 				table.push(newItem)
 				newItem = []
-			}
+				}
+			}	
 			
 		}
 		return table;
