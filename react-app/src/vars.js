@@ -4,6 +4,141 @@
 //Sams
 export const oAuthClientID = "120537157290-mtdj0mjahrhvq284uqguu8j5hophplc5.apps.googleusercontent.com";
 
+export const oldEval = {
+  "URL": "blank.com",
+  "instructor": "Sam Elliott",
+  "participants": [
+    {
+      "name": "Sam elliott",
+      "address": "samuel.elliott@maine.edu"
+    }
+  ],
+  "questions": [
+    {
+      "ID": 1,
+      "helpText": "1 = often unprepared, 5 = well prepared",
+      "mandatory": true,
+      "group": "The Instructor",
+      "type": "5",
+      "text": "How prepared was the instructor for class?"
+    },
+    {
+      "ID": 2,
+      "helpText": "1 = unclear, 5 = very clear",
+      "mandatory": true,
+      "group": "The Instructor",
+      "type": "5",
+      "text": "How clearly were the objectives of the course presented?"
+    },
+    {
+      "ID": 3,
+      "helpText": "1 = very little, 5 = very much",
+      "mandatory": false,
+      "group": "The Instructor",
+      "type": "5",
+      "text": "How enthusiastic was the instructor about the subject?"
+    },
+    {
+      "ID": 4,
+      "helpText": "1 = unclear, 5 = very clear",
+      "mandatory": false,
+      "group": "The Instructor",
+      "type": "5",
+      "text": "How clearly did the instructor present concepts, principles and theories?"
+    },
+    {
+      "ID": 5,
+      "helpText": "1 = one, 5 = five",
+      "mandatory": false,
+      "group": "The Instructor",
+      "type": "5",
+      "text": "This is a custom question"
+    },
+    {
+      "ID": 6,
+      "helpText": "1 = one, 5 = fiveee",
+      "mandatory": true,
+      "group": "The Instructor",
+      "type": "5",
+      "text": "This is another custom question"
+    },
+    {
+      "ID": 7,
+      "helpText": "1 = rarely, 5 = always",
+      "mandatory": false,
+      "group": "The Course",
+      "type": "5",
+      "text": "Were class meetings profitable and worth attending?"
+    },
+    {
+      "ID": 8,
+      "helpText": "1 = poor, 5 = excellent",
+      "mandatory": false,
+      "group": "The Course",
+      "type": "5",
+      "text": "What is you overall rating of the primary readings?"
+    },
+    {
+      "ID": 9,
+      "helpText": "1 = very little, 5 = very much",
+      "mandatory": false,
+      "group": "The Course",
+      "type": "5",
+      "text": "How much did this course challenge you intellectually?"
+    },
+    {
+      "ID": 10,
+      "helpText": "1 = one, 5 = five",
+      "mandatory": false,
+      "group": "The Course",
+      "type": "5",
+      "text": "This is a custom question"
+    },
+    {
+      "ID": 11,
+      "helpText": "",
+      "mandatory": false,
+      "group": "Open Ended Questions",
+      "type": "T",
+      "text": "Please identify the aspects of this course that were of most value to you."
+    },
+    {
+      "ID": 12,
+      "helpText": "",
+      "mandatory": false,
+      "group": "Open Ended Questions",
+      "type": "T",
+      "text": "Please mention at least one additional topic or component that you would like to see included in this course."
+    }
+  ],
+  "name": "MUS200:001 Fall 2019",
+  "courseDesignator": "MUS",
+  "courseNumber": "200",
+  "courseSection": "001",
+  "courseTitle": "Ballroom Dance",
+  "semesterYear": "Fall 2019",
+  "facultyUnit": "School of Music",
+  "college": "Liberal Arts",
+  "university": "University of Maine",
+  "instructorFirst": "Sam",
+  "instructorLast": "Elliott",
+  "instructorEmail": "Samuel.elliott@maine.edu",
+  "instructorPhone": "120389483",
+  "adminName": "samuel elliott",
+  "adminEmail": "samuel.elliott@maine.edu",
+  "beginDate": "2019-04-29",
+  "closeDate": "2019-04-30",
+  "reminderTime": "11:20",
+  "graduateCourse": "Y",
+  "email_invite": "Dear {FIRSTNAME},\nPlease complete the teaching and course evaluation for {SURVEYNAME}.\n\nThis student evaluation of teaching is completely anonymous unless you purposefully identify yourself in response to one\nof the questions. The software system will send you automatic reminders every few days until you complete the\nevaluation.\nTo respond, simply click the link at the end of this message.\nSincerely,\n{ADMINNAME}\n----------------------------------------------\nClick here to complete the teaching and course evaluation:\n{SURVEYURL}\n{ADMINNAME} ({ADMINEMAIL})",
+  "email_remind": "",
+  "published": "F",
+  "description": "This is a teaching evaluation for MUS200:001 Fall 2019",
+  "welcometext": "Please complete the evaluation for MUS200:001 Fall 2019",
+  "endtext": "Thank you for taking this evaluation",
+  "email_register": "",
+  "email_confirm": ""
+}
 
 //Questions which require a text box, all other questions will be rated 1-5
 export const defaultQuestionList = ["What was done particularly well in the laboratory experience?",

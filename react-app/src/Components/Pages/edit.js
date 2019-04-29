@@ -6,11 +6,10 @@ import {LoggedInHeader} from "../displayComponents";
 import "survey-react/survey.css";
 import * as Survey from "survey-react";
 
-import {putEval} from "../../Functions/endpoints.js";
+import {putEval, getEval} from "../../Functions/endpoints.js";
 
-import {survey} from "../../vars";
+import {survey, oldEval} from "../../vars";
 import { loadEvaluation, formatSurvey } from "../../Functions/parsing";
-
 
 class Edit extends Component {
     
@@ -18,6 +17,11 @@ class Edit extends Component {
 
     componentDidMount() {
         document.title = 'Edit Page';
+
+        getEval(this.props.match.params.evalName)
+        .then((response) =>{
+            this.surveyJSON = loadEvaluation(response, this.surveyJSON);
+        })
       }
 
     constructor(props)
@@ -36,11 +40,8 @@ class Edit extends Component {
         defaultThemeColors["$main-hover-color"] = "#45a049";
         Survey.StylesManager.applyTheme();
 
-
-
-        //this.surveyJSON = loadEvaluation(getEval(this.props.match.params.evalName), this.surveyJSON);
-        console.log(this.props)
     }
+
 
     /*
     Arguments:

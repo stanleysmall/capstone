@@ -51,8 +51,13 @@ class Results extends Component {
 				if(!this.containsObject(surveyJson.university, universities))
 					universities.push(surveyJson.university);
 			}
+
 			for(var des in courseDesignators)
-				resultObjectsUnder.push(getResults('course_designator', des));
+			{
+				getResults('course_designator', des)
+				.then((response) => { resultObjectsUnder.push(response)});
+			}
+
 			for(var fac in facultyUnits)
 				resultObjectsUnder.push(getResults('unit', fac));
 			for(var col in colleges)

@@ -480,6 +480,12 @@ export const loadEvaluation = (evaluation, surveyJSON) =>
     //Populate the surveyJSON with default values for the first page
     surveyJSON.pages[0].elements[1].defaultValue = defaultValues;
 
+    //console.log(evaluation.questions);
+    for (var question in evaluation.questions)
+    {
+        loadDefaultQuestion(evaluation.questions[question], surveyJSON);
+    }
+
     /*
     FOR NON DYNMAIC QUESTIONS
     "defaultValue": {
@@ -522,23 +528,96 @@ export const loadEvaluation = (evaluation, surveyJSON) =>
         }
 
         "rowCount": 2,
-       "confirmDelete": true,
-       "confirmDeleteText": "Are you sure you want to remove this question?",
-       "addRowText": "Add Question",
-       "removeRowText": "Remove"
+        "confirmDelete": true,
+        "confirmDeleteText": "Are you sure you want to remove this question?",
+        "addRowText": "Add Question",
+        "removeRowText": "Remove"
        ]
 
        */
 
-
-
-
        surveyJSON.pages[2].elements[1].elements[1].defaultValue = evaluation.email_invite;
        surveyJSON.pages[2].elements[1].elements[4].defaultValue = evaluation.email_reminder;
 
+    return surveyJSON;
+}
 
+const loadDefaultQuestion = (q, JSON) =>
+{   
+    console.log(JSON);
+    if(q.group === "The Instructor")
+    {
+        JSON.pages[1].elements[1].elements[0].defaultValue[q.text].include = ["include"];
+
+        if(q.mandatory)
+        {
+            JSON.pages[1].elements[1].elements[0].defaultValue[q.text].mandatory = ["mandatory"];
+        }
+    }
+
+    if(q.group === "The Course")
+    {
+        JSON.pages[1].elements[2].elements[0].defaultValue[q.text].include = ["include"];
+
+        if(q.mandatory)
+        {
+            JSON.pages[1].elements[2].elements[0].defaultValue[q.text].mandatory = ["mandatory"];
+        }
+    }
     
 
+    if(q.group === "The Assesments")
+    {
+        JSON.pages[1].elements[3].elements[0].defaultValue[q.text].include = ["include"];
 
-    return surveyJSON;
+        if(q.mandatory)
+        {
+            JSON.pages[1].elements[3].elements[0].defaultValue[q.text].mandatory = ["mandatory"];
+        }
+    }
+
+    if(q.group === "Open Ended Questions")
+    {
+        if(JSON.pages[1].elements[4].elements[0].defaultValue === null)
+            JSON.pages[1].elements[4].elements[0].defaultValue = {};
+        if(JSON.pages[1].elements[4].elements[0].defaultValue[q.text] === null)
+            JSON.pages[1].elements[4].elements[0].defaultValue[q.text] = {};
+            
+        JSON.pages[1].elements[4].elements[0].defaultValue[q.text].include = ["include"];
+
+        if(q.mandatory)
+        {
+            JSON.pages[1].elements[4].elements[0].defaultValue[q.text].mandatory = ["mandatory"];
+        }
+    }
+
+    if(q.group === "The Lab")
+    {
+        JSON.pages[1].elements[5].elements[1].defaultValue[q.text].include = ["include"];
+        JSON.pages[1].elements[5].elements[0].defaultValue = ["IncludeLab"]
+        if(q.mandatory)
+        {
+            JSON.pages[1].elements[5].elements[1].defaultValue[q.text].mandatory = ["mandatory"];
+        }
+    }
+
+    if(q.group === "The Teaching Assistant")
+    {
+        JSON.pages[1].elements[6].elements[1].defaultValue[q.text].include = ["include"];
+        JSON.pages[1].elements[6].elements[0].defaultValue = ["Include"]
+        if(q.mandatory)
+        {
+            JSON.pages[1].elements[6].elements[1].defaultValue[q.text].mandatory = ["mandatory"];
+        }
+    }
+
+    if(q.group === "The Online Component")
+    {
+        JSON.pages[1].elements[7].elements[1].defaultValue[q.text].include = ["include"];
+        JSON.pages[1].elements[7].elements[0].defaultValue = ["Include"]
+        if(q.mandatory)
+        {
+            JSON.pages[1].elements[7].elements[1].defaultValue[q.text].mandatory = ["mandatory"];
+        }
+    }
 }
