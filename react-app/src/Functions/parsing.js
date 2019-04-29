@@ -1,4 +1,6 @@
- /*
+import {defaultQuestions} from "../../vars";
+
+/*
     Arguments: 
         survey: a surveyJS object created using the surveyJSON var from vars.js which has been completed
 
@@ -483,24 +485,11 @@ export const loadEvaluation = (evaluation, surveyJSON) =>
     //console.log(evaluation.questions);
     for (var question in evaluation.questions)
     {
-        loadDefaultQuestion(evaluation.questions[question], surveyJSON);
+        if(defaultQuestions.contains(evaluation.questions[question].text))
+            loadDefaultQuestion(evaluation.questions[question], surveyJSON);
     }
 
     /*
-    FOR NON DYNMAIC QUESTIONS
-    "defaultValue": {
-        "How prepared was the instructor for class?": {
-         "1": "often unprepared",
-         "5": "well prepared",
-         "include": [
-          "include"
-         ]
-        },
-        "How clearly were the objectives of the course presented?": {
-         "1": "unclear",
-         "5": "very clear"
-        },
-        
         
         FOR DYNAMIC QUESTIONS
        "defaultValue": [
@@ -542,6 +531,11 @@ export const loadEvaluation = (evaluation, surveyJSON) =>
     return surveyJSON;
 }
 
+const loadCustomQuestion = (q, JSON) =>
+{
+
+}
+
 const loadDefaultQuestion = (q, JSON) =>
 {   
     console.log(JSON);
@@ -578,10 +572,15 @@ const loadDefaultQuestion = (q, JSON) =>
 
     if(q.group === "Open Ended Questions")
     {
-        //if(JSON.pages[1].elements[4].elements[0].defaultValue === null)
+        if(JSON.pages[1].elements[4].elements[0].defaultValue === undefined)
+        {
             JSON.pages[1].elements[4].elements[0].defaultValue = {};
-        //if(JSON.pages[1].elements[4].elements[0].defaultValue[q.text] === null)
+        }
+
+        if(JSON.pages[1].elements[4].elements[0].defaultValue[q.text] === undefined)
+        {
             JSON.pages[1].elements[4].elements[0].defaultValue[q.text] = {};
+        }
 
         JSON.pages[1].elements[4].elements[0].defaultValue[q.text].include = ["include"];
 

@@ -4,6 +4,61 @@
 //Sams
 export const oAuthClientID = "120537157290-mtdj0mjahrhvq284uqguu8j5hophplc5.apps.googleusercontent.com";
 
+export const defaultQuestions =
+[
+  "How prepared was the instructor for class?",
+  "How clearly were the objectives of the course presented?",
+  "How enthusiastic was the instructor about the subject?",
+  "How clearly did the instructor present concepts, principles and theories?",
+  "How much were you encouraged to think for yourselves?",
+  "How concerned was the instructor for the quality of student learning?",
+  "Did the instructor show respect for the questions and opinions of the students?",
+  "Did the instructor ensure an environment of respect for all groups of people in the classroom?",
+  "Did the instructor inspire confidence in his/her knowledge?",
+  "Overall, how would you rate the instructor?",
+  "Were class meetings profitable and worth attending?",
+  "What is you overall rating of the primary readings?",
+  "How much did this course challenge you intellectually?",
+  "How much did you learn from this course?",
+  "What is your overall rating of this course?",
+  "Did the instructor let you know what was expected on the assessments (exams, assignments, projects, papers, etc.)?",
+  "Did the assessments reflect the important aspects of the course?",
+  "How fair were the grading procedures?",
+  "Overall, how would you rate the assessment process (exams, assignments, projects, papers, etc.)?",
+  "Please identify the aspects of this course that were of most value to you.",
+  "Please mention at least one additional topic or component that you would like to see included in this course.",
+  "Please make any additional comments that you desire to make about the course instructor, materials or pedagogy.",
+  "How much did the laboratory experience contribute to your learning in this course?",
+  "Overall, how would you rate the laboratory experience?",
+  "What was done particularly well in the laboratory experience?",
+  "How could the laboratory experience be improved?",
+  "How much did the teaching assistant contribute to your learning in this course?",
+  "How concerned was the teaching assistant for the quality of student learning?",
+  "Did the teaching assistant show respect for the questions and opinions of students?",
+  "Did the teaching assistant inspire confidence in his/her knowledge?",
+  "Overall, how would you rate the teaching assistant?",
+  "Would you want to have this teaching assistant in the future in another course?",
+  "Would you recommend this teaching assistant to assist in this course in the future?",
+  "Name something the teaching assistant did particularly well.",
+  "Name something the teaching assistant could do better in the future.",
+  "Please indicate the primary online modality used with the course.",
+  "The online modality used with the course was well suited to my needs.",
+  "There was adequate opportunity for me to interact with the instructor.",
+  "There was adequate opportunity for me to interact with other students.",
+  "The online technologies used in this course worked the way they were supposed to.",
+  "The communication tools were easy to use (email, assignment delivery, exam delivery or proctoring, chat, web, etc.).",
+  "Technology support was there if I needed it.",
+  "The online experience was well-suited to the way I like to learn.",
+  "How much did you learn in this online class as apposed to a traditional class",
+  "How much did you work in this class as apposed to the traditional format",
+  "Please identify an e-learning aspect of the course that you found particularly valuable or beneficial",
+  "Please identify an e-learning aspect of the course that could be improved."
+
+
+
+
+]
+
 export const oldEval = {
   "URL": "blank.com",
   "instructor": "Sam Elliott",
@@ -139,26 +194,11 @@ export const oldEval = {
   "email_register": "",
   "email_confirm": ""
 }
-
-//Questions which require a text box, all other questions will be rated 1-5
-export const defaultQuestionList = ["What was done particularly well in the laboratory experience?",
-                                    "How could the laboratory be improved?",
-                                    "If there was more than one teaching assistant for the course, please name the TA you are evaluating.",
-                                    "Name something the teaching assistant did particularly well.",
-                                    "Name something the teaching assistant could do better in the future.",
-                                    "Please indicate the primary online modality used with the course.",
-                                    "Please identify an e-learning aspect of the course that you found particularly valuable or beneficial.",
-                                    "Please identify an e-learning aspect of the course that could be improved.",
-                                    "Please identify the aspects of this course that were of most value to you.",
-                                    "Please mention at least one additional topic or component that you would like to see included in this course.",
-                                    "Please make any additional comments that you desire to make about the course instructor, materials or pedagogy."
-                                ]
-
 //JSON which defines which questions users are asked
 //when creating a new survey
 
 //Uses surveyjs library to translate into surveys
-export const survey = {
+export const blankSurvey = {
   "pages": [
    {
     "name": "Course Information",

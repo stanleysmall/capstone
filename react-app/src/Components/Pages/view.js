@@ -6,14 +6,14 @@ import {LoggedInHeader} from "../displayComponents";
 import "survey-react/survey.css";
 import * as Survey from "survey-react";
 
-import {survey} from "../../vars";
+import {blankSurvey} from "../../vars";
 import {loadEvaluation } from "../../Functions/parsing";
 import {getEval,putEval, getEvalNames, publishEval} from "../../Functions/endpoints.js";
 
 
 class View extends Component {
     
-    surveyJSON = survey;
+    surveyJSON = blankSurvey;
 
     componentDidMount() {
         document.title = 'View Page';
