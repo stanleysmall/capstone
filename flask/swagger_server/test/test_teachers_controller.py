@@ -654,8 +654,28 @@ class TestTeachersController(BaseTestCase):
         
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
-        # The response must have only the tag value for Roy Turner's surveys
+        # The response must have only the tag value for Torsten's surveys
         self.assertEqual(json.loads(response.data), ['Er text'])
+    
+    def test_tag_values_get_valid_3(self):
+        """Another test case for tag_values_get
+
+        retreives a list of values for a given tag type of the user's surveys
+        session user is 'Torsten Hahmann', tag type is 'instructor'
+        """
+        
+        session['email'] = 'roy.turner@maine.edu'
+        
+        query_string = [('tag_type', 'instructor')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/tag_values',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        # The response must have only the tag value for Roy Turner's surveys
+        self.assertEqual(json.loads(response.data), ['Roy Turner'])
     
     def test_tag_values_get_invalid(self):
         """Another test case for tag_values_get
