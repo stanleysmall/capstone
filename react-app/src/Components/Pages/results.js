@@ -55,13 +55,13 @@ class Results extends Component {
 	getAggregatedResults = () =>{
 	
 	//List of course designators, i.e [COS, MUS, NMD]
-	var courseDesignators = [];
+	var courseDesignators = ['a'];
 	//List of faculty units, i.e [SCIS]
-	var facultyUnits = [];
+	var facultyUnits = ['a'];
 	//List of colleges, i.e [Liberal Arts]
-	var colleges = [];
+	var colleges = ['a'];
 	//List of universities, i.e [University of Maine]
-	var universities = [];
+	var universities = ['a'];
 		
 		
 		//Checks if the tag is instructor
@@ -81,15 +81,15 @@ class Results extends Component {
 				//For each survey, check to see if its details are in the above lists
 				//if not, add them
 				if(!this.containsObject(surveyJson.courseDesignator, courseDesignators)){
-					courseDesignators.append(surveyJson.courseDesignator);
+					courseDesignators.push(surveyJson.courseDesignator);
 					console.log("DES : " + surveyJson.courseDesignator);
 				}
 				if(!this.containsObject(surveyJson.facultyUnit, facultyUnits))
-					facultyUnits.append(surveyJson.facultyUnit);
+					facultyUnits.push(surveyJson.facultyUnit);
 				if(!this.containsObject(surveyJson.college, colleges))
-					colleges.append(surveyJson.college);
+					colleges.push(surveyJson.college);
 				if(!this.containsObject(surveyJson.university, universities))
-					universities.append(surveyJson.university);});
+					universities.push(surveyJson.university);});
 			}
 			
 			console.log("LIST: " + courseDesignators);
