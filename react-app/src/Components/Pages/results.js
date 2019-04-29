@@ -68,7 +68,7 @@ class Results extends Component {
 		//If it is, need aggregated results
 		if(this.tagName === "instructor"){
 			//Assumes all surveys have the same first question
-			var question1 = this.resultsJson["How clearly were the objectives of the course presented?"];
+			var question1 = this.resultsJson[this.resultsJson.keys[0]];
 			//Loops through all the surveys for the given instructor
 			for(var survey in question1){
 				//For each survey, retrieve its information
@@ -81,15 +81,15 @@ class Results extends Component {
 				//For each survey, check to see if its details are in the above lists
 				//if not, add them
 				if(!this.containsObject(surveyJson.courseDesignator, courseDesignators)){
-					courseDesignators.push(surveyJson.courseDesignator);
+					courseDesignators.append(surveyJson.courseDesignator);
 					console.log("DES : " + surveyJson.courseDesignator);
 				}
 				if(!this.containsObject(surveyJson.facultyUnit, facultyUnits))
-					facultyUnits.push(surveyJson.facultyUnit);
+					facultyUnits.append(surveyJson.facultyUnit);
 				if(!this.containsObject(surveyJson.college, colleges))
-					colleges.push(surveyJson.college);
+					colleges.append(surveyJson.college);
 				if(!this.containsObject(surveyJson.university, universities))
-					universities.push(surveyJson.university);});
+					universities.append(surveyJson.university);});
 			}
 			
 			console.log("LIST: " + courseDesignators);
