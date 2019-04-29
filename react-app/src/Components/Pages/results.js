@@ -76,7 +76,6 @@ class Results extends Component {
 				getEval(survey)
 				.then((response) =>{
 					surveyJson = response;
-					console.log("We made it boys");
 				
 				//For each survey, check to see if its details are in the above lists
 				//if not, add them
@@ -191,7 +190,7 @@ class Results extends Component {
 					children = []
 				}
 				
-				
+				console.log("objects please: " + this.resultObjectsUnder);
 				//If the tag is instructor, need all aggregated results
 				if(this.tagName==='instructor'){
 						//Loop through each object 
