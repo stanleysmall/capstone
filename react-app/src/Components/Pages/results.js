@@ -196,7 +196,7 @@ class Results extends Component {
 						//Loop through each object 
 						for(var object in this.resultObjectsUnder){
 							//Assumes every survey has the same first question
-							console.log("OBJECT?? ? ?? " + object);
+							console.log("OBJECT?? ? ?? " + this.resultObjectsUnder[object]);
 							var surv = object[question][Object.keys(question)[0]];
 							//surv has will be COS or SCIS.. etc
 							children.push(<td>{surv}</td>)
