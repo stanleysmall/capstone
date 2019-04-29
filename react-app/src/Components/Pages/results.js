@@ -196,17 +196,17 @@ class Results extends Component {
 						//Loop through each object 
 						for(var object in this.resultObjectsUnder){
 							//Assumes every survey has the same first question
-							var surv = object[question][Object.keys(object)[0]];
+							var surv = object[question][Object.keys(question)[0]];
 							//surv has will be COS or SCIS.. etc
 							children.push(<td>{surv}</td>)
 								//adds each value to the table
-								var value = object[question][Object.keys(object)[0]]['median']
+								var value = object[question][Object.keys(question)[0]]['median']
 								children.push(<td>{value}</td>)
-								var value = object[question][Object.keys(object)[0]]['mean']
+								var value = object[question][Object.keys(question)[0]]['mean']
 								children.push(<td>{value}</td>)
-								var value = object[question][Object.keys(object)[0]]['std_dev']
+								var value = object[question][Object.keys(question)[0]]['std_dev']
 								children.push(<td>{value}</td>)
-								var value = object[question][Object.keys(object)[0]]['n']
+								var value = object[question][Object.keys(question)[0]]['n']
 								children.push(<td>{value}</td>)
 
 							//adds the row to the table
