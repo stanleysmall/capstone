@@ -11,9 +11,9 @@ class Results extends Component {
 	tag=this.props.match.params.tag;
 	tagName=this.props.match.params.tagName;
 	/*resultsJson = {"How prepared was the instructor for class?": {
-						'COS 420 001':{"median": 5, "mean": 3, "std_dev": 1, "n": 43},
-						'COS 225 002 ':{"median": 3, "mean": 4, "std_dev": 2, "n": 59},
-						'Survey 3':{"median": 4, "mean": 5, "std_dev": 3, "n": 38}
+						'COS 420 001':{"median": 4, "mean": 4.28, "std_dev": .63, "n": 24},
+						'COS 225 002 ':{"median": 3, "mean": 2.3, "std_dev": .82, "n": 41},
+						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": 3, "n": 38}
 						},
 					'How clearly were the objectives of the course presented?':{
 						'Survey 1':{"median": 4, "mean": 1, "std_dev": 2, "n": 43},
@@ -36,7 +36,7 @@ class Results extends Component {
 
 		getResults(this.tagName, this.tag)
 		.then((response) => {this.resultsJson = response;});
-		if(this.resultJson!=null)	
+		if(this.resultJson!==null)	
 			this.getAggregatedResults();
 	}
 	
@@ -55,7 +55,7 @@ class Results extends Component {
 		
 		//Checks if the tag is instructor
 		//If it is, need aggregated results
-		if(this.tagName === "instructor"&&){
+		if(this.tagName === "instructor"&&this.resultJson!==null){
 			//Assumes all surveys have the same first question
 			var question1 = this.resultsJson[0];
 			//Loops through all the surveys for the given instructor
