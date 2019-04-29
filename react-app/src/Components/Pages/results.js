@@ -12,15 +12,22 @@ class Results extends Component {
 	tagName=this.props.match.params.tagName;
 	/*resultsJson = {"How prepared was the instructor for class?": {
 						'COS 420 001':{"median": 4, "mean": 4.2, "std_dev": .63, "n": 24},
-						'COS 225 002':{"median": 3, "mean": 2.3, "std_dev": .82, "n": 41},
+						'COS 225 002':{"median": 3, "mean": 3.3, "std_dev": .82, "n": 41},
 						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .47, "n": 63},
-						'COS'
+						'All COS courses:{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128}, 
+						'All SCIS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+						'All Liberal Arts courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+						'All University of  courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						},
-					'How clearly were the objectives of the course presented?':{
-						'Survey 1':{"median": 4, "mean": 1, "std_dev": 2, "n": 43},
-						'Survey 2':{"median": 4, "mean": 2, "std_dev": 2, "n": 59},
-						'Survey 3':{"median": 5, "mean": 3, "std_dev": 2, "n": 38}
-						}
+					"How prepared was the instructor for class?": {
+						'COS 420 001':{"median": 4, "mean": 4.2, "std_dev": .63, "n": 24},
+						'COS 225 002':{"median": 3, "mean": 3.3, "std_dev": .82, "n": 41},
+						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .47, "n": 63},
+						'All COS courses:{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128}, 
+						'All SCIS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+						'All Liberal Arts courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+						'All University of  courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+						},
 		
 	};*/
 	
@@ -36,9 +43,11 @@ class Results extends Component {
 		document.title = 'Results Page';
 
 		getResults(this.tagName, this.tag)
-		.then((response) => {this.resultsJson = response;});
+		.then((response) => {this.resultsJson = response;
 		if(this.resultsJson!==null)	
 			this.getAggregatedResults();
+		this.setState({a:this.a+1}};
+		});
 	}
 	
 	
