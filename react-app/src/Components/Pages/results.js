@@ -37,7 +37,7 @@ class Results extends Component {
 		getResults(this.tagName, this.tag)
 		.then((response) => {this.resultsJson = response;});
 		
-		getAggregatedResults();
+		this.getAggregatedResults();
 	}
 	
 	
