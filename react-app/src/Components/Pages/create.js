@@ -56,6 +56,7 @@ class Create extends Component {
             }
         })
         this.surveyJSON = survey;
+        this.setState({model : new Survey.Model(this.surveyJSON)});
         this.setState({useTemplate: false});
     }
 
@@ -73,12 +74,12 @@ class Create extends Component {
             getEval(name).then((response)=>{
                 this.surveyJSON = loadEvaluation(response, this.surveyJSON)
             
-            /*
+            
             this.surveyJSON.pages[0].elements[1].defaultValue.semesterYear = "";
             this.surveyJSON.pages[0].elements[1].defaultValue.beginDate = "";
             this.surveyJSON.pages[0].elements[1].defaultValue.closeDate = "";
             this.surveyJSON.pages[0].elements[1].defaultValue.reminderTime = "";
-            */
+            
             
             this.setState({useTemplate: true});
             })

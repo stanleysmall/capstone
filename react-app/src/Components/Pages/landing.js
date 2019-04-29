@@ -31,7 +31,7 @@ class Landing extends Component {
     {
         loginEndpoint(response.Zi.access_token).then(() =>{
         global.access_token = response.Zi.access_token;
-        this.setState({loggedIn: true});
+        this.props.history.push("/home/")
         })
         
     }
