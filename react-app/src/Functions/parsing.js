@@ -485,7 +485,7 @@ export const loadEvaluation = (evaluation, surveyJSON) =>
     //console.log(evaluation.questions);
     for (var question in evaluation.questions)
     {
-        if(defaultQuestions.contains(evaluation.questions[question].text))
+        if(defaultQuestions.indexOf(evaluation.questions[question].text) > -1)
             loadDefaultQuestion(evaluation.questions[question], surveyJSON);
     }
 
