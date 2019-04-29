@@ -152,8 +152,8 @@ class Results extends Component {
 				<th></th>
 				<th>Median</th>
 				<th>Mean</th>
-				<th>Std. Dev</th>
 				<th>n</th>
+				<th>Std. Dev</th>
 				</tr>)
 				
 				//Q is in the form {Survey 1: {'median': 5 ,'mean': 3, 'std. dev': 2, 'n': 39}, Survey 2....}
@@ -205,7 +205,7 @@ class Results extends Component {
 	
 	createTableForCSV = () => {
 		//Does the exact same thing as above except in a different format suitable for CSV
-		let table= [['Question','Survey','Median','Mean','Standard Deviation','n']]
+		let table= [['Question','Survey','Median','Mean','n','Standard Deviation']]
 		
 		for(var question in this.resultsJson){
 			var Q = this.resultsJson[question]
