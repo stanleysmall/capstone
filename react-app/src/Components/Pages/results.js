@@ -19,14 +19,14 @@ class Results extends Component {
 						'All Liberal Arts courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						'All University of  courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						},
-					"How prepared was the instructor for class?": {
-						'COS 420 001':{"median": 4, "mean": 4.2, "std_dev": .63, "n": 24},
-						'COS 225 002':{"median": 3, "mean": 3.3, "std_dev": .82, "n": 41},
-						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .47, "n": 63},
-						'All COS courses:{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128}, 
-						'All SCIS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
-						'All Liberal Arts courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
-						'All University of  courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+					"How clearly were the objective of the course presented?": {
+						'COS 420 001':{"median": 2, "mean": 2.2, "std_dev": .51, "n": 24},
+						'COS 225 002':{"median": 3, "mean": 2.9, "std_dev": .52, "n": 41},
+						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .87, "n": 63},
+						'All COS courses:{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128}, 
+						'All SCIS courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
+						'All Liberal Arts courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
+						'All University of  courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
 						},
 		
 	};*/
@@ -46,7 +46,7 @@ class Results extends Component {
 		.then((response) => {this.resultsJson = response;
 		if(this.resultsJson!==null)	
 			this.getAggregatedResults();
-		this.setState({a:this.a+1}};
+			this.setState({a:this.state.a + 1});
 		});
 	}
 	
@@ -98,7 +98,7 @@ class Results extends Component {
 			{
 				getResults('facultyUnit', fac)
 				.then((response) => {this.resultObjectsUnder.push(response);
-				this.setState({a:this.state.a + 1})
+				this.setState({a:this.state.a + 1});
 				})
 			}
 				
@@ -113,7 +113,7 @@ class Results extends Component {
 			for(var uni in universities)
 				getResults('university', uni)
 				.then((response) => {this.resultObjectsUnder.push(response);
-				this.setState({a:this.state.a + 1})
+				this.setState({a:this.state.a + 1});
 				})
 				
 		}
