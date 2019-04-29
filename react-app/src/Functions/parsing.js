@@ -578,11 +578,11 @@ const loadDefaultQuestion = (q, JSON) =>
 
     if(q.group === "Open Ended Questions")
     {
-        if(JSON.pages[1].elements[4].elements[0].defaultValue === null)
+        //if(JSON.pages[1].elements[4].elements[0].defaultValue === null)
             JSON.pages[1].elements[4].elements[0].defaultValue = {};
-        if(JSON.pages[1].elements[4].elements[0].defaultValue[q.text] === null)
+        //if(JSON.pages[1].elements[4].elements[0].defaultValue[q.text] === null)
             JSON.pages[1].elements[4].elements[0].defaultValue[q.text] = {};
-            
+
         JSON.pages[1].elements[4].elements[0].defaultValue[q.text].include = ["include"];
 
         if(q.mandatory)
