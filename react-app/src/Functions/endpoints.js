@@ -1,5 +1,5 @@
-//const APIAddress = "http://teachingevaluations.org:8080/teameval/Eval/1.0.0/";
-const APIAddress = "http://3.16.152.189:8080/teameval/Eval/1.0.0/"
+const APIAddress = "http://teachingevaluations.org:8080/teameval/Eval/1.0.0/";
+//const APIAddress = "http://3.16.152.189:8080/teameval/Eval/1.0.0/"
 
 /*
     Arguments:
