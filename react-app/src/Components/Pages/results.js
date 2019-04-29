@@ -10,44 +10,78 @@ class Results extends Component {
 	
 	tag=this.props.match.params.tag;
 	tagName=this.props.match.params.tagName;
-	/*resultsJson = {"Question 1": {
-						'Survey 1':{"median": 5, "mean": 3, "std_dev": 1, "n": 43},
-						'Survey 2':{"median": 3, "mean": 4, "std_dev": 2, "n": 59},
-						'Survey 3':{"median": 4, "mean": 5, "std_dev": 3, "n": 38}
+	/*resultsJson = {"How prepared was the instructor for class?": {
+						'COS 420 001':{"median": 4, "mean": 4.2, "std_dev": .63, "n": 24},
+						'COS 225 002':{"median": 3, "mean": 3.3, "std_dev": .82, "n": 41},
+						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .47, "n": 63},
+						'All COS courses:{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128}, 
+						'All SCIS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+						'All Liberal Arts courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+						'All University of  courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						},
-					'Question 2':{
-						'Survey 1':{"median": 4, "mean": 1, "std_dev": 2, "n": 43},
-						'Survey 2':{"median": 4, "mean": 2, "std_dev": 2, "n": 59},
-						'Survey 3':{"median": 5, "mean": 3, "std_dev": 2, "n": 38}
-						}
+					"How clearly were the objective of the course presented?": {
+						'COS 420 001':{"median": 2, "mean": 2.2, "std_dev": .51, "n": 24},
+						'COS 225 002':{"median": 3, "mean": 2.9, "std_dev": .52, "n": 41},
+						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .87, "n": 63},
+						'All COS courses:{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128}, 
+						'All SCIS courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
+						'All Liberal Arts courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
+						'All University of  courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
+						},
 		
 	};*/
 	
 	state = {a:1};
 
 	resultsJson = null;
-
+	
+	//Contains a list of JSON objects for aggregated results
+	resultObjectsUnder = [];
+	
 	componentDidMount(){
 	
 		document.title = 'Results Page';
 
 		getResults(this.tagName, this.tag)
-		.then((response) => {this.resultsJson = response;});
+		.then((response) => {
+			this.resultsJson = response;
+			if(this.resultsJson!==null)	
+				this.getAggregatedResults();
+			this.setState({a:this.state.a + 1});
+		});
 	}
 	
 	
 	getAggregatedResults = () =>{
-		
+	
+	console.log("getting that booty");
+	//List of course designators, i.e [COS, MUS, NMD]
 	var courseDesignators = [];
+	//List of faculty units, i.e [SCIS]
 	var facultyUnits = [];
+	//List of colleges, i.e [Liberal Arts]
 	var colleges = [];
+	//List of universities, i.e [University of Maine]
 	var universities = [];
-	var resultObjectsUnder = [];
 		
+		
+		//Checks if the tag is instructor
+		//If it is, need aggregated results
 		if(this.tagName === "instructor"){
+			//Assumes all surveys have the same first question
 			var question1 = this.resultsJson[0];
+			//Loops through all the surveys for the given instructor
 			for(var survey in question1){
-				var surveyJson = getEval(survey);
+				console.log("Survey: " + survey);
+				//For each survey, retrieve its information
+				var surveyJson = null;
+				getEval(survey)
+				.then((response) =>{
+					surveyJson = response;
+					console.log("We made it boys");
+				
+				//For each survey, check to see if its details are in the above lists
+				//if not, add them
 				if(!this.containsObject(surveyJson.courseDesignator, courseDesignators))
 					courseDesignators.push(surveyJson.courseDesignator);
 				if(!this.containsObject(surveyJson.facultyUnit, facultyUnits))
@@ -55,14 +89,16 @@ class Results extends Component {
 				if(!this.containsObject(surveyJson.college, colleges))
 					colleges.push(surveyJson.college);
 				if(!this.containsObject(surveyJson.university, universities))
-					universities.push(surveyJson.university);
+					universities.push(surveyJson.university);});
 			}
-
-			//CHANGE EEVERYTHING TO USE .THEN
+			
+			console.log("LIST: " + courseDesignators);
+			
+			//Gets the result JSONS for each object in each list
 			for(var des in courseDesignators)
 			{
 				getResults('courseDesignator', des)
-				.then((response) => { resultObjectsUnder.push(response)
+				.then((response) => { this.resultObjectsUnder.push(response)
 				this.setState({a:this.state.a + 1});
 				})
 			}
@@ -70,28 +106,30 @@ class Results extends Component {
 			for(var fac in facultyUnits)
 			{
 				getResults('facultyUnit', fac)
-				.then((response) => {resultObjectsUnder.push(response);
-				this.setState({a:this.state.a + 1})
+				.then((response) => {this.resultObjectsUnder.push(response);
+				this.setState({a:this.state.a + 1});
 				})
 			}
 				
 			for(var col in colleges)
 			{
 				getResults('college', col)
-				.then((response) => {resultObjectsUnder.push(response);
+				.then((response) => {this.resultObjectsUnder.push(response);
 				this.setState({a:this.state.a + 1});
 				})
 			}
 
 			for(var uni in universities)
 				getResults('university', uni)
-				.then((response) => {resultObjectsUnder.push(response);
-				this.setState({a:this.state.a + 1})
+				.then((response) => {this.resultObjectsUnder.push(response);
+				this.setState({a:this.state.a + 1});
 				})
 				
 		}
+		
 	}
 	
+	//Simple function to see if an object is in a list
 	containsObject(obj, list){
 		var i;
 		for(i = 0; i< list.length; i++){
@@ -102,53 +140,90 @@ class Results extends Component {
 		return false;
 	}
 	  
+	  
 	createTable = () => {
+		//Creates the HTML table for display on the screen
+		
 		let table = []
+		if(this.resultsJson===null){
+			table.push(<h2>{"There are currently no results for this category. Please check back later."}</h2>)
+		}else{
+			for(var question in this.resultsJson){
+				//Loops through every question in the results object
+				
+				//children will be a row
+				let children = []
+				//Creates a header stating the question
+				table.push(<h3>{question}</h3>)
+				//Creates headers for each of the 
+				table.push(<tr>
+				<th></th>
+				<th>Median</th>
+				<th>Mean</th>
+				<th>Std. Dev</th>
+				<th>n</th>
+				</tr>)
+				
+				//Q is in the form {Survey 1: {'median': 5 ,'mean': 3, 'std. dev': 2, 'n': 39}, Survey 2....}
+				var Q = this.resultsJson[question]
+				//Loops through all the surveys for each question
+				for (var survey in Q) {
+					//Add the name of the survey to the table
+					children.push(<td>{survey}</td>)
+						//Loop through each item in the survey
+						var value = this.resultsJson[question][survey]['median']
+						//Add the value to the table
+						children.push(<td>{value}</td>)
+						var value = this.resultsJson[question][survey]['mean']
+						//Add the value to the table
+						children.push(<td>{value}</td>)
+						var value = this.resultsJson[question][survey]['std_dev']
+						//Add the value to the table
+						children.push(<td>{value}</td>)
+						var value = this.resultsJson[question][survey]['n']
+						//Add the value to the table
+						children.push(<td>{value}</td>)
+					
+					
+					//Add the row to the table 
+					table.push(<tr>{children}</tr>)
+					
+					children = []
+				}
+				
+				
+				//If the tag is instructor, need all aggregated results
+				if(this.tagName==='instructor'){
+						//Loop through each object 
+						for(var object in this.resultObjectsUnder){
+							//Assumes every survey has the same first question
+							var surv = object[question][0];
+							//surv has will be COS or SCIS.. etc
+							children.push(<td>{surv}</td>)
+								//adds each value to the table
+								var value = object[question][0]['median']
+								children.push(<td>{value}</td>)
+								var value = object[question][0]['mean']
+								children.push(<td>{value}</td>)
+								var value = object[question][0]['std_dev']
+								children.push(<td>{value}</td>)
+								var value = object[question][0]['n']
+								children.push(<td>{value}</td>)
 
-		for(var question in this.resultsJson){
-			let children = []
-			table.push(<h2>{question}</h2>)
-			table.push(<tr>
-			<th></th>
-			<th>Median</th>
-			<th>Mean</th>
-			<th>Std. Dev</th>
-			<th>n</th>
-			</tr>)
-			var Q = this.resultsJson[question]
-			for (var survey in Q) {
-				var S = Q[survey]
-				children.push(<td>{survey}</td>)
-				for(var item in S){
-					var value = this.resultsJson[question][survey][item]
-					children.push(<td>{value}</td>)
-				}
-				
-				
-				table.push(<tr>{children}</tr>)
-				
-				children = []
-			}
-			
-			if(this.tagName==='instructor'){
-					for(var object in this.resultObjectsUnder){
-						var surv = object[question][0];
-						children.push(<td>{surv}</td>)
-						for (var item in surv){
-							var value = object[question][0][item]
-							children.push(<td>{value}</td>)
+							//adds the row to the table
+							table.push(<tr>{children}</tr>)
+							children = []
 						}
-						table.push(<tr>{children}</tr>)
-						children = []
 					}
-				}
-			
+				
+			}
 		}
 		return table;
 		
 	}
 	
 	createTableForCSV = () => {
+		//Does the exact same thing as above except in a different format suitable for CSV
 		let table= [['Question','Survey','Median','Mean','Standard Deviation','n']]
 		
 		for(var question in this.resultsJson){
@@ -158,12 +233,36 @@ class Results extends Component {
 				var S = Q[survey]
 				
 				let newItem = [survey]
-				for(var item in S){
-					var value = this.resultsJson[question][survey][item]
+					var value = this.resultsJson[question][survey]['median']
 					newItem.push(value)
-				}
+					var value = this.resultsJson[question][survey]['mean']
+					newItem.push(value)
+					var value = this.resultsJson[question][survey]['std_dev']
+					newItem.push(value)
+					var value = this.resultsJson[question][survey]['n']
+					newItem.push(value)
+				
 				table.push(newItem)
 
+			}
+			
+			for (var survey in Q) {
+				var S = Q[survey]
+				let newItem = [survey]
+				
+				var value = this.resultsJson[question][survey]['median']
+				newItem.push(value)
+				var value = this.resultsJson[question][survey]['mean']
+				newItem.push(value)
+				var value = this.resultsJson[question][survey]['std_dev']
+				newItem.push(value)
+				var value = this.resultsJson[question][survey]['n']
+				newItem.push(value)
+				
+				
+				
+				table.push(newItem)
+				newItem = []
 			}
 			
 		}
