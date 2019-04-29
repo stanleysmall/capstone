@@ -98,7 +98,7 @@ class Results extends Component {
 			for(var des in courseDesignators)
 			{
 				getResults('courseDesignator', courseDesignators[des])
-				.then((response) => { this.resultObjectsUnder.push(response)
+				.then((response) => { this.resultObjectsUnder.push(JSON.stringify(response, null, 2))
 				this.setState({a:this.state.a + 1});
 				})
 			}
@@ -106,7 +106,7 @@ class Results extends Component {
 			for(var fac in facultyUnits)
 			{
 				getResults('facultyUnit', facultyUnits[fac])
-				.then((response) => {this.resultObjectsUnder.push(response);
+				.then((response) => {this.resultObjectsUnder.push(JSON.stringify(response, null, 2));
 				this.setState({a:this.state.a + 1});
 				})
 			}
@@ -114,14 +114,14 @@ class Results extends Component {
 			for(var col in colleges)
 			{
 				getResults('college', colleges[col])
-				.then((response) => {this.resultObjectsUnder.push(response);
+				.then((response) => {this.resultObjectsUnder.push(JSON.stringify(response, null, 2));
 				this.setState({a:this.state.a + 1});
 				})
 			}
 
 			for(var uni in universities)
 				getResults('university', universities[uni])
-				.then((response) => {this.resultObjectsUnder.push(response);
+				.then((response) => {this.resultObjectsUnder.push(JSON.stringify(response, null, 2));
 				this.setState({a:this.state.a + 1});
 				})
 				
@@ -197,7 +197,7 @@ class Results extends Component {
 						//Loop through each object 
 						for(var object in this.resultObjectsUnder){
 							//Assumes every survey has the same first question
-							var surv = this.resultObjectsUnder[object][question][Object.keys(object)[0]];
+							var surv = object[question][Object.keys(object)[0]];
 							//surv has will be COS or SCIS.. etc
 							children.push(<td>{surv}</td>)
 								//adds each value to the table
@@ -248,7 +248,7 @@ class Results extends Component {
 			
 			if(this.tag==='intsructor'){
 				for (var object in this.resultObjectsUnder) {
-				var S = Q[survey]
+				var survey = this.resultObjectsUnder[object][question][Object.keys(object)[0]];
 				let newItem = [survey]
 				
 				var value = this.resultsJson[question][survey]['median']
