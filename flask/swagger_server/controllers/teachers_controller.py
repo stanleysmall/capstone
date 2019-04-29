@@ -765,8 +765,8 @@ def results_get(cat_type, cat_name):  # noqa: E501
           { question 1:
               { survey 1: {"median": float,
                            "mean": float,
-                           "std_dev": float,
-                           "n": int},
+                           "n": int,
+                           "std_dev": float},
                 survey 2: ...},
             question 2: {...}, ...}
     """
