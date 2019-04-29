@@ -200,7 +200,7 @@ class Results extends Component {
 					children = []
 				}
 				
-				console.log("objects please: " + this.resultObjectsUnder);
+				//console.log("objects please: " + this.resultObjectsUnder);
 				//If the tag is instructor, need all aggregated results
 				/*
 				if(this.tagName==='instructor'){
