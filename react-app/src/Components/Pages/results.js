@@ -54,37 +54,35 @@ class Results extends Component {
 	
 	getAggregatedResults = () =>{
 	
-	console.log("getting that booty");
 	//List of course designators, i.e [COS, MUS, NMD]
-	var courseDesignators = [];
+	var courseDesignators = ['a'];
 	//List of faculty units, i.e [SCIS]
-	var facultyUnits = [];
+	var facultyUnits = ['a'];
 	//List of colleges, i.e [Liberal Arts]
-	var colleges = [];
+	var colleges = ['a'];
 	//List of universities, i.e [University of Maine]
-	var universities = [];
+	var universities = ['a'];
 		
 		
 		//Checks if the tag is instructor
 		//If it is, need aggregated results
 		if(this.tagName === "instructor"){
 			//Assumes all surveys have the same first question
-			var question1 = this.resultsJson[0];
-			console.log("QUESTION: " + question1);
+			var question1 = this.resultsJson[Object.keys(this.resultsJson)[0]];
 			//Loops through all the surveys for the given instructor
 			for(var survey in question1){
-				console.log("Survey: " + survey);
 				//For each survey, retrieve its information
 				var surveyJson = null;
 				getEval(survey)
 				.then((response) =>{
 					surveyJson = response;
-					console.log("We made it boys");
 				
 				//For each survey, check to see if its details are in the above lists
 				//if not, add them
-				if(!this.containsObject(surveyJson.courseDesignator, courseDesignators))
+				if(!this.containsObject(surveyJson.courseDesignator, courseDesignators)){
 					courseDesignators.push(surveyJson.courseDesignator);
+					console.log("DES : " + surveyJson.courseDesignator);
+				}
 				if(!this.containsObject(surveyJson.facultyUnit, facultyUnits))
 					facultyUnits.push(surveyJson.facultyUnit);
 				if(!this.containsObject(surveyJson.college, colleges))
@@ -98,31 +96,31 @@ class Results extends Component {
 			//Gets the result JSONS for each object in each list
 			for(var des in courseDesignators)
 			{
-				getResults('courseDesignator', des)
-				.then((response) => { this.resultObjectsUnder.push(response)
+				getResults('courseDesignator', courseDesignators[des])
+				.then((response) => { this.resultObjectsUnder.push(JSON.stringify(response, null, 2))
 				this.setState({a:this.state.a + 1});
 				})
 			}
 
 			for(var fac in facultyUnits)
 			{
-				getResults('facultyUnit', fac)
-				.then((response) => {this.resultObjectsUnder.push(response);
+				getResults('facultyUnit', facultyUnits[fac])
+				.then((response) => {this.resultObjectsUnder.push(JSON.stringify(response, null, 2));
 				this.setState({a:this.state.a + 1});
 				})
 			}
 				
 			for(var col in colleges)
 			{
-				getResults('college', col)
-				.then((response) => {this.resultObjectsUnder.push(response);
+				getResults('college', colleges[col])
+				.then((response) => {this.resultObjectsUnder.push(JSON.stringify(response, null, 2));
 				this.setState({a:this.state.a + 1});
 				})
 			}
 
 			for(var uni in universities)
-				getResults('university', uni)
-				.then((response) => {this.resultObjectsUnder.push(response);
+				getResults('university', universities[uni])
+				.then((response) => {this.resultObjectsUnder.push(JSON.stringify(response, null, 2));
 				this.setState({a:this.state.a + 1});
 				})
 				
@@ -192,23 +190,23 @@ class Results extends Component {
 					children = []
 				}
 				
-				
+				console.log("objects please: " + this.resultObjectsUnder);
 				//If the tag is instructor, need all aggregated results
 				if(this.tagName==='instructor'){
 						//Loop through each object 
 						for(var object in this.resultObjectsUnder){
 							//Assumes every survey has the same first question
-							var surv = object[question][0];
+							var surv = object[question][Object.keys(question)[0]];
 							//surv has will be COS or SCIS.. etc
 							children.push(<td>{surv}</td>)
 								//adds each value to the table
-								var value = object[question][0]['median']
+								var value = object[question][Object.keys(question)[0]]['median']
 								children.push(<td>{value}</td>)
-								var value = object[question][0]['mean']
+								var value = object[question][Object.keys(question)[0]]['mean']
 								children.push(<td>{value}</td>)
-								var value = object[question][0]['std_dev']
+								var value = object[question][Object.keys(question)[0]]['std_dev']
 								children.push(<td>{value}</td>)
-								var value = object[question][0]['n']
+								var value = object[question][Object.keys(question)[0]]['n']
 								children.push(<td>{value}</td>)
 
 							//adds the row to the table
@@ -247,8 +245,9 @@ class Results extends Component {
 
 			}
 			
-			for (var survey in Q) {
-				var S = Q[survey]
+			if(this.tag==='intsructor'){
+				for (var object in this.resultObjectsUnder) {
+				var survey = this.resultObjectsUnder[object][question][Object.keys(object)[0]];
 				let newItem = [survey]
 				
 				var value = this.resultsJson[question][survey]['median']
@@ -264,7 +263,8 @@ class Results extends Component {
 				
 				table.push(newItem)
 				newItem = []
-			}
+				}
+			}	
 			
 		}
 		return table;
