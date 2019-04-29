@@ -160,7 +160,7 @@ class Home extends Component {
                     <DynamicSelecter list={this.state.editableEvals} iden={"editSelector"}/>&emsp;
                     <button  type="homeScreenButton" onClick = {() => this.edit(document.getElementById("editSelector").value)}>Edit</button>
                     
-
+                    {/*
                     <h3>3. View Old Course Evaluation Form</h3>
                     <DynamicSelecter list={this.state.allEvals} iden={"inactiveSelector"}/>&emsp;
                     <button type="homeScreenButton" onClick = {() => this.view(document.getElementById("inactiveSelector").value)}>View</button>
@@ -168,9 +168,9 @@ class Home extends Component {
                     <h3>4. Publish an Unpublished Evaluation Form</h3>
                     <DynamicSelecter list={this.state.editableEvals} iden={"publishSelector"}/>&emsp;
                     <button type="homeScreenButton" onClick = {() => this.publish(document.getElementById("publishSelector").value)}>Publish</button>
+                    */}
                     
-					
-                    <h3>5. View Evaluation Results</h3>
+                    <h3>3. View Evaluation Results</h3>
 					<RadioSelecter iden={"tags"} state = {this.state} onChange = {(value) => {this.setState({selectedTag:value})}}/>
                     <DynamicSelecter list={this.state.reports} iden={"reports"}/>&emsp;
 						

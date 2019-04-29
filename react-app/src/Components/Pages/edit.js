@@ -8,12 +8,12 @@ import * as Survey from "survey-react";
 
 import {putEval, getEval} from "../../Functions/endpoints.js";
 
-import {survey, oldEval} from "../../vars";
+import {blankSurvey, oldEval} from "../../vars";
 import { loadEvaluation, formatSurvey } from "../../Functions/parsing";
 
 class Edit extends Component {
     
-    surveyJSON = survey;
+    surveyJSON = blankSurvey;
 
     componentDidMount() {
         document.title = 'Edit Page';

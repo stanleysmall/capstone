@@ -9,7 +9,7 @@ import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
 import {getEval,putEval, getEvalNames, publishEval} from "../../Functions/endpoints.js";
 import {formatSurvey, loadEvaluation} from "../../Functions/parsing.js";
 
-import {survey} from "../../vars";
+import {blankSurvey} from "../../vars";
 
 
 
@@ -26,7 +26,7 @@ class Create extends Component {
 
     //JSON which defines the format of the survey that 
     //users fill out of create an evaluation.  Stores in questionTemplate.js
-    surveyJSON = survey;
+    surveyJSON = blankSurvey;
     testData = JSON.stringify(this.evaltemplate,null,2)
     /*
         Sets the theme of the user input survey and generates a list of the names of the past surveys which can be used as templates
@@ -55,7 +55,7 @@ class Create extends Component {
                 this.setState({loadableEvals: this.state.loadableEvals.concat([{id:i+1, name:responseData[i]}])});
             }
         })
-        this.surveyJSON = survey;
+        this.surveyJSON = blankSurvey;
         this.setState({model : new Survey.Model(this.surveyJSON)});
         this.setState({useTemplate: false});
     }
@@ -114,7 +114,7 @@ class Create extends Component {
         this.setState({evalName: this.evalTemplate.name})
 
         //Fresh survey JSON
-        this.surveyJSON = survey;
+        this.surveyJSON = blankSurvey;
         this.setState({model : new Survey.Model(this.surveyJSON)});
 
     }
