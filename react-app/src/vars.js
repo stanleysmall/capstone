@@ -53,10 +53,6 @@ export const defaultQuestions =
   "How much did you work in this class as apposed to the traditional format",
   "Please identify an e-learning aspect of the course that you found particularly valuable or beneficial",
   "Please identify an e-learning aspect of the course that could be improved."
-
-
-
-
 ]
 
 export const oldEval = {
