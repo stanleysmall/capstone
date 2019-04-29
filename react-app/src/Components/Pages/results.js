@@ -54,6 +54,7 @@ class Results extends Component {
 	
 	getAggregatedResults = () =>{
 	
+	console.log("getting that booty");
 	//List of course designators, i.e [COS, MUS, NMD]
 	var courseDesignators = [];
 	//List of faculty units, i.e [SCIS]
@@ -148,14 +149,14 @@ class Results extends Component {
 				//children will be a row
 				let children = []
 				//Creates a header stating the question
-				table.push(<h2>{question}</h2>)
+				table.push(<h3>{question}</h3>)
 				//Creates headers for each of the 
 				table.push(<tr>
 				<th></th>
 				<th>Median</th>
 				<th>Mean</th>
-				<th>n</th>
 				<th>Std. Dev</th>
+				<th>n</th>
 				</tr>)
 				
 				//Q is in the form {Survey 1: {'median': 5 ,'mean': 3, 'std. dev': 2, 'n': 39}, Survey 2....}
@@ -207,7 +208,7 @@ class Results extends Component {
 	
 	createTableForCSV = () => {
 		//Does the exact same thing as above except in a different format suitable for CSV
-		let table= [['Question','Survey','Median','Mean','n','Standard Deviation']]
+		let table= [['Question','Survey','Median','Mean','Standard Deviation','n']]
 		
 		for(var question in this.resultsJson){
 			var Q = this.resultsJson[question]
