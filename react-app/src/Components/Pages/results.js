@@ -101,7 +101,7 @@ class Results extends Component {
 				this.setState({a:this.state.a + 1});
 				})
 			}
-
+		
 			for(var fac in facultyUnits)
 			{
 				getResults('facultyUnit', facultyUnits[fac])
@@ -118,14 +118,15 @@ class Results extends Component {
 				})
 			}
 
-			for(var uni in universities)
+			for(var uni in universities){
 				getResults('university', universities[uni])
 				.then((response) => {this.resultObjectsUnder.push(JSON.stringify(response, null, 2));
 				this.setState({a:this.state.a + 1});
 				})
 				
-		}
+			}
 		
+		}
 	}
 	
 	//Simple function to see if an object is in a list
