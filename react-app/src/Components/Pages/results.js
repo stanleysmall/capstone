@@ -194,20 +194,20 @@ class Results extends Component {
 				//If the tag is instructor, need all aggregated results
 				if(this.tagName==='instructor'){
 						//Loop through each object 
-						for(var object in this.resultObjectsUnder){
+						for(var i=0; i++; i<this.resultObjectsUnder.length){
 							//Assumes every survey has the same first question
-							console.log("OBJECT?? ? ?? " + this.resultObjectsUnder[object]);
-							var surv = object[question][Object.keys(question)[0]];
+							console.log("OBJECT?? ? ?? " + this.resultObjectsUnder[i]);
+							var surv = this.resultObjectsUnder[i][question];
 							//surv has will be COS or SCIS.. etc
 							children.push(<td>{surv}</td>)
 								//adds each value to the table
-								var value = object[question][Object.keys(question)[0]]['median']
+								var value = object[question][surv]['median']
 								children.push(<td>{value}</td>)
-								var value = object[question][Object.keys(question)[0]]['mean']
+								var value = object[question][surv]['mean']
 								children.push(<td>{value}</td>)
-								var value = object[question][Object.keys(question)[0]]['std_dev']
+								var value = object[question][surv]['std_dev']
 								children.push(<td>{value}</td>)
-								var value = object[question][Object.keys(question)[0]]['n']
+								var value = object[question][surv]['n']
 								children.push(<td>{value}</td>)
 
 							//adds the row to the table
