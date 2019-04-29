@@ -69,10 +69,8 @@ class Results extends Component {
 		if(this.tagName === "instructor"){
 			//Assumes all surveys have the same first question
 			var question1 = this.resultsJson["How clearly were the objectives of the course presented?"];
-			console.log("JSON: " + JSON.stringify(this.resultsJson,null,2));
 			//Loops through all the surveys for the given instructor
 			for(var survey in question1){
-				console.log("Survey: " + survey);
 				//For each survey, retrieve its information
 				var surveyJson = null;
 				getEval(survey)
@@ -82,8 +80,10 @@ class Results extends Component {
 				
 				//For each survey, check to see if its details are in the above lists
 				//if not, add them
-				if(!this.containsObject(surveyJson.courseDesignator, courseDesignators))
+				if(!this.containsObject(surveyJson.courseDesignator, courseDesignators)){
 					courseDesignators.push(surveyJson.courseDesignator);
+					console.log("DES : " + surveyJson.courseDesignator);
+				}
 				if(!this.containsObject(surveyJson.facultyUnit, facultyUnits))
 					facultyUnits.push(surveyJson.facultyUnit);
 				if(!this.containsObject(surveyJson.college, colleges))
