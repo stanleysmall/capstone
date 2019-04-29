@@ -66,13 +66,15 @@ class Results extends Component {
 		
 		//Checks if the tag is instructor
 		//If it is, need aggregated results
-		if(this.tagName === "instructor"&&this.resultsJson!==null){
+		if(this.tagName === "instructor"){
 			//Assumes all surveys have the same first question
 			var question1 = this.resultsJson[0];
 			//Loops through all the surveys for the given instructor
 			for(var survey in question1){
 				//For each survey, retrieve its information
-				var surveyJson = getEval(survey);
+				var surveyJson'
+				getEval(survey)
+				.then((response) =>{surveyJson = response;});
 				
 				//For each survey, check to see if its details are in the above lists
 				//if not, add them
