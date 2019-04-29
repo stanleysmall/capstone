@@ -66,13 +66,15 @@ class Results extends Component {
 		
 		//Checks if the tag is instructor
 		//If it is, need aggregated results
-		if(this.tagName === "instructor"&&this.resultsJson!==null){
+		if(this.tagName === "instructor"){
 			//Assumes all surveys have the same first question
 			var question1 = this.resultsJson[0];
 			//Loops through all the surveys for the given instructor
 			for(var survey in question1){
 				//For each survey, retrieve its information
-				var surveyJson = getEval(survey);
+				var surveyJson'
+				getEval(survey)
+				.then((response) =>{surveyJson = response;});
 				
 				//For each survey, check to see if its details are in the above lists
 				//if not, add them
@@ -152,8 +154,8 @@ class Results extends Component {
 				<th></th>
 				<th>Median</th>
 				<th>Mean</th>
-				<th>Std. Dev</th>
 				<th>n</th>
+				<th>Std. Dev</th>
 				</tr>)
 				
 				//Q is in the form {Survey 1: {'median': 5 ,'mean': 3, 'std. dev': 2, 'n': 39}, Survey 2....}
@@ -205,7 +207,7 @@ class Results extends Component {
 	
 	createTableForCSV = () => {
 		//Does the exact same thing as above except in a different format suitable for CSV
-		let table= [['Question','Survey','Median','Mean','Standard Deviation','n']]
+		let table= [['Question','Survey','Median','Mean','n','Standard Deviation']]
 		
 		for(var question in this.resultsJson){
 			var Q = this.resultsJson[question]
