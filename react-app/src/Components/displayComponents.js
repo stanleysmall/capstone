@@ -90,8 +90,8 @@ export class RadioSelecter extends Component {
 		return(
 			<fieldset id = {this.props.iden}>
 				<input type="radio" name="resultTagType" value="instructor" onClick={() => {this.radioChange("reportsInstructor")}} defaultChecked /> Instructor<br/>
-				<input type="radio" name="resultTagType" value="course_designator" onClick={() => {this.radioChange("reportsCourseDes")}}/> Course Designator<br/>
-				<input type="radio" name="resultTagType" value="unit" onClick={() => {this.radioChange("reportsUnit")}}/> Unit<br/>
+				<input type="radio" name="resultTagType" value="courseDesignator" onClick={() => {this.radioChange("reportsCourseDes")}}/> Course Designator<br/>
+				<input type="radio" name="resultTagType" value="facultyUnit" onClick={() => {this.radioChange("reportsUnit")}}/> Unit<br/>
 				<input type="radio" name="resultTagType" value="college" onClick={() => {this.radioChange("reportsCollege")}}/> College<br/>
 				<input type="radio" name="resultTagType" value="university" onClick={() => {this.radioChange("reportsUniversity")}}/> University<br/><br/>	
 			</fieldset>

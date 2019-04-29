@@ -245,7 +245,7 @@ class Results extends Component {
 
 			}
 			
-			if(this.tag==='intsructor'){
+			if(this.tagName==='intsructor'){
 				for (var object in this.resultObjectsUnder) {
 				var survey = this.resultObjectsUnder[object][question][Object.keys(object)[0]];
 				let newItem = [survey]
