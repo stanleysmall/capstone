@@ -473,13 +473,14 @@ def validate():
         data = r.json()
         session['email'] = data['email']
         
+        mydb.commit()
         # Add the user to the instructor table if not there
         # User ID is one higher than the current maximum ID
         cursor.execute("select max(ID) from user;")
         user_ID = cursor.fetchone()[0]
         # Use '1' if no user IDs are in table
         user_ID = str(user_ID + 1) if user_ID else '1'
-        
+
         cursor.execute("select * from user where `e-mail` = '"
                        + session['email'] + "';")
         if not cursor.fetchone():
