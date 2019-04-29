@@ -70,6 +70,7 @@ class Results extends Component {
 		if(this.tagName === "instructor"){
 			//Assumes all surveys have the same first question
 			var question1 = this.resultsJson[0];
+			console.log("QUESTION: " + question1);
 			//Loops through all the surveys for the given instructor
 			for(var survey in question1){
 				console.log("Survey: " + survey);
