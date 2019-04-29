@@ -1,4 +1,4 @@
-import {defaultQuestions} from "../../vars";
+import {defaultQuestions} from "../vars";
 
 /*
     Arguments: 
