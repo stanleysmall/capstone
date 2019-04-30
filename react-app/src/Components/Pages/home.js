@@ -29,13 +29,11 @@ class Home extends Component {
 
         getTagValues('instructor')
         .then((response) => {
-            console.log(response);
             var names = [...new Set(response)];
             for(var i = 0; i < names.length; i++)
             {
                 this.setState({reportsInstructor: this.state.reportsInstructor.concat([{id:i+1, name:names[i]}])});
             }
-            console.log(this.state.reportsInstructor);
         })
 
         getTagValues('courseDesignator')
@@ -151,13 +149,15 @@ class Home extends Component {
                 <LoggedInHeader/>
 
                     <h3>1. Create a New Course Evaluation Form</h3>
-                    <Link to={"/create/"}>
+                    To create a new course evaluation form click the <b>Create</b> button bellow.  You will be able to copy a template from previous evaluations you have worked on or start from a blank evaluation.
+                    <br/> <br/><Link to={"/create/"}>
                         <button  id = "create" type="homeScreenButton">Create</button>
                     </Link>
                     
                     
                     <h3>2. Edit an Existing Unpublished Course Evaluation Form</h3>
-                    <DynamicSelecter list={this.state.editableEvals} iden={"editSelector"}/>&emsp;
+                    To edit a course evaluation form that you have previously created but not published select it from the drop down and click on the <b>Edit</b> button bellow.  You will be given the oportunity to published the evaluation upon saving any changes made.
+                    <br/> <br/><DynamicSelecter list={this.state.editableEvals} iden={"editSelector"}/>&emsp;
                     <button  type="homeScreenButton" onClick = {() => this.edit(document.getElementById("editSelector").value)}>Edit</button>
                     
                     {/*
@@ -171,7 +171,8 @@ class Home extends Component {
                     */}
                     
                     <h3>3. View Evaluation Results</h3>
-					<RadioSelecter iden={"tags"} state = {this.state} onChange = {(value) => {this.setState({selectedTag:value})}}/>
+                    To view results of your evaluations select which type of report you would like to view and select from the drop down which report you want to view then click the <b>View Results</b> button.
+					<br/> <br/><RadioSelecter iden={"tags"} state = {this.state} onChange = {(value) => {this.setState({selectedTag:value})}}/>
                     <DynamicSelecter list={this.state.reports} iden={"reports"}/>&emsp;
 						
                     <button type="homeScreenButton" onClick = {() => this.results(document.getElementById("tags").value, document.getElementById("reports").value)}>View Results</button>

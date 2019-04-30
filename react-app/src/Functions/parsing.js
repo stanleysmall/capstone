@@ -486,59 +486,296 @@ export const loadEvaluation = (evaluation, surveyJSON) =>
     for (var question in evaluation.questions)
     {
         if(defaultQuestions.indexOf(evaluation.questions[question].text) > -1)
+        {
             loadDefaultQuestion(evaluation.questions[question], surveyJSON);
+        }
+        else{loadCustomQuestion(evaluation.questions[question], surveyJSON);}
     }
 
-    /*
-        
-        FOR DYNAMIC QUESTIONS
-       "defaultValue": [
-        {
-         "1": "one",
-         "5": "five",
-         "question": "This is a question",
-         "include": [
-          "include"
-         ],
-         "mandatory": [
-          "mandatory"
-         ]
-        },
-        {
-         "1": "one",
-         "5": "five",
-         "question": "This is a second question",
-         "include": [
-          "include"
-         ],
-         "mandatory": [
-          "mandatory"
-         ]
-        }
 
-        "rowCount": 2,
-        "confirmDelete": true,
-        "confirmDeleteText": "Are you sure you want to remove this question?",
-        "addRowText": "Add Question",
-        "removeRowText": "Remove"
-       ]
 
-       */
+    surveyJSON.pages[2].elements[0].elements[1].defaultValue = "";
 
-       surveyJSON.pages[2].elements[1].elements[1].defaultValue = evaluation.email_invite;
-       surveyJSON.pages[2].elements[1].elements[4].defaultValue = evaluation.email_reminder;
+    for (var student in evaluation.participants)
+    {
+        var names = evaluation.participants[student].name.split(" ");
+        surveyJSON.pages[2].elements[0].elements[1].defaultValue = surveyJSON.pages[2].elements[0].elements[1].defaultValue + names[0] + "," + names[1] + "," + evaluation.participants[student].address + "\n";
+    }
+
+    surveyJSON.pages[2].elements[1].elements[1].defaultValue = evaluation.email_invite;
+    surveyJSON.pages[2].elements[1].elements[4].defaultValue = evaluation.email_reminder;
 
     return surveyJSON;
 }
 
 const loadCustomQuestion = (q, JSON) =>
 {
+    if(q.group === "The Instructor")
+    {
+        JSON.pages[1].elements[1].elements[1].rowCount = JSON.pages[1].elements[1].elements[1].rowCount + 1;
 
+        if(JSON.pages[1].elements[1].elements[1].defaultValue === undefined)
+        {
+            JSON.pages[1].elements[1].elements[1].defaultValue = [];
+        }
+
+        var tempQuestion = {
+            "1": "",
+            "5": "",
+            "question": "",
+            "include": [
+             "include"
+            ],
+           }
+        var tempList = q.helpText.split(",");
+
+        if(q.type === "5")
+        {
+            tempQuestion["1"] = tempList[0].substring(4)
+            tempQuestion["5"] = tempList[1].substring(4)
+        }
+        else{
+            tempQuestion["1"] = "--"
+            tempQuestion["5"] = "--"
+        }
+
+
+        tempQuestion.question = q.text;
+        if(tempQuestion.mandatory)
+        {
+            q.mandatory = ["mandatory"];
+        }
+
+        JSON.pages[1].elements[1].elements[1].defaultValue.push(tempQuestion);
+    }
+
+    if(q.group === "The Course")
+    {
+        JSON.pages[1].elements[2].elements[1].rowCount = JSON.pages[1].elements[2].elements[1].rowCount + 1;
+
+        if(JSON.pages[1].elements[2].elements[1].defaultValue === undefined)
+        {
+            JSON.pages[1].elements[2].elements[1].defaultValue = [];
+        }
+
+        var tempQuestion = {
+            "1": "",
+            "5": "",
+            "question": "",
+            "include": [
+             "include"
+            ],
+           }
+        var tempList = q.helpText.split(",");
+
+        if(q.type === "5")
+        {
+            tempQuestion["1"] = tempList[0].substring(4)
+            tempQuestion["5"] = tempList[1].substring(4)
+        }
+        else{
+            tempQuestion["1"] = "--"
+            tempQuestion["5"] = "--"
+        }
+
+
+        tempQuestion.question = q.text;
+        if(tempQuestion.mandatory)
+        {
+            q.mandatory = ["mandatory"];
+        }
+
+        JSON.pages[1].elements[2].elements[1].defaultValue.push(tempQuestion);
+    }
+    
+
+    if(q.group === "The Assesments")
+    {
+        JSON.pages[1].elements[3].elements[1].rowCount = JSON.pages[1].elements[3].elements[1].rowCount + 1;
+
+        if(JSON.pages[1].elements[3].elements[1].defaultValue === undefined)
+        {
+            JSON.pages[1].elements[3].elements[1].defaultValue = [];
+        }
+
+        var tempQuestion = {
+            "1": "",
+            "5": "",
+            "question": "",
+            "include": [
+             "include"
+            ],
+           }
+        var tempList = q.helpText.split(",");
+
+        if(q.type === "5")
+        {
+            tempQuestion["1"] = tempList[0].substring(4)
+            tempQuestion["5"] = tempList[1].substring(4)
+        }
+        else{
+            tempQuestion["1"] = "--"
+            tempQuestion["5"] = "--"
+        }
+
+
+        tempQuestion.question = q.text;
+        if(tempQuestion.mandatory)
+        {
+            q.mandatory = ["mandatory"];
+        }
+
+        JSON.pages[1].elements[3].elements[1].defaultValue.push(tempQuestion);
+    }
+
+    if(q.group === "Open Ended Questions")
+    {
+        JSON.pages[1].elements[4].elements[1].rowCount = JSON.pages[1].elements[4].elements[1].rowCount + 1;
+
+        if(JSON.pages[1].elements[4].elements[1].defaultValue === undefined)
+        {
+            JSON.pages[1].elements[4].elements[1].defaultValue = [];
+        }
+
+        var tempQuestion = {
+            "question": "",
+            "include": [
+             "include"
+            ],
+           }
+
+        tempQuestion.question = q.text;
+        if(tempQuestion.mandatory)
+        {
+            q.mandatory = ["mandatory"];
+        }
+
+        JSON.pages[1].elements[4].elements[1].defaultValue.push(tempQuestion);
+    }
+
+    if(q.group === "The Lab")
+    {
+        JSON.pages[1].elements[5].elements[0].defaultValue = ["IncludeLab"]
+        JSON.pages[1].elements[5].elements[2].rowCount = JSON.pages[1].elements[5].elements[2].rowCount + 1;
+
+        if(JSON.pages[1].elements[5].elements[2].defaultValue === undefined)
+        {
+            JSON.pages[1].elements[5].elements[2].defaultValue = [];
+        }
+
+        var tempQuestion = {
+            "1": "",
+            "5": "",
+            "question": "",
+            "include": [
+             "include"
+            ],
+           }
+        var tempList = q.helpText.split(",");
+
+        if(q.type === "5")
+        {
+            tempQuestion["1"] = tempList[0].substring(4)
+            tempQuestion["5"] = tempList[1].substring(4)
+        }
+        else{
+            tempQuestion["1"] = "--"
+            tempQuestion["5"] = "--"
+        }
+
+
+        tempQuestion.question = q.text;
+        if(tempQuestion.mandatory)
+        {
+            q.mandatory = ["mandatory"];
+        }
+
+        JSON.pages[1].elements[5].elements[2].defaultValue.push(tempQuestion);
+    }
+
+    if(q.group === "The Teaching Assistant")
+    {
+        JSON.pages[1].elements[6].elements[0].defaultValue = ["Include"]
+        JSON.pages[1].elements[6].elements[2].rowCount = JSON.pages[1].elements[6].elements[2].rowCount + 1;
+
+        if(JSON.pages[1].elements[6].elements[2].defaultValue === undefined)
+        {
+            JSON.pages[1].elements[6].elements[2].defaultValue = [];
+        }
+
+        var tempQuestion = {
+            "1": "",
+            "5": "",
+            "question": "",
+            "include": [
+             "include"
+            ],
+           }
+        var tempList = q.helpText.split(",");
+
+        if(q.type === "5")
+        {
+            tempQuestion["1"] = tempList[0].substring(4)
+            tempQuestion["5"] = tempList[1].substring(4)
+        }
+        else{
+            tempQuestion["1"] = "--"
+            tempQuestion["5"] = "--"
+        }
+
+
+        tempQuestion.question = q.text;
+        if(tempQuestion.mandatory)
+        {
+            q.mandatory = ["mandatory"];
+        }
+
+        JSON.pages[1].elements[6].elements[2].defaultValue.push(tempQuestion);
+    }
+
+    if(q.group === "The Online Component")
+    {
+        JSON.pages[1].elements[7].elements[0].defaultValue = ["Include"]
+        JSON.pages[1].elements[7].elements[2].rowCount = JSON.pages[1].elements[7].elements[2].rowCount + 1;
+
+        if(JSON.pages[1].elements[7].elements[2].defaultValue === undefined)
+        {
+            JSON.pages[1].elements[7].elements[2].defaultValue = [];
+        }
+
+        var tempQuestion = {
+            "1": "",
+            "5": "",
+            "question": "",
+            "include": [
+             "include"
+            ],
+           }
+        var tempList = q.helpText.split(",");
+
+        if(q.type === "5")
+        {
+            tempQuestion["1"] = tempList[0].substring(4)
+            tempQuestion["5"] = tempList[1].substring(4)
+        }
+        else{
+            tempQuestion["1"] = "--"
+            tempQuestion["5"] = "--"
+        }
+
+
+        tempQuestion.question = q.text;
+        if(tempQuestion.mandatory)
+        {
+            q.mandatory = ["mandatory"];
+        }
+
+        JSON.pages[1].elements[7].elements[2].defaultValue.push(tempQuestion);
+    }
 }
 
 const loadDefaultQuestion = (q, JSON) =>
 {   
-    console.log(JSON);
     if(q.group === "The Instructor")
     {
         JSON.pages[1].elements[1].elements[0].defaultValue[q.text].include = ["include"];
