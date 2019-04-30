@@ -26,6 +26,7 @@ export const putEval = (toStore) =>
     console.log("storing survey");
     return fetch(APIAddress + "survey", {
         method: 'PUT',
+        mode: 'same-origin',
         headers: {
             'Content-Type': 'application/json'
         },
