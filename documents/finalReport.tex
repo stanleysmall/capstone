@@ -23,7 +23,7 @@
 \vspace{1cm}
 {\Large Client: Dr. Harlan Onsrud\par}
 \vspace{1cm}
-{\Large May 2, 2019\par}
+{\Large May 7, 2019\par}
 \vspace{11cm}
 
 University of Maine - Spring of 2019 - COS 497
@@ -48,7 +48,13 @@ Instructor: Professor Terry Yoo
 
 \subsection{Purpose of This Project}
 
+For our capstone project, Team EVAL is creating a Course Evaluation System, a web application designed to be intuitive and versatile for college instructors. This new system, which will be tested first at the University of Maine, allows one to quickly create course evaluation surveys and review their responses. Our goal is to have a fully working evaluation system for use at the end of the Spring 2019 semester. By making and documenting the software, the team will have gained valuable skills in software engineering, programming, and technical writing.
+
 \subsection{Purpose of This Document}
+
+This final project document gives an overview of our course evaluation system, the purpose of it, and why we believe it is useful. We first talk about existing evaluation creation software and how they are not tailored to college instructors and administrators, unlike our system. The next section goes into more detail about the system, discussing its requirements, user interface, and architecture. The last section describes what we will deliver to the client, our progress on creating the system so far and the steps we still need to take to successfully complete the project.
+
+This document is intended for the development team, the product client, and potential users of the system. Team EVAL needs this document to guide the products development. The client, Professor Harlan Onsrud, also needs it to verify that we are designing the system according to his needs. The document helps the software's users by informing them what the system is designed to do and how it specifically helps them with their work.
 
 \subsection{References}
 
@@ -58,9 +64,15 @@ Craig, J., Elliott, S., Judkins, R., \& Small, S. 16 November 2018. \textit{Syst
 \vspace{3mm}\newline
 Craig, J., Elliott, S., Judkins, R., \& Small, S. 30 November 2018. \textit{User Interface Design Document.}
 \vspace{3mm}\newline
-Onsrud, H. ``Example Question Selection Form.'' See Appendix D.
+Craig, J., Elliott, S., Guo, Y., Judkins, R., \& Small, S. 14 March 2019. \textit{Code Inspection Report.}
 \vspace{3mm}\newline
-Onsrud, H. ``Example Results Display.'' See Appendix E.
+Craig, J., Elliott, S., Guo, Y., Judkins, R., \& Small, S. 4 April 2019. \textit{Administrator Manual.}
+\vspace{3mm}\newline
+Craig, J., Elliott, S., Guo, Y., Judkins, R., \& Small, S. 18 April 2019. \textit{User Manual.}
+\vspace{3mm}\newline
+Onsrud, H. ``Example Question Selection Form.'' See Appendix H.
+\vspace{3mm}\newline
+Onsrud, H. ``Example Results Display.'' See Appendix I.
 \vspace{3mm}\newline
 LimeSurvey: The online survey tool - open source surveys. (n.d.). Retrieved from
 
@@ -153,7 +165,6 @@ The non-functional requirements state the system's qualities that are irrelevant
 \begin{figure}[H]
 \centering
 \vspace{2mm}
-\label{fig:componentdiagram}
 {\includegraphics[scale=.75]{images/component_diagram.png}}
 \captionof{figure}{Component diagram of the system}
 \end{figure}
@@ -161,26 +172,86 @@ The non-functional requirements state the system's qualities that are irrelevant
 
 Our system features a modular design, with many distinct parts which communicate via an API. The front end implements the user interface, written in JavaScript. The back end communicates with the system's databases and is written in Python. We are using two databases, one maintained by LimeSurvey and another maintained by our system. Additionally, the API will communicate with Google Authentication to authenticate users. The design and implementation of our system can be found in the System Design Document (SDD). The system's components are displayed in Figure 1 above.
 
-By maintaining a modular approach to the design of the system, team members can work independently on individual parts, which will then undergo integration testing. Moreover, by keeping the LimeSurvey codebase separate from our system, we can update LimeSurvey without disrupting other parts of the code. 
+By maintaining a modular approach to the design of the system, team members can work independently on individual parts, which will then undergo integration testing. Moreover, by keeping the LimeSurvey codebase separate from our system, we can update LimeSurvey without disrupting other parts of the code.
 
+\subsection{Our Process}
 
-\newpage
+When developing our product, we used the scrum framework. Our process subscribes to both process-driven and agile methodologies. Completion of the project requires a strict timeline which corresponds with the academic year, better managed as a process. However, our team regularly collaborates with the client to ensure the correct product is built. Our team follows a spiral methodology with each
+iteration producing a working prototype. We use Github to store and maintain the code, along with Docker to ensure our code runs in a familiar environment on different machines. Our class meets twice a week and we have weekly standup meetings.
 
-\section{Our Process}
+\begin{center}
+\begin{figure}[H]
+\centering
+\vspace{2mm}
+INSERT V-MODEL PICTURE HERE
+\captionof{figure}{The V-model, showing the steps in the process}
+\end{figure}
+\end{center}
+
+We measure our progress in two week sprints after which we have more planning meetings. The process has taught me the important of keeping an active relationship with the client to ensure everything is running smoothly. The organization of our team follows that of the Team Software Process, with a team
+leader, a development manager, a planning manager, a process manager, and a support manager. 
+
+Team EVAL will write several tests in the near future to ensure that the course evaluation system meets all system requirements. These tests are fully described in the system requirements specification. The most important tests concern the overall functionality of the system and integration with LimeSurvey. These will be tested extensively, as they represent the core components of the system. The team will begin testing the non-functional requirements only after all tests for the functional requirements pass.
+
+MENTION WHAT THE TESTS FOR THE BACK END AND THE FRONT END DO.
+
+\subsection{User Interface}
+
+The user interface is a pivotal part of the user experience and is important for our product. The goal of the system is to make an easy-to-use software that allows users to create course evaluations for their classes on a web application.  Users have no interaction with the back-end architecture and will only see the user interface, so the ease of use relies entirely on the front-end UI.  The exact description of every aspect of our user interface can be found in the User Interface Design Document (UIDD). 
+
+The overarching theme for the user interface is ``less is more''.  The interface will have as few extraneous elements as possible, be as intuitive as possible, and not require a large amount of effort to understand the system.  To this end, all functionality of the product should be accessible from the home page, whose wireframe is shown bellow in Figure 2. 
+
+\begin{center}
+\begin{figure}[H]
+    \centering
+    INSERT ACTUAL HOME SCREEN HERE
+    \caption{Home screen of the user interface}
+\end{figure}
+\end{center}
+
+After the landing screen and log-in screen, the user should instantly be aware of the types of functions that one can make through the home screen. To reduce confusion, help text for different features will be present on the same page and not require users to navigate away from it.  The interface will allow users to create new evaluations, view their existing and previous evaluations, and view results of completed evaluations.
 
 \newpage
 
 \section{Conclusion}
 
-\section{Final Product}
+\subsection{Needs This System Meets}
 
-\section{What We Learned}
+With its high-tech features, our course evaluation system could potentially bring the University of Maine into the modern age. Using our software, an instructor will be able to create a survey with ease, and students will be able to take the whole evaluation form online. The results will automatically be fed back into the software, and the instructor will be able to view statistics of the results and download them afterwards.
 
-\newpage
+This product will eliminate the need for Scantron sheets and provide a fast and simple way to distribute evaluation evaluations to all students in a desired course. The product will be free for use at the University of Maine and by any teachers elsewhere who may be interested in using it.
+
+\subsection{What We Have Learned}
+
+Communication is important in a team setting
+
+Defining and following a process is important
+
+Early and constant feedback is essential
+
+Software building !== coding
+
+\subsection{Future Work}
+
+Expand UI functionality
+
+Expand on results reporting
+
+More flexibility on evaluation structure
+
+Automate deletion of data
 
 \section{Acknowledgments}
 
+Thank you to Dr. Harlan Onsrud for letting us work on the course evaluation system.
+
+Thank you to Dr. Terry Yoo for guiding us in our capstone project and teaching us about good software development practices.
+
+Thank you to LimeSurvey for providing an open source survey creation framework which we could incorporate into our evaluation software.
+
 \newpage
+\appendix
+
 \section{Document Contributions}
 
 This section lists the contributions that each member of Team EVAL made to this document.
@@ -195,7 +266,37 @@ Sam Elliott wrote ??.
 
 Robert Judkins wrote ??
 
-Yuanqi Guo wrote ???.
+Yuanqi Guo wrote ??.
+
+\newpage
+
+\includepdf[scale=0.85,pages=1,pagecommand=\section{System Requirements Specification}]{srs.pdf}
+\includepdf[scale=0.85,pages=2-]{srs.pdf}
+
+\newpage
+
+\includepdf[scale=0.85,pages=1,pagecommand=\section{System Design Document}]{sdd.pdf}
+\includepdf[scale=0.85,pages=2-]{sdd.pdf}
+
+\newpage
+
+\includepdf[scale=0.85,pages=1,pagecommand=\section{User Interface Design Document}]{uidd.pdf}
+\includepdf[scale=0.85,pages=2-]{uidd.pdf}
+
+\newpage
+
+\includepdf[scale=0.85,pages=1,pagecommand=\section{Code Inspection Report}]{cir.pdf}
+\includepdf[scale=0.85,pages=2-]{cir.pdf}
+
+\newpage
+
+\includepdf[scale=0.85,pages=1,pagecommand=\section{Administrator Manual}]{am.pdf}
+\includepdf[scale=0.85,pages=2-]{am.pdf}
+
+\newpage
+
+\includepdf[scale=0.85,pages=1,pagecommand=\section{User Manual}]{um.pdf}
+\includepdf[scale=0.85,pages=2-]{um.pdf}
 
 \newpage
 
