@@ -722,8 +722,8 @@ def translate_to_txt(name):
                 typ = str(cursor.fetchone()[0])
                 cursor.execute(question_query.format('text', ID))
                 txt = str(cursor.fetchone()[0])
+                mydb.commit()
                 # Get string from mandatory bit
-                #mydb.commit()
                 cursor.execute(question_query.format('mandatory', ID))
                 mandatory = str(cursor.fetchone()[0])
                 mandatory = 'Y' if int(mandatory) == 1 else 'N'
