@@ -13,7 +13,7 @@ class Results extends Component {
 	
 	tag=this.props.match.params.tag;
 	tagName=this.props.match.params.tagName;
-	/*resultsJson = {"How prepared was the instructor for class?": {
+	resultsJson = {"How prepared was the instructor for class?": {
 						'COS 420 001':{"median": 4, "mean": 4.2, "std_dev": .63, "n": 24},
 						'COS 225 002':{"median": 3, "mean": 3.3, "std_dev": .82, "n": 41},
 						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .47, "n": 63},
@@ -51,11 +51,11 @@ class Results extends Component {
 					},
 					
 		
-	};*/
+	};
 	
 	state = {a:1};
 
-	resultsJson = null;
+	//resultsJson = null;
 	
 	//Contains a list of JSON objects for aggregated results
 	resultObjectsUnder = [];
@@ -64,15 +64,15 @@ class Results extends Component {
 	
 		document.title = 'Results Page';
 
-		getResults(this.tagName, this.tag)
+		/*getResults(this.tagName, this.tag)
 		.then((response) => {
 			this.resultsJson = response;
-			/*
+			
 			if(this.resultsJson!==null)	
 				this.getAggregatedResults();
-			*/
+			
 			this.setState({a:this.state.a + 1});
-		});
+		});*/
 	}
 	
 	/*
