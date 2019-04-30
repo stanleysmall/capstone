@@ -42,7 +42,7 @@ export const putEval = (toStore) =>
 */
 export const getEval = (name) =>
 {
-    return fetch(APIAddress +"survey?name=" + name)
+    return fetch(APIAddress +"survey?name=" + name, {mode: 'same-origin'})
             .then(response =>response.json())
             .then((responseData) => {
                 return responseData;
@@ -59,7 +59,7 @@ export const deleteSurvey = (name) =>
 
 export const getResults = (cat_type, cat_name) =>
 {
-	return fetch(APIAddress + "results?cat_type="+ cat_type + "&cat_name=" + cat_name)
+	return fetch(APIAddress + "results?cat_type="+ cat_type + "&cat_name=" + cat_name, {mode: 'same-origin'})
 			.then(response =>response.json())
 			.then((responseData) => {
 				return responseData;
@@ -82,7 +82,7 @@ export const publishEval = (name) =>
             putEval(response);
         });*/
     //markPublished(name);
-    return fetch(APIAddress +"publish?name=" + name)
+    return fetch(APIAddress +"publish?name=" + name, {mode: 'same-origin'})
     .then(response =>response.json())
     .then((responseData) => {
         console.log("published" + name)
@@ -92,7 +92,7 @@ export const publishEval = (name) =>
 
 export const getTagValues = (cat_type) =>
 {
-	return fetch(APIAddress + "tag_values?tag_type=" + cat_type)
+	return fetch(APIAddress + "tag_values?tag_type=" + cat_type, {mode: 'same-origin'})
 			.then(response =>response.json())
 			.then((responseData) => {
 				return responseData;
@@ -104,7 +104,7 @@ export const getTagValues = (cat_type) =>
 */
 export const getEvalNames = () =>
 {
-    return fetch(APIAddress +"surveys")
+    return fetch(APIAddress +"surveys", {mode: 'same-origin'})
             .then(response =>response.json())
             .then((responseData) => {
                 return responseData;
@@ -113,7 +113,7 @@ export const getEvalNames = () =>
 
 export const loginEndpoint = (key) =>
 {
-    return fetch(APIAddress +"login?key=" + key)
+    return fetch(APIAddress +"login?key=" + key, {mode: 'same-origin'})
             .then(response => response.json())
             .then((responseData) => {
                 console.log("logged In");
@@ -126,7 +126,7 @@ export const loginEndpoint = (key) =>
 */
 export const getUnpublishedEvalNames = () =>
 {
-    return fetch(APIAddress +"surveys?tag_type=published&tag_value=F")
+    return fetch(APIAddress +"surveys?tag_type=published&tag_value=F", {mode: 'same-origin'})
     .then(response =>response.json())
     .then((responseData) => {
         return responseData;
@@ -138,7 +138,7 @@ export const getUnpublishedEvalNames = () =>
 */
 export const getPublishedEvalNames = () =>
 {
-    return fetch(APIAddress +"surveys?tag_type=published&tag_value=T")
+    return fetch(APIAddress +"surveys?tag_type=published&tag_value=T", {mode: 'same-origin'})
     .then(response =>response.json())
     .then((responseData) => {
         return responseData;
