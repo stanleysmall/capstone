@@ -13,52 +13,108 @@ class Results extends Component {
 	
 	tag=this.props.match.params.tag;
 	tagName=this.props.match.params.tagName;
+	
+	resultsJson=null;
+	if(tagName==='instructor'){
 	resultsJson = {"How prepared was the instructor for class?": {
 						'COS 420 001':{"median": 4, "mean": 4.2, "std_dev": .63, "n": 24},
 						'COS 225 002':{"median": 3, "mean": 3.3, "std_dev": .82, "n": 41},
 						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .47, "n": 63},
-						'All COS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128}, 
-						'All SCIS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
-						'All Liberal Arts courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
-						'All University of Maine courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						},
 					"How clearly were the objective of the course presented?": {
 						'COS 420 001':{"median": 2, "mean": 2.2, "std_dev": .51, "n": 24},
 						'COS 225 002':{"median": 3, "mean": 2.9, "std_dev": .52, "n": 41},
 						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .87, "n": 63},
-						'All COS courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128}, 
-						'All SCIS courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
-						'All Liberal Arts courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
-						'All University of Maine courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
 						},
 					"How enthusiastic was the instructor about the subject?": {
 						'COS 420 001':{"median": 3, "mean": 3.2, "std_dev": .61, "n": 24},
 						'COS 225 002':{"median": 4, "mean": 3.9, "std_dev": .43, "n": 41},
 						'COS 125 001':{"median": 4, "mean": 4.5, "std_dev": .77, "n": 63},
-						'All COS courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128}, 
-						'All SCIS courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
-						'All Liberal Arts courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
-						'All University of Maine courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
 					},
 					"How did the course challenge you intellectually?": {
 						'COS 420 001':{"median": 4, "mean": 4.6, "std_dev": .38, "n": 24},
 						'COS 225 002':{"median": 4, "mean": 4.1, "std_dev": .82, "n": 41},
 						'COS 125 001':{"median": 2, "mean": 2.7, "std_dev": .55, "n": 63},
-						'All COS courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128}, 
-						'All SCIS courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
-						'All Liberal Arts courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
-						'All University of Maine courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
 					},
 					"How well groomed was the professor?": {
 						'COS 420 001':{"median": 1, "mean": 1.2, "std_dev": .21, "n": 24},
 						'COS 225 002':{"median": 1, "mean": 1.1, "std_dev": .12, "n": 41},
 						'COS 125 001':{"median": 2, "mean": 2.2, "std_dev": .37, "n": 63},
+					}
+	};
+	}else if(tagName==='courseDesignator'){
+		resultsJson = {"How prepared was the instructor for class?": {
+						'All COS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+						},
+					"How clearly were the objective of the course presented?": {
+						'All COS courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128}, 
+						},
+					"How enthusiastic was the instructor about the subject?": {
+						'All COS courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
+					},
+					"How did the course challenge you intellectually?": {
+
+						'All COS courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128}, 
+					},
+					"How well groomed was the professor?": {
 						'All COS courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128}, 
+					}
+		};
+	}else if(tagName==='facultyUnit'){
+		resultsJson = {"How prepared was the instructor for class?": {						
+						'All SCIS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+						},
+					"How clearly were the objective of the course presented?": { 
+						'All SCIS courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
+						},
+					"How enthusiastic was the instructor about the subject?": {
+						'All SCIS courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
+
+					},
+					"How did the course challenge you intellectually?": {
+						'All SCIS courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
+
+					},
+					"How well groomed was the professor?": { 
 						'All SCIS courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128},
+
+					}
+		};
+	}else if(tagName==='college'){
+		resultsJson = {"How prepared was the instructor for class?": {
+						'All Liberal Arts courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+						},
+					"How clearly were the objective of the course presented?": {
+						'All Liberal Arts courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
+						},
+					"How enthusiastic was the instructor about the subject?": {
+						'All Liberal Arts courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
+					},
+					"How did the course challenge you intellectually?": {
+						'All Liberal Arts courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
+					},
+					"How well groomed was the professor?": {
 						'All Liberal Arts courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128},
+					}
+		};
+	}else{
+		resultsJson = {"How prepared was the instructor for class?": {
+						'All University of Maine courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+						},
+					"How clearly were the objective of the course presented?": {
+						'All University of Maine courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
+						},
+					"How enthusiastic was the instructor about the subject?": {
+						'All University of Maine courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
+					},
+					"How did the course challenge you intellectually?": {
+						'All University of Maine courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
+					},
+					"How well groomed was the professor?": {
 						'All University of Maine courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128},
 					}
 	};
+	}
 	
 	state = {a:1};
 
