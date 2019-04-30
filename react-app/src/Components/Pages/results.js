@@ -261,7 +261,7 @@ class Results extends Component {
 	
 	createTableForCSV = () => {
 		//Does the exact same thing as above except in a different format suitable for CSV
-		
+		let table = []
 		for(var question in this.resultsJson){
 			var Q = this.resultsJson[question]
 			table.push([question, "Survey", "Median", "Standard Deviation", "n"])
