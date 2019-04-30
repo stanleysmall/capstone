@@ -49,8 +49,15 @@ class Results extends Component {
 						'All Liberal Arts courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
 						'All University of  courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
 					},
-					
-		
+					"How well groomed was the professor?": {
+						'COS 420 001':{"median": 1, "mean": 1.2, "std_dev": .21, "n": 24},
+						'COS 225 002':{"median": 1, "mean": 1.1, "std_dev": .12, "n": 41},
+						'COS 125 001':{"median": 2, "mean": 2.2, "std_dev": .37, "n": 63},
+						'All COS courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128}, 
+						'All SCIS courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128},
+						'All Liberal Arts courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128},
+						'All University of  courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128},
+					}
 	};
 	
 	state = {a:1};
