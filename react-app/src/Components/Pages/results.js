@@ -31,6 +31,25 @@ class Results extends Component {
 						'All Liberal Arts courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
 						'All University of  courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
 						},
+					"How enthusiastic was the instructor about the subject?": {
+						'COS 420 001':{"median": 3, "mean": 3.2, "std_dev": .61, "n": 24},
+						'COS 225 002':{"median": 4, "mean": 3.9, "std_dev": .43, "n": 41},
+						'COS 125 001':{"median": 4, "mean": 4.5, "std_dev": .77, "n": 63},
+						'All COS courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128}, 
+						'All SCIS courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
+						'All Liberal Arts courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
+						'All University of  courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
+					},
+					"How did the course challenge you intellectually?": {
+						'COS 420 001':{"median": 4, "mean": 4.6, "std_dev": .38, "n": 24},
+						'COS 225 002':{"median": 4, "mean": 4.1, "std_dev": .82, "n": 41},
+						'COS 125 001':{"median": 2, "mean": 2.7, "std_dev": .55, "n": 63},
+						'All COS courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128}, 
+						'All SCIS courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
+						'All Liberal Arts courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
+						'All University of  courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
+					},
+					
 		
 	};*/
 	
