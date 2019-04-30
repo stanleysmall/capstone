@@ -262,7 +262,7 @@ class Results extends Component {
 			for (var survey in Q) {
 				var S = Q[survey]
 				
-				let newItem = [survey]
+				let newItem = ['',survey]
 					var value = this.resultsJson[question][survey]['median']
 					newItem.push(value)
 					var value = this.resultsJson[question][survey]['mean']
