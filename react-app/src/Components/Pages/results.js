@@ -15,7 +15,20 @@ class Results extends Component {
 	tagName=this.props.match.params.tagName;
 	
 	resultsJson=null;
-	if(tagName==='instructor'){
+	
+	
+	state = {a:1};
+
+	//resultsJson = null;
+	
+	//Contains a list of JSON objects for aggregated results
+	resultObjectsUnder = [];
+	
+	componentDidMount(){
+	
+		document.title = 'Results Page';
+
+		if(tagName==='instructor'){
 	resultsJson = {"How prepared was the instructor for class?": {
 						'COS 420 001':{"median": 4, "mean": 4.2, "std_dev": .63, "n": 24},
 						'COS 225 002':{"median": 3, "mean": 3.3, "std_dev": .82, "n": 41},
@@ -115,27 +128,6 @@ class Results extends Component {
 					}
 	};
 	}
-	
-	state = {a:1};
-
-	//resultsJson = null;
-	
-	//Contains a list of JSON objects for aggregated results
-	resultObjectsUnder = [];
-	
-	componentDidMount(){
-	
-		document.title = 'Results Page';
-
-		/*getResults(this.tagName, this.tag)
-		.then((response) => {
-			this.resultsJson = response;
-			
-			if(this.resultsJson!==null)	
-				this.getAggregatedResults();
-			
-			this.setState({a:this.state.a + 1});
-		});*/
 	}
 	
 	/*
