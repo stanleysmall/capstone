@@ -13,14 +13,14 @@ class Results extends Component {
 	
 	tag=this.props.match.params.tag;
 	tagName=this.props.match.params.tagName;
-	/*resultsJson = {"How prepared was the instructor for class?": {
+	resultsJson = {"How prepared was the instructor for class?": {
 						'COS 420 001':{"median": 4, "mean": 4.2, "std_dev": .63, "n": 24},
 						'COS 225 002':{"median": 3, "mean": 3.3, "std_dev": .82, "n": 41},
 						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .47, "n": 63},
 						'All COS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128}, 
 						'All SCIS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						'All Liberal Arts courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
-						'All University of  courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
+						'All University of Maine courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						},
 					"How clearly were the objective of the course presented?": {
 						'COS 420 001':{"median": 2, "mean": 2.2, "std_dev": .51, "n": 24},
@@ -29,14 +29,40 @@ class Results extends Component {
 						'All COS courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128}, 
 						'All SCIS courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
 						'All Liberal Arts courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
-						'All University of  courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
+						'All University of Maine courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
 						},
-		
-	};*/
+					"How enthusiastic was the instructor about the subject?": {
+						'COS 420 001':{"median": 3, "mean": 3.2, "std_dev": .61, "n": 24},
+						'COS 225 002':{"median": 4, "mean": 3.9, "std_dev": .43, "n": 41},
+						'COS 125 001':{"median": 4, "mean": 4.5, "std_dev": .77, "n": 63},
+						'All COS courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128}, 
+						'All SCIS courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
+						'All Liberal Arts courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
+						'All University of Maine courses':{"median": 4, "mean": 3.8, "std_dev": .71, "n": 128},
+					},
+					"How did the course challenge you intellectually?": {
+						'COS 420 001':{"median": 4, "mean": 4.6, "std_dev": .38, "n": 24},
+						'COS 225 002':{"median": 4, "mean": 4.1, "std_dev": .82, "n": 41},
+						'COS 125 001':{"median": 2, "mean": 2.7, "std_dev": .55, "n": 63},
+						'All COS courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128}, 
+						'All SCIS courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
+						'All Liberal Arts courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
+						'All University of Maine courses':{"median": 3, "mean": 3.8, "std_dev": .65, "n": 128},
+					},
+					"How well groomed was the professor?": {
+						'COS 420 001':{"median": 1, "mean": 1.2, "std_dev": .21, "n": 24},
+						'COS 225 002':{"median": 1, "mean": 1.1, "std_dev": .12, "n": 41},
+						'COS 125 001':{"median": 2, "mean": 2.2, "std_dev": .37, "n": 63},
+						'All COS courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128}, 
+						'All SCIS courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128},
+						'All Liberal Arts courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128},
+						'All University of Maine courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128},
+					}
+	};
 	
 	state = {a:1};
 
-	resultsJson = null;
+	//resultsJson = null;
 	
 	//Contains a list of JSON objects for aggregated results
 	resultObjectsUnder = [];
@@ -45,15 +71,15 @@ class Results extends Component {
 	
 		document.title = 'Results Page';
 
-		getResults(this.tagName, this.tag)
+		/*getResults(this.tagName, this.tag)
 		.then((response) => {
 			this.resultsJson = response;
-			/*
+			
 			if(this.resultsJson!==null)	
 				this.getAggregatedResults();
-			*/
+			
 			this.setState({a:this.state.a + 1});
-		});
+		});*/
 	}
 	
 	/*
@@ -235,15 +261,14 @@ class Results extends Component {
 	
 	createTableForCSV = () => {
 		//Does the exact same thing as above except in a different format suitable for CSV
-		let table= [['Question','Survey','Median','Mean','Standard Deviation','n']]
 		
 		for(var question in this.resultsJson){
 			var Q = this.resultsJson[question]
-			table.push([question])
+			table.push([question, "Survey", "Median", "Standard Deviation", "n"])
 			for (var survey in Q) {
 				var S = Q[survey]
 				
-				let newItem = [survey]
+				let newItem = ['',survey]
 					var value = this.resultsJson[question][survey]['median']
 					newItem.push(value)
 					var value = this.resultsJson[question][survey]['mean']

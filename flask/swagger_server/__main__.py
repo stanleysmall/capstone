@@ -16,7 +16,12 @@ def main():
     app.run(port=8080)
     CORS(app)
     logging.getLogger('flask_cors').level = logging.DEBUG
+    
 
 if __name__ == '__main__':
     main()
     
+@app.after_request
+def apply_caching(response):
+    response.headers["X-Frame-Options"] = "*"
+    return response
