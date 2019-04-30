@@ -372,7 +372,7 @@ class Results extends Component {
         <form>	
                 <LoggedInHeader/>
             <div>
-				<CSVLink data={this.createTableForCSV()}>Download Results</CSVLink>
+				<CSVLink data={this.createTableForCSV()} filename="teaching_evaluations_results.csv">Download Results</CSVLink>
 				<h3>Displaying Results for {this.tag}</h3>
 				<table>
 				{this.createTable()}
