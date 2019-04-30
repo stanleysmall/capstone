@@ -6,14 +6,18 @@ import {LoggedInHeader} from "../displayComponents";
 import "survey-react/survey.css";
 import * as Survey from "survey-react";
 
-import {putEval, getEval} from "../../Functions/endpoints.js";
+import {putEval, getEval,publishEval} from "../../Functions/endpoints.js";
 
-import {blankSurvey, oldEval} from "../../vars";
+import {blankSurvey} from "../../vars";
 import { loadEvaluation, formatSurvey } from "../../Functions/parsing";
 
 class Edit extends Component {
     
-    surveyJSON = blankSurvey;
+    surveyJSON = JSON.parse(JSON.stringify(blankSurvey));
+
+    state = {
+        savedEval: false,
+    }
 
     componentDidMount() {
         document.title = 'Edit Page';
@@ -21,6 +25,7 @@ class Edit extends Component {
         getEval(this.props.match.params.evalName)
         .then((response) =>{
             this.surveyJSON = loadEvaluation(response, this.surveyJSON);
+            this.setState({model : new Survey.Model(this.surveyJSON)});
         })
       }
 
@@ -39,6 +44,7 @@ class Edit extends Component {
         defaultThemeColors["$main-color"] = "#4CAF50";
         defaultThemeColors["$main-hover-color"] = "#45a049";
         Survey.StylesManager.applyTheme();
+        this.setState({model : new Survey.Model(this.surveyJSON)});
 
     }
 
@@ -62,8 +68,12 @@ class Edit extends Component {
        //Put the formatted survey into the database
        putEval(this.evalTemplate);
 
-       //redirect home 
-       this.props.history.push("/home/");
+       this.setState({savedEval: true});
+       this.setState({evalName: this.evalTemplate.name})
+
+       //Fresh survey JSON
+       this.surveyJSON = JSON.parse(JSON.stringify(blankSurvey));
+       this.setState({model : new Survey.Model(this.surveyJSON)});
    }
 
     render() {
@@ -74,16 +84,38 @@ class Edit extends Component {
             return(<Redirect to ="/"/>);
         }
 
-        var model = new Survey.Model(this.surveyJSON)
+        if(this.state.savedEval)
+        {
+            return(
+                <div>
+                    <LoggedInHeader/>
+                    <center>
+                    Your evaluation <b>{this.state.evalName}</b> has been saved but not published.  You can publish it now by pressing the publish button bellow or wait to publish it at a later date.  
+                    <br/>
+                    <b>IMPORTANT:</b> If you choose to publish the evaluation you will NOT be able to make changes to it.  You will recieve a summary of the student responses at the date you designated for the evaluation process to end.
+                    <br/>
+                    <br/>
+                    <button onClick = {() => {publishEval(this.state.evalName); this.props.history.push("/home/")}}> Publish </button>&emsp;
+                    <button onClick = {() => this.props.history.push("/home/")}> Home </button>
+                    </center>
+                    
+                    <script id="testingData" object={JSON.stringify(this.evalTemplate,null,2)}/>
+                </div>
+            )
+        }
+        else{
 
-        return(
-        <div>
-            <LoggedInHeader/>
-            <div id="survey">
-                <Survey.Survey model={model} onComplete={this.onComplete}/>
+            this.state.model = new Survey.Model(this.surveyJSON);
+
+            return(
+            <div>
+                <LoggedInHeader/>
+                <div id="survey">
+                    <Survey.Survey model={this.state.model} onComplete={this.onComplete}/>
+                </div>
             </div>
-        </div>
-        )
+            )
+        }
     }
 }
 export default Edit;

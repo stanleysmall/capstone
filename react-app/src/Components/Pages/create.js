@@ -26,7 +26,7 @@ class Create extends Component {
 
     //JSON which defines the format of the survey that 
     //users fill out of create an evaluation.  Stores in questionTemplate.js
-    surveyJSON = blankSurvey;
+    surveyJSON = JSON.parse(JSON.stringify(blankSurvey));
     testData = JSON.stringify(this.evaltemplate,null,2)
     /*
         Sets the theme of the user input survey and generates a list of the names of the past surveys which can be used as templates
@@ -55,7 +55,7 @@ class Create extends Component {
                 this.setState({loadableEvals: this.state.loadableEvals.concat([{id:i+1, name:responseData[i]}])});
             }
         })
-        this.surveyJSON = blankSurvey;
+        this.surveyJSON = JSON.parse(JSON.stringify(blankSurvey));
         this.setState({model : new Survey.Model(this.surveyJSON)});
         this.setState({useTemplate: false});
     }
@@ -68,7 +68,6 @@ class Create extends Component {
     */
     template(name)
     {
-        console.log(name);
         if(name !== "Select an evaluation")
         {
             getEval(name).then((response)=>{
@@ -114,7 +113,7 @@ class Create extends Component {
         this.setState({evalName: this.evalTemplate.name})
 
         //Fresh survey JSON
-        this.surveyJSON = blankSurvey;
+        this.surveyJSON = JSON.parse(JSON.stringify(blankSurvey));
         this.setState({model : new Survey.Model(this.surveyJSON)});
 
     }

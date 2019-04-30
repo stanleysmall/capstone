@@ -202,13 +202,13 @@ class Results extends Component {
 						var value = this.resultsJson[question][survey]['median']
 						//Add the value to the table
 						children.push(<td>{value}</td>)
-						var value = this.resultsJson[question][survey]['mean']
+						value = this.resultsJson[question][survey]['mean']
 						//Add the value to the table
 						children.push(<td>{value}</td>)
-						var value = this.resultsJson[question][survey]['std_dev']
+						value = this.resultsJson[question][survey]['std_dev']
 						//Add the value to the table
 						children.push(<td>{value}</td>)
-						var value = this.resultsJson[question][survey]['n']
+						value = this.resultsJson[question][survey]['n']
 						//Add the value to the table
 						children.push(<td>{value}</td>)
 					

@@ -8,7 +8,7 @@ import * as Survey from "survey-react";
 
 import {blankSurvey} from "../../vars";
 import {loadEvaluation } from "../../Functions/parsing";
-import {getEval,putEval, getEvalNames, publishEval} from "../../Functions/endpoints.js";
+import {getEval} from "../../Functions/endpoints.js";
 
 
 class View extends Component {
