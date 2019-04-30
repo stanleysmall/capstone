@@ -28,8 +28,8 @@ class Results extends Component {
 	
 		document.title = 'Results Page';
 
-		if(tagName==='instructor'){
-	resultsJson = {"How prepared was the instructor for class?": {
+		if(this.tagName==='instructor'){
+	this.resultsJson = {"How prepared was the instructor for class?": {
 						'COS 420 001':{"median": 4, "mean": 4.2, "std_dev": .63, "n": 24},
 						'COS 225 002':{"median": 3, "mean": 3.3, "std_dev": .82, "n": 41},
 						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .47, "n": 63},
@@ -55,8 +55,8 @@ class Results extends Component {
 						'COS 125 001':{"median": 2, "mean": 2.2, "std_dev": .37, "n": 63},
 					}
 	};
-	}else if(tagName==='courseDesignator'){
-		resultsJson = {"How prepared was the instructor for class?": {
+	}else if(this.tagName==='courseDesignator'){
+		this.resultsJson = {"How prepared was the instructor for class?": {
 						'All COS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						},
 					"How clearly were the objective of the course presented?": {
@@ -73,8 +73,8 @@ class Results extends Component {
 						'All COS courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128}, 
 					}
 		};
-	}else if(tagName==='facultyUnit'){
-		resultsJson = {"How prepared was the instructor for class?": {						
+	}else if(this.tagName==='facultyUnit'){
+		this.resultsJson = {"How prepared was the instructor for class?": {						
 						'All SCIS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						},
 					"How clearly were the objective of the course presented?": { 
@@ -93,8 +93,8 @@ class Results extends Component {
 
 					}
 		};
-	}else if(tagName==='college'){
-		resultsJson = {"How prepared was the instructor for class?": {
+	}else if(this.tagName==='college'){
+		this.resultsJson = {"How prepared was the instructor for class?": {
 						'All Liberal Arts courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						},
 					"How clearly were the objective of the course presented?": {
@@ -111,7 +111,7 @@ class Results extends Component {
 					}
 		};
 	}else{
-		resultsJson = {"How prepared was the instructor for class?": {
+		this.resultsJson = {"How prepared was the instructor for class?": {
 						'All University of Maine courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						},
 					"How clearly were the objective of the course presented?": {
