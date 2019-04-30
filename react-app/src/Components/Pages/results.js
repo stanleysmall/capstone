@@ -5,6 +5,9 @@ import {getResults, getEval} from "../../Functions/endpoints.js";
 import "../../CSS/App.css";
 import {CSVLink} from 'react-csv';
 
+//SAM
+//LINES COMMENTED:
+//51-54, 59-139, 205-229, 259-280
 
 class Results extends Component {
 	
@@ -14,7 +17,7 @@ class Results extends Component {
 						'COS 420 001':{"median": 4, "mean": 4.2, "std_dev": .63, "n": 24},
 						'COS 225 002':{"median": 3, "mean": 3.3, "std_dev": .82, "n": 41},
 						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .47, "n": 63},
-						'All COS courses:{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128}, 
+						'All COS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128}, 
 						'All SCIS courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						'All Liberal Arts courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
 						'All University of  courses':{"median": 3, "mean": 3.7, "std_dev": .23, "n": 128},
@@ -23,7 +26,7 @@ class Results extends Component {
 						'COS 420 001':{"median": 2, "mean": 2.2, "std_dev": .51, "n": 24},
 						'COS 225 002':{"median": 3, "mean": 2.9, "std_dev": .52, "n": 41},
 						'COS 125 001':{"median": 3, "mean": 3.5, "std_dev": .87, "n": 63},
-						'All COS courses:{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128}, 
+						'All COS courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128}, 
 						'All SCIS courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
 						'All Liberal Arts courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
 						'All University of  courses':{"median": 3, "mean": 3.1, "std_dev": .43, "n": 128},
@@ -45,13 +48,15 @@ class Results extends Component {
 		getResults(this.tagName, this.tag)
 		.then((response) => {
 			this.resultsJson = response;
+			/*
 			if(this.resultsJson!==null)	
 				this.getAggregatedResults();
+			*/
 			this.setState({a:this.state.a + 1});
 		});
 	}
 	
-	
+	/*
 	getAggregatedResults = () =>{
 	
 	//List of course designators, i.e [COS, MUS, NMD]
@@ -66,6 +71,7 @@ class Results extends Component {
 		
 		//Checks if the tag is instructor
 		//If it is, need aggregated results
+		
 		if(this.tagName === "instructor"){
 			//Assumes all surveys have the same first question
 			var question1 = this.resultsJson[Object.keys(this.resultsJson)[0]];
@@ -101,7 +107,8 @@ class Results extends Component {
 				this.setState({a:this.state.a + 1});
 				})
 			}
-
+			
+		
 			for(var fac in facultyUnits)
 			{
 				getResults('facultyUnit', facultyUnits[fac])
@@ -118,15 +125,18 @@ class Results extends Component {
 				})
 			}
 
-			for(var uni in universities)
+			for(var uni in universities){
 				getResults('university', universities[uni])
 				.then((response) => {this.resultObjectsUnder.push(JSON.stringify(response, null, 2));
 				this.setState({a:this.state.a + 1});
 				})
 				
-		}
+			}
+			
 		
+		}
 	}
+	*/
 	
 	//Simple function to see if an object is in a list
 	containsObject(obj, list){
@@ -190,23 +200,25 @@ class Results extends Component {
 					children = []
 				}
 				
-				console.log("objects please: " + this.resultObjectsUnder);
+				//console.log("objects please: " + this.resultObjectsUnder);
 				//If the tag is instructor, need all aggregated results
+				/*
 				if(this.tagName==='instructor'){
 						//Loop through each object 
-						for(var object in this.resultObjectsUnder){
+						for(var i=0; i<this.resultObjectsUnder.length; i++){
 							//Assumes every survey has the same first question
-							var surv = object[question][Object.keys(question)[0]];
+							console.log("OBJECT?? ? ?? " + this.resultObjectsUnder[i]);
+							var surv = this.resultObjectsUnder[i][question];
 							//surv has will be COS or SCIS.. etc
 							children.push(<td>{surv}</td>)
 								//adds each value to the table
-								var value = object[question][Object.keys(question)[0]]['median']
+								var value = this.resultObjectsUnder[i][question][surv]['median']
 								children.push(<td>{value}</td>)
-								var value = object[question][Object.keys(question)[0]]['mean']
+								var value = this.resultObjectsUnder[i][question][surv]['mean']
 								children.push(<td>{value}</td>)
-								var value = object[question][Object.keys(question)[0]]['std_dev']
+								var value = this.resultObjectsUnder[i][question][surv]['std_dev']
 								children.push(<td>{value}</td>)
-								var value = object[question][Object.keys(question)[0]]['n']
+								var value = this.resultObjectsUnder[i][question][surv]['n']
 								children.push(<td>{value}</td>)
 
 							//adds the row to the table
@@ -214,7 +226,7 @@ class Results extends Component {
 							children = []
 						}
 					}
-				
+				*/
 			}
 		}
 		return table;
@@ -244,10 +256,10 @@ class Results extends Component {
 				table.push(newItem)
 
 			}
-			
-			if(this.tag==='intsructor'){
-				for (var object in this.resultObjectsUnder) {
-				var survey = this.resultObjectsUnder[object][question][Object.keys(object)[0]];
+			/*
+			if(this.tagName==='intsructor'){
+				for (var i=0; i< this.resultObjectsUnder.length;  i++) {
+				var survey = this.resultObjectsUnder[i][question];
 				let newItem = [survey]
 				
 				var value = this.resultsJson[question][survey]['median']
@@ -264,7 +276,8 @@ class Results extends Component {
 				table.push(newItem)
 				newItem = []
 				}
-			}	
+			}
+			*/			
 			
 		}
 		return table;
