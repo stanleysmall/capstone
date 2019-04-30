@@ -126,8 +126,9 @@ class Results extends Component {
 					"How well groomed was the professor?": {
 						'All University of Maine courses':{"median": 1, "mean": 1.6, "std_dev": .43, "n": 128},
 					}
-	};
-	}
+			};
+		}
+		this.setState({a:this.state.a + 1});
 	}
 	
 	/*
