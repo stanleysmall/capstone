@@ -28,6 +28,7 @@ class Results extends Component {
 	
 		document.title = 'Results Page';
 
+		/*
 		if(this.tagName==='instructor'){
 	this.resultsJson = {"How prepared was the instructor for class?": {
 						'COS 420 001':{"median": 4, "mean": 4.2, "std_dev": .63, "n": 24},
@@ -129,6 +130,7 @@ class Results extends Component {
 			};
 		}
 		this.setState({a:this.state.a + 1});
+		*/
 	}
 	
 	/*
