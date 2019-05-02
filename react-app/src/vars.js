@@ -1308,7 +1308,6 @@ export const blankSurvey = {
        {
         "type": "comment",
         "name": "classRoll",
-        "isRequired": true,
         "titleLocation": "hidden"
        },
        {

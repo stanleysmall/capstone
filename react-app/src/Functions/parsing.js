@@ -24,6 +24,9 @@ import {defaultQuestions} from "../vars";
 export const formatSurvey = (survey) =>
 {
 
+
+    
+ 
     //Stores correctly formatted data to be pushed to database
     var evalTemplate = {
     }
@@ -36,6 +39,67 @@ export const formatSurvey = (survey) =>
 
     //Parse participants CSV
     evalTemplate.participants = generateParticipants(survey.data.classRoll);
+
+    if(survey.data.csv !== undefined){
+
+        //remove data type header from csv data string
+        var s = atob(survey.data.csv[0].content.substring(37));
+
+        //remove this thing that sometimes shows up
+        if(s.substring(0,3) === "ï»¿")
+        {
+            s = s.substring(3);
+        }
+        //remove newline characters and qutation marks
+        s = s.replace(/(\r\n|\n|\r)/gm,"")
+        s = s.replace("\"", "");
+        s = s.replace("\"", "");
+
+        //split on commas
+        s = s.split(",")
+
+        var participant = {
+            "name" : "",
+            "address" : ""
+        }
+    
+        var count = 0;
+        var fullname = "";
+
+        //Loop though the array of first,last,email
+        for(var i = 0; i <s.length; i++)
+        {
+            //If first index for current participant set fullname = firstname
+            if(count === 0)
+            {
+                fullname = s[i];
+                count ++;
+            }
+            //Else if second index for current participant append a space and last name to fullname
+            else if(count === 1)
+            {
+                fullname += " ";
+                fullname += s[i];
+                count ++;
+            }
+            //Else if third index for current participant populate participant with fullname and address
+            else if(count === 2)
+            {
+                participant.name = fullname;
+                participant.address = s[i];
+                
+                //Deep copy the participant
+                var temp = JSON.parse(JSON.stringify(participant));
+    
+                //Push the deep copy to the list of participants
+                evalTemplate.participants.push(temp);
+    
+                //start over on the next participant
+                count = 0;
+            }
+        }
+
+    }
 
     //Parse Questions
     evalTemplate.questions = generateQuestions(survey.data);
@@ -59,8 +123,11 @@ export const formatSurvey = (survey) =>
     evalTemplate.instructorPhone = survey.data.CourseInformation.instructorPhone;
     evalTemplate.adminName = survey.data.CourseInformation.adminName;
     evalTemplate.adminEmail = survey.data.CourseInformation.adminEmail;
+
     evalTemplate.beginDate = survey.data.CourseInformation.beginDate;
     evalTemplate.closeDate = survey.data.CourseInformation.closeDate;
+
+
     evalTemplate.reminderTime = survey.data.CourseInformation.reminderTime;
 
     if(survey.data.CourseInformation.graduateCourse === 'Y' || survey.data.CourseInformation.graduateCourse === 'Yes' || survey.data.CourseInformation.graduateCourse === 'yes')
@@ -77,13 +144,13 @@ export const formatSurvey = (survey) =>
     evalTemplate.email_invite = survey.data.initialEmail;
     //email_reminder        <------------------------------------------ breaks naming convention, required tag name by API
     evalTemplate.email_remind = "";
-    if(survey.data.reminderEmail != null)
+    if(survey.data.reminderEmail)
         evalTemplate.email_remind = survey.data.reminderEmail;
 
     evalTemplate.published = "F";
     evalTemplate.description = "This is a teaching evaluation for " + evalTemplate.name;
-    evalTemplate.welcometext = "Please complete the evaluation for " + evalTemplate.name;
-    evalTemplate.endtext = "Thank you for taking this evaluation";
+    evalTemplate.welcometext = "Please complete the following evaluation for the class " + evalTemplate.name +". All responses to this evaluation are anonymous unless otherwise stated.";
+    evalTemplate.endtext = "Thank you for evaluating the course \"" + evalTemplate.name + "\". Your feedback has been recorded and will be used to improve the quality of the course in the future.";
     evalTemplate.email_register = ""
     evalTemplate.email_confirm = "";
 
@@ -498,12 +565,13 @@ export const loadEvaluation = (evaluation, surveyJSON) =>
 
     for (var student in evaluation.participants)
     {
-        var names = evaluation.participants[student].name.split(" ");
+        var names = evaluation.participants[student].name.split(/\s+/);
         surveyJSON.pages[2].elements[0].elements[1].defaultValue = surveyJSON.pages[2].elements[0].elements[1].defaultValue + names[0] + "," + names[1] + "," + evaluation.participants[student].address + "\n";
     }
 
     surveyJSON.pages[2].elements[1].elements[1].defaultValue = evaluation.email_invite;
-    surveyJSON.pages[2].elements[1].elements[4].defaultValue = evaluation.email_reminder;
+    if(evaluation.email_reminder !== "")
+        surveyJSON.pages[2].elements[1].elements[4].defaultValue = evaluation.email_reminder;
 
     return surveyJSON;
 }

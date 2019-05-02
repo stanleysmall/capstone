@@ -1,4 +1,4 @@
-const APIAddress = "https://cors-anywhere.herokuapp.com/teachingevaluations.org:8080/teameval/Eval/1.0.0/";
+const APIAddress = "https://cors-anywhere.herokuapp.com/http://teachingevaluations.org:8080/teameval/Eval/1.0.0/";
 //const APIAddress = "http://3.16.152.189:8080/teameval/Eval/1.0.0/"
 
 /*
@@ -76,10 +76,6 @@ export const markPublished = (name) =>
 
 export const publishEval = (name) =>
 {   
-    /*        getEval(name).then((response)=>{
-            response.published = "T";
-            putEval(response);
-        });*/
     //markPublished(name);
     return fetch(APIAddress +"publish?name=" + name)
     .then(response =>response.json())
@@ -87,6 +83,15 @@ export const publishEval = (name) =>
         console.log("published" + name)
         return responseData;
     })
+    /*
+    .then((responseData) =>{
+        console.log("asdflkj;asjdf;laksjdf" + JSON.stringify(responseData,null,2))
+        getEval(name).then((response)=>{
+            response.published = "T";
+            putEval(response);
+        });
+        
+    })*/
 }
 
 export const getTagValues = (cat_type) =>

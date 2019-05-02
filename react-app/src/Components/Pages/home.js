@@ -29,46 +29,61 @@ class Home extends Component {
 
         getTagValues('instructor')
         .then((response) => {
-            var names = [...new Set(response)];
-            for(var i = 0; i < names.length; i++)
+            if(Array.isArray(response))
             {
-                this.setState({reportsInstructor: this.state.reportsInstructor.concat([{id:i+1, name:names[i]}])});
+                var names = [...new Set(response)];
+                for(var i = 0; i < names.length; i++)
+                {
+                    this.setState({reportsInstructor: this.state.reportsInstructor.concat([{id:i+1, name:names[i]}])});
+                }
             }
         })
 
         getTagValues('courseDesignator')
         .then((response) => {
-            var names = [...new Set(response)];
-            for(var i = 0; i < names.length; i++)
+            if(Array.isArray(response))
             {
-                this.setState({reportsCourseDes: this.state.reportsCourseDes.concat([{id:i+1, name:names[i]}])});
+                var names = [...new Set(response)];
+                for(var i = 0; i < names.length; i++)
+                {
+                    this.setState({reportsCourseDes: this.state.reportsCourseDes.concat([{id:i+1, name:names[i]}])});
+                }
             }
         })
 
         getTagValues('facultyUnit')
         .then((response) => {
-            var names = [...new Set(response)];
-            for(var i = 0; i < names.length; i++)
+            if(Array.isArray(response))
             {
-                this.setState({reportsUnit: this.state.reportsUnit.concat([{id:i+1, name:names[i]}])});
+                var names = [...new Set(response)];
+                for(var i = 0; i < names.length; i++)
+                {
+                    this.setState({reportsUnit: this.state.reportsUnit.concat([{id:i+1, name:names[i]}])});
+                }
             }
         })
 
         getTagValues('college')
         .then((response) => {
-            var names = [...new Set(response)];
-            for(var i = 0; i < names.length; i++)
+            if(Array.isArray(response))
             {
-                this.setState({reportsCollege: this.state.reportsCollege.concat([{id:i+1, name:names[i]}])});
+                var names = [...new Set(response)];
+                for(var i = 0; i < names.length; i++)
+                {
+                    this.setState({reportsCollege: this.state.reportsCollege.concat([{id:i+1, name:names[i]}])});
+                }
             }
         })
 
         getTagValues('university')
         .then((response) => {
-            var names = [...new Set(response)];
-            for(var i = 0; i < names.length; i++)
+            if(Array.isArray(response))
             {
-                this.setState({reportsUniversity: this.state.reportsUniversity.concat([{id:i+1, name:names[i]}])});
+                var names = [...new Set(response)];
+                for(var i = 0; i < names.length; i++)
+                {
+                    this.setState({reportsUniversity: this.state.reportsUniversity.concat([{id:i+1, name:names[i]}])});
+                }
             }
         })
 
