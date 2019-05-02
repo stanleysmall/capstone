@@ -19,7 +19,8 @@ class Home extends Component {
         reportsUnit: [{id:0, name: "Select a Unit"}],
         reportsCollege: [{id:0, name: "Select a College"}],
         reportsUniversity: [{id:0, name: "Select an University"}],
-        selectedTag : "reportsInstructor"
+        selectedTag : "reportsInstructor",
+        blackList: ["Select an Instructor","Select a Course Designator","Select a Unit","Select a College","Select an University"]
 
     };
     
@@ -143,7 +144,7 @@ class Home extends Component {
 				break;
 			}
 		}
-        if(this.resultsTag !== 'Select a report')
+        if(this.state.blackList.indexOf(this.resultsTag) < 0)
         {
             this.props.history.push("/results/" + tagName + "/" + tag);
         }
