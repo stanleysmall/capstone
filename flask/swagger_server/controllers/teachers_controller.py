@@ -726,8 +726,8 @@ def translate_to_txt(name):
                 mydb.commit()
                 # Get string from mandatory bit
                 cursor.execute(question_query.format('mandatory', ID))
+                logging.info(cursor.fetchone())
                 mandatory = str(cursor.fetchone()[0])
-                logging.info(mandatory)
                 mandatory = 'Y' if int(mandatory) == 1 else 'N'
                 
                 # Add row for group question
