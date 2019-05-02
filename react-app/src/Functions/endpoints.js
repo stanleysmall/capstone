@@ -65,33 +65,32 @@ export const getResults = (cat_type, cat_name) =>
 			})
 }
 
-export const markPublished = (name) =>
-{   
-    getEval(name)
-    .then((response)=>{
-        response.published = "T"
-        console.log(response);
-    })
-}
-
 export const publishEval = (name) =>
 {   
-    //markPublished(name);
     return fetch(APIAddress +"publish?name=" + name)
     .then(response =>response.json())
     .then((responseData) => {
         console.log("published" + name)
         return responseData;
     })
-    /*
     .then((responseData) =>{
-        console.log("asdflkj;asjdf;laksjdf" + JSON.stringify(responseData,null,2))
-        getEval(name).then((response)=>{
-            response.published = "T";
-            putEval(response);
-        });
+        if(responseData.status === 200)
+        {
+            getEval(name).then((response)=>{
+                response.published = "T";
+                response.URL = response.url;
+
+                for(var question in response.questions)
+                {
+                    response.questions[question].ID = question + 1;
+                }
+
+                console.log(response);
+                putEval(response);
+            });
+        }
         
-    })*/
+    })
 }
 
 export const getTagValues = (cat_type) =>
