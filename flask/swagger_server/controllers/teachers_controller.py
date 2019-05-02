@@ -521,7 +521,8 @@ def publish_get(name):  # noqa: E501
                    "survey_to_participant.survey_ID = " + str(survey_ID) + ";")
     for row in cursor.fetchall():
         # Participant name must be of the form 'firstname lastname'
-        first, last = row[0].split(' ')
+        first = row[0].split()[0]
+        last = row[0].split()[1]
         participants.append({'email': row[1], 'lastname': last,
                              'firstname': first})
     # Add participants to LimeSurvey participants table
