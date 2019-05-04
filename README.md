@@ -1,5 +1,5 @@
 # Course Evaluation System
-[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-lightgrey.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![Build Status](https://travis-ci.com/stansmall/capstone.svg?branch=master)](https://travis-ci.com/stansmall/capstone)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-lightgrey.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) [![Build Status](https://travis-ci.com/stanleysmall/capstone.svg?branch=master)](https://travis-ci.com/stanleysmall/capstone)
 
 ## Outside Docs
 Database https://app.sqldbm.com/SQLServer/Edit/p44622
