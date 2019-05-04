@@ -1,5 +1,224 @@
+export const oAuthClientID = "410688583447-dashcvq6bs4t85lujq542hegi8jf9gmn.apps.googleusercontent.com";
 
-//export const oAuthClientID = "410688583447-dashcvq6bs4t85lujq542hegi8jf9gmn.apps.googleusercontent.com";
+
+//Questions which require a text box, all other questions will be rated 1-5
+export const openEndedQuestionList = ["What was done particularly well in the laboratory experience?",
+                                    "How could the laboratory be improved?",
+                                    "If there was more than one teaching assistant for the course, please name the TA you are evaluating.",
+                                    "Name something the teaching assistant did particularly well.",
+                                    "Name something the teaching assistant could do better in the future.",
+                                    "Please indicate the primary online modality used with the course.",
+                                    "Please identify an e-learning aspect of the course that you found particularly valuable or beneficial.",
+                                    "Please identify an e-learning aspect of the course that could be improved.",
+                                    "Please identify the aspects of this course that were of most value to you.",
+                                    "Please mention at least one additional topic or component that you would like to see included in this course.",
+                                    "Please make any additional comments that you desire to make about the course instructor, materials or pedagogy."
+                                ]
+
+
+export const exampleOldEvaluation = {
+    "URL": "blank.com",
+    "instructor": "Sam Elliott",
+    "participants": [
+      {
+        "name": "test testlast",
+        "address": "test@"
+      },
+      {
+        "name": "test2 testlast2",
+        "address": "test2@"
+      }
+    ],
+    "questions": [
+      {
+        "ID": 1,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": false,
+        "group": "Course Questions",
+        "type": "5",
+        "text": "Were class meetings profitable and worth attending?"
+      },
+      {
+        "ID": 2,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": false,
+        "group": "Course Questions",
+        "type": "5",
+        "text": "What is your overall rating of the primary readings?"
+      },
+      {
+        "ID": 3,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": true,
+        "group": "Course Questions",
+        "type": "5",
+        "text": "How much did this course challenge you intelectually?"
+      },
+      {
+        "ID": 4,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": true,
+        "group": "Course Questions",
+        "type": "5",
+        "text": "How much did you learn from this course?"
+      },
+      {
+        "ID": 5,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": false,
+        "group": "Assesment Questions",
+        "type": "5",
+        "text": "Did the instructor let you know what was expected on the assessments (exams, assignments, projects, papers, etc.)?"
+      },
+      {
+        "ID": 6,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": false,
+        "group": "Assesment Questions",
+        "type": "5",
+        "text": "Did the assessments reflect the important aspects of the course?"
+      },
+      {
+        "ID": 7,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": true,
+        "group": "Assesment Questions",
+        "type": "5",
+        "text": "How fair were the grading procedures?"
+      },
+      {
+        "ID": 8,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": true,
+        "group": "Assesment Questions",
+        "type": "5",
+        "text": "Overall how would you rate the assessment process (exams, assignments, projects, papers, etc.)?"
+      },
+      {
+        "ID": 9,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": false,
+        "group": "Instructor Questions",
+        "type": "5",
+        "text": "how prepared was the instructor for the class?"
+      },
+      {
+        "ID": 10,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": false,
+        "group": "Instructor Questions",
+        "type": "5",
+        "text": "How clearly were the objectives of the course presented?"
+      },
+      {
+        "ID": 11,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": true,
+        "group": "Instructor Questions",
+        "type": "5",
+        "text": "How enthusiastic was the instructor about the subject?"
+      },
+      {
+        "ID": 12,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": true,
+        "group": "Instructor Questions",
+        "type": "5",
+        "text": "How clearly did the instructor present concepts, principles and theories?"
+      },
+      {
+        "ID": 13,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": false,
+        "group": "Instructor Questions",
+        "type": "5",
+        "text": "Did the instructor show respect for the questions and opinions of the students?"
+      },
+      {
+        "ID": 14,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": false,
+        "group": "Instructor Questions",
+        "type": "5",
+        "text": "Did the instructor ensure an environment of respect for all groups of people in the classroom?"
+      },
+      {
+        "ID": 15,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": true,
+        "group": "Instructor Questions",
+        "type": "5",
+        "text": "Did the instructor inspire confidence in his/her knowledge?"
+      },
+      {
+        "ID": 16,
+        "helpText": "1 is low, 5 is high",
+        "mandatory": false,
+        "group": "Lab Questions",
+        "type": "5",
+        "text": "How much did the laboratory experience contribute to your learning in this course"
+      },
+      {
+        "ID": 17,
+        "helpText": "",
+        "mandatory": false,
+        "group": "Lab Questions",
+        "type": "T",
+        "text": "What was done particularly well in the laboratory experience?"
+      },
+      {
+        "ID": 18,
+        "helpText": "",
+        "mandatory": true,
+        "group": "Lab Questions",
+        "type": "T",
+        "text": "How could the laboratory be improved?"
+      },
+      {
+        "ID": 19,
+        "helpText": "",
+        "mandatory": false,
+        "group": "Open Ended Questions",
+        "type": "T",
+        "text": "Please identify the aspects of this course that were of most value to you."
+      },
+      {
+        "ID": 20,
+        "helpText": "",
+        "mandatory": false,
+        "group": "Open Ended Questions",
+        "type": "T",
+        "text": "Please mention at least one additional topic or component that you would like to see included in this course."
+      },
+      {
+        "ID": 21,
+        "helpText": "",
+        "mandatory": true,
+        "group": "Open Ended Questions",
+        "type": "T",
+        "text": "Please make any additional comments that you desire to make about the course instructor, materials or pedagogy."
+      }
+    ],
+    "name": "COS140:001 Spring 2019",
+    "courseDesignator": "COS",
+    "courseNumber": "140",
+    "courseSection": "001",
+    "courseTitle": "computer science",
+    "semesterYear": "Spring 2019",
+    "facultyUnit": "SCIS",
+    "college": "Liberal arts",
+    "university": "Umaine",
+    "instructorFirst": "Sam",
+    "instructorLast": "Elliott",
+    "instructorEmail": "se@maine",
+    "instructorPhone": "6666666666",
+    "adminName": "Sam",
+    "adminEmail": "Elliott",
+    "beginDate": "0001-11-11",
+    "closeDate": "0011-11-11",
+    "reminderTime": "11:11",
+    "email_invite": "Subject: Invitation to Complete Evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE) \n\nDear (FIRSTNAME), Please complete the teaching and course evaluation for (COURSEDESIGNATOR) (COURSENUMBER) (COURSETITLE). This student evaluation of teaching is completely anonymous unless you purposefully identify yourself in response to one of the questions. The software system will send you automatic reminders every few days until you complete the evaluation. To respond, simply click the link at the end of this message. \n\nSincerely, (ADMINNAME) \n---------------------------------------------- \nClick here to complete the teaching and course evaluation: (SURVEYURL) (ADMINNAME) ((ADMINEMAIL) \""
+  };
 
 //Sams
 export const oAuthClientID = "120537157290-mtdj0mjahrhvq284uqguu8j5hophplc5.apps.googleusercontent.com";
@@ -1376,5 +1595,3 @@ export const blankSurvey = {
   "showQuestionNumbers": "off",
   "completeText": "Save Evaluation"
  };
-
-

@@ -13,7 +13,7 @@ from swagger_server.test import BaseTestCase
 from swagger_server.lime_py_api.limesurvey import Api
 from swagger_server.controllers.teachers_controller import session
 from swagger_server.controllers.teachers_controller import timers
-from swagger_server.controllers.teachers_controller import anonymize
+from swagger_server.controllers.teachers_controller import delay_start
 
 class TestTeachersController(BaseTestCase):
     """TeachersController integration test stubs"""
@@ -70,8 +70,6 @@ class TestTeachersController(BaseTestCase):
         # There must not be any rows in the database referencing the survey
         self.cursor.execute("select * from survey_to_tag where survey_ID = 1;")
         self.assertEqual(len(self.cursor.fetchall()), 0)
-        self.cursor.execute("select * from response where survey_ID = 1;")
-        self.assertEqual(len(self.cursor.fetchall()), 0)
         self.cursor.execute(
             "select * from survey_to_question where survey_ID = 1;")
         self.assertEqual(len(self.cursor.fetchall()), 0)
@@ -101,9 +99,7 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.cursor.execute("select * from survey_to_tag;")
-        self.assertEqual(len(self.cursor.fetchall()), 16)
-        self.cursor.execute("select * from response;")
-        self.assertEqual(len(self.cursor.fetchall()), 1)
+        self.assertEqual(len(self.cursor.fetchall()), 22)
         self.cursor.execute("select * from survey_to_question;")
         self.assertEqual(len(self.cursor.fetchall()), 5)
         self.cursor.execute("select * from survey_to_participant;")
@@ -143,7 +139,8 @@ class TestTeachersController(BaseTestCase):
                     + "you to participate in a survey.<br/><br/>Click "
                     + "here to do the survey:<br/>{SURVEYURL}<br/><br/>Please "
                     + "enter the token {TOKEN} to access the survey.",
-                "endtext": "End text",
+                "endtext": "Thank you for completing this survey.",
+                "closeDate": "2050-01-02",
                 "instructor": "Roy Turner",
                 "name": "COS 140 001",
                 "participants": [
@@ -179,8 +176,10 @@ class TestTeachersController(BaseTestCase):
                         "type": "Y"
                     }
                 ],
+                "reminderTime": "12:00",
+                "beginDate": "2050-01-01",
                 "url": "example.com",
-                "welcometext": "Welcome text"
+                "welcometext": "Welcome to the survey."
             }
         )
                     
@@ -205,7 +204,8 @@ class TestTeachersController(BaseTestCase):
                 "email_invite": "Ei text",
                 "email_register": "Er text",
                 "email_remind": "Eremind text",
-                "endtext": "End text",
+                "endtext": "Thank you for completing this survey.",
+                "closeDate": "2050-01-02",
                 "instructor": "Torsten Hahmann",
                 "name": "COS 250 001",
                 "participants": [
@@ -230,8 +230,10 @@ class TestTeachersController(BaseTestCase):
                         "type": "L"
                     }
                 ],
+                "reminderTime": "12:00",
+                "beginDate": "2050-01-01",
                 "url": "example.com",
-                "welcometext": "Welcome text"
+                "welcometext": "Welcome to the survey."
             }
         )
     
@@ -257,6 +259,9 @@ class TestTeachersController(BaseTestCase):
         creates or updates the info of a survey with a given name
         survey with 'name' is updated with new information
         """
+        
+        # Assume Torsten Hahmann is the user
+        session['email'] = 'torsten.hahmann@maine.edu'
         
         query = {
             "URL": "example2.com",
@@ -291,7 +296,7 @@ class TestTeachersController(BaseTestCase):
         
         self.cursor.execute("select * from survey;")
         # The instructor ID must be 2, referring to Torsten
-        self.assertEqual(self.cursor.fetchall()[0], (1, 'example2.com', 2))
+        self.assertEqual(self.cursor.fetchall()[0], (1, 'example2.com', 2, 2))
         self.cursor.execute("select * from participant;")
         # The participants Jovon Craig and Stanley Small must be added
         self.assertEqual(self.cursor.fetchall()[3:],
@@ -310,7 +315,7 @@ class TestTeachersController(BaseTestCase):
         self.assertEqual(self.cursor.fetchall()[2], (1, 5))
         self.cursor.execute("select type, value from tag;")
         # Only the new tags must be added
-        self.assertEqual(set(self.cursor.fetchall()[14:]),
+        self.assertEqual(set(self.cursor.fetchall()[17:]),
                          {('email_register', 'register'), ('email_invite',
                           'invite'), ('endtext', 'et'), ('newtag', 'field'),
                           ('email_confirm', 'confirm'), ('email_remind',
@@ -320,9 +325,9 @@ class TestTeachersController(BaseTestCase):
                             "survey_ID = 1;")
         # Survey 1 must relate to the IDs of the old name, old description,
         # and new tags
-        self.assertEqual(self.cursor.fetchall(), [(1,), (2,), (15,), (16,),
-                                                  (17,), (18,), (19,), (20,),
-                                                  (21,), (22,)])
+        self.assertEqual(self.cursor.fetchall(), [(1,), (2,), (18,), (19,),
+                                                  (20,), (21,), (22,), (23,),
+                                                  (24,), (25,)])
     
     def test_survey_put_create(self):
         """Test case for survey_put
@@ -330,6 +335,8 @@ class TestTeachersController(BaseTestCase):
         creates or updates the info of a survey with a given name
         survey with new 'name' and 'instructor' is added into the database
         """
+        
+        session['email'] = 'roy.turner@maine.edu'
         
         query = {
             "URL": "example2.com",
@@ -364,7 +371,7 @@ class TestTeachersController(BaseTestCase):
         
         self.cursor.execute("select * from survey;")
         # The new instructor ID must be 2 plus 1, referring to Carol
-        self.assertEqual(self.cursor.fetchall()[2], (3, 'example2.com', 3))
+        self.assertEqual(self.cursor.fetchall()[2], (3, 'example2.com', 3, 1))
         self.cursor.execute("select * from participant;")
         # The participants Jovon Craig and Stanley Small must be added
         self.assertEqual(self.cursor.fetchall()[3:],
@@ -383,7 +390,7 @@ class TestTeachersController(BaseTestCase):
         self.assertEqual(self.cursor.fetchall()[5], (3, 5))
         self.cursor.execute("select type, value from tag;")
         # Only the new tags must be added
-        self.assertEqual(set(self.cursor.fetchall()[14:]),
+        self.assertEqual(set(self.cursor.fetchall()[17:]),
                          {('name', 'COS 250 002'), ('email_register',
                           'register'), ('email_invite', 'invite'), ('endtext',
                           'et'), ('newtag', 'field'), ('email_confirm',
@@ -393,9 +400,9 @@ class TestTeachersController(BaseTestCase):
                             "survey_ID = 3;")
         # Survey 3 must relate to the IDs of the old description, new name,
         # and new tags
-        self.assertEqual(self.cursor.fetchall(), [(2,), (15,), (16,), (17,),
-                                                  (18,), (19,), (20,), (21,),
-                                                  (22,), (23,)])
+        self.assertEqual(self.cursor.fetchall(), [(2,), (18,), (19,), (20,),
+                                                  (21,), (22,), (23,), (24,),
+                                                  (25,), (26,)])
 
     def test_survey_put_create_2(self):
         """Another Test case for survey_put
@@ -403,6 +410,8 @@ class TestTeachersController(BaseTestCase):
         creates or updates the info of a survey with a given name
         survey with new 'name' and 'instructor' is added into the database
         """
+        
+        session['email'] = 'roy.turner@maine.edu'
         
         query = {
             "URL": "example2.com",
@@ -438,7 +447,7 @@ class TestTeachersController(BaseTestCase):
         self.cursor.execute("select * from survey;")
         # The new instructor ID must be 2 plus 1, referring to Chaw,
         # instructor ID = 3, survey ID = 3
-        self.assertEqual(self.cursor.fetchall()[2], (3, 'example2.com', 3))
+        self.assertEqual(self.cursor.fetchall()[2], (3, 'example2.com', 3, 1))
         self.cursor.execute("select * from participant;")
         # No new participants must be added
         self.assertEqual(self.cursor.fetchall()[2:],
@@ -457,7 +466,7 @@ class TestTeachersController(BaseTestCase):
         self.assertEqual(self.cursor.fetchall()[5], (3, 5))
         self.cursor.execute("select type, value from tag;")
         # Only the new tags must be added
-        self.assertEqual(set(self.cursor.fetchall()[14:]),
+        self.assertEqual(set(self.cursor.fetchall()[17:]),
                          {('name', 'COS 226 001'), ('email_register',
                           'register'), ('email_invite', 'invite'), ('endtext',
                           'et'), ('newtag', 'field'), ('email_confirm',
@@ -467,9 +476,9 @@ class TestTeachersController(BaseTestCase):
                             "survey_ID = 3;")
         # Survey 3 must relate to the IDs of the old description, new name,
         # and new tags
-        self.assertEqual(self.cursor.fetchall(), [(2,), (15,), (16,), (17,),
-                                                  (18,), (19,), (20,), (21,),
-                                                  (22,), (23,)])
+        self.assertEqual(self.cursor.fetchall(), [(2,), (18,), (19,), (20,),
+                                                  (21,), (22,), (23,), (24,),
+                                                  (25,), (26,)])
     
     def test_surveys_get_notag_valid(self):
         """Test case for surveys_get
@@ -528,6 +537,26 @@ class TestTeachersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertEqual(json.loads(response.data), ['COS 140 001'])
+   
+    def test_surveys_get_tag_valid_2(self):
+        """Another test case for surveys_get
+
+        retreives a list of the names of the user's surveys
+        session user is 'Torsten Hahmann', 'email_register' tag entered
+        """
+        
+        session['email'] = 'torsten.hahmann@maine.edu'
+        
+        query_string = [('tag_type', 'email_register'),
+                        ('tag_value', 'Er text')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/surveys',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assertEqual(json.loads(response.data), ['COS 250 001'])
     
     def test_surveys_get_notag_invalid(self):
         """Another test case for surveys_get
@@ -625,8 +654,28 @@ class TestTeachersController(BaseTestCase):
         
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
-        # The response must have only the tag value for Roy Turner's surveys
+        # The response must have only the tag value for Torsten's surveys
         self.assertEqual(json.loads(response.data), ['Er text'])
+    
+    def test_tag_values_get_valid_3(self):
+        """Another test case for tag_values_get
+
+        retreives a list of values for a given tag type of the user's surveys
+        session user is 'Torsten Hahmann', tag type is 'instructor'
+        """
+        
+        session['email'] = 'roy.turner@maine.edu'
+        
+        query_string = [('tag_type', 'instructor')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/tag_values',
+            method='GET',
+            query_string=query_string)
+        
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        # The response must have only the tag value for Roy Turner's surveys
+        self.assertEqual(json.loads(response.data), ['Roy Turner'])
     
     def test_tag_values_get_invalid(self):
         """Another test case for tag_values_get
@@ -689,7 +738,7 @@ class TestTeachersController(BaseTestCase):
         survey name is 'COS 140 001'
         """
         
-        anonymize = True        # Make survey responses anonymous
+        delay_start.clear()         # Do not delay activating the survey
         
         query_string = [('name', 'COS 140 001')]
         response = self.client.open(
@@ -700,9 +749,9 @@ class TestTeachersController(BaseTestCase):
                        'Response body is : ' + response.data.decode('utf-8'))
         
         # Check if survey is published
-        self.assertEqual(self.lime.list_surveys()[1], {'sid': '1',
+        self.assertEqual(self.lime.list_surveys()[0], {'sid': '1',
             'surveyls_title': 'COS 140 001', 'startdate': None,
-            'expires': None, 'active': 'Y'})
+            'expires': '2050-01-02 12:00:00', 'active': 'Y'})
         
         # Check if survey participants exist
         participants = self.lime.list_participants(1)
@@ -762,7 +811,7 @@ class TestTeachersController(BaseTestCase):
         category is instructor Roy Turner
         """
         
-        anonymize = False       # Do not make survey responses anonymous
+        delay_start.clear()
         
         # Add a survey by Roy Turner to LimeSurvey
         response = self.client.open('/teameval/Eval/1.0.0/publish',
@@ -799,6 +848,60 @@ class TestTeachersController(BaseTestCase):
             {'Question 2?': {'COS 140 001':
                 {'mean': 1.75, 'median': 1.5, 'n': 4, 'std_dev': 0.96}},
              'Question?': {'COS 140 001':
+                {'mean': 4, 'median': 4.5, 'n': 4, 'std_dev': 1.41}}})
+        
+        # Remove mock survey from LimeSurvey
+        self.lime.delete_survey(1)
+        
+        # Stop timers to prevent waiting for their completion
+        for timer in timers:
+            timer.cancel()
+    
+    def test_results_get_valid_2(self):
+        """Test case for results_get
+
+        retreives a list of results for a given category of surveys
+        category is 'Email register text' instead of an instructor
+        """
+        
+        delay_start.clear()
+        
+        # Add a survey by Roy Turner to LimeSurvey
+        response = self.client.open('/teameval/Eval/1.0.0/publish',
+            method='GET', query_string=[('name', 'COS 140 001')])
+        
+        codes = []              # Represent questions in the survey
+        # Sort questions by their ID
+        questions = sorted(self.lime._list_questions(1),
+                           key = lambda q: q['qid'])
+        # Retrieve group and question IDs to make question codes
+        for question in questions:
+            codes.append('1X{}X{}'.format(question['gid'], question['qid']))
+
+        # Add some mock survey responses to the survey
+        self.lime._add_response(1, json.dumps({
+            codes[0]: 4, codes[1]: 1, codes[2]: 'Y'}))
+        self.lime._add_response(1, json.dumps({
+            codes[0]: 5, codes[1]: 1, codes[2]: 'N'}))
+        self.lime._add_response(1, json.dumps({
+            codes[0]: 2, codes[1]: 2, codes[2]: 'N'}))
+        self.lime._add_response(1, json.dumps({
+            codes[0]: 5, codes[1]: 3, codes[2]: 'Y'}))
+        
+        # Get results for surveys with the particular e-mail register text
+        query_string = [('cat_type', 'email_register'),
+                        ('cat_name', 'Email register text')]
+        response = self.client.open(
+            '/teameval/Eval/1.0.0/results',
+            method='GET', query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        
+        # Assert that return value matches expected statistics
+        self.assertEqual(json.loads(response.data),
+            {'Question 2?': {'Email register text':
+                {'mean': 1.75, 'median': 1.5, 'n': 4, 'std_dev': 0.96}},
+             'Question?': {'Email register text':
                 {'mean': 4, 'median': 4.5, 'n': 4, 'std_dev': 1.41}}})
         
         # Remove mock survey from LimeSurvey
