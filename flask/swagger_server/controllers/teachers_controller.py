@@ -3,22 +3,33 @@ import six
 import mysql.connector
 import base64
 import logging
+import time
+from threading import Timer
+from datetime import datetime
+import pytz
+from pytz import timezone
 
 from flask import jsonify
-from flask import session
 import requests 
 import statistics
 from flask import request
+from flask import make_response
 
 from swagger_server.models.course import Course  # noqa: E501
 from swagger_server.models.result import Result  # noqa: E501
 from swagger_server import util
 from swagger_server.lime_py_api.limesurvey import Api
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO)     # Enable logging
+
+session = {}                    # Session object
+
 # Log into LimeSurvey with the RemoteControl API
 lime = Api('http://10.5.0.5/index.php/admin/remotecontrol', 'admin',
            'password')
+
+timers = []                     # Timers to stop after testing
+delay_start = [True]            # If empty, survey does not delay activation
 
 # Connect to MySQL database
 mydb = mysql.connector.connect(host='10.5.0.6',
@@ -52,8 +63,6 @@ def survey_delete(name):  # noqa: E501
         survey_ID = str(survey_ID[0])
         # Delete all rows in the database that reference the survey
         cursor.execute("delete from survey_to_tag where survey_ID = "
-                       + survey_ID + ";")
-        cursor.execute("delete from response where survey_ID = "
                        + survey_ID + ";")
         cursor.execute("delete from survey_to_question where survey_ID = "
                        + survey_ID + ";")
@@ -173,6 +182,11 @@ def survey_put():  # noqa: E501
             'email_invite', 'email_remind', 'email_register', and 'email_confirm'
     """
     
+    # Retrieve the ID of the current user
+    cursor.execute("select ID from user where `e-mail` = '"
+                   + session['email'] + "';")
+    user_ID = str(cursor.fetchone()[0])
+    
     # An instructor key must be in the input
     if 'instructor' not in request.json.keys():
         return 'no matching instructor found'
@@ -206,7 +220,8 @@ def survey_put():  # noqa: E501
         survey_ID = str(cursor.fetchone()[0])
         cursor.execute("update survey set URL = '" + request.json['URL']
                        + "', instructor_ID = " + instructor_ID
-                       + " where ID = " + survey_ID + ";")
+                       + ", user_ID = " + user_ID + " where ID = "
+                       + survey_ID + ";")
     else:
         # If survey with name does not exist, make new survey and tag rows
         # Survey and tag row IDs are 1 higher than the current maximum IDs
@@ -214,7 +229,8 @@ def survey_put():  # noqa: E501
         survey_ID = cursor.fetchone()[0]
         survey_ID = str(survey_ID + 1) if survey_ID else '1'
         cursor.execute("insert into survey values (" + survey_ID + ", '"
-                       + request.json['URL'] + "', " + instructor_ID + ");")
+                       + request.json['URL'] + "', " + instructor_ID + ", "
+                       + user_ID + ");")
         cursor.execute("select max(ID) from tag;")
         tag_ID = cursor.fetchone()[0]
         tag_ID = str(tag_ID + 1) if tag_ID else '1'
@@ -308,8 +324,6 @@ def survey_put():  # noqa: E501
                            + survey_ID + ", " + question_ID + ");")
     # Remove questions for the survey that were not in request
     for ID in old_questions:
-        cursor.execute("delete from response where survey_ID = " + survey_ID
-                       + " && question_ID = " + ID + ";")
         cursor.execute("delete from survey_to_question where survey_ID = "
                        + survey_ID + " && question_ID = " + ID + ";")
     
@@ -359,25 +373,74 @@ def survey_put():  # noqa: E501
     return 'success'
 
 
-def surveys_get():  # noqa: E501
-    """retreives a list of the names of the user's surveys
+def surveys_get(tag_type=None, tag_value=None):  # noqa: E501
+    """retreives a list of the names of the user's surveys,
+       optionally for a given tag type and value
+
+    :param tag_type: the type of a survey tag (optional)
+    :type tag_type: str
+    :param tag_value: the value of a survey tag (optional)
+    :type tag_value: str
 
     :rtype: List[survey names]
     """
     
-    surveys = []                        # Survey names to return
-    email = session['email']            # Use e-mail of current user
+    survey_names = []                       # Survey names to return
+    email = session['email']                # Use e-mail of current user
     
-    # Retrieve the survey names for a given e-mail address
-    cursor.execute("select value from tag, survey_to_tag, survey, " \
-                   "instructor where type = 'name' && tag.ID = " \
-                   "survey_to_tag.tag_ID && survey_to_tag.survey_ID = " \
-                   "survey.ID && survey.instructor_ID = instructor.ID && " \
-                   "instructor.`e-mail` = '" + email + "';")
-    for survey in cursor.fetchall():    # Add query results to list of names
-        surveys.append(survey[0])
+    results = []
+    if tag_type and tag_value:
+        # Retrieve the survey IDs for a given tag value and e-mail address
+        cursor.execute("select survey.ID from survey, survey_to_tag, tag, " \
+            "user where survey.ID = survey_to_tag.survey_ID && " \
+            "survey_to_tag.tag_ID = tag.ID && tag.type = '" + tag_type
+            + "' && tag.value = '" + tag_value + "' && survey.user_ID " \
+            "= user.ID && user.`e-mail` = '" + email + "';")
+        survey_IDs = cursor.fetchall()
+        
+        # Retrieve the names of the surveys with the given IDs
+        for survey_ID in survey_IDs:
+            cursor.execute("select value from tag, survey_to_tag where type " \
+                "= 'name' && tag.ID = survey_to_tag.tag_ID && " \
+                "survey_to_tag.survey_ID = " + str(survey_ID[0]) + ";")
+            survey_names.append(cursor.fetchone())
+    else:
+        # Retrieve the survey names for a given e-mail address
+        cursor.execute("select value from tag, survey_to_tag, survey, " \
+            "user where type = 'name' && tag.ID = " \
+            "survey_to_tag.tag_ID && survey_to_tag.survey_ID = " \
+            "survey.ID && survey.user_ID = user.ID && " \
+            "user.`e-mail` = '" + email + "';")
+        survey_names = cursor.fetchall()
     
-    return surveys
+    # Return survey names
+    return [name[0] for name in survey_names]
+
+
+def tag_values_get(tag_type):
+    """retreives a list of values for a given tag type of the user's surveys
+
+    :param tag_type: the type of a survey tag
+    :type tag_type: str
+
+    :rtype: List[tag values]
+    """
+    
+    email = session['email']                # Use e-mail of current user
+    
+    if tag_type == 'instructor':
+        # Use the instructor table if the type is 'instructor'
+        cursor.execute("select instructor.name from instructor, survey, " \
+            "user where instructor.ID = survey.instructor_ID && " \
+            "survey.user_ID = user.ID && user.`e-mail` = '" + email + "';")
+    else:
+        cursor.execute("select value from tag, survey_to_tag, survey, " \
+            "user where tag.type = '" + tag_type + "' && tag.ID = " \
+            "survey_to_tag.tag_ID && survey_to_tag.survey_ID = survey.ID && " \
+            "survey.user_ID = user.ID && user.`e-mail` = '"
+            + email + "';")
+    
+    return [value[0] for value in cursor.fetchall()]
 
 
 def login_get(key):  # noqa: E501
@@ -408,18 +471,23 @@ def validate():
     if (r.status_code == 200):          # If request is successful
         # Load user's full name and e-mail address into a session object
         data = r.json()
-        session['name'] = data['name']
         session['email'] = data['email']
         
+        mydb.commit()
         # Add the user to the instructor table if not there
-        # Instructor ID is one higher than the current maximum ID
-        cursor.execute("select max(ID) from instructor;")
-        instructor_ID = cursor.fetchone()[0]
-        # Use '1' if no instructor IDs are in table
-        instructor_ID = str(instructor_ID + 1) if instructor_ID else '1'
-        cursor.execute("insert ignore into instructor values (" + instructor_ID
-                       + ", '" + session['name'] + "', '"
-                       + session['email'] + "')")
+        # User ID is one higher than the current maximum ID
+        cursor.execute("select max(ID) from user;")
+        user_ID = cursor.fetchone()[0]
+        # Use '1' if no user IDs are in table
+        user_ID = str(user_ID + 1) if user_ID else '1'
+
+        cursor.execute("select * from user where `e-mail` = '"
+                       + session['email'] + "';")
+        if not cursor.fetchone():
+            # If the user doesn't already exist, insert it
+            cursor.execute("insert into user values (" + user_ID
+                           + ", '', '" + session['email'] + "')")
+        mydb.commit()
         
         return session['email']         # Return the user's e-mail address
     else: 
@@ -436,7 +504,7 @@ def publish_get(name):  # noqa: E501
     """
     
     # Translate survey data into a .txt file
-    text, survey_ID = translate_to_txt(name)
+    text, survey_ID, startdate, remind = translate_to_txt(name)
     if not survey_ID:
         return 'invalid survey name'
     
@@ -453,20 +521,67 @@ def publish_get(name):  # noqa: E501
                    "survey_to_participant.survey_ID = " + str(survey_ID) + ";")
     for row in cursor.fetchall():
         # Participant name must be of the form 'firstname lastname'
-        first, last = row[0].split(' ')
+        first = row[0].split()[0]
+        last = row[0].split()[1]
         participants.append({'email': row[1], 'lastname': last,
                              'firstname': first})
     # Add participants to LimeSurvey participants table
     lime.activate_tokens(survey_ID)
     lime.add_participants(survey_ID, participants)
-    
-    # Activate anonymized survey on LimeSurvey
+    # Make survey responses anonymous
     lime.set_survey_property(survey_ID, 'anonymized', 'true')
-    lime.activate_survey(survey_ID)
-    # Send e-mails to survey participants
-    lime.invite_participants(survey_ID)
+    
+    time_diff = 0           # Default if delay_start is false
+    
+    if delay_start != []:   # If activation is delayed (default)
+        startdate_obj = datetime.strptime(startdate, '%Y-%m-%d %H:%M:%S')
+        startdate_obj = timezone('US/Eastern').localize(startdate_obj)
+        # Convert the current time to the correct time zone
+        now_time = datetime.now(timezone('US/Eastern'))
+        # Find the difference between the start time and current time
+        time_diff = round((startdate_obj - now_time).total_seconds())
+    
+        # Set timer to activate survey
+        timer = Timer(time_diff, activate_survey, (survey_ID, remind))
+        timer.start()
+        timers.append(timer)
+    else:
+        # If not delayed, activate survey immediately
+        activate_survey(survey_ID, remind)
     
     return 'success'
+
+
+def activate_survey(survey_ID, remind):
+    """activates the survey with the given ID
+    
+    :param survey_ID: the ID of the survey being published
+    :type survey_ID: str
+    :param remind: true iff reminder e-mails are sent
+    :type remind: bool
+    """
+    
+    lime.activate_survey(survey_ID)
+    # Send invitation e-mails to survey participants
+    lime.invite_participants(survey_ID)
+    
+    if remind:
+        # Send reminder e-mails after 3, 6, and 9 days
+        for i in range(1, 4):
+            # There are 259,200 seconds in a day
+            timer = Timer(i*259200, remind_participants, (survey_ID,))
+            timer.start()
+            timers.append(timer)
+
+
+def remind_participants(survey_ID):
+    """sends reminder e-mails to survey participants
+    
+    :param survey_ID: the ID of the survey whose participants are reminded
+    :type survey_ID: str
+    """
+    
+    lime.remind_participants(survey_ID)
 
 
 def get_template_text(name, typ):
@@ -488,7 +603,7 @@ def get_template_text(name, typ):
     
 
 def translate_to_txt(name):
-    """translate the survey with a given name to a text file that can be
+    """translate the survey with a given name to text that can be
        imported into the LimeSurvey database
     
     :param name: the name for a survey
@@ -503,17 +618,26 @@ def translate_to_txt(name):
                    + name + "';")
     result = cursor.fetchone()
     if not result:          # Return error if no survey with "name" is found
-        return None, None
+        return None, None, None, None
     survey_ID = str(result[0])
     # Used to retreive the value for a given tag
     value_query = "select value from tag, survey_to_tag where " \
                   "survey_to_tag.survey_ID = " + survey_ID + " && " \
                   "survey_to_tag.tag_ID = tag.ID && tag.type = '{}';"
     
-    fil = open(name + '.txt', 'w')
     template = open('template.txt', 'r')
     text = template.readline()      # Output survey text, begins with headers
     lines = template.readlines()    # Text from survey template
+    
+    # Retrieve optional data info
+    cursor.execute(value_query.format('reminderTime'))
+    reminderTime = str(cursor.fetchone()[0])
+    cursor.execute(value_query.format('beginDate'))
+    startdate = '{} {}:00'.format(str(cursor.fetchone()[0]),
+                                  reminderTime, ':00')
+    cursor.execute(value_query.format('closeDate'))
+    expires = '{} {}:00'.format(str(cursor.fetchone()[0]),
+                                reminderTime, ':00')
     
     # Retreive general survey info
     cursor.execute(value_query.format('name'))
@@ -528,20 +652,31 @@ def translate_to_txt(name):
     # Retrieve e-mail templates
     cursor.execute(value_query.format('email_invite'))
     email_invite = str(cursor.fetchone()[0])
+    # Construct the URL to the survey
+    email_invite = email_invite.replace('\n', '<br/>').replace('{SURVEYURL}',
+        'http://teachingevaluations.org:5000/index.php/{}?token={}&lang=en' \
+        .format(survey_ID, '{TOKEN}'))
     cursor.execute(value_query.format('email_remind'))
     email_remind = str(cursor.fetchone()[0])
+    email_remind = email_remind.replace('\n', '<br/>').replace('{SURVEYURL}',
+        'http://teachingevaluations.org:5000/index.php/{}?token={}&lang=en' \
+        .format(survey_ID, '{TOKEN}'))
+    # Do not remind students if email_remind is empty
+    remind = email_remind != ''
+    
     cursor.execute(value_query.format('email_register'))
     email_register = str(cursor.fetchone()[0])
     cursor.execute(value_query.format('email_confirm'))
     email_confirm = str(cursor.fetchone()[0])
 
     # Add rows containing general info and e-mail templates
-    values = [survey_ID, '1', 'Administrator', 'your-email@example.net', 'N',
+    values = [survey_ID, '1', 'Administrator', "\"{}\"".format(expires),
+              "\"{}\"".format(startdate), 'admin@teachingevaluations.org', 'N',
               '', 'G', 'N', 'fruity', 'en', '', 'N', 'N', 'N', 'Y', '0', 'N',
               'N', 'N', 'N', 'N', '0', 'N', 'N', 'N', 'Y', 'Y', 'N', 'N', 'N',
-              'N', 'your-email@example.net', '', '', '15', 'Y', 'B', 'N', 'X',
-              'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en', title,
-              description, welcometext, endtext, '', '',
+              'N', 'admin@teachingevaluations.org', '', '', '15', 'Y', 'B',
+              'N', 'X', 'N', 'Y', 'Y', '0', '0', 'N', 'N', '162243', 'en',
+              title, description, welcometext, endtext, '', '',
               'Invitation to participate in a survey', email_invite,
               'Reminder to participate in a survey', email_remind,
               'Survey registration confirmation', email_register,
@@ -578,7 +713,7 @@ def translate_to_txt(name):
         # Add questions only if a group contains questions
         if question_IDs:
             # Add row for group header
-            questions.append({'id': str(i), 'class': 'G', 'type': '1',
+            questions.append({'id': str(i+1), 'class': 'G', 'type': str(i+1),
                               'name': groups[i], 'relevance': '', 'text': '',
                               'language': 'en', 'mandatory': ''})
             
@@ -588,6 +723,7 @@ def translate_to_txt(name):
                 typ = str(cursor.fetchone()[0])
                 cursor.execute(question_query.format('text', ID))
                 txt = str(cursor.fetchone()[0])
+                mydb.commit()
                 # Get string from mandatory bit
                 cursor.execute(question_query.format('mandatory', ID))
                 mandatory = str(cursor.fetchone()[0])
@@ -608,10 +744,10 @@ def translate_to_txt(name):
             text += '\tN\t\t0' + '\t'*129 + '\n'
         else:                           # If row refers to a group header
             text += '\t'*132 + '\n'
-    
-    # Write survey text to a .txt file and return the text
-    fil.write(text)
-    return text, int(survey_ID)
+
+    # Close template and return values needed for activating the survey
+    template.close()
+    return text, int(survey_ID), startdate, remind
     
 
 def results_get(cat_type, cat_name):  # noqa: E501
@@ -631,8 +767,8 @@ def results_get(cat_type, cat_name):  # noqa: E501
           { question 1:
               { survey 1: {"median": float,
                            "mean": float,
-                           "std_dev": float,
-                           "n": int},
+                           "n": int,
+                           "std_dev": float},
                 survey 2: ...},
             question 2: {...}, ...}
     """
@@ -682,33 +818,42 @@ def results_get(cat_type, cat_name):  # noqa: E501
             for q_key in q_keys:
                 try:
                     q_value = int(response[q_key])  # q_key's response
-                except ValueError:  # Only 1-5 scale questions permitted
+                # Only 1-5 scale questions permitted
+                except (ValueError, TypeError) as e:
                     continue
                 
                 # Create a question key in stats if not there
                 if q_key not in stats:
-                    stats[q_key] = {survey_name: [q_value]}
-                # Create a survey key in stats if not there
-                elif survey_name not in stats[q_key]:
+                    stats[q_key] = {survey_name: [q_value]} \
+                                   if cat_type == 'instructor' else \
+                                   {cat_name: [q_value]}
+                # If applicable, create a survey key in stats if not there
+                elif cat_type == 'instructor' and \
+                     survey_name not in stats[q_key]:
                     stats[q_key][survey_name] = [q_value]
                 # Otherwise, just add q_value
                 else:
-                    stats[q_key][survey_name].append(q_value)
+                    if cat_type == 'instructor':
+                        stats[q_key][survey_name].append(q_value)
+                    else:
+                        stats[q_key][cat_name].append(q_value)
                 
-    # Loop over each set of responses per survey per question
+    # Loop over each set of responses per category per question
     for question in stats:
-        for survey in stats[question]:
+        for category in stats[question]:
             # Replace responses with actual statistics
-            values = stats[question][survey]
+            values = stats[question][category]
             
-            # Find appropriate statistics for values
-            stats[question][survey] = {
-                'median': statistics.median(values),
-                'mean': statistics.mean(values),
+            # Compute appropriate statistics for values
+            # Non-integral values are rounded to 2 places
+            stats[question][category] = {
+                'median': round(statistics.median(values), 2),
+                'mean': round(statistics.mean(values), 2),
                 # Standard deviation of response values
-                'std_dev': round(statistics.stdev(values), 2),
+                # Cannot be found with only one response
+                'std_dev': round(statistics.stdev(values), 2)
+                           if len(values) != 1 else 'N/A',
                 'n': len(values)    # Number of responses
             }
 
     return stats
-

@@ -3,10 +3,10 @@
 
 ## Outside Docs
 Database https://app.sqldbm.com/SQLServer/Edit/p44622
+
 API      https://app.swaggerhub.com/apis/teameval/Eval/1.0.0
 
 ## Purpose of the Product
->>>>>>> fd0088d371ee4a704e4e7870503cfa8c917eeaef
 The University of Maine gives out course evaluation surveys to students at the end of each course. The
 survey is filled on a bubble sheet and is then scanned. Dr. Harlan Onsrud finds it inconvenient for the school
 administrators to manually scan and compile the survey results. Current campus experiments with electronic
@@ -19,7 +19,8 @@ Team EVAL will create a product which interfaces with an already existing survey
 provide both individual teachers and administrators the ability to create and administer evaluations. This
 product will be usable even by those without technical backgrounds, and it will have an intuitive interface
 for setting up and administering teacher evaluations.
-It will allow users to create one or more courses with predened survey data and rosters of e-mail
+
+It will allow users to create one or more courses with predefined survey data and rosters of e-mail
 addresses. For each class, users will be able to choose from provided questions or enter their own custom
 questions. The question sets that they make may be saved to their account and applied to future evaluations
 they create. Upon request of the user, the product will create a LimeSurvey with the supplied information.
@@ -27,16 +28,18 @@ It then sends an invitation to complete the survey to the students on the class'
 reminders as appropriate. When the survey is terminated by the instructor/administrator or by a certain
 data and time, the product will allow users to view and download a statistical analysis and clear visualization
 of the data collected for one or more of their courses.
+
 The software will support the reporting of accumulated data and the appropriate statistics and graphics
 derived from it for each academic period. A report will be generated for the following levels: course section,
 all sections of the same course, all courses of each instructor, all courses with the same designator (e.g.
 \COS"), all courses in the same department/school, all courses in the same college, and all courses in the
 same university.
-The product will be completed in time to administer teacher evaluations for the spring of 2019 at the
+
+The product is expected to be completed in time to administer teacher evaluations for the spring of 2019 at the
 University of Maine, whether evaluation forms are created by instructors or administrators. A UML diagram
 below shows the scope as a dotted rectangle.
 
-![alt text](https://raw.githubusercontent.com/stansmall/capstone/master/documents/images/scope.png)
+![alt text](https://raw.githubusercontent.com/stansmall/capstone/master/documents/images/scope_diagram.png)
 
 ## Set-Up for Developers
 
@@ -63,5 +66,3 @@ below shows the scope as a dotted rectangle.
 It is recommended that you mount your instance's capstone directory on your local machine. To do this, execute `sshfs ec2-user@ec2-x.x.x.x.us-east-2.compute.amazonaws.com:./capstone [relative path to local folder] -o IdentityFile=[full path to limesurvey.pem]`, with the x's being the instance's IP address.
 
 To see your changes to the code, run `docker-compose build [react/flask/flask-test]` (depending on the component), then `docker-compose up -d` (omit the "-d" to see debug info). Stop Docker with `docker-compose stop`. To start up MySQL, run the command `mysql -h 10.5.0.6 -u root -p` and enter the password "root". The back-end database is called  "mydb". To log in to LimeSurvey, enter http://x.x.x.x:5000/index.php/admin/ in your web browser (with the x’s being your instance’s IP address). You may need to edit "swagger.yaml" to change the API endpoint specifications.
-
-![alt text](https://raw.githubusercontent.com/stansmall/capstone/master/documents/images/scope_diagram.png)

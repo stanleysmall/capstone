@@ -10,7 +10,7 @@ services:
         depends_on:
             - limesurvey_db
         networks:
-            net: 
+            net:
                 ipv4_address: 10.5.0.5
     limesurvey_db:
         image: mysql:5.5.61
@@ -18,7 +18,7 @@ services:
         command: --init-file /data/application/init.sql
         restart: always
         networks:
-            net: 
+            net:
                 ipv4_address: 10.5.0.6
         environment:
             MYSQL_ROOT_PASSWORD: root
@@ -38,7 +38,7 @@ services:
         volumes:
             - ./react-app:/app
         networks:
-            net: 
+            net:
                 ipv4_address: 10.5.0.7
     flask:
         build:
@@ -48,29 +48,18 @@ services:
             - 8080:8080
         depends_on:
             - limesurvey
-        networks:
-            net: 
-                ipv4_address: 10.5.0.8
-    flask-test:
-        build:
-            context: ./flask
-            dockerfile: Dockerfile-b
-        container_name: flask-test
-        ports:
-            - 8080:8080
-        depends_on:
-            - limesurvey
             - redis
         networks:
-            net: 
-                ipv4_address: 10.5.0.9
+            net:
+                ipv4_address: 10.5.0.8
     redis:
         image: redis:latest
         container_name: redis
+        command: redis-server
         ports:
             - 6379:6379
         networks:
-            net: 
+            net:
                 ipv4_address: 10.5.0.2
 networks:
     net:

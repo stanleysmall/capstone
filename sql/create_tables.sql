@@ -29,17 +29,35 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `mydb`.`user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`user` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NULL,
+  `e-mail` VARCHAR(50) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `mydb`.`survey`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`survey` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `URL` VARCHAR(50) NULL,
   `instructor_ID` INT NOT NULL,
+  `user_ID` INT NOT NULL,
   PRIMARY KEY (`ID`),
   INDEX `fk_survey_instructor1_idx` (`instructor_ID` ASC),
+  INDEX `fk_survey_user1_idx` (`user_ID` ASC),
   CONSTRAINT `fk_survey_instructor1`
     FOREIGN KEY (`instructor_ID`)
     REFERENCES `mydb`.`instructor` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_survey_user1`
+    FOREIGN KEY (`user_ID`)
+    REFERENCES `mydb`.`user` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -115,30 +133,12 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`response`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`response` (
-  `ID` INT NOT NULL,
-  `text` VARCHAR(150) NULL,
-  `survey_ID` INT NOT NULL,
-  `question_ID` INT NOT NULL,
-  PRIMARY KEY (`ID`, `survey_ID`, `question_ID`),
-  INDEX `fk_response_survey_to_question1_idx` (`survey_ID` ASC, `question_ID` ASC),
-  CONSTRAINT `fk_response_survey_to_question1`
-    FOREIGN KEY (`survey_ID` , `question_ID`)
-    REFERENCES `mydb`.`survey_to_question` (`survey_ID` , `question_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `mydb`.`tag`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`tag` (
   `ID` INT NOT NULL,
   `type` VARCHAR(50) NULL,
-  `value` VARCHAR(500) NULL,
+  `value` VARCHAR(1000) NULL,
   PRIMARY KEY (`ID`))
 ENGINE = InnoDB;
 

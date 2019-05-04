@@ -4,24 +4,24 @@ import connexion
 import os
 from swagger_server import encoder
 from flask import Flask
-from flask_session import Session
 import redis
+from flask_cors import CORS
 
 
 
 def main():
     app = connexion.App(__name__, specification_dir='./swagger/')
-    app.app.config['SESSION_TYPE'] = 'redis'
-    app.app.config['SESSION_REDIS'] = redis.from_url('redis://10.5.0.2')
-    sess = Session()
-    sess.init_app(app.app)
-    app.app.config['SECRET_KEY'] = os.urandom(24)
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('swagger.yaml', arguments={'title': 'Project Eval API'})
     app.run(port=8080)
-    Session(app)    
-
+    CORS(app)
+    logging.getLogger('flask_cors').level = logging.DEBUG
+    
 
 if __name__ == '__main__':
     main()
     
+@app.after_request
+def apply_caching(response):
+    response.headers["X-Frame-Options"] = "*"
+    return response

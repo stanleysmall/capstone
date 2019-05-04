@@ -2,6 +2,8 @@ id	related_id	class	type/scale	name	relevance	text	help	language	validation	mand
 		S		sid		162243																																																																																																																																											
 		S		gsid		1																																																																																																																																											
 		S		admin		Administrator																																																																																																																																											
+		S		expires		""																																																																																																																																											
+		S		startdate		""																																																																																																																																											
 		S		adminemail		your-email@example.net																																																																																																																																											
 		S		anonymized		N																																																																																																																																											
 		S		faxto																																																																																																																																													
