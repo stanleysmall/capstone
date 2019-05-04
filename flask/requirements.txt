@@ -12,3 +12,5 @@ google-api-python-client
 flask_session
 redis
 pytz
+flask-cors
+

@@ -2,43 +2,107 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {Redirect} from "react-router";
 import {LoggedInHeader, DynamicSelecter, RadioSelecter} from "../displayComponents";
-import { getUnpublishedEvalNames, getPublishedEvalNames } from "../../Functions/endpoints";
+import {getEvalNames, publishEval, getUnpublishedEvalNames, deleteSurvey, getPublishedEvalNames, getTagValues, putEval } from "../../Functions/endpoints";
 import "../../CSS/App.css";
+import {exampleOldEvaluation} from "../../vars";
 
 class Home extends Component {
     state = {
         editableEvals : [{id:0, name:"Select an evaluation"},                 
                         ],
-        inactiveEvals : [{id:0, name:"Select an evaluation"},               
+        allEvals : [{id:0, name:"Select an evaluation"},               
                         ],
-        reports :       [{id:0, name:"Select a report"},
-                         {id:1, name:"endpoints"},
-                         {id:2, name:"aren't"},
-                         {id:3, name:"working"},                   
-                        ]                         
-        };
+		reports : [ {id:0, name: "Roy Turner"},
+                    {id:1, name: "Terry Yoo"},],
+        reportsInstructor: [{id:0, name: "Select an Instructor"}],
+        reportsCourseDes: [{id:0, name: "Select a Course Designator"}],
+        reportsUnit: [{id:0, name: "Select a Unit"}],
+        reportsCollege: [{id:0, name: "Select a College"}],
+        reportsUniversity: [{id:0, name: "Select an University"}],
+        selectedTag : "reportsInstructor",
+        blackList: ["Select an Instructor","Select a Course Designator","Select a Unit","Select a College","Select an University"]
 
-    componentDidMount() {
-        document.title = 'Home Page';
-      }
+    };
     
-    constructor(props)
-    {
-        super(props);
-        //console.log(global.access_token);
-        var unpublishedEvals = getUnpublishedEvalNames();
-        var publishedEvals = getPublishedEvalNames();
+    componentDidMount() {
 
-        for(var i = 0; i < unpublishedEvals.length; i ++)
-        {
-            this.state.editableEvals[i+1] = {id:i+1, name:unpublishedEvals[i]} 
-        }
+        document.title = 'Home Page';
 
-        for(i = 0; i < publishedEvals.length; i ++)
-        {
-            this.state.inactiveEvals[i+1] = {id:i+1, name:publishedEvals[i]} 
-        }
+        getTagValues('instructor')
+        .then((response) => {
+            if(Array.isArray(response))
+            {
+                var names = [...new Set(response)];
+                for(var i = 0; i < names.length; i++)
+                {
+                    this.setState({reportsInstructor: this.state.reportsInstructor.concat([{id:i+1, name:names[i]}])});
+                }
+            }
+        })
 
+        getTagValues('courseDesignator')
+        .then((response) => {
+            if(Array.isArray(response))
+            {
+                var names = [...new Set(response)];
+                for(var i = 0; i < names.length; i++)
+                {
+                    this.setState({reportsCourseDes: this.state.reportsCourseDes.concat([{id:i+1, name:names[i]}])});
+                }
+            }
+        })
+
+        getTagValues('facultyUnit')
+        .then((response) => {
+            if(Array.isArray(response))
+            {
+                var names = [...new Set(response)];
+                for(var i = 0; i < names.length; i++)
+                {
+                    this.setState({reportsUnit: this.state.reportsUnit.concat([{id:i+1, name:names[i]}])});
+                }
+            }
+        })
+
+        getTagValues('college')
+        .then((response) => {
+            if(Array.isArray(response))
+            {
+                var names = [...new Set(response)];
+                for(var i = 0; i < names.length; i++)
+                {
+                    this.setState({reportsCollege: this.state.reportsCollege.concat([{id:i+1, name:names[i]}])});
+                }
+            }
+        })
+
+        getTagValues('university')
+        .then((response) => {
+            if(Array.isArray(response))
+            {
+                var names = [...new Set(response)];
+                for(var i = 0; i < names.length; i++)
+                {
+                    this.setState({reportsUniversity: this.state.reportsUniversity.concat([{id:i+1, name:names[i]}])});
+                }
+            }
+        })
+
+        getUnpublishedEvalNames().then((responseData)=>{
+            for(var i = 0; i < responseData.length; i ++)
+            {
+                this.setState({editableEvals: this.state.editableEvals.concat([{id:i+1, name:responseData[i]}])});
+            }
+        })
+
+        getEvalNames().then((responseData) =>{
+            
+            for(var i = 0; i < responseData.length; i ++)
+            {
+                this.setState({allEvals: this.state.allEvals.concat([{id:i+1, name:responseData[i]}])});
+            }
+            
+        })
     }
 
     edit(value)
@@ -56,7 +120,20 @@ class Home extends Component {
             this.props.history.push("/view/" + value);
         }
     }
-	
+
+    publish(value)
+    {
+        if(value !== "Select an evaluation")
+        {
+            publishEval(value);
+        }
+    }
+    
+    radioChange()
+    {
+        console.log("Radio Change");
+    }
+
 	results(tagName, tag){
 		this.resultsTagName=tagName;
 		this.resultsTag=tag;
@@ -67,7 +144,7 @@ class Home extends Component {
 				break;
 			}
 		}
-        if(this.resultsTag != 'Select a report')
+        if(this.state.blackList.indexOf(this.resultsTag) < 0)
         {
             this.props.history.push("/results/" + tagName + "/" + tag);
         }
@@ -81,33 +158,41 @@ class Home extends Component {
             return(<Redirect to ="/"/>);
         }
 
+        this.state.reports = this.state[this.state.selectedTag];
+
         return(
             <div>
                 <LoggedInHeader/>
 
                     <h3>1. Create a New Course Evaluation Form</h3>
-                    <Link to={"/create/"}>
+                    To create a new course evaluation form click the <b>Create</b> button bellow.  You will be able to copy a template from previous evaluations you have worked on or start from a blank evaluation.
+                    <br/> <br/><Link to={"/create/"}>
                         <button  id = "create" type="homeScreenButton">Create</button>
                     </Link>
                     
-
+                    
                     <h3>2. Edit an Existing Unpublished Course Evaluation Form</h3>
-                    <DynamicSelecter list={this.state.editableEvals} iden={"editSelector"}/>&emsp;
+                    To edit a course evaluation form that you have previously created but not published select it from the drop down and click on the <b>Edit</b> button bellow.  You will be given the oportunity to published the evaluation upon saving any changes made.
+                    <br/> <br/><DynamicSelecter list={this.state.editableEvals} iden={"editSelector"}/>&emsp;
                     <button  type="homeScreenButton" onClick = {() => this.edit(document.getElementById("editSelector").value)}>Edit</button>
                     
-
+                    {/*
                     <h3>3. View Old Course Evaluation Form</h3>
-                    <DynamicSelecter list={this.state.inactiveEvals} iden={"inactiveSelector"}/>&emsp;
+                    <DynamicSelecter list={this.state.allEvals} iden={"inactiveSelector"}/>&emsp;
                     <button type="homeScreenButton" onClick = {() => this.view(document.getElementById("inactiveSelector").value)}>View</button>
                     
-					
-                    <h3>4. View Evaluation Results</h3>
-					<RadioSelecter iden={"tags"}/>
+                    <h3>4. Publish an Unpublished Evaluation Form</h3>
+                    <DynamicSelecter list={this.state.editableEvals} iden={"publishSelector"}/>&emsp;
+                    <button type="homeScreenButton" onClick = {() => this.publish(document.getElementById("publishSelector").value)}>Publish</button>
+                    */}
+                    
+                    <h3>3. View Evaluation Results</h3>
+                    To view results of your evaluations select which type of report you would like to view and select from the drop down which report you want to view then click the <b>View Results</b> button.
+					<br/> <br/><RadioSelecter iden={"tags"} state = {this.state} onChange = {(value) => {this.setState({selectedTag:value})}}/>
                     <DynamicSelecter list={this.state.reports} iden={"reports"}/>&emsp;
 						
                     <button type="homeScreenButton" onClick = {() => this.results(document.getElementById("tags").value, document.getElementById("reports").value)}>View Results</button>
-						
-                </div>
+            </div>
         )
     }
 	

@@ -6,11 +6,10 @@ import {Redirect} from "react-router";
 
 import {LoggedInHeader, DynamicSelecter} from "../displayComponents";
 
-import {putEval} from "../../Functions/endpoints.js";
+import {getEval,putEval, getEvalNames, publishEval} from "../../Functions/endpoints.js";
 import {formatSurvey, loadEvaluation} from "../../Functions/parsing.js";
 
-import {survey} from "../../vars";
-import {exampleOldEvaluation} from "../../vars";
+import {blankSurvey} from "../../vars";
 
 
 
@@ -18,23 +17,23 @@ class Create extends Component {
 
     state = {
         complete: false,
-        useTemplate: false,
+        savedEval: false,
         loadableEvals : [{id:0, name:"Select an evaluation"},                  
-                        ]
+                        ],
+        model:new Survey.Model(this.surveyJSON)
 
     };
 
     //JSON which defines the format of the survey that 
     //users fill out of create an evaluation.  Stores in questionTemplate.js
-    surveyJSON = survey;
-    evaltemplate = exampleOldEvaluation;
+    surveyJSON = JSON.parse(JSON.stringify(blankSurvey));
     testData = JSON.stringify(this.evaltemplate,null,2)
     /*
         Sets the theme of the user input survey and generates a list of the names of the past surveys which can be used as templates
     */
     constructor(props){
         super(props);
-        
+
         //Bind this in the onComplete function so we can access state and other functions through it
         this.onComplete = this.onComplete.bind(this);
 
@@ -46,22 +45,20 @@ class Create extends Component {
         defaultThemeColors["$main-color"] = "#4CAF50";
         defaultThemeColors["$main-hover-color"] = "#45a049";
         Survey.StylesManager.applyTheme();
-
-        //var oldEvalNames = getEvalNames(); <------------------------------for when api calls work, currently just use list of example eval names
-
-        var oldEvalNames = ["test eval", "test eval 2"];
-
-        for(var i = 0; i < oldEvalNames.length; i++)
-        {
-            this.state.loadableEvals.push({id: i+1, name: oldEvalNames[i]})
-        }
-
-        //console.log(getEval("COS 140 001"));
     }
 
     componentDidMount() {
         document.title = 'Create Page';
-      }
+        getEvalNames().then((responseData)=>{
+            for(var i = 0; i < responseData.length; i ++)
+            {
+                this.setState({loadableEvals: this.state.loadableEvals.concat([{id:i+1, name:responseData[i]}])});
+            }
+        })
+        this.surveyJSON = JSON.parse(JSON.stringify(blankSurvey));
+        this.setState({model : new Survey.Model(this.surveyJSON)});
+        this.setState({useTemplate: false});
+    }
 
     /*
         Arguments:
@@ -71,19 +68,24 @@ class Create extends Component {
     */
     template(name)
     {
-        console.log(name);
         if(name !== "Select an evaluation")
         {
-            //loadEvaluation(getEval(name), this.surveyJSON) <------------------------------for when api calls work, currently just load the one example old eval
-            this.surveyJSON = loadEvaluation(exampleOldEvaluation, this.surveyJSON);
+            getEval(name).then((response)=>{
+                this.surveyJSON = loadEvaluation(response, this.surveyJSON)
             
-            //remove dates and classroll from the loaded evaluation
-            this.surveyJSON.pages[0].elements[4].defaultValue = "";
-            this.surveyJSON.pages[0].elements[14].defaultValue = "";
-            this.surveyJSON.pages[0].elements[15].defaultValue = "";
-            this.surveyJSON.pages[2].elements[0].defaultValue = "";
+            
+            this.surveyJSON.pages[0].elements[1].defaultValue.semesterYear = "";
+            this.surveyJSON.pages[0].elements[1].defaultValue.beginDate = "";
+            this.surveyJSON.pages[0].elements[1].defaultValue.closeDate = "";
+            this.surveyJSON.pages[0].elements[1].defaultValue.reminderTime = "";
+            
             
             this.setState({useTemplate: true});
+            })
+
+            //this.surveyJSON = loadEvaluation(exampleOldEvaluation, this.surveyJSON);
+            
+
         }
     
     }
@@ -105,10 +107,15 @@ class Create extends Component {
         this.evalTemplate = formatSurvey(survey);
 
         //Put the formatted survey into the database
-        //putEval(this.evalTemplate)
+        putEval(this.evalTemplate)
 
-        //redirect home 
-        //this.props.history.push("/home/");
+        this.setState({savedEval: true});
+        this.setState({evalName: this.evalTemplate.name})
+
+        //Fresh survey JSON
+        this.surveyJSON = JSON.parse(JSON.stringify(blankSurvey));
+        this.setState({model : new Survey.Model(this.surveyJSON)});
+
     }
     
 
@@ -119,32 +126,31 @@ class Create extends Component {
         {
             return(<Redirect to ="/"/>);
         }
-
-        //Load a new survey with the template
-        if(this.state.useTemplate)
+        
+        if(this.state.savedEval)
         {
-            var model = new Survey.Model(this.surveyJSON);
-
-            return(    
+            return(
                 <div>
-                <LoggedInHeader/>     
-    
-                <div id="survey">
-                    <Survey.Survey model={model} onComplete={this.onComplete}/>
+                    <LoggedInHeader/>
+                    <center>
+                    Your evaluation <b>{this.state.evalName}</b> has been saved but not published.  You can publish it now by pressing the publish button bellow or wait to publish it at a later date.  
+                    <br/>
+                    <b>IMPORTANT:</b> If you choose to publish the evaluation you will NOT be able to make changes to it.  You will recieve a summary of the student responses at the date you designated for the evaluation process to end.
+                    <br/>
+                    <br/>
+                    <button onClick = {() => {publishEval(this.state.evalName); this.props.history.push("/home/")}}> Publish </button>&emsp;
+                    <button onClick = {() => this.props.history.push("/home/")}> Home </button>
+                    </center>
+                    
+                    <script id="testingData" object={JSON.stringify(this.evalTemplate,null,2)}/>
                 </div>
-
-                <script id="testingData" object={JSON.stringify(this.evalTemplate,null,2)}/>
-
-                </div>
-
-                
-                )
+            )
         }
 
         //default to new survey
         else{
 
-            var blankModel = new Survey.Model(this.surveyJSON);
+            this.state.model = new Survey.Model(this.surveyJSON);
 
             return(
                 <div>
@@ -158,7 +164,7 @@ class Create extends Component {
                     <br/>
 
                     <div id="survey">
-                        <Survey.Survey model={blankModel} onComplete={this.onComplete}/>
+                        <Survey.Survey model={this.state.model} onComplete={this.onComplete}/>
                     </div>
 
                     <script id="testingData" object={this.testData}/>

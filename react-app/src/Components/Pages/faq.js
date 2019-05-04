@@ -63,8 +63,8 @@ class FAQ extends Component {
 					this open source platform?</h2>
 				The Wicked Easy Teaching evaluation web site is an implementation of an open source
 				application program interface (API) produced by the capstone course team that extends
-				from the open source software LimeSurvey Version xxx. The API may be downloaded
-				at xxx and LimeSurvey version xxx may be downloaded at xxx.<br/>
+				from the open source software LimeSurvey Version 3.17.2. The API may be downloaded
+				at xxx and LimeSurvey version 3.17.2 may be downloaded at xxx.<br/>
 				
 				<h2>Where can I find help in my use of Wicked Easy Teaching Evaluations?</h2>
 				Some help issues may be addressed through the questions and responses that follow.

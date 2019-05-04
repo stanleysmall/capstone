@@ -6,14 +6,14 @@ import {LoggedInHeader} from "../displayComponents";
 import "survey-react/survey.css";
 import * as Survey from "survey-react";
 
-import {survey} from "../../vars";
-import {exampleOldEvaluation} from "../../vars";
-import { loadEvaluation } from "../../Functions/parsing";
+import {blankSurvey} from "../../vars";
+import {loadEvaluation } from "../../Functions/parsing";
+import {getEval} from "../../Functions/endpoints.js";
 
 
 class View extends Component {
     
-    surveyJSON = survey;
+    surveyJSON = blankSurvey;
 
     componentDidMount() {
         document.title = 'View Page';
@@ -32,8 +32,7 @@ class View extends Component {
         defaultThemeColors["$main-hover-color"] = "#45a049";
         Survey.StylesManager.applyTheme();
 
-        this.surveyJSON = loadEvaluation(exampleOldEvaluation, this.surveyJSON);
-        //this.surveyJSON = loadEvaluation(getEval(this.props.match.params.evalName), this.surveyJSON);
+        this.surveyJSON = loadEvaluation(getEval(this.props.match.params.evalName), this.surveyJSON);
         
         //Change survey to only display values not allow editing
         this.surveyJSON.mode = "display";
