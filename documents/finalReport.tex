@@ -48,13 +48,13 @@ Instructor: Professor Terry Yoo
 
 \subsection{Purpose of This Project}
 
-For our capstone project, Team EVAL is creating a Course Evaluation System, a web application designed to be intuitive and versatile for college instructors. This new system, which will be tested first at the University of Maine, allows one to quickly create course evaluation surveys and review their responses. Our goal is to have a fully working evaluation system for use at the end of the Spring 2019 semester. By making and documenting the software, the team will have gained valuable skills in software engineering, programming, and technical writing.
+For our capstone project, Team EVAL created the Course Evaluation System, a web application designed to be intuitive and versatile for college instructors. This new system, which will be tested first at the University of Maine, allows one to quickly create course evaluation surveys and review their responses. We undertook this project for our client, Dr. Harlan Onsrud, who wanted a more efficient way to process course evaluations. By making and documenting the software, the team has gained valuable skills in software engineering, programming, and technical writing.
 
 \subsection{Purpose of This Document}
 
-This final project document gives an overview of our course evaluation system, the purpose of it, and why we believe it is useful. We first talk about existing evaluation creation software and how they are not tailored to college instructors and administrators, unlike our system. The next section goes into more detail about the system, discussing its requirements, user interface, and architecture. The last section describes what we will deliver to the client, our progress on creating the system so far and the steps we still need to take to successfully complete the project.
+This final project document gives an overview of our course evaluation system, the purpose of it, and why we believe it is useful. We first talk about existing evaluation creation software and how it is not tailored to college instructors and administrators, unlike our system. The next section goes into more detail about the system, discussing its requirements, architecture, development process, and user interface. The last section describes how the finished product improves productivity, our thoughts on what we learned from the project, and the steps we would take to improve the product.
 
-This document is intended for the development team, the product client, and potential users of the system. Team EVAL needs this document to guide the products development. The client, Professor Harlan Onsrud, also needs it to verify that we are designing the system according to his needs. The document helps the software's users by informing them what the system is designed to do and how it specifically helps them with their work.
+This document is intended for the development team, the product client, and potential users of the system. Team EVAL needs this document to summarize the product's development in job interviews. The client, Professor Harlan Onsrud, also needs it to verify that we designed the system according to his needs. The document helps the software's users by informing them what the system does and how it particularly helps them with their work.
 
 \subsection{References}
 
@@ -82,15 +82,15 @@ https://www.limesurvey.org/.
 
 \subsection{Our Problem}
 
-In 2015, there were more than 4,600 higher-education institutions in the United States. Virtually all of them offer a breadth of college courses for students to complete and take them through their academic careers. At the end of a course, students typically fill out an evaluation so that teachers know what they are doing right and wrong. Unfortunately, many institutions, such as the University of Maine, are behind in using technology for this task.
+In 2015, there were more than 4,600 higher-education institutions in the United States. Virtually all of them offer a breadth of college courses for students to complete and carry them through their academic careers. At the end of a course, students typically fill out an evaluation so that teachers know what they are doing right and wrong. Unfortunately, many institutions, such as the University of Maine, are behind in the technology that they use for this task.
 
-The University of Maine has traditionally used Scantron sheets for course evaluation forms. As Team EVAL knows, filling in tiny bubbles with pencil and paper is tedious. It is also hard work for the college administration to use Scantron sheets. They need to scan the forms for every student in every course, and the data then needs to be collected in a form that is readable for instructors. The University of Maine must upgrade to keep with the times and exploit today's technology.
+The University of Maine has traditionally used Scantron sheets for course evaluation forms. As Team EVAL knows, filling in tiny bubbles with pencil and paper is tedious. It is also hard work for the college administration to use Scantron sheets. They need to scan the forms for every student in every course, and the data then needs to be collected as forms that are readable for instructors. The University of Maine must upgrade its process to keep with the times and exploit today's technology.
 
 \subsection{Existing Survey Software}
 
-Several software solutions currently exist that allow users to create, modify, and publish surveys. One notable example is LimeSurvey, a free and open-source tool that is operated online. The team acknowledges the immense amount of work put into creating LimeSurvey, with its selection of question types, scalability, visualization features, and other powerful functionality. However, LimeSurvey has always been general-purpose software; it is aimed at multiple types of users who want to make surveys.
+Several software solutions currently exist that allow users to create, modify, and publish surveys. One notable example is LimeSurvey, a free and open-source tool that is operated online. The team acknowledges the immense amount of work put into creating LimeSurvey, with its selection of question types, scalability, visualization features, and other powerful functionality. However, LimeSurvey has always been general-purpose software; it is aimed at multiple types of users who want to make surveys. Consequently, it is complex and has a high learning curve.
 
-College teachers and administrators need to jump through hoops to use a tool like LimeSurvey which are not always easy or intuitive. Their evaluations are highly standardized and they are sent to potentially hundreds of students. LimeSurvey and similar software do not account for these qualities. A college instructor would have to manually input every field, question, and class roll into each evaluation from scratch.  UMaine is using another service, Blue by Explorance, that has the necessary functionality, but it is expensive to use for a university and impossible to use for individuals. These are some of the reasons why our client, Dr. Onsrud, wants us to create an evaluation system better suited to instructors.
+College teachers and administrators need to jump through hoops to use tools like LimeSurvey, which are not always easy or intuitive. Their evaluations are highly standardized and sent to potentially hundreds of students, yet LimeSurvey and similar software do not account for these qualities. A college instructor would have to manually input every field, question, and class roll into each evaluation from scratch. UMaine is using another service, Blue by Explorance, that has the necessary functionality, but it is expensive to use for a university and difficult for people to use. These are some of the reasons why our client, Dr. Onsrud, wants us to create an evaluation system better suited to instructors.
 
 \newpage
 
@@ -114,13 +114,13 @@ Near the beginning of the project, we met with Professor Onsrud to solicit the s
 \hline
 4 & 5 & Publish evaluation & A user publishes an evaluation form \\
 \hline
-5 & 5 & View evaluation results & The user reviews a course's or category of courses' results \\ 
+5 & 5 & View evaluation results & A user reviews the survey results of a category of courses\\ 
 \hline
 \end{tabular}
 \captionof{table}{Functional requirements}
 \end{center}
 
-The non-functional requirements state the system's qualities that are irrelevant to how the program behaves. They are listed below in Table 2:
+The non-functional requirements state the system's qualities that do not pertain to how the program behaves. They are listed below in Table 2:
 
 \begin{center}
 \begin{tabular}{|p{1.5cm}|p{1.5cm}|p{8cm}|}
@@ -143,7 +143,7 @@ The non-functional requirements state the system's qualities that are irrelevant
 \hline
 8 & 5 & Students shall have no access to any data stored by the program.\\ 
 \hline
-9 & 5 & All survey responses (except signed \newline comments) shall be anonymous.\\ 
+9 & 5 & All survey responses (except signed comments) shall be anonymous.\\ 
 \hline
 10 & 2 & The software should scale to at least three universites, 1000 courses per semester, 1000 teachers per university, and 500 students per course.\\  
 \hline
@@ -170,36 +170,32 @@ The non-functional requirements state the system's qualities that are irrelevant
 \end{figure}
 \end{center}
 
-Our system features a modular design, with many distinct parts which communicate via an API. The front end implements the user interface, written in JavaScript. The back end communicates with the system's databases and is written in Python. We are using two databases, one maintained by LimeSurvey and another maintained by our system. Additionally, the API will communicate with Google Authentication to authenticate users. The design and implementation of our system can be found in the System Design Document (SDD). The system's components are displayed in Figure 1 above.
+Our system features a modular design, with many distinct parts which communicate via an API. The front end implements the user interface, and it is written in JavaScript and the React framework. The back end communicates with the system's databases and is written in Python and the Flask framework. We are using two databases, one maintained by LimeSurvey and another maintained by our system. Additionally, the API will communicate with Google Authentication to authenticate users. The design and implementation of our system can be found in the System Design Document (SDD). The system's components are displayed in Figure 1 above.
 
-By maintaining a modular approach to the design of the system, team members can work independently on individual parts, which will then undergo integration testing. Moreover, by keeping the LimeSurvey codebase separate from our system, we can update LimeSurvey without disrupting other parts of the code.
+By maintaining a modular approach to the design of the system, team members can work independently on separate components of the system. Moreover, by keeping the LimeSurvey codebase separate from our system, we can update our original code without disrupting the functionality of LimeSurvey.
 
 \subsection{Our Process}
 
-When developing our product, we used the scrum framework. Our process subscribes to both process-driven and agile methodologies. Completion of the project requires a strict timeline which corresponds with the academic year, better managed as a process. However, our team regularly collaborates with the client to ensure the correct product is built. Our team follows a spiral methodology with each
-iteration producing a working prototype. We use Github to store and maintain the code, along with Docker to ensure our code runs in a familiar environment on different machines. Our class meets twice a week and we have weekly standup meetings.
+As our project required following a strict timeline over the 2018-2019 academic year, Team EVAL used a software development process, which subscribed to both waterfall and agile methodologies. We primarily used the Scrum framework to develop our product. The team held stand-up meetings twice a week, as well as biweekly Scrum planning meetings. We also followed the V-model, a waterfall-like process that emphasizes verification in the first half of development and validation in the second half. A diagram of the V-model is shown as Figure 2 on the next page.
 
 \begin{center}
 \begin{figure}[H]
 \centering
 \vspace{2mm}
-INSERT V-MODEL PICTURE HERE
+{\includegraphics[scale=.6]{images/V-model-Yoo.png}}
 \captionof{figure}{The V-model, showing the steps in the process}
 \end{figure}
 \end{center}
 
-We measure our progress in two week sprints after which we have more planning meetings. The process has taught me the important of keeping an active relationship with the client to ensure everything is running smoothly. The organization of our team follows that of the Team Software Process, with a team
-leader, a development manager, a planning manager, a process manager, and a support manager. 
+The team took additional measures to organize our development of the system. We assigned team roles according to the Team Software Process: the team leader, the development manager, the planning manager, the process manager, and the support manager. In addition, the team frequently collaborated with the client to ensure the correct product was built. As for tools, Github was used to store and maintain the code, and Docker ensured our code could run in a familiar environment on different machines.
 
-Team EVAL will write several tests in the near future to ensure that the course evaluation system meets all system requirements. These tests are fully described in the system requirements specification. The most important tests concern the overall functionality of the system and integration with LimeSurvey. These will be tested extensively, as they represent the core components of the system. The team will begin testing the non-functional requirements only after all tests for the functional requirements pass.
-
-MENTION WHAT THE TESTS FOR THE BACK END AND THE FRONT END DO.
+Team EVAL wrote numerous tests over the course of the project to ensure that the course evaluation system met its functional requirements. On the back end, Jovon and Tom wrote several unit tests for each endpoint, both positive and negative. These tests checked whether the routes could handle API calls with a variety of input. Sam wrote additional tests for the front end. His unit tests validated functions specific to the user interface, such as loading data into text fields, and his integration tests interacted with the API to validate whether the UI successfully interacted with our database.
 
 \subsection{User Interface}
 
-The user interface is a pivotal part of the user experience and is important for our product. The goal of the system is to make an easy-to-use software that allows users to create course evaluations for their classes on a web application.  Users have no interaction with the back-end architecture and will only see the user interface, so the ease of use relies entirely on the front-end UI.  The exact description of every aspect of our user interface can be found in the User Interface Design Document (UIDD). 
+The user interface is a pivotal part of the user experience and is important for our product. Our goal of the system was to make an easy-to-use software that allows users to create course evaluations for their classes on a web application. Users have no interaction with the back-end architecture and can only see the user interface, so the ease of use relies entirely on the front-end UI. Detailed descriptions of every aspect of our user interface can be found in the User Interface Design Document (UIDD). 
 
-The overarching theme for the user interface is ``less is more''.  The interface will have as few extraneous elements as possible, be as intuitive as possible, and not require a large amount of effort to understand the system.  To this end, all functionality of the product should be accessible from the home page, whose wireframe is shown bellow in Figure 2. 
+The overarching theme for the user interface is ``less is more''.  The interface has as few extraneous elements as possible, is as intuitive as possible, and does not require a large amount of effort to understand the system. To this end, all functionality of the product is accessible from the home page, of which a screenshot is shown bellow as Figure 3.
 
 \begin{center}
 \begin{figure}[H]
@@ -209,7 +205,7 @@ The overarching theme for the user interface is ``less is more''.  The interface
 \end{figure}
 \end{center}
 
-After the landing screen and log-in screen, the user should instantly be aware of the types of functions that one can make through the home screen. To reduce confusion, help text for different features will be present on the same page and not require users to navigate away from it.  The interface will allow users to create new evaluations, view their existing and previous evaluations, and view results of completed evaluations.
+After passing the landing screen and log-in screen, the user is instantly aware of the functions that one can make through the home screen. The interface allows users to create new evaluations, view their existing and previous evaluations, and view statistics for the results of completed evaluations. Users can also select an existing form as a preset for a new evaluation. To reduce confusion, help text for different features is present on the same page and does not require users to navigate away from it.
 
 \newpage
 
@@ -217,9 +213,9 @@ After the landing screen and log-in screen, the user should instantly be aware o
 
 \subsection{Needs This System Meets}
 
-With its high-tech features, our course evaluation system could potentially bring the University of Maine into the modern age. Using our software, an instructor will be able to create a survey with ease, and students will be able to take the whole evaluation form online. The results will automatically be fed back into the software, and the instructor will be able to view statistics of the results and download them afterwards.
+With its high-tech features, our course evaluation system will bring the University of Maine into the modern age. Using our software, an instructor can choose questions for their surveys with ease, and students are able to take the surveys anytime and anywhere. Publishing a survey is simple, as LimeSurvey handles its start date, expiration date, and e-mails to its participants. The results are automatically fed back into the software, and the instructor can view statistics of the results and download them afterwards.
 
-This product will eliminate the need for Scantron sheets and provide a fast and simple way to distribute evaluation evaluations to all students in a desired course. The product will be free for use at the University of Maine and by any teachers elsewhere who may be interested in using it.
+Furthermore, this product eliminates the need for Scantron sheets. It instead provides a fast and simple way to distribute evaluations to all students in a desired course. The product will be free to use for instructors at the University of Maine and by any teachers elsewhere.
 
 \subsection{What We Have Learned}
 
@@ -246,11 +242,7 @@ Finally, the team would like to automate the deletion of data after the semester
 
 \section{Acknowledgments}
 
-Thank you to Dr. Harlan Onsrud for letting us work on the course evaluation system. It was a great pleasure. 
-
-Thank you to Dr. Terry Yoo for guiding us in our capstone project and teaching us about good software development practices. We could not have done it without Yoo. 
-
-Thank you to LimeSurvey for providing an open source survey creation framework which we could incorporate into our evaluation software.
+We would like to thank multiple people for giving us the opportunity to work on the Course Evaluation System. We thank Dr. Harlan Onsrud for letting us work on the course evaluation system and being patient with us during the development process. We thank Dr. Terry Yoo for guiding us in our capstone project and teaching us about good software engineering practices. We could not have done it without Yoo. Finally, we thank the developers of LimeSurvey for providing an open-source survey creation program that we could incorporate into our software, saving us development time.
 
 \newpage
 \appendix
