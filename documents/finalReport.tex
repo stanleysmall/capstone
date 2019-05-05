@@ -189,13 +189,13 @@ As our project required following a strict timeline over the 2018-2019 academic 
 
 The team took additional measures to organize our development of the system. We assigned team roles according to the Team Software Process: the team leader, the development manager, the planning manager, the process manager, and the support manager. In addition, the team frequently collaborated with the client to ensure the correct product was built. As for tools, Github was used to store and maintain the code, and Docker ensured our code could run in a familiar environment on different machines.
 
-Team EVAL wrote numerous tests over the course of the project to ensure that the course evaluation system met its functional requirements. On the back end, Jovon and Tom wrote several unit tests for each endpoint, both positive and negative. These tests checked whether the routes could handle API calls with a variety of input. Sam wrote additional tests for the front end using Webdriver.io. Including unit tests which validated functions specific to the user interface, such as loading data into text fields, and integration tests which interacted with the API to validate whether the UI successfully interacted with our database.
+Team EVAL wrote numerous tests over the course of the project to ensure that the course evaluation system met its functional requirements. On the back end, Jovon and Tom wrote several unit tests for each endpoint, both positive and negative, with Python's ``unittest'' library. These tests check whether the routes can handle API calls with a variety of input. Sam wrote additional tests for the front end using Webdriver.io. He included unit tests that validate functions specific to the user interface, such as loading data into text fields, and integration tests that interact with the API to validate whether the UI is properly using our database.
 
 \subsection{User Interface}
 
 The user interface is a pivotal part of the user experience and is important for our product. Our goal of the system was to make an easy-to-use software that allows users to create course evaluations for their classes on a web application. Users have no interaction with the back-end architecture and can only see the user interface, so the ease of use relies entirely on the front-end UI. Detailed descriptions of every aspect of our user interface can be found in the User Interface Design Document (UIDD). 
 
-The overarching theme for the user interface is ``less is more''.  The interface has as few extraneous elements as possible, is as intuitive as possible, and does not require a large amount of effort to understand the system. To this end, all functionality of the product is accessible from the home page, of which a screenshot is shown bellow as Figure 3.
+The overarching theme for the user interface is ``less is more''.  The interface has as few extraneous elements as possible, is as intuitive as possible, and does not require a large amount of effort to understand the system. To this end, all functionality of the product is accessible from the home page, of which a screenshot is shown below as Figure 3.
 
 \begin{center}
 \begin{figure}[H]
@@ -254,11 +254,11 @@ This section lists the contributions that each member of Team EVAL made to this 
 
 \medskip
 
-Stanley Small wrote most of the conclusion, including the ``What We Have Learned'' and ``Future Work'' sections.
+Stanley Small wrote the system architecture section and most of the conclusion, including the ``What We Have Learned'' and ``Future Work'' sections.
 
-Jovon Craig wrote the ``Needs This System Meets'' section and most of the process section. He also made revisions to the whole document.
+Jovon Craig wrote the system requirements section, ``Needs This System Meets'' section, and most of the introduction, ``Purpose of This System'' section, and process section. He also made revisions to the whole document.
 
-Sam Elliott contributed to the testing section, and made revisions to the document as a whole.
+Sam Elliott wrote most of the user interface section and contributed to the testing section. He made some revisions to the document as a whole.
 
 Robert Judkins made a few revisions to the conclusion.
 
